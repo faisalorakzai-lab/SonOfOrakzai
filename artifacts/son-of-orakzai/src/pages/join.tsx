@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { MainLayout } from "@/components/layout/main-layout";
 import { motion, AnimatePresence } from "framer-motion";
-import { useCreateMember } from "@workspace/api-client-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -12,7 +11,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle2, ChevronRight, ChevronLeft, QrCode } from "lucide-react";
+import { CheckCircle2, ChevronRight, ChevronLeft } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
+import { supabase } from "@/lib/supabase";
 import logoPath from "@assets/FB_IMG_1778008183981_1778010398977.jpg";
 
 const formSchema = z.object({
@@ -34,9 +35,8 @@ export default function Join() {
   const [step, setStep] = useState(1);
   const [isSuccess, setIsSuccess] = useState(false);
   const [memberData, setMemberData] = useState<any>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  
-  const createMember = useCreateMember();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -73,24 +73,42 @@ export default function Join() {
     setStep((s) => s - 1);
   };
 
-  const onSubmit = (data: FormValues) => {
-    createMember.mutate({ data }, {
-      onSuccess: (response) => {
-        setIsSuccess(true);
-        setMemberData(response);
-        toast({
-          title: "Application Submitted Successfully",
-          description: "Welcome to Son of Orakzai. Your membership is pending approval.",
-        });
-      },
-      onError: () => {
-        toast({
-          title: "Submission Failed",
-          description: "There was an error submitting your application. Please try again.",
-          variant: "destructive",
-        });
-      }
-    });
+  const onSubmit = async (data: FormValues) => {
+    setIsSubmitting(true);
+    try {
+      const { data: inserted, error } = await supabase
+        .from("members")
+        .insert({
+          name: data.name,
+          father_name: data.fatherName,
+          cnic: data.cnic,
+          phone: data.phone,
+          email: data.email,
+          location: data.location,
+          profession: data.profession,
+          skills: data.skills,
+          interest: data.interest,
+          message: data.message || null,
+          status: "pending",
+        })
+        .select()
+        .single();
+      if (error) throw error;
+      setIsSuccess(true);
+      setMemberData(inserted);
+      toast({
+        title: "Application Submitted!",
+        description: "Son of Orakzai mein khush amdeed! Apki membership pending hai.",
+      });
+    } catch {
+      toast({
+        title: "Submission Failed",
+        description: "Application submit nahi hua. Dobara koshish karein.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -176,7 +194,13 @@ export default function Join() {
                     </div>
                     
                     <div className="bg-white p-2 rounded-lg">
-                      <QrCode className="w-20 h-20 text-primary" />
+                      <QRCodeSVG
+                        value={`Son Of Orakzai Member\nID: ${String(memberData.id).padStart(6, '0')}\nName: ${memberData.name}\nPhone: ${memberData.phone}\nEmail: ${memberData.email}`}
+                        size={80}
+                        bgColor="#ffffff"
+                        fgColor="#0B3D2E"
+                        level="M"
+                      />
                     </div>
                   </div>
                 </CardContent>
@@ -428,8 +452,8 @@ export default function Join() {
                           Next <ChevronRight className="w-4 h-4 ml-2" />
                         </Button>
                       ) : (
-                        <Button type="submit" disabled={createMember.isPending} className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-                          {createMember.isPending ? "Submitting..." : "Submit Application"}
+                        <Button type="submit" disabled={isSubmitting} className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
+                          {isSubmitting ? "Submitting..." : "Submit Application"}
                         </Button>
                       )}
                     </div>

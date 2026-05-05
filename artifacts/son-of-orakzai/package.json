@@ -73,5 +73,9 @@
     "vite": "catalog:",
     "wouter": "^3.3.5",
     "zod": "catalog:"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.3",
+    "qrcode.react": "^4.2.0"
   }
 }
