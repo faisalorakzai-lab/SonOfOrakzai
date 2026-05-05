@@ -1,0 +1,421 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: Son Of Orakzai NGO API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: members
+    description: Member operations
+  - name: blog
+    description: Blog operations
+  - name: contact
+    description: Contact operations
+  - name: stats
+    description: Statistics operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /members:
+    get:
+      operationId: listMembers
+      tags: [members]
+      summary: List all members
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Member"
+    post:
+      operationId: createMember
+      tags: [members]
+      summary: Submit membership application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMemberBody"
+      responses:
+        "201":
+          description: Member created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Member"
+        "400":
+          description: Validation error
+
+  /members/{id}:
+    get:
+      operationId: getMember
+      tags: [members]
+      summary: Get a single member
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Member found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Member"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateMember
+      tags: [members]
+      summary: Update member status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateMemberBody"
+      responses:
+        "200":
+          description: Member updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Member"
+        "404":
+          description: Not found
+
+  /members/stats/overview:
+    get:
+      operationId: getMembersStats
+      tags: [stats]
+      summary: Get member statistics overview
+      responses:
+        "200":
+          description: Stats overview
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MembersStats"
+
+  /blog:
+    get:
+      operationId: listBlogPosts
+      tags: [blog]
+      summary: List blog posts
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of blog posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BlogPost"
+
+  /blog/{id}:
+    get:
+      operationId: getBlogPost
+      tags: [blog]
+      summary: Get a blog post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Blog post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BlogPost"
+        "404":
+          description: Not found
+
+  /contact:
+    post:
+      operationId: submitContact
+      tags: [contact]
+      summary: Submit contact form
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateContactBody"
+      responses:
+        "201":
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactMessage"
+
+  /stats:
+    get:
+      operationId: getImpactStats
+      tags: [stats]
+      summary: Get impact statistics
+      responses:
+        "200":
+          description: Impact statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImpactStats"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    Member:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        fatherName:
+          type: string
+        cnic:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        location:
+          type: string
+        profession:
+          type: string
+        skills:
+          type: string
+        interest:
+          type: string
+        message:
+          type: ["string", "null"]
+        status:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - name
+        - fatherName
+        - cnic
+        - phone
+        - email
+        - location
+        - profession
+        - skills
+        - interest
+        - status
+        - createdAt
+
+    CreateMemberBody:
+      type: object
+      properties:
+        name:
+          type: string
+        fatherName:
+          type: string
+        cnic:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        location:
+          type: string
+        profession:
+          type: string
+        skills:
+          type: string
+        interest:
+          type: string
+        message:
+          type: ["string", "null"]
+      required:
+        - name
+        - fatherName
+        - cnic
+        - phone
+        - email
+        - location
+        - profession
+        - skills
+        - interest
+
+    UpdateMemberBody:
+      type: object
+      properties:
+        status:
+          type: string
+        name:
+          type: string
+        profession:
+          type: string
+      required: []
+
+    MembersStats:
+      type: object
+      properties:
+        total:
+          type: integer
+        approved:
+          type: integer
+        pending:
+          type: integer
+        rejected:
+          type: integer
+      required:
+        - total
+        - approved
+        - pending
+        - rejected
+
+    BlogPost:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        excerpt:
+          type: string
+        content:
+          type: string
+        category:
+          type: string
+        author:
+          type: string
+        imageUrl:
+          type: ["string", "null"]
+        publishedAt:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - title
+        - excerpt
+        - content
+        - category
+        - author
+        - publishedAt
+        - createdAt
+
+    CreateContactBody:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: ["string", "null"]
+        subject:
+          type: string
+        message:
+          type: string
+      required:
+        - name
+        - email
+        - subject
+        - message
+
+    ContactMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: ["string", "null"]
+        subject:
+          type: string
+        message:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - name
+        - email
+        - subject
+        - message
+        - createdAt
+
+    ImpactStats:
+      type: object
+      properties:
+        totalMembers:
+          type: integer
+        studentsTrainedCount:
+          type: integer
+        healthCasesCount:
+          type: integer
+        districtsReached:
+          type: integer
+        volunteerCount:
+          type: integer
+        projectsCompleted:
+          type: integer
+      required:
+        - totalMembers
+        - studentsTrainedCount
+        - healthCasesCount
+        - districtsReached
+        - volunteerCount
+        - projectsCompleted
