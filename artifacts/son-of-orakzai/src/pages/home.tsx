@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Heart, GraduationCap, ChevronRight, ArrowRight, Activity, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
-import founderPath from "@assets/IMG-20260506-WA0000_1778010673889.jpg";
-import chairmanPath from "@assets/a41d2ef1-fb04-40f8-bd66-df98ff195782_1778010706098.png";
+
+const founderPath = "https://api.dicebear.com/7.x/avataaars/svg?seed=SpinGul&backgroundColor=b6e3f4";
+const chairmanPath = "https://api.dicebear.com/7.x/avataaars/svg?seed=FaisalOrakzai&backgroundColor=c0aede";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
