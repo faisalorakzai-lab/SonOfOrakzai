@@ -65,6 +65,11 @@ export default function Community() {
 
   const fetchPosts = async () => {
     try {
+      // Check if supabase is configured
+      if (!supabase) {
+        throw new Error("Supabase client not initialized");
+      }
+
       // In a real app, we'd join with members table
       // For now, we'll simulate the data structure based on the schema
       const { data, error } = await supabase
@@ -75,7 +80,10 @@ export default function Community() {
         `)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.warn("Supabase query error (likely table not created yet):", error);
+        throw error;
+      }
       setPosts(data || []);
     } catch (error) {
       console.error("Error fetching posts:", error);
