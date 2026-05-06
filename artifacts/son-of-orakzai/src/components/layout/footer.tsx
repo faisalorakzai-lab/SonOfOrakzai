@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
-import logoPath from "@assets/FB_IMG_1778008183981_1778010398977.jpg";
+const logoPath = "https://api.dicebear.com/7.x/initials/svg?seed=SOO&backgroundColor=064e3b&textColor=D4AF37";
 
 export function Footer() {
   return (
