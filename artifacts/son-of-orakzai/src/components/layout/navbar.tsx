@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 const GOLD = "#D4AF37";
-const logoPath = "https://api.dicebear.com/7.x/initials/svg?seed=SOO&backgroundColor=064e3b&textColor=D4AF37";
+const logoPath = "/logo.jpg";
 
 const navLinks = [
   { href: "/", label: "Home", icon: Home },
