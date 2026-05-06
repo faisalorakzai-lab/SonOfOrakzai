@@ -1,0 +1,6 @@
+{
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "artifacts/son-of-orakzai/dist/public",
+  "framework": "vite",
+  "installCommand": "pnpm install"
+}
