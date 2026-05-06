@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pnpm run build",
+  "buildCommand": "cd artifacts/son-of-orakzai && pnpm install && pnpm run build",
   "outputDirectory": "artifacts/son-of-orakzai/dist/public",
   "framework": null,
   "installCommand": "pnpm install",
