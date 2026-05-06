@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -118,8 +118,8 @@
   --chart-5: 0 0% 40%;
 
   --app-font-sans: 'Inter', sans-serif;
-  --app-font-display: 'Poppins', sans-serif;
-  --app-font-serif: Georgia, serif;
+  --app-font-display: 'Playfair Display', serif;
+  --app-font-serif: 'Cormorant Garamond', serif;
   --app-font-mono: Menlo, monospace;
   --radius: 0.5rem;
   
@@ -211,4 +211,104 @@
     color: hsl(var(--muted-foreground));
     pointer-events: none;
   }
+}
+
+/* Gold metallic sheen animation for Sada-e-Orakzai badge */
+@keyframes goldSheen {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.gold-sheen-badge {
+  background: linear-gradient(
+    105deg,
+    #b8860b 0%,
+    #d4af37 20%,
+    #f5e07a 40%,
+    #d4af37 50%,
+    #c9a227 65%,
+    #f5e07a 80%,
+    #d4af37 100%
+  );
+  background-size: 200% auto;
+  animation: goldSheen 3s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.gold-sheen-border {
+  border-image: linear-gradient(
+    105deg,
+    #b8860b 0%,
+    #d4af37 30%,
+    #f5e07a 50%,
+    #d4af37 70%,
+    #b8860b 100%
+  ) 1;
+}
+
+/* Orakzai pattern overlay */
+.orakzai-pattern {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 18px,
+      rgba(212, 175, 55, 0.03) 18px,
+      rgba(212, 175, 55, 0.03) 20px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 18px,
+      rgba(212, 175, 55, 0.03) 18px,
+      rgba(212, 175, 55, 0.03) 20px
+    ),
+    radial-gradient(circle at 25% 25%, rgba(212,175,55,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(6,78,59,0.08) 0%, transparent 50%);
+}
+
+/* Circuit board subtle lines */
+.circuit-pattern {
+  background-image:
+    linear-gradient(rgba(212,175,55,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,175,55,0.04) 1px, transparent 1px),
+    radial-gradient(circle at 10% 90%, rgba(212,175,55,0.06) 0%, transparent 40%),
+    radial-gradient(circle at 90% 10%, rgba(6,78,59,0.1) 0%, transparent 40%);
+  background-size: 60px 60px, 60px 60px, 100% 100%, 100% 100%;
+}
+
+/* Progress bar animation */
+@keyframes growBar {
+  from { width: 0%; }
+}
+
+.animate-grow-bar {
+  animation: growBar 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Pinstripe gold frame */
+.pinstripe-gold-frame {
+  outline: 1px solid rgba(212, 175, 55, 0.6);
+  outline-offset: 4px;
+  box-shadow:
+    0 0 0 1px rgba(212,175,55,0.2),
+    0 0 0 3px rgba(212,175,55,0.05),
+    inset 0 0 0 1px rgba(212,175,55,0.1);
+}
+
+/* Glassmorphism emerald card */
+.glass-emerald {
+  background: rgba(6, 28, 20, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Military rank gold bar */
+.rank-bar {
+  background: linear-gradient(90deg, #b8860b 0%, #d4af37 40%, #f5e07a 60%, #d4af37 80%, #b8860b 100%);
+  box-shadow: 0 2px 8px rgba(212,175,55,0.4);
 }
