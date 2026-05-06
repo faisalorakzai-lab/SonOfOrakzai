@@ -383,6 +383,7 @@ export default function Join() {
 
       if (error) {
         const isTableMissing =
+          error.code === "PGRST205" ||
           error.message?.includes("schema cache") ||
           error.message?.includes("does not exist") ||
           error.message?.includes("PGRST205");
