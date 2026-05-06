@@ -4,7 +4,7 @@ import { Menu, X, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import logoPath from "@assets/FB_IMG_1778008183981_1778010398977.jpg";
+const logoPath = "https://api.dicebear.com/7.x/initials/svg?seed=SOO&backgroundColor=064e3b&textColor=D4AF37";
 
 const navLinks = [
   { href: "/", label: "Home" },
