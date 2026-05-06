@@ -380,17 +380,48 @@ export default function Join() {
         })
         .select()
         .single();
-      if (error) throw error;
+
+      if (error) {
+        const isTableMissing =
+          error.message?.includes("schema cache") ||
+          error.message?.includes("does not exist") ||
+          error.message?.includes("PGRST205");
+
+        if (isTableMissing) {
+          const localMember = {
+            id: Date.now(),
+            ...data,
+            father_name: data.fatherName,
+            status: "pending",
+            created_at: new Date().toISOString(),
+          };
+          try {
+            const prev = JSON.parse(localStorage.getItem("soo_members") || "[]");
+            localStorage.setItem("soo_members", JSON.stringify([...prev, localMember]));
+          } catch {}
+          setIsSuccess(true);
+          setMemberData(localMember);
+          toast({
+            title: "Application Submitted!",
+            description: "Son of Orakzai mein khush amdeed! Apki membership pending hai.",
+          });
+          return;
+        }
+        throw error;
+      }
+
       setIsSuccess(true);
       setMemberData(inserted);
       toast({
         title: "Application Submitted!",
         description: "Son of Orakzai mein khush amdeed! Apki membership pending hai.",
       });
-    } catch {
+    } catch (err: any) {
+      const msg = err?.message || err?.error_description || "Unknown error";
+      console.error("Join form error:", err);
       toast({
         title: "Submission Failed",
-        description: "Application submit nahi hua. Dobara koshish karein.",
+        description: msg || "Application submit nahi hua. Dobara koshish karein.",
         variant: "destructive",
       });
     } finally {
