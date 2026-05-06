@@ -19,7 +19,9 @@ import {
   Zap,
   Star,
   Award,
-  Flame
+  Flame,
+  Send,
+  ChevronDown
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
@@ -43,6 +45,19 @@ interface Post {
     is_verified: boolean;
   };
 }
+
+interface Comment {
+  id: string;
+  author: string;
+  avatar: string;
+  text: string;
+  time: string;
+}
+
+const MOCK_COMMENTS: Comment[] = [
+  { id: "c1", author: "Ahmad Orakzai", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmad", text: "Bohat acha mashwara hai, Orakzai ke liye bahut zaruri hai.", time: "2 ghante pehle" },
+  { id: "c2", author: "Nadia Afridi", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Nadia", text: "Allah khair kare, ye qaddam bohat umeed wala hai!", time: "1 ghante pehle" },
+];
 
 const STORIES = [
   { id: 1, name: "Chairman", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Chairman", isLive: true },
@@ -115,6 +130,9 @@ function PostCard({ post }: { post: Post }) {
   const [showReactions, setShowReactions] = useState(false);
   const [liked, setLiked] = useState(post.is_liked || false);
   const [likesCount, setLikesCount] = useState(post.likes_count);
+  const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState<Comment[]>(MOCK_COMMENTS);
+  const [newComment, setNewComment] = useState("");
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const timeAgo = (dateStr: string) => {
@@ -143,6 +161,18 @@ function PostCard({ post }: { post: Post }) {
     setLiked((l) => !l);
     setLikesCount((c) => (liked ? c - 1 : c + 1));
   };
+  const handleComment = () => {
+    if (!newComment.trim()) return;
+    setComments(prev => [...prev, {
+      id: Date.now().toString(),
+      author: "Aap",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=User",
+      text: newComment,
+      time: "abhi",
+    }]);
+    setNewComment("");
+  };
+
   const handleWhatsApp = () => {
     const text = encodeURIComponent(
       "Son of Orakzai Community:\n" + post.content.slice(0, 120) + "..."
@@ -244,11 +274,15 @@ function PostCard({ post }: { post: Post }) {
                 </AnimatePresence>
               </div>
 
-              <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-[#D4AF37]/10 transition-colors group">
+              <button
+                onClick={() => setShowComments(s => !s)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-[#D4AF37]/10 transition-colors group"
+              >
                 <MessageCircle className="w-4 h-4 text-[#D4AF37] group-hover:scale-110 transition-transform" />
                 <span className="text-xs font-medium text-emerald-200/60 group-hover:text-[#D4AF37]">
-                  {post.comments_count}
+                  {post.comments_count + comments.length - 2}
                 </span>
+                <ChevronDown className={cn("w-3 h-3 text-emerald-200/40 transition-transform", showComments && "rotate-180")} />
               </button>
 
               <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-[#D4AF37]/10 transition-colors group">
@@ -273,6 +307,47 @@ function PostCard({ post }: { post: Post }) {
               WhatsApp
             </button>
           </div>
+
+          {/* Comment Section */}
+          {showComments && (
+            <div className="mt-4 pt-4 border-t border-emerald-900/50 space-y-3">
+              {comments.map((c) => (
+                <div key={c.id} className="flex gap-2.5">
+                  <Avatar className="w-8 h-8 border border-[#D4AF37]/30 flex-shrink-0">
+                    <AvatarImage src={c.avatar} />
+                    <AvatarFallback>{c.author[0]}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 bg-emerald-900/40 rounded-2xl px-3 py-2">
+                    <p className="text-xs font-bold text-[#D4AF37] mb-0.5">{c.author}</p>
+                    <p className="text-xs text-emerald-100/80">{c.text}</p>
+                    <p className="text-[10px] text-emerald-200/30 mt-1 italic">{c.time}</p>
+                  </div>
+                </div>
+              ))}
+              <div className="flex gap-2.5 items-center pt-1">
+                <Avatar className="w-8 h-8 border border-[#D4AF37]/30 flex-shrink-0">
+                  <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=User" />
+                  <AvatarFallback>U</AvatarFallback>
+                </Avatar>
+                <div className="flex-1 flex items-center gap-2 bg-emerald-900/40 rounded-full pl-4 pr-2 py-1.5 border border-emerald-800/50 focus-within:border-[#D4AF37]/40 transition-colors">
+                  <input
+                    type="text"
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleComment()}
+                    placeholder="Comment likhein..."
+                    className="flex-1 bg-transparent text-xs text-white placeholder:text-emerald-200/30 outline-none"
+                  />
+                  <button
+                    onClick={handleComment}
+                    className="p-1.5 rounded-full bg-[#D4AF37]/15 hover:bg-[#D4AF37]/30 transition-colors"
+                  >
+                    <Send className="w-3 h-3 text-[#D4AF37]" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </motion.div>
