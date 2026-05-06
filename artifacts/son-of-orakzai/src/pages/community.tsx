@@ -168,8 +168,7 @@ function PostCard({ post }: { post: Post }) {
   };
 
   const handleWhatsApp = () => {
-    const text = encodeURIComponent('Son of Orakzai Community:
-' + post.content.slice(0, 120) + '...');
+    const text = encodeURIComponent('Son of Orakzai Community:\n' + post.content.slice(0, 120) + '...');
     window.open('https://wa.me/?text=' + text, '_blank');
   };
 
