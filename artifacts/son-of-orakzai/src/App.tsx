@@ -13,6 +13,7 @@ import Donate from "@/pages/donate";
 import Blog from "@/pages/blog";
 import Contact from "@/pages/contact";
 import Dashboard from "@/pages/dashboard";
+import Team from "@/pages/team";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/services" component={Services} />
       <Route path="/community" component={Community} />
+      <Route path="/team" component={Team} />
       <Route path="/join" component={Join} />
       <Route path="/impact" component={Impact} />
       <Route path="/donate" component={Donate} />
