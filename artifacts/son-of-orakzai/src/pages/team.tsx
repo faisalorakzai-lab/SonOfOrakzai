@@ -148,13 +148,6 @@ function SupremeCard({ member, index }: { member: TeamMember; index: number }) {
       transition={{ delay: index * 0.15, duration: 0.5 }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      style={{
-        boxShadow: hovered
-          ? "0 0 40px rgba(212,175,55,0.45), 0 8px 32px rgba(0,0,0,0.4)"
-          : "0 4px 24px rgba(0,0,0,0.3)",
-        transform: hovered ? "translateY(-8px)" : "translateY(0)",
-        transition: "all 0.3s ease",
-      }}
       className="relative flex flex-col items-center text-center p-8 rounded-2xl border"
       style={{
         background: "rgba(3,45,30,0.7)",
