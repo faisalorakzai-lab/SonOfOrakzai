@@ -14,7 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { CheckCircle2, ChevronRight, ChevronLeft } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { supabase } from "@/lib/supabase";
-import logoPath from "@assets/FB_IMG_1778008183981_1778010398977.jpg";
+const logoPath = "https://api.dicebear.com/7.x/initials/svg?seed=SOO&backgroundColor=064e3b&textColor=D4AF37";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
