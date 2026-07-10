@@ -142,6 +142,344 @@ function HeroSlideshow() {
   );
 }
 
+/* ══════════════════════════════════════════════════
+   STRATEGIC PILLARS — Sovereign Luxury 6-Card Grid
+   ══════════════════════════════════════════════════ */
+
+const pillars = [
+  {
+    id: 1,
+    title: 'Rights & Representation',
+    desc: 'Legal advocacy and institutional representation dedicated to protecting the rights, interests, and collective voice of Orakzai communities worldwide.',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="24" y1="6" x2="24" y2="42" />
+        <line x1="10" y1="10" x2="38" y2="10" />
+        <path d="M10 10 L4 22 Q4 30 10 30 Q16 30 16 22 Z" />
+        <path d="M38 10 L44 22 Q44 30 38 30 Q32 30 32 22 Z" />
+        <line x1="16" y1="42" x2="32" y2="42" />
+      </svg>
+    ),
+  },
+  {
+    id: 2,
+    title: 'Education & Global Scholarships',
+    desc: 'Scholarships, mentorship, leadership development, and international educational pathways that empower the next generation of Orakzai students.',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M6 20 L24 10 L42 20 L24 30 Z" />
+        <path d="M14 24.5 V35 Q24 42 34 35 V24.5" />
+        <path d="M42 20 V30" />
+        <circle cx="42" cy="32" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    id: 3,
+    title: 'Social Welfare & Crisis Relief',
+    desc: 'Humanitarian assistance, poverty alleviation, emergency response initiatives, and sustainable support systems for vulnerable families.',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M24 40 C24 40 8 29 8 18 A9 9 0 0 1 24 13.5 A9 9 0 0 1 40 18 C40 29 24 40 24 40Z" />
+        <path d="M18 26 Q18 20 24 17 Q30 20 30 26" strokeOpacity="0.6" />
+        <line x1="24" y1="17" x2="24" y2="10" strokeOpacity="0.5" />
+        <path d="M20 10 Q24 6 28 10" strokeOpacity="0.5" />
+      </svg>
+    ),
+  },
+  {
+    id: 4,
+    title: 'Economic Innovation & Grants',
+    desc: 'Interest-free business grants, entrepreneurship support, digital innovation, and local economic development designed to strengthen community prosperity.',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="6,36 16,22 24,28 34,14 42,18" />
+        <polyline points="34,14 42,14 42,22" />
+        <line x1="6" y1="42" x2="42" y2="42" />
+        <line x1="6" y1="6" x2="6" y2="42" />
+      </svg>
+    ),
+  },
+  {
+    id: 5,
+    title: 'Global Diaspora Network',
+    desc: 'Connecting Orakzai professionals, families, entrepreneurs, and organizations across Pakistan, the Gulf, Europe, North America, and beyond.',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="24" cy="24" r="18" />
+        <ellipse cx="24" cy="24" rx="8" ry="18" />
+        <line x1="6" y1="24" x2="42" y2="24" />
+        <line x1="8" y1="15" x2="40" y2="15" />
+        <line x1="8" y1="33" x2="40" y2="33" />
+      </svg>
+    ),
+  },
+  {
+    id: 6,
+    title: 'Healthcare Infrastructure & Access',
+    desc: 'Supporting modern healthcare initiatives through mobile clinics, clean water projects, preventive care, and improved medical accessibility in underserved regions.',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M24 8 L28 18 L40 18 L30 25 L34 36 L24 29 L14 36 L18 25 L8 18 L20 18 Z" />
+        <circle cx="24" cy="24" r="6" strokeOpacity="0.35" />
+      </svg>
+    ),
+  },
+];
+
+function PillarCard({ pillar, index }: { pillar: typeof pillars[0]; index: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.75, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative h-full"
+    >
+      {/* Glow layer — sits behind the card */}
+      <div
+        className="absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,175,55,0.18) 0%, transparent 70%)`,
+          filter: 'blur(1px)',
+        }}
+      />
+
+      {/* Card body */}
+      <div
+        className="relative h-full rounded-3xl p-8 flex flex-col gap-6 transition-all duration-500 ease-out
+          group-hover:-translate-y-2 group-hover:scale-[1.025]"
+        style={{
+          background: 'rgba(0,18,11,0.65)',
+          backdropFilter: 'blur(18px)',
+          WebkitBackdropFilter: 'blur(18px)',
+          border: '1px solid rgba(212,175,55,0.18)',
+          boxShadow: '0 4px 32px rgba(0,0,0,0.38), 0 1px 0 rgba(212,175,55,0.06) inset',
+          willChange: 'transform',
+        }}
+      >
+        {/* Hover: border brightens */}
+        <div
+          className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{ border: '1px solid rgba(212,175,55,0.48)', borderRadius: 'inherit' }}
+        />
+
+        {/* Hover: gold shadow */}
+        <div
+          className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{ boxShadow: '0 0 40px rgba(212,175,55,0.15), 0 20px 60px rgba(0,0,0,0.30)' }}
+        />
+
+        {/* Icon badge */}
+        <div className="flex-shrink-0">
+          <div
+            className="w-[70px] h-[70px] rounded-full flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
+            style={{
+              background: 'rgba(0,12,7,0.80)',
+              border: '1px solid rgba(212,175,55,0.30)',
+              boxShadow: '0 0 24px rgba(212,175,55,0.08)',
+            }}
+          >
+            {pillar.icon}
+          </div>
+        </div>
+
+        {/* Text */}
+        <div className="flex flex-col gap-3 flex-1">
+          {/* Pillar number */}
+          <span
+            className="text-[10px] font-bold tracking-[0.35em] uppercase"
+            style={{ color: 'rgba(212,175,55,0.55)' }}
+          >
+            {String(index + 1).padStart(2, '0')}
+          </span>
+
+          {/* Title */}
+          <h3
+            className="text-xl font-bold leading-snug transition-colors duration-500 group-hover:text-[#F3E5AB]"
+            style={{
+              fontFamily: "'Playfair Display', 'Cormorant Garamond', Georgia, serif",
+              color: 'rgba(255,255,255,0.95)',
+              letterSpacing: '-0.01em',
+            }}
+          >
+            {pillar.title}
+          </h3>
+
+          {/* Divider */}
+          <div
+            className="h-[1px] w-10 transition-all duration-500 group-hover:w-16"
+            style={{ background: `linear-gradient(90deg, #D4AF37, transparent)` }}
+          />
+
+          {/* Description */}
+          <p
+            className="text-sm leading-relaxed flex-1"
+            style={{
+              color: 'rgba(255,255,255,0.55)',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              letterSpacing: '0.01em',
+            }}
+          >
+            {pillar.desc}
+          </p>
+        </div>
+
+        {/* Bottom accent */}
+        <div
+          className="h-[1px] w-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{ background: 'linear-gradient(90deg, rgba(212,175,55,0.4), transparent)' }}
+        />
+      </div>
+    </motion.div>
+  );
+}
+
+function StrategicPillars() {
+  return (
+    <section
+      className="relative py-28 overflow-hidden"
+      style={{ background: '#00120B' }}
+    >
+      {/* ── Background layer: radial ambient glows ── */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <div
+          className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%)', filter: 'blur(40px)' }}
+        />
+        <div
+          className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full"
+          style={{ background: 'radial-gradient(circle, rgba(6,78,59,0.12) 0%, transparent 70%)', filter: 'blur(60px)' }}
+        />
+        {/* Fine grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(212,175,55,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.8) 1px, transparent 1px)',
+            backgroundSize: '72px 72px',
+          }}
+        />
+        {/* Top separator line */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[1px]"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.35), transparent)' }}
+        />
+        {/* Bottom separator line */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[1px]"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.20), transparent)' }}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+        {/* ── Section header ── */}
+        <FadeIn direction="up" className="text-center mb-20">
+          {/* Eyebrow */}
+          <div className="inline-flex items-center gap-4 mb-6">
+            <div className="h-[1px] w-12" style={{ background: `linear-gradient(90deg, transparent, #D4AF37)` }} />
+            <span
+              className="text-[10px] font-black tracking-[0.45em] uppercase"
+              style={{ color: '#D4AF37', letterSpacing: '0.42em' }}
+            >
+              Our Strategic Pillars
+            </span>
+            <div className="h-[1px] w-12" style={{ background: `linear-gradient(90deg, #D4AF37, transparent)` }} />
+          </div>
+
+          {/* Main heading */}
+          <h2
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight tracking-tight"
+            style={{ fontFamily: "'Playfair Display', 'Cormorant Garamond', Georgia, serif" }}
+          >
+            Building a Stronger
+            <br />
+            <span
+              style={{
+                background: 'linear-gradient(135deg, #b8860b 0%, #D4AF37 40%, #F3E5AB 70%, #D4AF37 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              Global Orakzai Community
+            </span>
+          </h2>
+
+          {/* Gold rule */}
+          <div
+            className="h-[1px] w-28 mx-auto mb-7"
+            style={{ background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)' }}
+          />
+
+          {/* Intro paragraph */}
+          <p
+            className="text-base leading-relaxed max-w-2xl mx-auto"
+            style={{
+              color: 'rgba(255,255,255,0.55)',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              letterSpacing: '0.015em',
+            }}
+          >
+            Orakzai.org operates through six strategic pillars — each one a dedicated institution 
+            in itself — spanning rights advocacy, global education, humanitarian relief, economic 
+            innovation, diaspora connectivity, and frontline healthcare access.
+          </p>
+        </FadeIn>
+
+        {/* ── 6-card grid ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {pillars.map((pillar, i) => (
+            <PillarCard key={pillar.id} pillar={pillar} index={i} />
+          ))}
+        </div>
+
+        {/* ── Bottom CTA strip ── */}
+        <FadeIn direction="up" delay={0.3}>
+          <div
+            className="mt-20 flex flex-col sm:flex-row items-center justify-between gap-6 px-8 py-7 rounded-2xl"
+            style={{
+              background: 'rgba(0,18,11,0.70)',
+              border: '1px solid rgba(212,175,55,0.15)',
+              backdropFilter: 'blur(12px)',
+            }}
+          >
+            <div>
+              <p
+                className="text-lg font-bold text-white mb-1"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Committed to every pillar. Accountable to every member.
+              </p>
+              <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)', fontFamily: 'Inter, sans-serif' }}>
+                Read our full institutional charter and annual impact report.
+              </p>
+            </div>
+            <Link
+              href="/about"
+              className="flex-shrink-0 inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full font-bold text-sm tracking-wider uppercase transition-all duration-300 hover:-translate-y-0.5"
+              style={{
+                background: 'linear-gradient(135deg, #b8860b 0%, #D4AF37 50%, #F3E5AB 100%)',
+                color: '#00120B',
+                boxShadow: '0 4px 20px rgba(212,175,55,0.30)',
+                fontFamily: 'Inter, sans-serif',
+                letterSpacing: '0.08em',
+              }}
+            >
+              Our Full Charter
+              <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M3 8h10M9 4l4 4-4 4" />
+              </svg>
+            </Link>
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
 /* ── Gold decorative corner for leadership cards ── */
 function GoldCorner({ position }: { position: 'tl' | 'tr' | 'bl' | 'br' }) {
   const transforms: Record<string, string> = {
@@ -570,49 +908,10 @@ export default function Home() {
       {/* ═══════════════ TICKER ═══════════════ */}
       <Ticker />
 
-      {/* ═══════════════════════════════
-          ABOUT STRIP
-      ═══════════════════════════════ */}
-      <section className="py-20 relative" style={{ background: '#011a10' }}>
-        <div className="absolute inset-0 orakzai-pattern opacity-20 pointer-events-none" />
-        <div className="max-w-[1400px] mx-auto px-6 md:px-14 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: '⚖️',
-                title: 'Rights & Representation',
-                desc: 'Legal advocacy and political representation for every member of the Orakzai nation.',
-              },
-              {
-                icon: '🎓',
-                title: 'Education & Scholarships',
-                desc: 'Funding, mentoring, and training programs that open global doors for Orakzai youth.',
-              },
-              {
-                icon: '🌍',
-                title: 'Global Diaspora Network',
-                desc: 'Connecting Orakzai families across Pakistan, the Gulf, Europe, and North America.',
-              },
-            ].map((item, i) => (
-              <FadeIn key={i} delay={i * 0.15} direction="up">
-                <div
-                  className="rounded-2xl p-7 transition-all duration-400 hover:-translate-y-1 group"
-                  style={{
-                    background: 'rgba(255,255,255,0.025)',
-                    border: '1px solid rgba(212,175,55,0.14)',
-                    boxShadow: '0 4px 24px rgba(0,0,0,0.2)',
-                  }}
-                >
-                  <div className="text-3xl mb-4">{item.icon}</div>
-                  <h3 className="text-lg font-bold text-white mb-2" style={{ fontFamily: "'Playfair Display', serif" }}>{item.title}</h3>
-                  <div className="h-[1px] w-10 mb-3" style={{ background: GOLD, opacity: 0.5 }} />
-                  <p className="text-white/50 text-sm leading-relaxed">{item.desc}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ═══════════════════════════════════════════════
+          STRATEGIC PILLARS — 6-CARD SOVEREIGN GRID
+      ═══════════════════════════════════════════════ */}
+      <StrategicPillars />
 
       {/* ═══════════════════════════════
           LEADERSHIP VISIONARIES
