@@ -1,15 +1,16 @@
 import { Link, useLocation } from "wouter";
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, Globe, ChevronDown, MapPin, TrendingUp, Newspaper, Users, GraduationCap, Heart, Briefcase, BarChart2, BookOpen, Phone, Info, UserCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 const GOLD = "#D4AF37";
 const logoPath = "/orakzai-org-logo.png";
 
+type NavIcon = React.ComponentType<React.SVGProps<SVGSVGElement>>;
+
 /* ── Dropdown data ── */
-const dropdownMenus: Record<string, { href: string; label: string; icon: React.ComponentType<any>; desc: string }[]> = {
+const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon; desc: string }[]> = {
   "About Us": [
     { href: "/about", label: "Our Story", icon: Info, desc: "The legacy of Orakzai" },
     { href: "/team", label: "Leadership", icon: UserCheck, desc: "Meet our visionaries" },
@@ -51,7 +52,7 @@ const topNavItems = [
   { href: "/contact", label: "Contact", dropdown: null },
 ];
 
-function DropdownPanel({ items }: { items: { href: string; label: string; icon: React.ComponentType<any>; desc: string }[] }) {
+function DropdownPanel({ items }: { items: { href: string; label: string; icon: NavIcon; desc: string }[] }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 8, scale: 0.97 }}
@@ -199,30 +200,27 @@ export function Navbar() {
               <Globe className="w-3 h-3" style={{ color: GOLD }} />
               <span className="text-[11px] font-semibold tracking-widest text-white/50">EN | UR | PS</span>
             </div>
-            <Link href="/join">
-              <Button
-                className="font-bold px-7 h-9 rounded-full text-sm transition-all hover:-translate-y-0.5 hover:shadow-xl"
-                style={{
-                  background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
-                  backgroundSize: "200% auto",
-                  color: "#011a10",
-                  border: "none",
-                  boxShadow: `0 4px 20px rgba(212,175,55,0.4)`,
-                  fontFamily: "'Playfair Display', serif",
-                  letterSpacing: "0.04em",
-                }}
-              >
-                Become a Member
-              </Button>
+            <Link
+              href="/join"
+              className="font-bold px-7 h-9 rounded-full text-sm transition-all hover:-translate-y-0.5 hover:shadow-xl inline-flex items-center"
+              style={{
+                background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
+                backgroundSize: "200% auto",
+                color: "#011a10",
+                border: "none",
+                boxShadow: `0 4px 20px rgba(212,175,55,0.4)`,
+                fontFamily: "'Playfair Display', serif",
+                letterSpacing: "0.04em",
+              }}
+            >
+              Become a Member
             </Link>
-            <Link href="/donate">
-              <Button
-                variant="outline"
-                className="font-semibold px-5 h-9 rounded-full text-sm text-white hover:text-white transition-all hover:-translate-y-0.5"
-                style={{ borderColor: "rgba(212,175,55,0.35)", background: "rgba(212,175,55,0.05)" }}
-              >
-                Donate
-              </Button>
+            <Link
+              href="/donate"
+              className="font-semibold px-5 h-9 rounded-full text-sm text-white transition-all hover:-translate-y-0.5 inline-flex items-center"
+              style={{ borderColor: "rgba(212,175,55,0.35)", background: "rgba(212,175,55,0.05)", border: "1px solid rgba(212,175,55,0.35)" }}
+            >
+              Donate
             </Link>
           </div>
 
@@ -231,6 +229,9 @@ export function Navbar() {
             className="xl:hidden text-white p-2 rounded-lg transition-colors"
             style={{ background: "rgba(212,175,55,0.07)", border: "1px solid rgba(212,175,55,0.15)" }}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-nav-menu"
           >
             {isMobileMenuOpen ? <X className="w-5 h-5" style={{ color: GOLD }} /> : <Menu className="w-5 h-5" style={{ color: GOLD }} />}
           </button>
@@ -241,6 +242,7 @@ export function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            id="mobile-nav-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -297,22 +299,21 @@ export function Navbar() {
                 );
               })}
               <div className="h-px my-2" style={{ background: "rgba(212,175,55,0.1)" }} />
-              <Link href="/join" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  className="w-full font-bold rounded-full h-11"
-                  style={{ background: `linear-gradient(135deg, #b8860b, ${GOLD})`, color: "#011a10", border: "none" }}
-                >
-                  Become a Member
-                </Button>
+              <Link
+                href="/join"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full font-bold rounded-full h-11 flex items-center justify-center text-sm"
+                style={{ background: `linear-gradient(135deg, #b8860b, ${GOLD})`, color: "#011a10", border: "none" }}
+              >
+                Become a Member
               </Link>
-              <Link href="/donate" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button
-                  variant="outline"
-                  className="w-full font-semibold rounded-full text-white hover:text-white h-10 mt-1"
-                  style={{ borderColor: "rgba(212,175,55,0.35)", background: "rgba(212,175,55,0.06)" }}
-                >
-                  Donate
-                </Button>
+              <Link
+                href="/donate"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full font-semibold rounded-full h-10 mt-1 flex items-center justify-center text-sm text-white"
+                style={{ border: "1px solid rgba(212,175,55,0.35)", background: "rgba(212,175,55,0.06)" }}
+              >
+                Donate
               </Link>
             </div>
           </motion.div>

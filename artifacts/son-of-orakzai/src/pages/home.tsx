@@ -290,13 +290,12 @@ function LeaderCard({
             className="mt-6 pt-5 flex justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
             style={{ borderTop: '1px solid rgba(212,175,55,0.12)' }}
           >
-            <Link href="/team">
-              <button
-                className="px-5 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all hover:-translate-y-0.5"
-                style={{ background: `linear-gradient(135deg, #b8860b, ${GOLD})`, color: '#011a10' }}
-              >
-                Full Profile
-              </button>
+            <Link
+              href="/team"
+              className="px-5 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all hover:-translate-y-0.5 inline-block"
+              style={{ background: `linear-gradient(135deg, #b8860b, ${GOLD})`, color: '#011a10' }}
+            >
+              Full Profile
             </Link>
           </div>
         </div>
@@ -320,7 +319,7 @@ function ImpactCard({
   suffix: string;
   label: string;
   desc: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   delay: number;
 }) {
   const ref = useRef(null);
@@ -515,34 +514,31 @@ export default function Home() {
               transition={{ duration: 0.9, delay: 1 }}
               className="flex flex-wrap gap-4"
             >
-              <Link href="/join">
-                <button
-                  className="relative overflow-hidden px-10 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-1 active:scale-95 group"
-                  style={{
-                    background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
-                    color: '#011a10',
-                    boxShadow: `0 8px 32px rgba(212,175,55,0.45), 0 2px 8px rgba(212,175,55,0.3)`,
-                    fontFamily: "'Playfair Display', serif",
-                    letterSpacing: '0.05em',
-                  }}
-                >
-                  <span className="relative z-10">Join the Movement</span>
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(135deg, #d4af37, #f5e07a)' }} />
-                </button>
+              <Link
+                href="/join"
+                className="relative overflow-hidden px-10 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-1 active:scale-95 group inline-block"
+                style={{
+                  background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
+                  color: '#011a10',
+                  boxShadow: `0 8px 32px rgba(212,175,55,0.45), 0 2px 8px rgba(212,175,55,0.3)`,
+                  fontFamily: "'Playfair Display', serif",
+                  letterSpacing: '0.05em',
+                }}
+              >
+                <span className="relative z-10">Join the Movement</span>
               </Link>
-              <Link href="/about">
-                <button
-                  className="px-10 py-4 rounded-full font-semibold text-base text-white transition-all hover:-translate-y-1 hover:bg-white/10 active:scale-95"
-                  style={{
-                    border: `1.5px solid rgba(212,175,55,0.55)`,
-                    backdropFilter: 'blur(8px)',
-                    background: 'rgba(212,175,55,0.06)',
-                    fontFamily: "'Playfair Display', serif",
-                    letterSpacing: '0.05em',
-                  }}
-                >
-                  Our Story
-                </button>
+              <Link
+                href="/about"
+                className="px-10 py-4 rounded-full font-semibold text-base text-white transition-all hover:-translate-y-1 hover:bg-white/10 active:scale-95 inline-block"
+                style={{
+                  border: `1.5px solid rgba(212,175,55,0.55)`,
+                  backdropFilter: 'blur(8px)',
+                  background: 'rgba(212,175,55,0.06)',
+                  fontFamily: "'Playfair Display', serif",
+                  letterSpacing: '0.05em',
+                }}
+              >
+                Our Story
               </Link>
             </motion.div>
 
@@ -717,13 +713,12 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <Link href="/about">
-                <button
-                  className="flex-shrink-0 px-8 py-3 rounded-full text-sm font-bold tracking-wider uppercase transition-all hover:-translate-y-0.5"
-                  style={{ border: `1.5px solid rgba(212,175,55,0.45)`, color: GOLD, background: 'rgba(212,175,55,0.05)' }}
-                >
-                  Learn More
-                </button>
+              <Link
+                href="/about"
+                className="flex-shrink-0 px-8 py-3 rounded-full text-sm font-bold tracking-wider uppercase transition-all hover:-translate-y-0.5 inline-block"
+                style={{ border: `1.5px solid rgba(212,175,55,0.45)`, color: GOLD, background: 'rgba(212,175,55,0.05)' }}
+              >
+                Learn More
               </Link>
             </div>
           </FadeIn>
@@ -786,24 +781,19 @@ export default function Home() {
                   className="absolute inset-0 rounded-full animate-pulse pointer-events-none"
                   style={{ boxShadow: `0 0 60px rgba(212,175,55,0.35), 0 0 100px rgba(212,175,55,0.18)`, transform: 'scale(1.15)' }}
                 />
-                <Link href="/join">
-                  <button
-                    className="relative overflow-hidden px-14 py-5 rounded-full font-black text-xl transition-all hover:-translate-y-1.5 hover:shadow-2xl active:scale-95 group"
-                    style={{
-                      background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
-                      backgroundSize: '200% auto',
-                      color: '#011a10',
-                      boxShadow: `0 12px 50px rgba(212,175,55,0.50), 0 4px 16px rgba(212,175,55,0.35)`,
-                      fontFamily: "'Playfair Display', serif",
-                      letterSpacing: '0.06em',
-                    }}
-                  >
-                    <span className="relative z-10">Become a Member Today</span>
-                    <div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
-                      style={{ background: 'linear-gradient(135deg, #d4af37, #f5e07a, #d4af37)' }}
-                    />
-                  </button>
+                <Link
+                  href="/join"
+                  className="relative overflow-hidden px-14 py-5 rounded-full font-black text-xl transition-all hover:-translate-y-1.5 hover:shadow-2xl active:scale-95 inline-block"
+                  style={{
+                    background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
+                    backgroundSize: '200% auto',
+                    color: '#011a10',
+                    boxShadow: `0 12px 50px rgba(212,175,55,0.50), 0 4px 16px rgba(212,175,55,0.35)`,
+                    fontFamily: "'Playfair Display', serif",
+                    letterSpacing: '0.06em',
+                  }}
+                >
+                  Become a Member Today
                 </Link>
               </div>
 
