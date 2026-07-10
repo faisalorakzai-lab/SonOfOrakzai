@@ -29,25 +29,33 @@ const counters = [
 /* ── Diaspora flag strip — illustrative, to be confirmed with real chapter data ── */
 const diasporaFlags = [
   { flag: '🇵🇰', name: 'Pakistan' },
+  { flag: '🇦🇫', name: 'Afghanistan' },
+  { flag: '🇸🇦', name: 'Saudi Arabia' },
   { flag: '🇦🇪', name: 'UAE' },
+  { flag: '🇶🇦', name: 'Qatar' },
+  { flag: '🇴🇲', name: 'Oman' },
+  { flag: '🇧🇭', name: 'Bahrain' },
   { flag: '🇬🇧', name: 'United Kingdom' },
   { flag: '🇺🇸', name: 'United States' },
-  { flag: '🇸🇦', name: 'Saudi Arabia' },
   { flag: '🇨🇦', name: 'Canada' },
-  { flag: '🇩🇪', name: 'Germany' },
+  { flag: '🇲🇾', name: 'Malaysia' },
   { flag: '🇦🇺', name: 'Australia' },
 ];
 
-/* ── Global offices / diaspora chapters — demo pins, replace with verified locations ── */
+/* ── Countries where the Orakzai community lives — demo pins, replace with verified locations ── */
 const globalNodes = [
-  { city: 'Ghaljo', country: 'Pakistan', flag: '🇵🇰', x: 63, y: 40, tag: 'District HQ' },
-  { city: 'Karachi', country: 'Pakistan', flag: '🇵🇰', x: 60, y: 52, tag: 'National HQ' },
-  { city: 'Dubai', country: 'UAE', flag: '🇦🇪', x: 61, y: 46, tag: 'Gulf Liaison' },
-  { city: 'London', country: 'UK', flag: '🇬🇧', x: 47, y: 27, tag: 'Diaspora Desk' },
-  { city: 'New York', country: 'USA', flag: '🇺🇸', x: 22, y: 33, tag: 'North America Chapter' },
-  { city: 'Toronto', country: 'Canada', flag: '🇨🇦', x: 20, y: 26, tag: 'Canada Chapter' },
-  { city: 'Riyadh', country: 'Saudi Arabia', flag: '🇸🇦', x: 59, y: 44, tag: 'Gulf Chapter' },
-  { city: 'Sydney', country: 'Australia', flag: '🇦🇺', x: 85, y: 74, tag: 'Oceania Chapter' },
+  { city: 'Ghaljo', country: 'Pakistan', flag: '🇵🇰', x: 63, y: 40, tag: 'Primary Homeland' },
+  { city: 'Kabul', country: 'Afghanistan', flag: '🇦🇫', x: 60, y: 37, tag: 'Historical Homeland' },
+  { city: 'Riyadh', country: 'Saudi Arabia', flag: '🇸🇦', x: 59, y: 44, tag: 'Community' },
+  { city: 'Dubai', country: 'UAE', flag: '🇦🇪', x: 61, y: 46, tag: 'Community' },
+  { city: 'Doha', country: 'Qatar', flag: '🇶🇦', x: 60, y: 47, tag: 'Community' },
+  { city: 'Muscat', country: 'Oman', flag: '🇴🇲', x: 62, y: 48, tag: 'Community' },
+  { city: 'Manama', country: 'Bahrain', flag: '🇧🇭', x: 59, y: 45, tag: 'Community' },
+  { city: 'London', country: 'UK', flag: '🇬🇧', x: 47, y: 27, tag: 'Community' },
+  { city: 'New York', country: 'USA', flag: '🇺🇸', x: 22, y: 33, tag: 'Community' },
+  { city: 'Toronto', country: 'Canada', flag: '🇨🇦', x: 20, y: 26, tag: 'Community' },
+  { city: 'Kuala Lumpur', country: 'Malaysia', flag: '🇲🇾', x: 78, y: 58, tag: 'Community' },
+  { city: 'Sydney', country: 'Australia', flag: '🇦🇺', x: 85, y: 74, tag: 'Community' },
 ];
 
 /* ── Partner / featured logos — placeholder names until real partner list is confirmed ── */
@@ -603,9 +611,9 @@ function GlobalPresence() {
           </h2>
           <div className="h-[1px] w-24 mx-auto mb-5" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
           <p className="text-white/50 max-w-2xl mx-auto text-sm leading-relaxed">
-            Offices, chapters, and diaspora desks across {globalNodes.length}+ cities and growing —
-            connecting the Orakzai nation from Pakistan to the Gulf, Europe, and North America.
-            <span className="block text-[11px] text-white/25 mt-2 uppercase tracking-widest">Illustrative map — chapter locations to be confirmed with verified data</span>
+            An active Orakzai community across {globalNodes.length} countries and growing —
+            connecting the Orakzai nation from Pakistan and Afghanistan to the Gulf, Europe, North America, and beyond.
+            <span className="block text-[11px] text-white/25 mt-2 uppercase tracking-widest">Illustrative map — community locations to be confirmed with verified data</span>
           </p>
         </FadeIn>
 
@@ -1061,7 +1069,7 @@ export default function Home() {
               <div className="h-[1px] w-8" style={{ background: GOLD }} />
             </motion.div>
 
-            {/* Global reach line + language switcher */}
+            {/* Global reach line */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1074,28 +1082,8 @@ export default function Home() {
               >
                 <GlobeIcon className="w-3.5 h-3.5" style={{ color: GOLD }} />
                 <span className="text-[11px] font-semibold tracking-wide text-white/70">
-                  Offices &amp; Chapters in {globalNodes.length}+ Countries
+                  Orakzai Community in {globalNodes.length} Countries
                 </span>
-              </div>
-              <div
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full"
-                style={{ background: 'rgba(212,175,55,0.05)', border: '1px solid rgba(212,175,55,0.18)' }}
-              >
-                <svg viewBox="0 0 16 16" className="w-3.5 h-3.5" fill="none" stroke={GOLD} strokeWidth="1.5">
-                  <circle cx="8" cy="8" r="6.5" />
-                  <path d="M2 8h12M8 1.5c2 2 2 11 0 13M8 1.5c-2 2-2 11 0 13" />
-                </svg>
-                {['EN', 'UR', 'PS'].map((lang, i) => (
-                  <span key={lang} className="flex items-center">
-                    <span
-                      className="text-[11px] font-bold tracking-wider cursor-pointer transition-colors"
-                      style={{ color: i === 0 ? GOLD : 'rgba(255,255,255,0.5)' }}
-                    >
-                      {lang}
-                    </span>
-                    {i < 2 && <span className="text-white/25 mx-1.5">|</span>}
-                  </span>
-                ))}
               </div>
             </motion.div>
 
@@ -1262,13 +1250,13 @@ export default function Home() {
               style={{ background: 'rgba(212,175,55,0.05)', border: '1px solid rgba(212,175,55,0.16)' }}
             >
               <p className="text-center text-[11px] font-bold tracking-[0.35em] uppercase mb-5" style={{ color: GOLD }}>
-                International Advisory &amp; Chapter Leads
+                International Advisory &amp; Community Representatives
               </p>
               <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
                 {[
-                  { name: 'Sample Lead', role: 'UK Chapter', flag: '🇬🇧' },
-                  { name: 'Sample Lead', role: 'UAE Chapter', flag: '🇦🇪' },
-                  { name: 'Sample Lead', role: 'North America Chapter', flag: '🇺🇸' },
+                  { name: 'Sample Lead', role: 'UK Community', flag: '🇬🇧' },
+                  { name: 'Sample Lead', role: 'UAE Community', flag: '🇦🇪' },
+                  { name: 'Sample Lead', role: 'North America Community', flag: '🇺🇸' },
                   { name: 'Sample Lead', role: 'Advisory Board', flag: '🇨🇦' },
                 ].map((p, i) => (
                   <div key={i} className="flex items-center gap-2.5">
