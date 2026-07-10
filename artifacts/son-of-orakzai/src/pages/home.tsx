@@ -1,14 +1,12 @@
 import { Link } from 'wouter';
 import { MainLayout } from '@/components/layout/main-layout';
 import { Button } from '@/components/ui/button';
-import { motion, useInView, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 
 const founderPath = '/malak-speen-gul.jpg';
 const chairmanPath = '/faisal-orakzai.png';
 const GOLD = '#D4AF37';
-const SOFT_GOLD = '#F3E5AB';
-const BG_DEEP = '#00120B';
 
 /* ── Hero background slideshow — 3-second interval ── */
 const heroSlides = [
@@ -141,348 +139,6 @@ function HeroSlideshow() {
         ))}
       </div>
     </div>
-  );
-}
-
-/* ══════════════════════════════════════════════════
-   PRESTIGE HERO — Digital Embassy of the Orakzai Nation
-   ══════════════════════════════════════════════════ */
-
-const headlineLines = ['Mutahid.', 'Ba-Ikhtiyar.', 'Taraqi-Yafta.'];
-
-const trustBar = [
-  { label: 'Community Driven' },
-  { label: 'Non-Profit Initiative' },
-  { label: 'Global Network' },
-  { label: 'Future Ready' },
-];
-
-function GoldCheckIcon() {
-  return (
-    <svg viewBox="0 0 20 20" className="w-4 h-4 flex-shrink-0" fill="none">
-      <circle cx="10" cy="10" r="9" stroke={GOLD} strokeWidth="1.2" opacity="0.55" />
-      <path d="M6 10.2l2.6 2.6L14 7.4" stroke={GOLD} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-/* Cinematic layered background: gradient wash, radial glow, drifting particles, vignette */
-function PrestigeBackdrop() {
-  const reduceMotion = useReducedMotion();
-  const [particles] = useState(() =>
-    Array.from({ length: 26 }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      size: 1 + Math.random() * 2.2,
-      duration: 18 + Math.random() * 22,
-      delay: Math.random() * 10,
-    }))
-  );
-
-  return (
-    <div className="absolute inset-0 overflow-hidden" style={{ background: BG_DEEP }}>
-      {/* Base emerald layered wash */}
-      <div
-        className="absolute inset-0"
-        style={{ background: 'linear-gradient(160deg, #00120B 0%, #011a10 45%, #00120B 100%)' }}
-      />
-
-      {/* Radial light behind subject (right side) */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ background: 'radial-gradient(ellipse 55% 65% at 82% 45%, rgba(212,175,55,0.16) 0%, transparent 62%)' }}
-        animate={reduceMotion ? undefined : { opacity: [0.7, 1, 0.7] }}
-        transition={reduceMotion ? undefined : { duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-      />
-
-      {/* Secondary emerald glow behind text */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ background: 'radial-gradient(ellipse 50% 50% at 20% 55%, rgba(6,78,59,0.35) 0%, transparent 65%)' }}
-        animate={reduceMotion ? undefined : { opacity: [0.5, 0.85, 0.5] }}
-        transition={reduceMotion ? undefined : { duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-      />
-
-      {/* Faint world-map / grid texture */}
-      <svg
-        className="absolute inset-0 w-full h-full opacity-[0.06]"
-        viewBox="0 0 1400 900"
-        preserveAspectRatio="xMidYMid slice"
-        aria-hidden="true"
-      >
-        {Array.from({ length: 15 }).map((_, i) => (
-          <line key={`v${i}`} x1={(i * 1400) / 14} y1="0" x2={(i * 1400) / 14} y2="900" stroke={GOLD} strokeWidth="0.5" />
-        ))}
-        {Array.from({ length: 10 }).map((_, i) => (
-          <line key={`h${i}`} x1="0" y1={(i * 900) / 9} x2="1400" y2={(i * 900) / 9} stroke={GOLD} strokeWidth="0.5" />
-        ))}
-        {[
-          [180, 160], [340, 300], [520, 180], [760, 260], [980, 160], [1180, 300], [260, 520], [640, 560], [1020, 540], [1240, 460],
-        ].map(([cx, cy], i) => (
-          <circle key={`n${i}`} cx={cx} cy={cy} r="2.4" fill={GOLD} />
-        ))}
-        {[
-          [180, 160, 340, 300], [340, 300, 520, 180], [520, 180, 760, 260], [760, 260, 980, 160], [980, 160, 1180, 300],
-          [260, 520, 640, 560], [640, 560, 1020, 540], [1020, 540, 1240, 460], [180, 160, 260, 520], [980, 160, 1020, 540],
-        ].map(([x1, y1, x2, y2], i) => (
-          <line key={`l${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke={GOLD} strokeWidth="0.6" />
-        ))}
-      </svg>
-
-      {/* Drifting gold particles */}
-      {!reduceMotion &&
-        particles.map((p) => (
-          <motion.span
-            key={p.id}
-            className="absolute rounded-full"
-            style={{
-              left: `${p.left}%`,
-              top: `${p.top}%`,
-              width: p.size,
-              height: p.size,
-              background: SOFT_GOLD,
-              boxShadow: `0 0 6px rgba(212,175,55,0.6)`,
-            }}
-            animate={{ y: [0, -24, 0], opacity: [0.15, 0.6, 0.15] }}
-            transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        ))}
-
-      {/* Luxury vignette */}
-      <div
-        className="absolute inset-0"
-        style={{ background: 'radial-gradient(ellipse 90% 90% at 50% 50%, transparent 45%, rgba(0,18,11,0.65) 100%)' }}
-      />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,8,4,0.85) 0%, transparent 35%)' }} />
-    </div>
-  );
-}
-
-function SovereignBadge() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: -14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7 }}
-      className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full mb-9"
-      style={{
-        background: 'rgba(0,18,11,0.55)',
-        backdropFilter: 'blur(14px)',
-        WebkitBackdropFilter: 'blur(14px)',
-        border: '1px solid rgba(212,175,55,0.45)',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.35)',
-      }}
-    >
-      <span aria-hidden="true" style={{ fontSize: '13px' }}>🌍</span>
-      <span
-        className="text-[11px] font-bold uppercase"
-        style={{ color: GOLD, letterSpacing: '0.28em' }}
-      >
-        Digital Embassy of the Orakzai Nation
-      </span>
-    </motion.div>
-  );
-}
-
-function ScrollIndicator() {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1, delay: 1.8 }}
-      className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
-    >
-      <span className="text-[10px] font-semibold uppercase text-white/50" style={{ letterSpacing: '0.3em' }}>
-        Discover More
-      </span>
-      <div
-        className="w-[22px] h-[36px] rounded-full flex justify-center pt-2"
-        style={{ border: '1.5px solid rgba(212,175,55,0.55)' }}
-      >
-        <motion.span
-          className="w-[3px] h-[7px] rounded-full"
-          style={{ background: GOLD }}
-          animate={{ y: [0, 10, 0], opacity: [1, 0.3, 1] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </div>
-    </motion.div>
-  );
-}
-
-function ExecutivePortrait() {
-  const reduceMotion = useReducedMotion();
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.92 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1.1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="relative w-full max-w-[420px] mx-auto lg:mx-0"
-    >
-      {/* Floating ambient glow */}
-      <motion.div
-        className="absolute -inset-8 rounded-[2.5rem] pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 70% 70% at 50% 40%, rgba(212,175,55,0.30) 0%, transparent 70%)', filter: 'blur(18px)' }}
-        animate={reduceMotion ? undefined : { opacity: [0.6, 1, 0.6] }}
-        transition={reduceMotion ? undefined : { duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-      />
-
-      {/* Thin gold geometric corner lines */}
-      <div className="absolute -top-5 -left-5 w-14 h-14 border-t border-l pointer-events-none" style={{ borderColor: 'rgba(212,175,55,0.6)' }} />
-      <div className="absolute -bottom-5 -right-5 w-14 h-14 border-b border-r pointer-events-none" style={{ borderColor: 'rgba(212,175,55,0.6)' }} />
-
-      <motion.div
-        className="relative rounded-[2rem] overflow-hidden"
-        style={{
-          border: '1px solid rgba(212,175,55,0.55)',
-          boxShadow: '0 30px 80px rgba(0,0,0,0.55), 0 0 60px rgba(212,175,55,0.12)',
-        }}
-        animate={reduceMotion ? undefined : { y: [0, -10, 0] }}
-        transition={reduceMotion ? undefined : { duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <img
-          src={chairmanPath}
-          alt="Chairman of Orakzai.org — sovereign leadership for the Orakzai Nation"
-          loading="lazy"
-          className="w-full aspect-[4/5] object-cover"
-        />
-        {/* Glass overlay for cohesion with palette */}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,18,11,0) 55%, rgba(0,18,11,0.75) 100%)' }} />
-        <div className="absolute inset-0" style={{ boxShadow: 'inset 0 0 60px rgba(212,175,55,0.10)' }} />
-
-        {/* Caption */}
-        <div className="absolute bottom-0 left-0 right-0 p-6">
-          <p className="text-xs font-bold uppercase" style={{ color: GOLD, letterSpacing: '0.25em' }}>Chairman</p>
-          <p className="text-white text-lg font-semibold" style={{ fontFamily: "'Playfair Display', serif" }}>Faisal Orakzai</p>
-        </div>
-      </motion.div>
-
-      {/* Soft glowing accent circle */}
-      <div
-        className="absolute -z-10 -top-10 -right-10 w-32 h-32 rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.25) 0%, transparent 70%)' }}
-      />
-    </motion.div>
-  );
-}
-
-function PrestigeHero() {
-  return (
-    <section className="relative h-screen min-h-[720px] flex items-center overflow-hidden" style={{ background: BG_DEEP }}>
-      <PrestigeBackdrop />
-
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-14">
-        <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] gap-14 lg:gap-10 items-center">
-          {/* Left — text */}
-          <div>
-            <SovereignBadge />
-
-            <h1
-              className="font-black text-white mb-7"
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: 'clamp(2.75rem, 6vw, 5.25rem)',
-                lineHeight: 1.06,
-                letterSpacing: '-0.01em',
-                textShadow: '0 4px 60px rgba(0,0,0,0.6)',
-              }}
-            >
-              {headlineLines.map((line, i) => (
-                <motion.span
-                  key={line}
-                  initial={{ opacity: 0, y: 34 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.85, delay: 0.5 + i * 0.22, ease: [0.22, 1, 0.36, 1] }}
-                  className="block"
-                  style={i === 1 ? { color: GOLD } : undefined}
-                >
-                  {line}
-                </motion.span>
-              ))}
-            </h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 1.3 }}
-              className="text-white/70 leading-relaxed mb-10"
-              style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.2rem', maxWidth: '650px' }}
-            >
-              A global digital homeland preserving heritage, empowering future generations, and connecting Orakzai communities across every continent through education, innovation, humanitarian action, and collective progress.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1.55 }}
-              className="flex flex-wrap gap-4 mb-12"
-            >
-              <Link
-                href="/join"
-                className="group relative overflow-hidden px-10 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-1 active:scale-95 inline-block"
-                style={{
-                  background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
-                  color: '#011a10',
-                  boxShadow: `0 8px 32px rgba(212,175,55,0.45), 0 2px 8px rgba(212,175,55,0.3)`,
-                  fontFamily: "'Playfair Display', serif",
-                  letterSpacing: '0.05em',
-                }}
-              >
-                <span className="relative z-10">Join the Movement</span>
-                <span
-                  className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"
-                  style={{ background: 'linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%)' }}
-                  aria-hidden="true"
-                />
-              </Link>
-              <Link
-                href="/about"
-                className="px-10 py-4 rounded-full font-semibold text-base text-white transition-all hover:-translate-y-1 hover:border-[#D4AF37] hover:backdrop-blur-xl active:scale-95 inline-block"
-                style={{
-                  border: '1.5px solid rgba(212,175,55,0.5)',
-                  backdropFilter: 'blur(8px)',
-                  background: 'rgba(212,175,55,0.06)',
-                  fontFamily: "'Playfair Display', serif",
-                  letterSpacing: '0.05em',
-                }}
-              >
-                Explore Our Mission
-              </Link>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 1.8 }}
-              className="flex flex-wrap gap-x-8 gap-y-3"
-            >
-              {trustBar.map((t) => (
-                <div key={t.label} className="flex items-center gap-2">
-                  <GoldCheckIcon />
-                  <span className="text-white/60 text-sm tracking-wide" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-                    {t.label}
-                  </span>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Right — executive portrait */}
-          <div className="hidden lg:block">
-            <ExecutivePortrait />
-          </div>
-          <div className="lg:hidden flex justify-center">
-            <ExecutivePortrait />
-          </div>
-        </div>
-      </div>
-
-      <ScrollIndicator />
-
-      {/* Bottom fade into next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 z-10 pointer-events-none" style={{ background: 'linear-gradient(to top, #011a10, transparent)' }} />
-    </section>
   );
 }
 
@@ -1124,7 +780,130 @@ export default function Home() {
       {/* ═══════════════════════════════
           HERO SECTION
       ═══════════════════════════════ */}
-      <PrestigeHero />
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        <HeroSlideshow />
+
+        {/* Hero content */}
+        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-14 pt-28 pb-24">
+          <div className="max-w-3xl">
+
+            {/* Eyebrow tag */}
+            <motion.div
+              initial={{ opacity: 0, y: -16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="inline-flex items-center gap-3 mb-8"
+            >
+              <div className="h-[1px] w-8" style={{ background: GOLD }} />
+              <span
+                className="text-xs font-bold tracking-[0.4em] uppercase"
+                style={{ color: GOLD }}
+              >
+                Orakzai.org — Digital Embassy
+              </span>
+              <div className="h-[1px] w-8" style={{ background: GOLD }} />
+            </motion.div>
+
+            {/* Main heading */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+            >
+              <h1
+                className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-4 leading-[1.07]"
+                style={{ fontFamily: "'Playfair Display', serif", textShadow: '0 4px 60px rgba(0,0,0,0.6)' }}
+              >
+                Mutahid,{' '}
+                <span style={{ color: GOLD }}>Ba-Ikhtiyar,</span>
+                <br />Taraqi-Yafta
+              </h1>
+            </motion.div>
+
+            {/* Subtitle */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.8 }}
+            >
+              <div className="flex items-center gap-4 my-6">
+                <div className="h-[1px] flex-1 max-w-[80px]" style={{ background: `linear-gradient(90deg, ${GOLD}, transparent)` }} />
+                <h2
+                  className="text-sm md:text-base font-bold tracking-[0.4em] uppercase"
+                  style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  SADA-E-ORAKZAI
+                </h2>
+                <div className="h-[1px] flex-1 max-w-[80px]" style={{ background: `linear-gradient(270deg, ${GOLD}, transparent)` }} />
+              </div>
+
+              <p
+                className="text-white/65 text-lg md:text-xl leading-relaxed max-w-xl mb-10"
+                style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.15rem' }}
+              >
+                A digital homeland where tradition meets modernity. Uniting the Orakzai nation across borders — empowering every family, every student, every leader.
+              </p>
+            </motion.div>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 1 }}
+              className="flex flex-wrap gap-4"
+            >
+              <Link
+                href="/join"
+                className="relative overflow-hidden px-10 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-1 active:scale-95 group inline-block"
+                style={{
+                  background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
+                  color: '#011a10',
+                  boxShadow: `0 8px 32px rgba(212,175,55,0.45), 0 2px 8px rgba(212,175,55,0.3)`,
+                  fontFamily: "'Playfair Display', serif",
+                  letterSpacing: '0.05em',
+                }}
+              >
+                <span className="relative z-10">Join the Movement</span>
+              </Link>
+              <Link
+                href="/about"
+                className="px-10 py-4 rounded-full font-semibold text-base text-white transition-all hover:-translate-y-1 hover:bg-white/10 active:scale-95 inline-block"
+                style={{
+                  border: `1.5px solid rgba(212,175,55,0.55)`,
+                  backdropFilter: 'blur(8px)',
+                  background: 'rgba(212,175,55,0.06)',
+                  fontFamily: "'Playfair Display', serif",
+                  letterSpacing: '0.05em',
+                }}
+              >
+                Our Story
+              </Link>
+            </motion.div>
+
+            {/* Stats strip */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 1.3 }}
+              className="mt-16 flex gap-8 md:gap-12"
+            >
+              {[
+                { val: '12K+', label: 'Members' },
+                { val: '4.8K+', label: 'Students' },
+                { val: '9.2K+', label: 'Health Cases' },
+              ].map((s, i) => (
+                <div key={i} className="flex flex-col">
+                  <span className="text-2xl font-black" style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}>{s.val}</span>
+                  <span className="text-xs text-white/45 tracking-widest uppercase">{s.label}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 z-10" style={{ background: 'linear-gradient(to top, #011a10, transparent)' }} />
+      </section>
 
       {/* ═══════════════ TICKER ═══════════════ */}
       <Ticker />
