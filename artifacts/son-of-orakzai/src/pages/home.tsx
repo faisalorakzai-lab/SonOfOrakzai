@@ -21,6 +21,45 @@ const counters = [
   { end: 12000, label: 'Registered Members', suffix: '+', icon: PeopleIcon, desc: 'Across Pakistan & diaspora' },
   { end: 4800, label: 'Students Trained', suffix: '+', icon: CapIcon, desc: 'Education & skills programs' },
   { end: 9200, label: 'Health Cases Resolved', suffix: '+', icon: StethoscopeIcon, desc: 'Free medical assistance' },
+  { end: 14, label: 'Countries Reached', suffix: '+', icon: GlobeIcon, desc: 'Diaspora chapters worldwide' },
+  { end: 850, label: 'Active Volunteers', suffix: '+', icon: HandsIcon, desc: 'Serving communities on the ground' },
+  { end: 22, label: 'Partner Organizations', suffix: '+', icon: HandshakeIcon, desc: 'NGOs, institutions & government bodies' },
+];
+
+/* ── Diaspora flag strip — illustrative, to be confirmed with real chapter data ── */
+const diasporaFlags = [
+  { flag: '🇵🇰', name: 'Pakistan' },
+  { flag: '🇦🇪', name: 'UAE' },
+  { flag: '🇬🇧', name: 'United Kingdom' },
+  { flag: '🇺🇸', name: 'United States' },
+  { flag: '🇸🇦', name: 'Saudi Arabia' },
+  { flag: '🇨🇦', name: 'Canada' },
+  { flag: '🇩🇪', name: 'Germany' },
+  { flag: '🇦🇺', name: 'Australia' },
+];
+
+/* ── Global offices / diaspora chapters — demo pins, replace with verified locations ── */
+const globalNodes = [
+  { city: 'Ghaljo', country: 'Pakistan', flag: '🇵🇰', x: 63, y: 40, tag: 'District HQ' },
+  { city: 'Karachi', country: 'Pakistan', flag: '🇵🇰', x: 60, y: 52, tag: 'National HQ' },
+  { city: 'Dubai', country: 'UAE', flag: '🇦🇪', x: 61, y: 46, tag: 'Gulf Liaison' },
+  { city: 'London', country: 'UK', flag: '🇬🇧', x: 47, y: 27, tag: 'Diaspora Desk' },
+  { city: 'New York', country: 'USA', flag: '🇺🇸', x: 22, y: 33, tag: 'North America Chapter' },
+  { city: 'Toronto', country: 'Canada', flag: '🇨🇦', x: 20, y: 26, tag: 'Canada Chapter' },
+  { city: 'Riyadh', country: 'Saudi Arabia', flag: '🇸🇦', x: 59, y: 44, tag: 'Gulf Chapter' },
+  { city: 'Sydney', country: 'Australia', flag: '🇦🇺', x: 85, y: 74, tag: 'Oceania Chapter' },
+];
+
+/* ── Partner / featured logos — placeholder names until real partner list is confirmed ── */
+const partnerLogos = [
+  'Global Diaspora Council', 'KP Welfare Trust', 'Crescent Relief Network', 'UnityEd Foundation', 'Frontier Health Alliance', 'Orakzai Chamber of Commerce',
+];
+
+/* ── Diaspora voices — placeholder testimonials, to be replaced with real member quotes ── */
+const testimonials = [
+  { quote: 'Orakzai.org gave our community in the Gulf a real voice — from scholarships to staying connected with home.', name: 'Sample Member', place: 'Dubai, UAE', flag: '🇦🇪' },
+  { quote: 'Even from London, I feel part of every initiative back home. The diaspora network is the reason I stay involved.', name: 'Sample Member', place: 'London, UK', flag: '🇬🇧' },
+  { quote: 'The scholarship program changed my daughter’s future. This is what a global homeland should feel like.', name: 'Sample Member', place: 'Toronto, Canada', flag: '🇨🇦' },
 ];
 
 /* ── SVG Icons ── */
@@ -49,6 +88,32 @@ function StethoscopeIcon({ className, style }: { className?: string; style?: Rea
       <circle cx="36" cy="14" r="4" stroke="currentColor" strokeWidth="2.5" />
       <circle cx="36" cy="14" r="1.5" fill="currentColor" />
       <line x1="10" y1="8" x2="10" y2="16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+function GlobeIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
+      <circle cx="24" cy="24" r="18" stroke="currentColor" strokeWidth="2.5" />
+      <ellipse cx="24" cy="24" rx="8" ry="18" stroke="currentColor" strokeWidth="2.5" />
+      <line x1="6" y1="24" x2="42" y2="24" stroke="currentColor" strokeWidth="2.5" />
+    </svg>
+  );
+}
+function HandsIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
+      <path d="M8 26l6-10a3 3 0 015 3l-4 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M40 26l-6-10a3 3 0 00-5 3l4 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M14 26h20l-2 10a4 4 0 01-4 3h-8a4 4 0 01-4-3l-2-10z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+    </svg>
+  );
+}
+function HandshakeIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
+      <path d="M4 22l8-8 8 6 6-6 8 4-6 10-8-4-8 6-8-8z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+      <path d="M14 30l4 6M34 30l-4 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   );
 }
@@ -151,6 +216,7 @@ const pillars = [
     id: 1,
     title: 'Rights & Representation',
     desc: 'Legal advocacy and institutional representation dedicated to protecting the rights, interests, and collective voice of Orakzai communities worldwide.',
+    stat: '120+ cases represented',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <line x1="24" y1="6" x2="24" y2="42" />
@@ -165,6 +231,7 @@ const pillars = [
     id: 2,
     title: 'Education & Global Scholarships',
     desc: 'Scholarships, mentorship, leadership development, and international educational pathways that empower the next generation of Orakzai students.',
+    stat: '4,800+ students in 12 cities',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M6 20 L24 10 L42 20 L24 30 Z" />
@@ -178,6 +245,7 @@ const pillars = [
     id: 3,
     title: 'Social Welfare & Crisis Relief',
     desc: 'Humanitarian assistance, poverty alleviation, emergency response initiatives, and sustainable support systems for vulnerable families.',
+    stat: '3,100+ families supported',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M24 40 C24 40 8 29 8 18 A9 9 0 0 1 24 13.5 A9 9 0 0 1 40 18 C40 29 24 40 24 40Z" />
@@ -191,6 +259,7 @@ const pillars = [
     id: 4,
     title: 'Economic Innovation & Grants',
     desc: 'Interest-free business grants, entrepreneurship support, digital innovation, and local economic development designed to strengthen community prosperity.',
+    stat: '340+ grants disbursed',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="6,36 16,22 24,28 34,14 42,18" />
@@ -204,6 +273,7 @@ const pillars = [
     id: 5,
     title: 'Global Diaspora Network',
     desc: 'Connecting Orakzai professionals, families, entrepreneurs, and organizations across Pakistan, the Gulf, Europe, North America, and beyond.',
+    stat: '14+ countries, 8 active chapters',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="24" cy="24" r="18" />
@@ -218,6 +288,7 @@ const pillars = [
     id: 6,
     title: 'Healthcare Infrastructure & Access',
     desc: 'Supporting modern healthcare initiatives through mobile clinics, clean water projects, preventive care, and improved medical accessibility in underserved regions.',
+    stat: '9,200+ health cases resolved',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M24 8 L28 18 L40 18 L30 25 L34 36 L24 29 L14 36 L18 25 L8 18 L20 18 Z" />
@@ -326,6 +397,19 @@ function PillarCard({ pillar, index }: { pillar: typeof pillars[0]; index: numbe
           >
             {pillar.desc}
           </p>
+
+          {/* Stat line */}
+          {pillar.stat && (
+            <div className="flex items-center gap-2 pt-1">
+              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: GOLD }} />
+              <span
+                className="text-xs font-bold tracking-wide"
+                style={{ color: GOLD, fontFamily: 'Inter, sans-serif' }}
+              >
+                {pillar.stat}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Bottom accent */}
@@ -475,6 +559,179 @@ function StrategicPillars() {
             </Link>
           </div>
         </FadeIn>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   GLOBAL PRESENCE — decorative world map with pins
+   ══════════════════════════════════════════════════ */
+function WorldMapDots() {
+  const dots: { x: number; y: number }[] = [];
+  for (let y = 6; y < 96; y += 4.2) {
+    for (let x = 4; x < 98; x += 3.4) {
+      const seed = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+      const n = seed - Math.floor(seed);
+      if (n > 0.63) dots.push({ x, y });
+    }
+  }
+  return (
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 w-full h-full" aria-hidden>
+      {dots.map((d, i) => (
+        <circle key={i} cx={d.x} cy={d.y} r="0.45" fill="rgba(212,175,55,0.28)" />
+      ))}
+    </svg>
+  );
+}
+
+function GlobalPresence() {
+  const [active, setActive] = useState<number | null>(null);
+  return (
+    <section className="relative py-28 overflow-hidden" style={{ background: 'linear-gradient(180deg, #00120a 0%, #011a10 100%)' }}>
+      <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}45, transparent)` }} />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 30%, rgba(6,78,59,0.14) 0%, transparent 70%)' }}
+      />
+
+      <div className="max-w-[1400px] mx-auto px-6 md:px-14 relative z-10">
+        <FadeIn direction="up" className="text-center mb-14">
+          <p className="text-xs font-bold tracking-[0.4em] uppercase mb-3" style={{ color: GOLD }}>Global Presence</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
+            One Nation, Everywhere We Stand
+          </h2>
+          <div className="h-[1px] w-24 mx-auto mb-5" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+          <p className="text-white/50 max-w-2xl mx-auto text-sm leading-relaxed">
+            Offices, chapters, and diaspora desks across {globalNodes.length}+ cities and growing —
+            connecting the Orakzai nation from Pakistan to the Gulf, Europe, and North America.
+            <span className="block text-[11px] text-white/25 mt-2 uppercase tracking-widest">Illustrative map — chapter locations to be confirmed with verified data</span>
+          </p>
+        </FadeIn>
+
+        <FadeIn direction="scale" delay={0.15}>
+          <div
+            className="relative rounded-3xl overflow-hidden mx-auto"
+            style={{
+              aspectRatio: '16/8',
+              background: 'rgba(0,18,11,0.6)',
+              border: '1px solid rgba(212,175,55,0.16)',
+              boxShadow: '0 8px 50px rgba(0,0,0,0.4)',
+            }}
+          >
+            <WorldMapDots />
+            {globalNodes.map((node, i) => (
+              <div
+                key={node.city}
+                className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                style={{ left: `${node.x}%`, top: `${node.y}%` }}
+                onMouseEnter={() => setActive(i)}
+                onMouseLeave={() => setActive(null)}
+              >
+                <span className="absolute inset-0 rounded-full animate-ping" style={{ background: 'rgba(212,175,55,0.4)', width: 10, height: 10 }} />
+                <span className="relative block rounded-full" style={{ width: 10, height: 10, background: GOLD, boxShadow: '0 0 10px rgba(212,175,55,0.8)' }} />
+                {active === i && (
+                  <div
+                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 rounded-lg whitespace-nowrap text-xs z-20"
+                    style={{ background: 'rgba(1,20,12,0.97)', border: '1px solid rgba(212,175,55,0.3)', color: '#fff' }}
+                  >
+                    <span className="mr-1">{node.flag}</span>
+                    <span className="font-semibold">{node.city}</span>
+                    <span className="text-white/40"> — {node.tag}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+
+        {/* Flag strip */}
+        <FadeIn direction="up" delay={0.25}>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            {diasporaFlags.map((d) => (
+              <div
+                key={d.name}
+                className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
+                style={{ background: 'rgba(212,175,55,0.06)', border: '1px solid rgba(212,175,55,0.16)', color: 'rgba(255,255,255,0.7)' }}
+              >
+                <span className="text-base">{d.flag}</span>
+                {d.name}
+              </div>
+            ))}
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   SOCIAL PROOF — partner / featured logos strip
+   ══════════════════════════════════════════════════ */
+function SocialProofStrip() {
+  return (
+    <section className="relative py-16" style={{ background: '#011a10' }}>
+      <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}30, transparent)` }} />
+      <div className="max-w-[1400px] mx-auto px-6 md:px-14">
+        <p className="text-center text-[11px] font-bold tracking-[0.35em] uppercase mb-8" style={{ color: 'rgba(212,175,55,0.55)' }}>
+          Trusted alongside
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
+          {partnerLogos.map((name) => (
+            <span
+              key={name}
+              className="text-sm md:text-base font-semibold tracking-wide text-white/30 hover:text-white/60 transition-colors"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              {name}
+            </span>
+          ))}
+        </div>
+        <p className="text-center text-[10px] text-white/20 mt-6 uppercase tracking-widest">Partner list pending final confirmation</p>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   TESTIMONIALS — diaspora voices
+   ══════════════════════════════════════════════════ */
+function Testimonials() {
+  return (
+    <section className="relative py-28" style={{ background: 'linear-gradient(180deg, #011a10 0%, #00120a 100%)' }}>
+      <div className="absolute inset-0 orakzai-pattern opacity-20 pointer-events-none" />
+      <div className="max-w-[1400px] mx-auto px-6 md:px-14 relative z-10">
+        <FadeIn direction="up" className="text-center mb-14">
+          <p className="text-xs font-bold tracking-[0.4em] uppercase mb-3" style={{ color: GOLD }}>Voices of the Diaspora</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
+            Heard From Every Continent
+          </h2>
+          <div className="h-[1px] w-24 mx-auto" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+        </FadeIn>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {testimonials.map((t, i) => (
+            <FadeIn key={i} direction="up" delay={i * 0.12}>
+              <div
+                className="h-full rounded-2xl p-8 flex flex-col gap-5"
+                style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(212,175,55,0.16)', backdropFilter: 'blur(14px)' }}
+              >
+                <span className="text-4xl" style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}>&ldquo;</span>
+                <p className="text-white/70 text-sm leading-relaxed flex-1" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.05rem' }}>
+                  {t.quote}
+                </p>
+                <div className="flex items-center gap-2 pt-3" style={{ borderTop: '1px solid rgba(212,175,55,0.1)' }}>
+                  <span className="text-lg">{t.flag}</span>
+                  <div>
+                    <p className="text-white text-sm font-semibold">{t.name}</p>
+                    <p className="text-white/35 text-xs">{t.place}</p>
+                  </div>
+                </div>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+        <p className="text-center text-[10px] text-white/20 mt-10 uppercase tracking-widest">Sample quotes for demonstration — to be replaced with verified member testimonials</p>
       </div>
     </section>
   );
@@ -804,6 +1061,44 @@ export default function Home() {
               <div className="h-[1px] w-8" style={{ background: GOLD }} />
             </motion.div>
 
+            {/* Global reach line + language switcher */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="flex flex-wrap items-center gap-4 mb-6"
+            >
+              <div
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full"
+                style={{ background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.25)' }}
+              >
+                <GlobeIcon className="w-3.5 h-3.5" style={{ color: GOLD }} />
+                <span className="text-[11px] font-semibold tracking-wide text-white/70">
+                  Offices &amp; Chapters in {globalNodes.length}+ Countries
+                </span>
+              </div>
+              <div
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full"
+                style={{ background: 'rgba(212,175,55,0.05)', border: '1px solid rgba(212,175,55,0.18)' }}
+              >
+                <svg viewBox="0 0 16 16" className="w-3.5 h-3.5" fill="none" stroke={GOLD} strokeWidth="1.5">
+                  <circle cx="8" cy="8" r="6.5" />
+                  <path d="M2 8h12M8 1.5c2 2 2 11 0 13M8 1.5c-2 2-2 11 0 13" />
+                </svg>
+                {['EN', 'UR', 'PS'].map((lang, i) => (
+                  <span key={lang} className="flex items-center">
+                    <span
+                      className="text-[11px] font-bold tracking-wider cursor-pointer transition-colors"
+                      style={{ color: i === 0 ? GOLD : 'rgba(255,255,255,0.5)' }}
+                    >
+                      {lang}
+                    </span>
+                    {i < 2 && <span className="text-white/25 mx-1.5">|</span>}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+
             {/* Main heading */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -959,6 +1254,35 @@ export default function Home() {
               direction="right"
             />
           </div>
+
+          {/* International Chapters strip */}
+          <FadeIn direction="up" delay={0.2} className="mt-16">
+            <div
+              className="max-w-4xl mx-auto rounded-2xl px-8 py-7"
+              style={{ background: 'rgba(212,175,55,0.05)', border: '1px solid rgba(212,175,55,0.16)' }}
+            >
+              <p className="text-center text-[11px] font-bold tracking-[0.35em] uppercase mb-5" style={{ color: GOLD }}>
+                International Advisory &amp; Chapter Leads
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+                {[
+                  { name: 'Sample Lead', role: 'UK Chapter', flag: '🇬🇧' },
+                  { name: 'Sample Lead', role: 'UAE Chapter', flag: '🇦🇪' },
+                  { name: 'Sample Lead', role: 'North America Chapter', flag: '🇺🇸' },
+                  { name: 'Sample Lead', role: 'Advisory Board', flag: '🇨🇦' },
+                ].map((p, i) => (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <span className="text-xl">{p.flag}</span>
+                    <div>
+                      <p className="text-white text-sm font-semibold leading-tight">{p.name}</p>
+                      <p className="text-white/35 text-xs">{p.role}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-center text-[10px] text-white/20 mt-5 uppercase tracking-widest">Placeholder roster — pending confirmed chapter leadership</p>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
@@ -985,13 +1309,28 @@ export default function Home() {
             <div className="h-[1px] w-24 mx-auto" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
           </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {counters.map((c, i) => (
-              <ImpactCard key={i} {...c} delay={i * 0.18} />
+              <ImpactCard key={i} {...c} delay={i * 0.12} />
             ))}
           </div>
         </div>
       </section>
+
+      {/* ═══════════════════════════════
+          GLOBAL PRESENCE
+      ═══════════════════════════════ */}
+      <GlobalPresence />
+
+      {/* ═══════════════════════════════
+          SOCIAL PROOF
+      ═══════════════════════════════ */}
+      <SocialProofStrip />
+
+      {/* ═══════════════════════════════
+          TESTIMONIALS
+      ═══════════════════════════════ */}
+      <Testimonials />
 
       {/* ═══════════════════════════════
           MISSION STATEMENT STRIP
