@@ -174,7 +174,7 @@ export function Footer() {
           style={{ borderTop: '1px solid rgba(212,175,55,0.1)' }}
         >
           <p className="text-white/30 text-xs tracking-wider">
-            &copy; {new Date().getFullYear()} Son Of Orakzai. All rights reserved.
+            &copy; {new Date().getFullYear()} Orakzai. All rights reserved.
           </p>
           <div className="text-white/30 text-xs tracking-wider">
             Powered by <span className="font-semibold" style={{ color: GOLD }}>Orakzai Group</span>

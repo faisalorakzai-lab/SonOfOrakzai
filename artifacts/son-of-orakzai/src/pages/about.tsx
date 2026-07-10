@@ -9,7 +9,7 @@ import { Target, Heart, Shield, BookOpen, Clock, Crown, Star, ChevronRight } fro
 const GOLD = "#D4AF37";
 
 const timeline = [
-  { year: "2015", title: "Foundation", desc: "Son Of Orakzai was established with a vision to unite the community." },
+  { year: "2015", title: "Foundation", desc: "Orakzai was established with a vision to unite the community." },
   { year: "2018", title: "Education Initiative", desc: "Launched the first scholarship program for deserving students." },
   { year: "2020", title: "Health Camps", desc: "Started regular free medical camps across the district." },
   { year: "2023", title: "Digital Era", desc: "Launched the Digital Skill Lab to empower youth with modern skills." },
@@ -21,14 +21,14 @@ const grandVisionaries = [
     title: "Chairman",
     image: "/faisal-orakzai.png",
     mission: "To forge a legacy of unity and progress for the Orakzai people — where every voice is heard, every talent is nurtured, and no family is left behind. Our strength is our togetherness.",
-    bio: "Chairman Faisal Orakzai is the driving force behind Son Of Orakzai's transformation into a nationally recognized community movement. With a visionary approach rooted in deep love for his homeland, he has spearheaded initiatives spanning education, healthcare, digital empowerment, and civic representation. Under his leadership, the organization has grown from a grassroots effort into a structured institution serving thousands of Orakzai families. His commitment to transparent governance and inclusive leadership sets the tone for everything the organization does. Chairman Faisal believes that true prosperity is collective — and that the Orakzai district's greatest resource is the resilience and talent of its people.",
+    bio: "Chairman Faisal Orakzai is the driving force behind Orakzai's transformation into a nationally recognized community movement. With a visionary approach rooted in deep love for his homeland, he has spearheaded initiatives spanning education, healthcare, digital empowerment, and civic representation. Under his leadership, the organization has grown from a grassroots effort into a structured institution serving thousands of Orakzai families. His commitment to transparent governance and inclusive leadership sets the tone for everything the organization does. Chairman Faisal believes that true prosperity is collective — and that the Orakzai district's greatest resource is the resilience and talent of its people.",
   },
   {
     name: "Malak Speen Gul Orakzai",
     title: "Founder",
     image: "/malak-speen-gul.jpg",
     mission: "I founded this organization with one belief: that the sons and daughters of Orakzai carry within them the seeds of greatness. Our duty is to water those seeds — with education, with opportunity, and with unwavering unity.",
-    bio: "Malak Speen Gul Orakzai is the founder and patriarch of Son Of Orakzai, a man whose life embodies the spirit of selfless service. Born and raised in the Orakzai district, he witnessed firsthand the challenges faced by his community — limited access to education, healthcare, and economic opportunity. Driven by an unshakeable belief in the potential of his people, he laid the foundation of this organization with his own resources, rallying elders, youth, and professionals around a shared vision. Malak Speen Gul's wisdom, rooted in decades of tribal leadership and community mediation, continues to guide the organization's values and direction. He is universally revered as the moral compass of the movement.",
+    bio: "Malak Speen Gul Orakzai is the founder and patriarch of Orakzai, a man whose life embodies the spirit of selfless service. Born and raised in the Orakzai district, he witnessed firsthand the challenges faced by his community — limited access to education, healthcare, and economic opportunity. Driven by an unshakeable belief in the potential of his people, he laid the foundation of this organization with his own resources, rallying elders, youth, and professionals around a shared vision. Malak Speen Gul's wisdom, rooted in decades of tribal leadership and community mediation, continues to guide the organization's values and direction. He is universally revered as the moral compass of the movement.",
   },
 ];
 
@@ -49,13 +49,13 @@ const boardMembers = [
     name: "Kashif Orakzai",
     title: "Operations & Logistics Head",
     initials: "KO",
-    bio: "Kashif Orakzai is the operational backbone of Son Of Orakzai, ensuring that every project is delivered with precision and efficiency. With a background in supply chain management and project coordination, he has streamlined the organization's field operations across multiple districts. From coordinating relief deliveries in disaster zones to managing the logistics of large-scale community events, Kashif's meticulous planning ensures nothing falls through the cracks. He has developed the organization's standard operating procedures and volunteer management systems, enabling it to scale its impact while maintaining accountability at every level.",
+    bio: "Kashif Orakzai is the operational backbone of Orakzai, ensuring that every project is delivered with precision and efficiency. With a background in supply chain management and project coordination, he has streamlined the organization's field operations across multiple districts. From coordinating relief deliveries in disaster zones to managing the logistics of large-scale community events, Kashif's meticulous planning ensures nothing falls through the cracks. He has developed the organization's standard operating procedures and volunteer management systems, enabling it to scale its impact while maintaining accountability at every level.",
   },
   {
     name: "Ghazi Mansoor Orakzai",
     title: "Community Engagement Lead",
     initials: "GM",
-    bio: "Ghazi Mansoor Orakzai is the bridge between Son Of Orakzai's leadership and the grassroots communities it serves. With exceptional interpersonal skills and deep-rooted community trust, he facilitates dialogue between tribal elders, youth groups, and organizational leadership. He oversees the organization's outreach programs, community forums, and the Jirga engagement initiatives. Ghazi's talent for building consensus across diverse groups has been instrumental in resolving community disputes and rallying collective action around shared goals. His work ensures that the organization remains genuinely connected to the people it represents.",
+    bio: "Ghazi Mansoor Orakzai is the bridge between Orakzai's leadership and the grassroots communities it serves. With exceptional interpersonal skills and deep-rooted community trust, he facilitates dialogue between tribal elders, youth groups, and organizational leadership. He oversees the organization's outreach programs, community forums, and the Jirga engagement initiatives. Ghazi's talent for building consensus across diverse groups has been instrumental in resolving community disputes and rallying collective action around shared goals. His work ensures that the organization remains genuinely connected to the people it represents.",
   },
   {
     name: "Zubair Orakzai",
@@ -73,7 +73,7 @@ const boardMembers = [
     name: "Abdul Razzaq Orakzai",
     title: "Strategic Planning Officer",
     initials: "AR",
-    bio: "Abdul Razzaq Orakzai is the strategic mind behind Son Of Orakzai's long-term development roadmap. With an MBA and extensive experience in public sector planning, he develops five-year strategic plans, tracks organizational KPIs, and ensures alignment between field activities and institutional goals. He has successfully authored proposals that secured partnerships with national NGOs and international development organizations. Abdul Razzaq's analytical approach and policy expertise help the organization punch above its weight, translating community needs into actionable, fundable programs that deliver measurable results.",
+    bio: "Abdul Razzaq Orakzai is the strategic mind behind Orakzai's long-term development roadmap. With an MBA and extensive experience in public sector planning, he develops five-year strategic plans, tracks organizational KPIs, and ensures alignment between field activities and institutional goals. He has successfully authored proposals that secured partnerships with national NGOs and international development organizations. Abdul Razzaq's analytical approach and policy expertise help the organization punch above its weight, translating community needs into actionable, fundable programs that deliver measurable results.",
   },
   {
     name: "Sher Wali Orakzai",
@@ -85,7 +85,7 @@ const boardMembers = [
     name: "Muhammad Hayat",
     title: "Finance & Transparency Head",
     initials: "MH2",
-    bio: "Muhammad Hayat is the guardian of Son Of Orakzai's financial integrity. A chartered accountant with extensive experience in nonprofit finance, he oversees all financial planning, budgeting, auditing, and reporting processes. Under his stewardship, the organization has achieved full financial transparency — publishing detailed annual reports and implementing blockchain-verified fund tracking for donor contributions. Muhammad Hayat has built a culture of accountability within the organization, ensuring that every rupee donated by community members and partners is deployed with maximum impact and complete honesty. His work has earned the trust of donors, government bodies, and the communities the organization serves.",
+    bio: "Muhammad Hayat is the guardian of Orakzai's financial integrity. A chartered accountant with extensive experience in nonprofit finance, he oversees all financial planning, budgeting, auditing, and reporting processes. Under his stewardship, the organization has achieved full financial transparency — publishing detailed annual reports and implementing blockchain-verified fund tracking for donor contributions. Muhammad Hayat has built a culture of accountability within the organization, ensuring that every rupee donated by community members and partners is deployed with maximum impact and complete honesty. His work has earned the trust of donors, government bodies, and the communities the organization serves.",
   },
 ];
 
@@ -184,7 +184,7 @@ export default function About() {
             transition={{ delay: 0.1 }}
             className="text-xl text-primary-foreground/80 leading-relaxed"
           >
-            Son Of Orakzai is more than an organization; it is a movement. Born from a deep love for our homeland, we strive to build a future where every member of the Orakzai community is empowered, educated, and prosperous.
+            Orakzai is more than an organization; it is a movement. Born from a deep love for our homeland, we strive to build a future where every member of the Orakzai community is empowered, educated, and prosperous.
           </motion.p>
         </div>
       </section>

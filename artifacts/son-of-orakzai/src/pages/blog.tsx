@@ -41,7 +41,7 @@ export default function Blog() {
             transition={{ delay: 0.1 }}
             className="text-lg text-primary-foreground/80 leading-relaxed"
           >
-            Stay informed about the latest developments, stories, and impact from the Son Of Orakzai community.
+            Stay informed about the latest developments, stories, and impact from the Orakzai community.
           </motion.p>
         </div>
       </section>
@@ -96,7 +96,7 @@ export default function Blog() {
                       </div>
                     ) : (
                       <div className="w-full h-48 bg-muted flex items-center justify-center relative">
-                        <span className="text-muted-foreground font-display font-bold text-xl opacity-50">Son Of Orakzai</span>
+                        <span className="text-muted-foreground font-display font-bold text-xl opacity-50">Orakzai</span>
                         <div className="absolute top-4 left-4">
                           <Badge className="bg-accent text-accent-foreground font-bold hover:bg-accent">{post.category}</Badge>
                         </div>

@@ -168,7 +168,7 @@ function PostCard({ post }: { post: Post }) {
   };
 
   const handleWhatsApp = () => {
-    const text = encodeURIComponent('Son of Orakzai Community:\n' + post.content.slice(0, 120) + '...');
+    const text = encodeURIComponent('Orakzai Community:\n' + post.content.slice(0, 120) + '...');
     window.open('https://wa.me/?text=' + text, '_blank');
   };
 
@@ -314,7 +314,7 @@ export default function Community() {
       setPosts([
         {
           id: '1',
-          content: 'Welcome to the Son of Orakzai community! We are united in our mission for the progress and prosperity of our beloved district. Share your thoughts, ideas, and join our growing movement for a better tomorrow.',
+          content: 'Welcome to the Orakzai community! We are united in our mission for the progress and prosperity of our beloved district. Share your thoughts, ideas, and join our growing movement for a better tomorrow.',
           created_at: new Date().toISOString(),
           user_id: 1,
           likes_count: 124,

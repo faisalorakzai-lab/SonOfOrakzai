@@ -111,7 +111,7 @@ function LuxuryMemberCard({ member }: { member: any }) {
                   </div>
                   <div>
                     <div className="font-black text-[11px] tracking-[0.28em] text-white uppercase">
-                      Son of Orakzai
+                      Orakzai
                     </div>
                     <div
                       className="text-[9px] tracking-[0.2em] uppercase font-semibold"
@@ -229,7 +229,7 @@ function LuxuryMemberCard({ member }: { member: any }) {
                   style={{ background: "rgba(255,255,255,0.95)" }}
                 >
                   <QRCodeSVG
-                    value={`Son Of Orakzai Member\nID: ${memberId}\nName: ${member.name}\nPhone: ${member.phone}\nEmail: ${member.email}`}
+                    value={`Orakzai Member\nID: ${memberId}\nName: ${member.name}\nPhone: ${member.phone}\nEmail: ${member.email}`}
                     size={60}
                     bgColor="transparent"
                     fgColor="#0B3D2E"
@@ -299,7 +299,7 @@ function LuxuryMemberCard({ member }: { member: any }) {
                     className="text-[9px] tracking-widest uppercase mt-2"
                     style={{ color: "rgba(212,175,55,0.45)" }}
                   >
-                    Son Of Orakzai NGO
+                    Orakzai NGO
                   </div>
                   <div className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.3)" }}>
                     sonoforakzai.vercel.app
@@ -404,7 +404,7 @@ export default function Join() {
           setMemberData(localMember);
           toast({
             title: "Application Submitted!",
-            description: "Son of Orakzai mein khush amdeed! Apki membership pending hai.",
+            description: "Orakzai mein khush amdeed! Apki membership pending hai.",
           });
           return;
         }
@@ -415,7 +415,7 @@ export default function Join() {
       setMemberData(inserted);
       toast({
         title: "Application Submitted!",
-        description: "Son of Orakzai mein khush amdeed! Apki membership pending hai.",
+        description: "Orakzai mein khush amdeed! Apki membership pending hai.",
       });
     } catch (err: any) {
       const msg = err?.message || err?.error_description || "Unknown error";
@@ -447,7 +447,7 @@ export default function Join() {
             transition={{ delay: 0.1 }}
             className="text-lg text-primary-foreground/80 leading-relaxed"
           >
-            Become a part of the Son of Orakzai community. Your skills, voice, and presence matter.
+            Become a part of the Orakzai community. Your skills, voice, and presence matter.
           </motion.p>
         </div>
       </section>
@@ -580,7 +580,7 @@ export default function Join() {
                           <h3 className="text-2xl font-display font-bold text-primary mb-6">Final Message</h3>
                           <FormField control={form.control} name="message" render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Why do you want to join Son Of Orakzai? (Optional)</FormLabel>
+                              <FormLabel>Why do you want to join Orakzai? (Optional)</FormLabel>
                               <FormControl>
                                 <Textarea placeholder="Share your thoughts or motivation..." className="min-h-[120px] resize-none" {...field} />
                               </FormControl>
@@ -589,7 +589,7 @@ export default function Join() {
                           )} />
                           <div className="bg-muted p-4 rounded-lg mt-6">
                             <p className="text-sm text-muted-foreground font-medium">
-                              By submitting this application, you agree to uphold the values and constitution of Son Of Orakzai, dedicating yourself to the betterment of the community.
+                              By submitting this application, you agree to uphold the values and constitution of Orakzai, dedicating yourself to the betterment of the community.
                             </p>
                           </div>
                         </motion.div>

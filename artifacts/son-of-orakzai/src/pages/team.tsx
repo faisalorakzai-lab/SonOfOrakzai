@@ -25,7 +25,7 @@ const SUPREME_LEADERS: TeamMember[] = [
     name: "Faisal Orakzai",
     title: "Chairman",
     focus: "Vision, Leadership & National Outreach",
-    intro: "Leading Son of Orakzai with a vision of digital empowerment and unity for the Orakzai community across Pakistan and beyond.",
+    intro: "Leading Orakzai with a vision of digital empowerment and unity for the Orakzai community across Pakistan and beyond.",
     photo: "/faisal-orakzai.png",
     linkedin: "#",
     twitter: "#",
@@ -88,7 +88,7 @@ const BOARD_MEMBERS: TeamMember[] = [
     name: "Zubair Orakzai",
     title: "IT & Blockchain Strategist",
     focus: "Digital Homeland & Tech Infrastructure",
-    intro: "Architecting the digital backbone of Son of Orakzai, building blockchain-powered transparency systems.",
+    intro: "Architecting the digital backbone of Orakzai, building blockchain-powered transparency systems.",
     photo: "/team/zubair-orakzai.jpg",
     linkedin: "#", twitter: "#",
   },
@@ -275,7 +275,7 @@ export default function Team() {
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.25,0.46,0.45,0.94] }}>
             <div className="flex items-center justify-center gap-2 mb-3">
               <Shield className="w-5 h-5" style={{ color: GOLD }} />
-              <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: GOLD }}>Son of Orakzai</span>
+              <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: GOLD }}>Orakzai</span>
               <Shield className="w-5 h-5" style={{ color: GOLD }} />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>

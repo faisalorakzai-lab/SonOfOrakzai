@@ -43,7 +43,7 @@ function AdminLogin({ onLogin }: { onLogin: () => void }) {
                   <Lock className="w-8 h-8 text-primary" />
                 </div>
                 <h1 className="text-2xl font-display font-bold text-primary">Admin Login</h1>
-                <p className="text-muted-foreground text-sm mt-1">Son of Orakzai NGO — Secure Access</p>
+                <p className="text-muted-foreground text-sm mt-1">Orakzai NGO — Secure Access</p>
               </div>
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
