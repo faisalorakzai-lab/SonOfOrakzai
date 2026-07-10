@@ -75,47 +75,50 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  --background: 0 0% 96%;
-  --foreground: 162 70% 14%;
-  --border: 0 0% 85%;
-  --card: 0 0% 100%;
-  --card-foreground: 162 70% 14%;
-  --card-border: 0 0% 90%;
-  --sidebar: 0 0% 96%;
-  --sidebar-foreground: 162 70% 14%;
-  --sidebar-border: 0 0% 85%;
-  --sidebar-primary: 162 70% 14%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 44 55% 53%;
-  --sidebar-accent-foreground: 162 70% 14%;
+  /* This site is always dark-themed (no light mode toggle exists),
+     so :root uses the same dark values as .dark to prevent any
+     white flash/bleed on load, overscroll bounce, or safe-area gaps. */
+  --background: 162 70% 10%;
+  --foreground: 0 0% 96%;
+  --border: 162 30% 20%;
+  --card: 162 60% 12%;
+  --card-foreground: 0 0% 96%;
+  --card-border: 162 30% 20%;
+  --sidebar: 162 60% 12%;
+  --sidebar-foreground: 0 0% 96%;
+  --sidebar-border: 162 30% 20%;
+  --sidebar-primary: 44 55% 53%;
+  --sidebar-primary-foreground: 162 70% 14%;
+  --sidebar-accent: 162 50% 20%;
+  --sidebar-accent-foreground: 0 0% 96%;
   --sidebar-ring: 44 55% 53%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 162 70% 14%;
-  --popover-border: 0 0% 90%;
+  --popover: 162 60% 12%;
+  --popover-foreground: 0 0% 96%;
+  --popover-border: 162 30% 20%;
   
-  --primary: 162 70% 14%;
-  --primary-foreground: 0 0% 100%;
+  --primary: 44 55% 53%;
+  --primary-foreground: 162 70% 14%;
   
-  --secondary: 44 55% 53%;
-  --secondary-foreground: 0 0% 10%;
+  --secondary: 162 50% 20%;
+  --secondary-foreground: 0 0% 96%;
   
-  --muted: 0 0% 90%;
-  --muted-foreground: 0 0% 40%;
+  --muted: 162 40% 15%;
+  --muted-foreground: 0 0% 70%;
   
-  --accent: 44 55% 53%;
-  --accent-foreground: 0 0% 10%;
+  --accent: 162 50% 20%;
+  --accent-foreground: 0 0% 96%;
   
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 0 0% 96%;
   
-  --input: 0 0% 85%;
+  --input: 162 30% 20%;
   --ring: 44 55% 53%;
   
-  --chart-1: 162 70% 14%;
-  --chart-2: 44 55% 53%;
-  --chart-3: 162 50% 30%;
+  --chart-1: 44 55% 53%;
+  --chart-2: 162 50% 30%;
+  --chart-3: 162 40% 40%;
   --chart-4: 44 40% 60%;
-  --chart-5: 0 0% 40%;
+  --chart-5: 0 0% 60%;
 
   --app-font-sans: 'Inter', sans-serif;
   --app-font-display: 'Playfair Display', serif;
@@ -192,8 +195,14 @@
     @apply border-border;
   }
 
+  html {
+    background-color: #011a10;
+  }
+
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    background-color: #011a10;
+    overscroll-behavior-y: none;
   }
   
   h1, h2, h3, h4, h5, h6 {
