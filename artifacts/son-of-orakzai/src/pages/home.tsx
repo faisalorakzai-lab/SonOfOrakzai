@@ -2,13 +2,90 @@ import { Link } from 'wouter';
 import { MainLayout } from '@/components/layout/main-layout';
 import { Button } from '@/components/ui/button';
 import { Users, GraduationCap, Activity } from 'lucide-react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
 
 const founderPath = '/malak-speen-gul.jpg';
 const chairmanPath = '/faisal-orakzai.png';
 
 const GOLD = '#D4AF37';
+
+/* ── Hero background slideshow ──
+   Drop in real community / education / relief photos here. Each entry is a
+   placeholder path served from /public — replace the files to update the
+   slideshow without touching any code. */
+const heroSlides = [
+  { src: '/hero-community.jpg', alt: 'Orakzai.org community outreach and leadership' },
+  { src: '/hero-education.jpg', alt: 'Orakzai.org education programs for children' },
+  { src: '/hero-relief.jpg', alt: 'Orakzai.org relief and humanitarian action' },
+  { src: '/hero-youth.jpg', alt: 'Orakzai.org youth digital empowerment' },
+];
+
+function HeroSlideshow() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % heroSlides.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={index}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.4, ease: 'easeInOut' }}
+          className="absolute inset-0"
+        >
+          <img
+            src={heroSlides[index].src}
+            alt={heroSlides[index].alt}
+            className="w-full h-full object-cover"
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Dark institutional overlay — keeps gold/white typography sharp and readable */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            'linear-gradient(to right, rgba(1,26,16,0.95) 0%, rgba(1,26,16,0.82) 45%, rgba(1,26,16,0.55) 100%)',
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(to top, rgba(1,10,6,0.75) 0%, transparent 45%)' }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{ background: 'radial-gradient(ellipse 80% 60% at 30% 40%, rgba(6,78,59,0.3) 0%, transparent 65%)' }}
+      />
+
+      {/* Slide indicators */}
+      <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10 z-10 flex gap-2">
+        {heroSlides.map((_, i) => (
+          <button
+            key={i}
+            aria-label={`Show slide ${i + 1}`}
+            onClick={() => setIndex(i)}
+            className="h-1.5 rounded-full transition-all duration-500"
+            style={{
+              width: i === index ? '28px' : '10px',
+              background: i === index ? GOLD : 'rgba(255,255,255,0.3)',
+              boxShadow: i === index ? '0 0 10px rgba(212,175,55,0.6)' : 'none',
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 /* ── Reusable cinematic section wrapper ── */
 function CinematicSection({
@@ -177,17 +254,9 @@ export default function Home() {
     <MainLayout>
       {/* ── HERO with parallax ── */}
       <section ref={heroRef} className='relative min-h-[92vh] flex items-center pt-20 overflow-hidden' style={{ background: '#011a10' }}>
-        <div className="absolute inset-0 orakzai-pattern circuit-pattern opacity-70" />
+        <div className="absolute inset-0 orakzai-pattern circuit-pattern opacity-40 z-[1] pointer-events-none" />
         <motion.div className='absolute inset-0' style={{ y: heroY }}>
-          <div className='absolute inset-0' style={{ background: 'radial-gradient(ellipse 80% 60% at 30% 40%, rgba(6,78,59,0.35) 0%, transparent 60%)' }} />
-          <div
-            className='absolute inset-0 opacity-25'
-            style={{
-              backgroundImage: "url('https://images.unsplash.com/photo-1596423735880-5f2a689b903e?q=80&w=2940&auto=format&fit=crop')",
-              backgroundPosition: 'center', backgroundSize: 'cover', mixBlendMode: 'overlay',
-            }}
-          />
-          <div className='absolute inset-0' style={{ background: 'linear-gradient(to right, rgba(1,26,16,0.92) 0%, rgba(1,26,16,0.7) 60%, rgba(1,26,16,0.4) 100%)' }} />
+          <HeroSlideshow />
         </motion.div>
 
         <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}50, transparent)` }} />
@@ -236,14 +305,27 @@ export default function Home() {
                 className='flex flex-wrap gap-4'
               >
                 <Link href='/join'>
-                  <Button size='lg' className='font-bold px-10 h-14 rounded-full text-lg transition-all hover:-translate-y-0.5 hover:shadow-2xl'
-                    style={{ background: `linear-gradient(135deg, #b8860b, ${GOLD}, #f5e07a, ${GOLD})`, backgroundSize: '200% auto', color: '#011a10', boxShadow: `0 4px 24px rgba(212,175,55,0.4)`, border: 'none' }}>
+                  <Button
+                    size='lg'
+                    className='hero-gold-btn font-bold px-10 h-14 rounded-full text-lg transition-all duration-300 hover:-translate-y-1'
+                    style={{
+                      background: `linear-gradient(135deg, #b8860b, ${GOLD}, #f5e07a, ${GOLD})`,
+                      backgroundSize: '200% auto',
+                      color: '#011a10',
+                      boxShadow: `0 4px 24px rgba(212,175,55,0.4)`,
+                      border: 'none',
+                    }}
+                  >
                     Join the Movement
                   </Button>
                 </Link>
                 <Link href='/about'>
-                  <Button size='lg' variant='outline' className='font-semibold px-10 h-14 rounded-full text-lg text-white hover:text-white'
-                    style={{ borderColor: 'rgba(212,175,55,0.4)', background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(10px)' }}>
+                  <Button
+                    size='lg'
+                    variant='outline'
+                    className='hero-outline-btn font-semibold px-10 h-14 rounded-full text-lg text-white hover:text-white transition-all duration-300 hover:-translate-y-1'
+                    style={{ borderColor: 'rgba(212,175,55,0.4)', background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(10px)' }}
+                  >
                     Our Story
                   </Button>
                 </Link>
@@ -327,7 +409,7 @@ export default function Home() {
               <h2 className='text-4xl md:text-6xl font-bold text-white mb-6'
                 style={{ fontFamily: "'Playfair Display', serif", textShadow: '0 2px 40px rgba(0,0,0,0.5)' }}>
                 Apni Matti, Apne Log <br />
-                <span style={{ color: GOLD }}>— Son Of Orakzai</span>
+                <span style={{ color: GOLD }}>— Orakzai.org</span>
               </h2>
               <div className="h-[1px] w-32 mx-auto mb-8" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
               <p className='text-xl text-white/60 mb-10' style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.2rem' }}>

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 const GOLD = "#D4AF37";
-const logoPath = "/logo.jpg";
+const logoPath = "/orakzai-org-logo.png";
 
 const navLinks = [
   { href: "/", label: "Home", icon: Home },
@@ -36,16 +36,15 @@ export function Navbar() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-400",
-        isScrolled
-          ? "py-3"
-          : "bg-transparent py-5"
+        isScrolled ? "py-2.5" : "py-4"
       )}
-      style={isScrolled ? {
-        background: 'rgba(1, 26, 16, 0.95)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(212,175,55,0.15)',
-        boxShadow: '0 4px 30px rgba(0,0,0,0.3)',
-      } : {}}
+      style={{
+        background: isScrolled ? 'rgba(1, 26, 16, 0.72)' : 'rgba(1, 26, 16, 0.32)',
+        backdropFilter: 'blur(18px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(18px) saturate(140%)',
+        borderBottom: isScrolled ? '1px solid rgba(212,175,55,0.18)' : '1px solid rgba(212,175,55,0.06)',
+        boxShadow: isScrolled ? '0 4px 30px rgba(0,0,0,0.3)' : 'none',
+      }}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
@@ -53,7 +52,7 @@ export function Navbar() {
             <div className="relative">
               <img
                 src={logoPath}
-                alt="Son of Orakzai Logo"
+                alt="Orakzai.org Logo"
                 className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover"
                 style={{ border: `2px solid ${GOLD}`, boxShadow: `0 0 12px rgba(212,175,55,0.3)` }}
               />
@@ -62,7 +61,7 @@ export function Navbar() {
               className="font-bold text-lg md:text-xl tracking-widest text-white uppercase"
               style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '0.12em' }}
             >
-              Son of Orakzai
+              Orakzai.org
             </span>
           </Link>
 

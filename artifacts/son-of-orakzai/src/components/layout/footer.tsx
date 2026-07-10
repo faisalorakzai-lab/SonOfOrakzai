@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Info, Briefcase, Users, BarChart2, BookOpen, CheckCircle2 } from "lucide-react";
 
 const GOLD = "#D4AF37";
-const logoPath = "https://api.dicebear.com/7.x/initials/svg?seed=SOO&backgroundColor=064e3b&textColor=D4AF37";
+const logoPath = "/orakzai-org-logo.png";
 
 const offices = [
   { city: "Karachi", country: "National HQ", address: "Main Karachi Office" },
@@ -39,7 +39,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-3">
               <img
                 src={logoPath}
-                alt="Son of Orakzai Logo"
+                alt="Orakzai.org Logo"
                 className="w-12 h-12 rounded-full object-cover"
                 style={{ border: `2px solid ${GOLD}`, boxShadow: `0 0 10px rgba(212,175,55,0.3)` }}
               />
@@ -48,7 +48,7 @@ export function Footer() {
                   className="font-bold text-lg tracking-widest text-white block uppercase"
                   style={{ fontFamily: "'Playfair Display', serif", letterSpacing: '0.1em' }}
                 >
-                  Son of Orakzai
+                  Orakzai.org
                 </span>
                 <span className="text-white/40 text-xs tracking-widest">Digital Embassy</span>
               </div>

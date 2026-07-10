@@ -289,6 +289,28 @@
   animation: growBar 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
+/* Hero CTA buttons — subtle gold glow + smooth hover lift */
+.hero-gold-btn {
+  animation: goldSheen 5s linear infinite;
+  transition: box-shadow 0.35s ease, transform 0.3s ease, filter 0.3s ease;
+}
+.hero-gold-btn:hover {
+  box-shadow:
+    0 8px 32px rgba(212, 175, 55, 0.55),
+    0 0 40px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  filter: brightness(1.05);
+}
+
+.hero-outline-btn {
+  transition: box-shadow 0.35s ease, transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+.hero-outline-btn:hover {
+  border-color: rgba(212, 175, 55, 0.75) !important;
+  background: rgba(212, 175, 55, 0.1) !important;
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.25);
+}
+
 /* Pinstripe gold frame */
 .pinstripe-gold-frame {
   outline: 1px solid rgba(212, 175, 55, 0.6);
