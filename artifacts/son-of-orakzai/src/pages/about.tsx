@@ -19,6 +19,7 @@ const grandVisionaries = [
   {
     name: "Faisal Orakzai",
     title: "Chairman",
+    initials: "FO",
     image: "/faisal-orakzai.png",
     mission: "To forge a legacy of unity and progress for the Orakzai people — where every voice is heard, every talent is nurtured, and no family is left behind. Our strength is our togetherness.",
     bio: "Chairman Faisal Orakzai is the driving force behind Orakzai's transformation into a nationally recognized community movement. With a visionary approach rooted in deep love for his homeland, he has spearheaded initiatives spanning education, healthcare, digital empowerment, and civic representation. Under his leadership, the organization has grown from a grassroots effort into a structured institution serving thousands of Orakzai families. His commitment to transparent governance and inclusive leadership sets the tone for everything the organization does. Chairman Faisal believes that true prosperity is collective — and that the Orakzai district's greatest resource is the resilience and talent of its people.",
@@ -26,6 +27,7 @@ const grandVisionaries = [
   {
     name: "Malak Speen Gul Orakzai",
     title: "Founder",
+    initials: "MS",
     image: "/malak-speen-gul.jpg",
     mission: "I founded this organization with one belief: that the sons and daughters of Orakzai carry within them the seeds of greatness. Our duty is to water those seeds — with education, with opportunity, and with unwavering unity.",
     bio: "Malak Speen Gul Orakzai is the founder and patriarch of Orakzai, a man whose life embodies the spirit of selfless service. Born and raised in the Orakzai district, he witnessed firsthand the challenges faced by his community — limited access to education, healthcare, and economic opportunity. Driven by an unshakeable belief in the potential of his people, he laid the foundation of this organization with his own resources, rallying elders, youth, and professionals around a shared vision. Malak Speen Gul's wisdom, rooted in decades of tribal leadership and community mediation, continues to guide the organization's values and direction. He is universally revered as the moral compass of the movement.",
@@ -467,7 +469,7 @@ export default function About() {
                       }}
                     >
                       <span className="text-3xl font-bold" style={{ color: GOLD, fontFamily: "Georgia, serif" }}>
-                        {'initials' in selectedMember ? (selectedMember.initials as string).replace("2","") : selectedMember.name[0]}
+                        {selectedMember.initials.replace("2", "")}
                       </span>
                     </div>
                   )}
