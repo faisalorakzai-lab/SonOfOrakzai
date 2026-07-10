@@ -1,8 +1,8 @@
 {
-  "buildCommand": "cd artifacts/son-of-orakzai && pnpm install && pnpm run build",
+  "buildCommand": "",
   "outputDirectory": "artifacts/son-of-orakzai/dist/public",
   "framework": null,
-  "installCommand": "pnpm install",
+  "installCommand": "echo skip",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
