@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { MainLayout } from "@/components/layout/main-layout";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Linkedin, Twitter, Crown, Shield, Star, ChevronRight, Globe, BadgeCheck } from "lucide-react";
+import { Linkedin, Twitter, Crown, Shield, Star, ChevronRight, Globe, BadgeCheck, MapPin, Mail, Users, ArrowUpRight } from "lucide-react";
 
 const GOLD = "#D4AF37";
 
@@ -80,6 +80,8 @@ interface TeamMember {
   supremeTitle?: string;
   mission?: string;
   bio: string;
+  location?: string;
+  reportsTo?: string;
 }
 
 const SUPREME_LEADERS: TeamMember[] = [
@@ -97,6 +99,7 @@ const SUPREME_LEADERS: TeamMember[] = [
     supremeTitle: "Founder & Chairman",
     mission: "To forge a legacy of unity and progress for the Orakzai people — where every voice is heard, every talent is nurtured, and no family is left behind. Our strength is our togetherness.",
     bio: "Chairman Faisal Orakzai is the driving force behind Orakzai's transformation into a nationally recognized community movement. With a visionary approach rooted in deep love for his homeland, he has spearheaded initiatives spanning education, healthcare, digital empowerment, and civic representation. Under his leadership, the organization has grown from a grassroots effort into a structured institution serving thousands of Orakzai families. His commitment to transparent governance and inclusive leadership sets the tone for everything the organization does. Chairman Faisal believes that true prosperity is collective — and that the Orakzai district's greatest resource is the resilience and talent of its people.",
+    location: "Karachi, Pakistan",
   },
   {
     id: 2,
@@ -111,6 +114,7 @@ const SUPREME_LEADERS: TeamMember[] = [
     supremeTitle: "Founder",
     mission: "I founded this organization with one belief: that the sons and daughters of Orakzai carry within them the seeds of greatness. Our duty is to water those seeds — with education, with opportunity, and with unwavering unity.",
     bio: "Malak Speen Gul Orakzai is the founder and patriarch of Orakzai, a man whose life embodies the spirit of selfless service. Born and raised in the Orakzai district, he witnessed firsthand the challenges faced by his community — limited access to education, healthcare, and economic opportunity. Driven by an unshakeable belief in the potential of his people, he laid the foundation of this organization with his own resources, rallying elders, youth, and professionals around a shared vision. Malak Speen Gul's wisdom, rooted in decades of tribal leadership and community mediation, continues to guide the organization's values and direction. He is universally revered as the moral compass of the movement.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
   },
 ];
 
@@ -124,6 +128,8 @@ const BOARD_MEMBERS: TeamMember[] = [
     photo: "/team/maria-hussain.jpg",
     linkedin: "#", twitter: "#",
     bio: "Maria Hussain has dedicated over a decade to transforming education access across the Orakzai district. A graduate of Quaid-i-Azam University with a Master's in Education Policy, she designed and launched the organization's flagship scholarship program that has benefited more than 500 students. She oversees curriculum development, teacher training initiatives, and digital literacy programs. Maria's philosophy is simple: an educated Orakzai is an empowered Orakzai. Under her guidance, the Education Department has established five learning centers and partnered with national universities for distance learning programs.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+    reportsTo: "Faisal Orakzai",
   },
   {
     id: 4,
@@ -134,6 +140,8 @@ const BOARD_MEMBERS: TeamMember[] = [
     photo: "/team/dr-asma-orakzai.jpg",
     linkedin: "#", twitter: "#",
     bio: "Dr. Asma Orakzai is a qualified physician with specialized training in community health and preventive medicine. She leads the organization's medical outreach programs, including quarterly free medical camps that have served over 10,000 patients across remote Orakzai villages. Dr. Asma has built a network of volunteer doctors, nurses, and paramedics committed to bringing quality healthcare to underserved communities. She also spearheads maternal health and child welfare initiatives, significantly reducing health disparities in the district. Her compassion, clinical expertise, and administrative acumen make her an indispensable pillar of the organization.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+    reportsTo: "Faisal Orakzai",
   },
   {
     id: 5,
@@ -144,6 +152,8 @@ const BOARD_MEMBERS: TeamMember[] = [
     photo: "/team/kashif-orakzai.png",
     linkedin: "#", twitter: "#",
     bio: "Kashif Orakzai is the operational backbone of Orakzai, ensuring that every project is delivered with precision and efficiency. With a background in supply chain management and project coordination, he has streamlined the organization's field operations across multiple districts. From coordinating relief deliveries in disaster zones to managing the logistics of large-scale community events, Kashif's meticulous planning ensures nothing falls through the cracks. He has developed the organization's standard operating procedures and volunteer management systems, enabling it to scale its impact while maintaining accountability at every level.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+    reportsTo: "Faisal Orakzai",
   },
   {
     id: 6,
@@ -154,6 +164,8 @@ const BOARD_MEMBERS: TeamMember[] = [
     photo: "/team/ghazi-mansoor.png",
     linkedin: "#", twitter: "#",
     bio: "Ghazi Mansoor Orakzai is the bridge between Orakzai's leadership and the grassroots communities it serves. With exceptional interpersonal skills and deep-rooted community trust, he facilitates dialogue between tribal elders, youth groups, and organizational leadership. He oversees the organization's outreach programs, community forums, and the Jirga engagement initiatives. Ghazi's talent for building consensus across diverse groups has been instrumental in resolving community disputes and rallying collective action around shared goals. His work ensures that the organization remains genuinely connected to the people it represents.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+    reportsTo: "Faisal Orakzai",
   },
   {
     id: 7,
@@ -164,6 +176,8 @@ const BOARD_MEMBERS: TeamMember[] = [
     photo: "/team/zubair-orakzai.jpg",
     linkedin: "#", twitter: "#",
     bio: "Zubair Orakzai is a technology entrepreneur and blockchain specialist who brings cutting-edge digital solutions to the Orakzai community's development agenda. Educated at NUST and internationally certified in blockchain applications, he is building transparent fund-tracking systems and digital identity solutions for community members. Zubair also leads the Digital Skill Lab initiative, which provides free coding, freelancing, and tech entrepreneurship training to Orakzai youth. His vision is to position the Orakzai district as a hub for Pakistan's digital economy, creating sustainable livelihoods through technology and innovation.",
+    location: "Islamabad, Pakistan",
+    reportsTo: "Faisal Orakzai",
   },
   {
     id: 8,
@@ -174,6 +188,8 @@ const BOARD_MEMBERS: TeamMember[] = [
     photo: "/team/haqnawaz-orakzai.png",
     linkedin: "#", twitter: "#",
     bio: "Haqnawaz Orakzai leads the organization's welfare and humanitarian relief operations with tireless dedication and compassion. He has coordinated emergency relief efforts during floods, droughts, and displacement crises affecting Orakzai communities, distributing food packages, tents, and medical supplies to thousands of families. Beyond emergency response, he manages ongoing welfare programs including widow support, orphan care, and financial assistance for families in need. Haqnawaz's deep empathy and ground-level knowledge of community needs make him the first responder in any humanitarian situation the organization addresses.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+    reportsTo: "Faisal Orakzai",
   },
   {
     id: 9,
@@ -184,6 +200,8 @@ const BOARD_MEMBERS: TeamMember[] = [
     photo: "/team/abdul-razzaq.jpg",
     linkedin: "#", twitter: "#",
     bio: "Abdul Razzaq Orakzai is the strategic mind behind Orakzai's long-term development roadmap. With an MBA and extensive experience in public sector planning, he develops five-year strategic plans, tracks organizational KPIs, and ensures alignment between field activities and institutional goals. He has successfully authored proposals that secured partnerships with national NGOs and international development organizations. Abdul Razzaq's analytical approach and policy expertise help the organization punch above its weight, translating community needs into actionable, fundable programs that deliver measurable results.",
+    location: "Islamabad, Pakistan",
+    reportsTo: "Faisal Orakzai",
   },
   {
     id: 10,
@@ -194,6 +212,8 @@ const BOARD_MEMBERS: TeamMember[] = [
     photo: "/team/sher-wali.png",
     linkedin: "#", twitter: "#",
     bio: "Sher Wali Orakzai champions the immense untapped potential of Orakzai youth through sports, arts, and talent development programs. A former regional-level athlete himself, he established the organization's Sports Academy which has produced national-level competitors in cricket, football, and martial arts. Beyond athletics, Sher Wali runs talent discovery programs that have identified and supported young artists, musicians, and performers from the district. He believes that nurturing talent builds confidence, discipline, and community pride — qualities that transform individuals and societies alike. His programs have become a source of joy and aspiration for thousands of young Orakzai.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+    reportsTo: "Faisal Orakzai",
   },
   {
     id: 11,
@@ -204,31 +224,38 @@ const BOARD_MEMBERS: TeamMember[] = [
     photo: "/team/muhammad-hayat.jpg",
     linkedin: "#", twitter: "#",
     bio: "Muhammad Hayat is the guardian of Orakzai's financial integrity. A chartered accountant with extensive experience in nonprofit finance, he oversees all financial planning, budgeting, auditing, and reporting processes. Under his stewardship, the organization has achieved full financial transparency — publishing detailed annual reports and implementing blockchain-verified fund tracking for donor contributions. Muhammad Hayat has built a culture of accountability within the organization, ensuring that every rupee donated by community members and partners is deployed with maximum impact and complete honesty. His work has earned the trust of donors, government bodies, and the communities the organization serves.",
+    location: "Peshawar, Pakistan",
+    reportsTo: "Faisal Orakzai",
   },
 ];
 
-/* Circular avatar — object-position: top crops name text at bottom */
-function MemberAvatar({ src, name, size = 128 }: { src: string; name: string; size?: number }) {
+/* Circular avatar — object-position: top crops name text at bottom.
+   Clickable: opens the full profile, per "click the picture" requirement. */
+function MemberAvatar({ src, name, size = 128, onClick }: { src: string; name: string; size?: number; onClick?: () => void }) {
   return (
-    <div
-      className="rounded-full overflow-hidden flex-shrink-0"
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={`Open ${name}'s full profile`}
+      className="rounded-full overflow-hidden flex-shrink-0 transition-transform hover:scale-[1.04] active:scale-95"
       style={{
         width: size, height: size,
         border: `3px solid ${GOLD}`,
         boxShadow: `0 0 16px rgba(212,175,55,0.35)`,
+        cursor: onClick ? "pointer" : "default",
       }}
     >
       <img
         src={src}
         alt={name}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover pointer-events-none"
         style={{ objectPosition: 'top center' }}
         onError={(e) => {
           (e.target as HTMLImageElement).src =
             `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=064e3b&textColor=D4AF37`;
         }}
       />
-    </div>
+    </button>
   );
 }
 
@@ -279,7 +306,7 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
           className="absolute -inset-2 rounded-full opacity-70"
           style={{ background: `conic-gradient(from 180deg, ${GOLD}, transparent 40%, transparent 60%, ${GOLD})`, filter: "blur(2px)" }}
         />
-        <MemberAvatar src={member.photo} name={member.name} size={152} />
+        <MemberAvatar src={member.photo} name={member.name} size={152} onClick={() => onOpenBio(member)} />
         <div
           className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full flex items-center justify-center z-10"
           style={{ background: GOLD, border: "2px solid #022c22" }}
@@ -355,7 +382,7 @@ function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: n
       }}
     >
       <div className="mb-4">
-        <MemberAvatar src={member.photo} name={member.name} size={96} />
+        <MemberAvatar src={member.photo} name={member.name} size={96} onClick={() => onOpenBio(member)} />
       </div>
 
       <h3 className="text-base font-bold text-white mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
@@ -385,6 +412,10 @@ function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: n
     </motion.div>
   );
 }
+
+const ALL_MEMBERS: TeamMember[] = [...SUPREME_LEADERS, ...BOARD_MEMBERS];
+const findMemberByName = (name?: string) => ALL_MEMBERS.find((m) => m.name === name);
+const getDirectReports = (name: string) => ALL_MEMBERS.filter((m) => m.reportsTo === name);
 
 export default function Team() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
@@ -471,55 +502,170 @@ export default function Team() {
         </div>
       </div>
 
-      {/* ─── BIOGRAPHY SIDE PANEL ─── */}
+      {/* ─── FULL PROFILE PANEL (org-chart style) ─── */}
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetContent
           side="right"
-          className="w-full sm:max-w-lg overflow-y-auto p-0 border-l"
+          className="w-full sm:max-w-xl overflow-y-auto p-0 border-l"
           style={{ borderColor: "rgba(212,175,55,0.3)", background: "#061209" }}
         >
-          {selectedMember && (
-            <>
-              <div className="h-1 w-full" style={{ background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />
-              <SheetHeader className="px-8 pt-8 pb-4">
-                <div className="flex justify-center mb-6">
-                  <div
-                    className="w-32 h-32 rounded-full overflow-hidden"
-                    style={{ border: "3px solid rgba(212,175,55,0.6)", boxShadow: "0 0 32px rgba(212,175,55,0.2)" }}
-                  >
-                    <img
-                      src={selectedMember.photo}
-                      alt={selectedMember.name}
-                      className="w-full h-full object-cover"
-                      style={{ objectPosition: "top center" }}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(selectedMember.name)}&backgroundColor=064e3b&textColor=D4AF37`;
-                      }}
-                    />
+          {selectedMember && (() => {
+            const superior = findMemberByName(selectedMember.reportsTo);
+            const directs = getDirectReports(selectedMember.name);
+            const contactHref =
+              selectedMember.website ||
+              (selectedMember.linkedin && selectedMember.linkedin !== "#" ? selectedMember.linkedin : undefined) ||
+              "/contact";
+            return (
+              <>
+                <div className="h-1 w-full" style={{ background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />
+                <SheetHeader className="px-8 pt-8 pb-0 text-left">
+                  <div className="flex items-start gap-5">
+                    <div className="relative flex-shrink-0">
+                      <div
+                        className="w-24 h-24 rounded-full overflow-hidden"
+                        style={{ border: "3px solid rgba(212,175,55,0.6)", boxShadow: "0 0 32px rgba(212,175,55,0.2)" }}
+                      >
+                        <img
+                          src={selectedMember.photo}
+                          alt={selectedMember.name}
+                          className="w-full h-full object-cover"
+                          style={{ objectPosition: "top center" }}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src =
+                              `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(selectedMember.name)}&backgroundColor=064e3b&textColor=D4AF37`;
+                          }}
+                        />
+                      </div>
+                      {selectedMember.isSupreme && (
+                        <div
+                          className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center"
+                          style={{ background: GOLD, border: "2px solid #061209" }}
+                          title="Verified Leadership"
+                        >
+                          <BadgeCheck className="w-3.5 h-3.5 text-emerald-950" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="pt-1">
+                      <SheetTitle className="text-2xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
+                        {selectedMember.name}
+                      </SheetTitle>
+                      <p className="text-sm font-semibold mt-1" style={{ color: GOLD }}>
+                        {selectedMember.title}
+                      </p>
+                      <p className="text-xs text-emerald-100/40 mt-1">{selectedMember.focus}</p>
+                    </div>
                   </div>
+
+                  {/* Action row: Contact + social — org-chart-profile style */}
+                  <div className="flex items-center gap-2.5 mt-5 flex-wrap">
+                    <a
+                      href={contactHref}
+                      target={contactHref.startsWith("http") ? "_blank" : undefined}
+                      rel={contactHref.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
+                      style={{ background: GOLD, color: "#022c22" }}
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      Contact
+                    </a>
+                    {selectedMember.linkedin && selectedMember.linkedin !== "#" && (
+                      <a href={selectedMember.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                        className="p-2.5 rounded-full transition-all hover:scale-110"
+                        style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
+                        <Linkedin className="w-4 h-4" style={{ color: GOLD }} />
+                      </a>
+                    )}
+                    {selectedMember.twitter && selectedMember.twitter !== "#" && (
+                      <a href={selectedMember.twitter} target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"
+                        className="p-2.5 rounded-full transition-all hover:scale-110"
+                        style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
+                        <Twitter className="w-4 h-4" style={{ color: GOLD }} />
+                      </a>
+                    )}
+                    {selectedMember.website && (
+                      <a href={selectedMember.website} target="_blank" rel="noopener noreferrer" aria-label="Website"
+                        className="p-2.5 rounded-full transition-all hover:scale-110"
+                        style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
+                        <Globe className="w-4 h-4" style={{ color: GOLD }} />
+                      </a>
+                    )}
+                  </div>
+                </SheetHeader>
+
+                <div className="px-8 pt-6 pb-10">
+                  {/* Location / Focus info grid — org-chart profile style */}
+                  <div className="grid grid-cols-2 gap-4 py-5 border-y" style={{ borderColor: "rgba(212,175,55,0.15)" }}>
+                    <div>
+                      <p className="text-[11px] uppercase tracking-widest text-emerald-100/40 mb-1.5 flex items-center gap-1.5">
+                        <MapPin className="w-3 h-3" /> Location
+                      </p>
+                      <p className="text-sm text-white/85">{selectedMember.location || "Orakzai District, Pakistan"}</p>
+                    </div>
+                    <div>
+                      <p className="text-[11px] uppercase tracking-widest text-emerald-100/40 mb-1.5 flex items-center gap-1.5">
+                        <Star className="w-3 h-3" /> Focus Area
+                      </p>
+                      <p className="text-sm text-white/85">{selectedMember.focus}</p>
+                    </div>
+                  </div>
+
+                  {/* Reporting line — mini org chart */}
+                  {superior && (
+                    <button
+                      onClick={() => openBio(superior)}
+                      className="w-full flex items-center gap-3 mt-5 p-3 rounded-xl transition-all hover:scale-[1.02] text-left"
+                      style={{ background: "rgba(212,175,55,0.06)", border: `1px solid ${GOLD}25` }}
+                    >
+                      <img src={superior.photo} alt={superior.name} className="w-10 h-10 rounded-full object-cover flex-shrink-0"
+                        style={{ objectPosition: "top center", border: `1.5px solid ${GOLD}80` }} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[10px] uppercase tracking-widest text-emerald-100/40">Reports to</p>
+                        <p className="text-sm font-semibold text-white truncate">{superior.name}</p>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 flex-shrink-0" style={{ color: GOLD }} />
+                    </button>
+                  )}
+
+                  {/* Direct reports — mini org chart */}
+                  {directs.length > 0 && (
+                    <div className="mt-5">
+                      <p className="text-[11px] uppercase tracking-widest text-emerald-100/40 mb-2.5 flex items-center gap-1.5">
+                        <Users className="w-3 h-3" /> Team ({directs.length})
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {directs.map((d) => (
+                          <button
+                            key={d.id}
+                            onClick={() => openBio(d)}
+                            className="flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-full transition-all hover:scale-105"
+                            style={{ background: "rgba(212,175,55,0.08)", border: `1px solid ${GOLD}30` }}
+                          >
+                            <img src={d.photo} alt={d.name} className="w-6 h-6 rounded-full object-cover"
+                              style={{ objectPosition: "top center" }} />
+                            <span className="text-xs text-white/80">{d.name.split(" ")[0]}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="h-px w-full my-6" style={{ background: `linear-gradient(to right, transparent, ${GOLD}40, transparent)` }} />
+
+                  {selectedMember.mission && (
+                    <div className="mb-6 relative pl-5">
+                      <div className="absolute left-0 top-0 h-full w-0.5" style={{ background: GOLD }} />
+                      <p className="text-emerald-100/80 text-sm leading-relaxed italic">
+                        &ldquo;{selectedMember.mission}&rdquo;
+                      </p>
+                    </div>
+                  )}
+                  <p className="text-emerald-100/70 leading-relaxed text-sm">{selectedMember.bio}</p>
                 </div>
-                <SheetTitle className="text-center text-2xl font-bold" style={{ color: GOLD, fontFamily: "Georgia, serif" }}>
-                  {selectedMember.name}
-                </SheetTitle>
-                <p className="text-center text-sm uppercase tracking-widest text-emerald-200/50 mt-1">
-                  {selectedMember.title}
-                </p>
-                <div className="h-px w-24 mx-auto mt-4" style={{ background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />
-              </SheetHeader>
-              <div className="px-8 pb-10">
-                {selectedMember.mission && (
-                  <div className="mb-6 relative pl-5">
-                    <div className="absolute left-0 top-0 h-full w-0.5" style={{ background: GOLD }} />
-                    <p className="text-emerald-100/80 text-sm leading-relaxed italic">
-                      &ldquo;{selectedMember.mission}&rdquo;
-                    </p>
-                  </div>
-                )}
-                <p className="text-emerald-100/70 leading-relaxed text-sm">{selectedMember.bio}</p>
-              </div>
-            </>
-          )}
+              </>
+            );
+          })()}
         </SheetContent>
       </Sheet>
     </MainLayout>
