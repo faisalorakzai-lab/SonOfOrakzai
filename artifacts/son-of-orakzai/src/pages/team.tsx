@@ -272,7 +272,11 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
       transition={{ delay: index * 0.18, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="relative flex flex-col items-center text-center p-9 pt-11 rounded-[28px] overflow-hidden"
+      onClick={() => onOpenBio(member)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter") onOpenBio(member); }}
+      className="relative flex flex-col items-center text-center p-9 pt-11 rounded-[28px] overflow-hidden cursor-pointer"
       style={{
         background: "linear-gradient(160deg, rgba(6,55,36,0.9) 0%, rgba(2,20,13,0.95) 100%)",
         backdropFilter: "blur(18px)",
@@ -317,39 +321,14 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
       </div>
 
       <h3 className="text-2xl font-bold text-white mb-1.5 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
-      <p className="text-sm font-bold mb-1 uppercase tracking-widest" style={{ color: GOLD }}>{member.title}</p>
-      <p className="text-xs text-white/45 mb-4">{member.focus}</p>
-      <div className="h-px w-16 mb-4" style={{ background: `linear-gradient(to right, transparent, ${GOLD}80, transparent)` }} />
-      <p className="text-sm text-white/70 leading-relaxed mb-6 max-w-xs">{member.intro}</p>
+      <p className="text-sm font-bold mb-4 uppercase tracking-widest" style={{ color: GOLD }}>{member.title}</p>
 
-      <button
-        onClick={() => onOpenBio(member)}
-        className="flex items-center gap-1.5 mb-5 rounded-full px-6 py-2 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
+      <div
+        className="flex items-center gap-1.5 rounded-full px-6 py-2 text-xs font-bold uppercase tracking-wider transition-all group-hover:scale-105"
         style={{ background: `linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.08))`, border: `1px solid ${GOLD}70`, color: GOLD }}
       >
-        Full Biography
+        View Full Profile
         <ChevronRight className="w-3.5 h-3.5" />
-      </button>
-
-      <div className="flex gap-3 z-10">
-        {member.linkedin && (
-          <a href={member.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} className="p-2.5 rounded-full transition-all hover:scale-110 hover:bg-[#D4AF37]/20"
-            style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}50` }}>
-            <Linkedin className="w-4 h-4" style={{ color: GOLD }} />
-          </a>
-        )}
-        {member.twitter && (
-          <a href={member.twitter} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on X`} className="p-2.5 rounded-full transition-all hover:scale-110 hover:bg-[#D4AF37]/20"
-            style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}50` }}>
-            <Twitter className="w-4 h-4" style={{ color: GOLD }} />
-          </a>
-        )}
-        {member.website && (
-          <a href={member.website} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} website`} className="p-2.5 rounded-full transition-all hover:scale-110 hover:bg-[#D4AF37]/20"
-            style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}50` }}>
-            <Globe className="w-4 h-4" style={{ color: GOLD }} />
-          </a>
-        )}
       </div>
     </motion.div>
   );
@@ -368,7 +347,11 @@ function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: n
       transition={{ delay: 0.1 + index * 0.07, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="flex flex-col items-center text-center p-6 rounded-2xl border"
+      onClick={() => onOpenBio(member)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter") onOpenBio(member); }}
+      className="flex flex-col items-center text-center p-6 rounded-2xl border cursor-pointer"
       style={{
         background: "rgba(3,45,30,0.6)",
         backdropFilter: "blur(12px)",
@@ -386,28 +369,14 @@ function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: n
       </div>
 
       <h3 className="text-base font-bold text-white mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
-      <p className="text-xs font-semibold mb-1" style={{ color: GOLD }}>{member.title}</p>
-      <p className="text-xs text-white/40 mb-3">{member.focus}</p>
-      <p className="text-xs text-white/65 leading-relaxed mb-4 line-clamp-2">{member.intro}</p>
+      <p className="text-xs font-semibold mb-4" style={{ color: GOLD }}>{member.title}</p>
 
-      <button
-        onClick={() => onOpenBio(member)}
-        className="flex items-center gap-1 mb-4 rounded-full px-4 py-1 text-xs font-bold transition-all hover:scale-105"
+      <div
+        className="flex items-center gap-1 rounded-full px-4 py-1 text-xs font-bold transition-all"
         style={{ background: "rgba(212,175,55,0.12)", border: `1px solid ${GOLD}60`, color: GOLD }}
       >
-        Biography
+        View Profile
         <ChevronRight className="w-3 h-3" />
-      </button>
-
-      <div className="flex gap-2">
-        <a href={member.linkedin || "#"} className="p-1.5 rounded-full transition-all hover:scale-110"
-          style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
-          <Linkedin className="w-3.5 h-3.5" style={{ color: GOLD }} />
-        </a>
-        <a href={member.twitter || "#"} className="p-1.5 rounded-full transition-all hover:scale-110"
-          style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
-          <Twitter className="w-3.5 h-3.5" style={{ color: GOLD }} />
-        </a>
       </div>
     </motion.div>
   );
