@@ -1,10 +1,70 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MainLayout } from "@/components/layout/main-layout";
-import { motion, useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Linkedin, Twitter, Crown, Shield, Star, ChevronRight, Globe, BadgeCheck } from "lucide-react";
 
 const GOLD = "#D4AF37";
+
+const HERO_SLIDES = [
+  { src: "/hero/faisal-orakzai-portrait.jpg", caption: "Leadership for a New Generation" },
+  { src: "/hero/heritage-tribal-elders.jpg", caption: "The Tribes of Our Frontier — Orakzai Elders" },
+  { src: "/hero/heritage-dost-mohammad-khan.jpg", caption: "A Legacy of Honour & Command" },
+  { src: "/hero/heritage-frontier-jirga.jpeg", caption: "A Heritage of Diplomacy & Resolve" },
+];
+
+/* Full-bleed hero background that auto-cycles through heritage & leadership
+   imagery every 3s, crossfading endlessly. Never pauses, never stops. */
+function HeroCarousel() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((i) => (i + 1) % HERO_SLIDES.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, scale: 1.06 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ opacity: { duration: 1.2, ease: "easeInOut" }, scale: { duration: 3.4, ease: "linear" } }}
+          className="absolute inset-0"
+        >
+          <img
+            src={HERO_SLIDES[index].src}
+            alt={HERO_SLIDES[index].caption}
+            className="w-full h-full object-cover"
+            style={{ objectPosition: "center 20%" }}
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Cinematic overlays for legibility over any photo */}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(1,26,16,0.55) 0%, rgba(1,26,16,0.75) 55%, #011a10 100%)" }} />
+      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, rgba(1,26,16,0.2) 0%, rgba(1,26,16,0.65) 100%)" }} />
+
+      {/* Slide indicators */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+        {HERO_SLIDES.map((_, i) => (
+          <div
+            key={i}
+            className="h-1 rounded-full transition-all duration-500"
+            style={{
+              width: i === index ? 28 : 8,
+              background: i === index ? GOLD : "rgba(212,175,55,0.35)",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 interface TeamMember {
   id: number;
@@ -338,26 +398,40 @@ export default function Team() {
   return (
     <MainLayout>
       <div className="min-h-screen" style={{ background: "linear-gradient(135deg, #011a10 0%, #022c22 50%, #011a10 100%)" }}>
-        {/* Hero Header */}
-        <div className="relative pt-28 pb-16 text-center overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none">
+        {/* Hero Header — cinematic auto-cycling background */}
+        <div className="relative min-h-[78vh] md:min-h-[85vh] flex items-center justify-center text-center overflow-hidden">
+          <HeroCarousel />
+
+          <div className="absolute inset-0 pointer-events-none z-[1]">
             <div className="absolute top-20 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl" style={{ background: GOLD }} />
             <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full opacity-10 blur-3xl" style={{ background: GOLD }} />
           </div>
-          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.25,0.46,0.45,0.94] }}>
-            <div className="flex items-center justify-center gap-2 mb-3">
+
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="relative z-10 px-4"
+          >
+            <div className="flex items-center justify-center gap-2 mb-4">
               <Shield className="w-5 h-5" style={{ color: GOLD }} />
-              <span className="text-sm font-semibold uppercase tracking-widest" style={{ color: GOLD }}>Orakzai</span>
+              <span className="text-sm font-semibold uppercase tracking-[0.3em]" style={{ color: GOLD }}>Orakzai</span>
               <Shield className="w-5 h-5" style={{ color: GOLD }} />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h1
+              className="text-5xl md:text-7xl font-bold text-white mb-5"
+              style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 4px 40px rgba(0,0,0,0.6)" }}
+            >
               Our Leadership
             </h1>
-            <div className="h-[1px] w-20 mx-auto mb-4" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-            <p className="text-white/60 max-w-xl mx-auto text-base">
-              Meet the dedicated team driving progress, unity, and digital empowerment for the Orakzai community.
+            <div className="h-[1px] w-24 mx-auto mb-5" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+            <p className="text-white/75 max-w-2xl mx-auto text-lg leading-relaxed">
+              A living legacy of honour, heritage, and service — meet the leaders driving unity and digital empowerment for the Orakzai people, across generations.
             </p>
           </motion.div>
+
+          {/* Bottom fade into page background */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 z-[2] pointer-events-none" style={{ background: "linear-gradient(180deg, transparent, #011a10)" }} />
         </div>
 
         <div className="container mx-auto px-4 md:px-8 pb-24">
