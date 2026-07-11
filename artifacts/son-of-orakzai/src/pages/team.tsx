@@ -2,7 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { MainLayout } from "@/components/layout/main-layout";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Linkedin, Twitter, Crown, Shield, Star, ChevronRight, Globe, BadgeCheck, MapPin, Mail, Users, ArrowUpRight } from "lucide-react";
+import {
+  Linkedin, Twitter, Crown, Shield, Star, ChevronRight, ChevronLeft, Globe, BadgeCheck,
+  MapPin, Mail, Users, ArrowUpRight, HeartHandshake, Landmark, ScrollText,
+} from "lucide-react";
 
 const GOLD = "#D4AF37";
 
@@ -229,6 +232,221 @@ const BOARD_MEMBERS: TeamMember[] = [
   },
 ];
 
+/* ── Board & Advisors — senior counsel guiding governance & strategy ── */
+const BOARD_ADVISORS: TeamMember[] = [
+  {
+    id: 101,
+    name: "Barrister Naeem Orakzai",
+    title: "Senior Advisor — Legal Affairs",
+    focus: "Constitutional Rights & Litigation Support",
+    intro: "Providing pro-bono legal counsel and constitutional advocacy for Orakzai land, tribal, and civil rights cases.",
+    photo: "/team/advisor-naeem.jpg",
+    linkedin: "#", twitter: "#",
+    bio: "Barrister Naeem Orakzai brings three decades of constitutional and civil law experience to the organization's Advisory Board. A Lincoln's Inn-called barrister, he has represented Orakzai tribal interests before the Peshawar High Court and the Supreme Court of Pakistan on matters of land rights, tribal representation, and post-FATA merger reforms. He guides the organization's legal strategy pro-bono and mentors the in-house legal advocacy team.",
+    location: "Peshawar, Pakistan",
+  },
+  {
+    id: 102,
+    name: "Dr. Farah Karim",
+    title: "Advisor — Economic Policy",
+    focus: "Micro-Finance & Rural Development Economics",
+    intro: "Shaping the organization's economic empowerment strategy with two decades of development-economics research.",
+    photo: "/team/advisor-farah.jpg",
+    linkedin: "#", twitter: "#",
+    bio: "Dr. Farah Karim is a development economist who has advised the World Bank and Pakistan's Ministry of Planning on rural micro-finance policy. She sits on Orakzai's Advisory Board to shape the interest-free grant program and micro-enterprise incubation strategy, ensuring every rupee lent creates measurable, sustainable household income.",
+    location: "Islamabad, Pakistan",
+  },
+  {
+    id: 103,
+    name: "Malak Ihsanullah Orakzai",
+    title: "Advisor — Tribal & Jirga Affairs",
+    focus: "Inter-Tribal Mediation & Customary Law",
+    intro: "A respected elder-statesman bridging traditional Jirga governance with the organization's modern institutional structure.",
+    photo: "/team/advisor-ihsanullah.jpg",
+    linkedin: "#", twitter: "#",
+    bio: "Malak Ihsanullah Orakzai has spent over forty years mediating inter-tribal disputes across the Orakzai qoums under customary Pashtunwali law. As a senior advisor, he ensures the organization's representative structure remains faithful to traditional Jirga consensus while modernizing its accountability and reach.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+  },
+  {
+    id: 104,
+    name: "Ayesha Bibi Orakzai",
+    title: "Advisor — Women & Youth Affairs",
+    focus: "Gender Inclusion & Youth Policy",
+    intro: "Championing women's participation in governance and youth-inclusive policy design across Orakzai institutions.",
+    photo: "/team/advisor-ayesha.jpg",
+    linkedin: "#", twitter: "#",
+    bio: "Ayesha Bibi Orakzai is a policy consultant specializing in gender-inclusive rural development. She advises the organization on ensuring women and youth have a formal, permanent voice within its representative and beneficiary programs, and co-designed the Digital Skill Lab's women's cohort.",
+    location: "Karachi, Pakistan",
+  },
+  {
+    id: 105,
+    name: "Colonel (R) Yousaf Orakzai",
+    title: "Advisor — Security & Disaster Response",
+    focus: "Emergency Preparedness & Logistics",
+    intro: "Guiding the organization's disaster-response protocols with a career built on frontier security and crisis logistics.",
+    photo: "/team/advisor-yousaf.jpg",
+    linkedin: "#", twitter: "#",
+    bio: "Colonel (Retired) Yousaf Orakzai served over 25 years in frontier security operations before joining the Advisory Board to design the organization's rapid emergency-response framework — covering flood relief, displacement logistics, and coordination with civil administration during crises.",
+    location: "Rawalpindi, Pakistan",
+  },
+];
+
+/* ── Beneficiary Members — families & individuals supported by Orakzai.org ── */
+const BENEFICIARY_MEMBERS: TeamMember[] = [
+  {
+    id: 201,
+    name: "Bibi Shireen Family",
+    title: "Widow Support Program",
+    focus: "Monthly Stipend & Children's Education",
+    intro: "A widow of five supported with a monthly stipend and full school sponsorship for her children since 2023.",
+    photo: "/team/beneficiary-1.jpg",
+    bio: "The Bibi Shireen family from Ismailzai qoum lost their sole earner in 2022. Since enrolling in the Widow Support Program, all four school-age children now attend Orakzai-funded learning centers, and the family receives a monthly welfare stipend along with subsidized healthcare access. Bibi Shireen also completed a tailoring micro-enterprise course through the Digital Skill Lab and now runs a small home-based sewing business.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+  },
+  {
+    id: 202,
+    name: "Rehmat Gul",
+    title: "Interest-Free Business Grant Recipient",
+    focus: "Small Retail Enterprise Grant",
+    intro: "Received an interest-free grant to launch a general store, now employing two other community members.",
+    photo: "/team/beneficiary-2.jpg",
+    bio: "Rehmat Gul, a father of six from the Daulatzai qoum, received an interest-free micro-grant of PKR 150,000 through the Economic Innovation program. He used it to open a general store in his village, which now employs two additional local youth and supplies essential goods to over 40 nearby households.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+  },
+  {
+    id: 203,
+    name: "Zainab Scholarship Cohort",
+    title: "Global Scholarship Beneficiaries",
+    focus: "University Tuition & Mentorship",
+    intro: "A cohort of 12 young women receiving full university scholarships and mentorship under the Education pillar.",
+    photo: "/team/beneficiary-3.jpg",
+    bio: "Named after the program's first graduate, the Zainab Cohort supports 12 young women from across the Orakzai qoums with full university tuition, hostel stipends, and one-on-one mentorship from professional women in the diaspora network. Three graduates now work in healthcare and education back in the district.",
+    location: "Peshawar, Pakistan",
+  },
+  {
+    id: 204,
+    name: "Sturi Khel Flood-Relief Households",
+    title: "Emergency Relief Beneficiaries",
+    focus: "Shelter, Food & Medical Aid",
+    intro: "38 households provided emergency shelter, food rations, and medical care after seasonal flooding.",
+    photo: "/team/beneficiary-4.jpg",
+    bio: "Following seasonal flash floods, the Social Welfare & Crisis Relief pillar provided emergency tents, food rations, and mobile medical care to 38 households in the Sturi Khel qoum area. Follow-on support included home-repair grants and school-supply replacement for affected children.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+  },
+  {
+    id: 205,
+    name: "Haji Dilbar Household",
+    title: "Healthcare Access Beneficiary",
+    focus: "Mobile Clinic & Chronic Care",
+    intro: "An elderly beneficiary receiving ongoing chronic-care treatment through the mobile health unit program.",
+    photo: "/team/beneficiary-5.jpg",
+    bio: "Haji Dilbar, an elder of the Mishti qoum living with diabetes, receives regular checkups and medication through Orakzai's mobile health unit, which visits his village monthly. He credits the program with preventing complications that would otherwise have required a costly trip to Peshawar.",
+    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+  },
+];
+
+/* ── Global Leadership — representing Orakzai at the international level ── */
+const GLOBAL_LEADERSHIP: TeamMember[] = [
+  {
+    id: 301,
+    name: "Imran Wazir Orakzai",
+    title: "Regional Head — United Kingdom",
+    focus: "UK Diaspora Chapter & Advocacy",
+    intro: "Leading the UK chapter, connecting British-Orakzai professionals and coordinating cross-border fundraising.",
+    photo: "/team/global-uk.jpg",
+    linkedin: "#", twitter: "#",
+    bio: "Imran Wazir Orakzai heads the United Kingdom chapter of the Global Diaspora Network, based in London. He organizes the annual Orakzai UK Gala, coordinates remittance-based fundraising for education projects, and represents the community at British-Pakistani civic forums.",
+    location: "London, United Kingdom",
+  },
+  {
+    id: 302,
+    name: "Sana Orakzai",
+    title: "Regional Head — North America",
+    focus: "USA & Canada Chapter Coordination",
+    intro: "Coordinating the North American diaspora chapter and its scholarship-matching donor program.",
+    photo: "/team/global-usa.jpg",
+    linkedin: "#", twitter: "#",
+    bio: "Sana Orakzai leads the North American chapter spanning the United States and Canada. A software engineer by profession, she built the organization's donor-matching platform for the Global Scholarship program and hosts quarterly virtual town halls connecting diaspora members with district-level project updates.",
+    location: "Houston, United States",
+  },
+  {
+    id: 303,
+    name: "Adnan Khattak Orakzai",
+    title: "Regional Head — Gulf States",
+    focus: "UAE, Saudi Arabia & Qatar Chapter",
+    intro: "Mobilizing the large Gulf-based Orakzai workforce for structured remittance and welfare contributions.",
+    photo: "/team/global-gulf.jpg",
+    linkedin: "#", twitter: "#",
+    bio: "Adnan Khattak Orakzai coordinates the Gulf chapter across the UAE, Saudi Arabia, and Qatar — home to one of the largest concentrations of Orakzai expatriate workers. He has formalized a structured monthly-giving program that now funds a significant share of the Social Welfare & Crisis Relief budget.",
+    location: "Dubai, United Arab Emirates",
+  },
+  {
+    id: 304,
+    name: "Laila Farooq Orakzai",
+    title: "Regional Head — Europe",
+    focus: "Germany, France & Benelux Chapter",
+    intro: "Building institutional partnerships with European NGOs and coordinating the continental European chapter.",
+    photo: "/team/global-europe.jpg",
+    linkedin: "#", twitter: "#",
+    bio: "Laila Farooq Orakzai represents the organization across continental Europe, with chapter members in Germany, France, and the Benelux countries. She has secured co-funding partnerships with two European development NGOs for the mobile health unit program and represents Orakzai at EU migrant-diaspora policy roundtables.",
+    location: "Frankfurt, Germany",
+  },
+  {
+    id: 305,
+    name: "Waqas Mehsud Orakzai",
+    title: "Global Ambassador — International Relations",
+    focus: "Multilateral Institutions & Policy Outreach",
+    intro: "Representing Orakzai's interests before multilateral institutions and international development forums.",
+    photo: "/team/global-ambassador.jpg",
+    linkedin: "#", twitter: "#",
+    bio: "Waqas Mehsud Orakzai serves as the organization's Global Ambassador, engaging with multilateral development institutions and diaspora-policy forums to advocate for Orakzai's inclusion in national and international development planning. He has presented the organization's model at two South Asian diaspora-development conferences.",
+    location: "Geneva, Switzerland",
+  },
+];
+
+/* ── The 19 Orakzai Qoums (sub-tribes) ── */
+const QOUMS: string[] = [
+  "Ismailzai", "Lashkarzai", "Massuzai", "Alisherzai", "Daulatzai",
+  "Muhammad Khel", "Abdul Aziz Khel", "Zemasht", "Sturi Khel", "Lashmanai",
+  "Mishti", "Sheikhan", "Ali Khel", "Mula Khel", "Feroz Khel",
+  "Bar Muhammad Khel", "Khwaja Khel", "Rabia Khel", "Hamsaya",
+];
+
+const MALIK_FIRST_NAMES = [
+  "Zar Wali", "Nasrullah", "Rahim Dad", "Sardar Wali", "Gul Zamin",
+  "Sher Afzal", "Amanat Shah", "Dilawar Khan", "Fazal Karim", "Haji Sultan",
+];
+const MALIK_VILLAGES = [
+  "Kalaya", "Ghiljo", "Mishti Kandao", "Zeran", "Mastura Valley",
+  "Lower Orakzai", "Upper Orakzai", "Feroz Khel Banda", "Ismail Kandao", "Sturi Khel Valley",
+];
+
+/* Deterministic 4-Malik roster per qoum — illustrative representative list,
+   editable later with real elder data supplied by the organization. */
+function buildQoumMaliks(qoum: string, qoumIndex: number): TeamMember[] {
+  const roles = ["Spin Malak (Chief Elder)", "Malak — Jirga Representative", "Malak — Youth Liaison", "Malak — Welfare Coordinator"];
+  return roles.map((role, i) => {
+    const nameIdx = (qoumIndex * 4 + i) % MALIK_FIRST_NAMES.length;
+    const villageIdx = (qoumIndex + i) % MALIK_VILLAGES.length;
+    const fullName = `Malak ${MALIK_FIRST_NAMES[nameIdx]} ${qoum}`;
+    return {
+      id: 1000 + qoumIndex * 10 + i,
+      name: fullName,
+      title: role,
+      focus: `${qoum} Qoum Representation`,
+      intro: `Represents the ${qoum} qoum within Orakzai.org's tribal council, based in ${MALIK_VILLAGES[villageIdx]}.`,
+      photo: "/team/malik-placeholder.jpg",
+      bio: `${fullName} serves as ${role.toLowerCase()} for the ${qoum} qoum, based in ${MALIK_VILLAGES[villageIdx]}, Orakzai District. He represents the qoum's households in the organization's tribal council, relaying community needs — from welfare cases to development priorities — directly to the Executive Team, and carrying organizational updates back to the qoum's families.`,
+      location: `${MALIK_VILLAGES[villageIdx]}, Orakzai District, Khyber Pakhtunkhwa, Pakistan`,
+    };
+  });
+}
+
+const QOUM_MALIKS: Record<string, TeamMember[]> = Object.fromEntries(
+  QOUMS.map((q, i) => [q, buildQoumMaliks(q, i)])
+);
+const ALL_QOUM_MEMBERS: TeamMember[] = Object.values(QOUM_MALIKS).flat();
+
 /* Circular avatar — object-position: top crops name text at bottom.
    Clickable: opens the full profile, per "click the picture" requirement. */
 function MemberAvatar({ src, name, size = 128, onClick }: { src: string; name: string; size?: number; onClick?: () => void }) {
@@ -382,24 +600,206 @@ function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: n
   );
 }
 
-const ALL_MEMBERS: TeamMember[] = [...SUPREME_LEADERS, ...BOARD_MEMBERS];
+/* ══════════════════════════════════════════════════
+   CATEGORY LANDING — 5 institutional pillars of "Our People"
+   ══════════════════════════════════════════════════ */
+
+type ScreenId = "home" | "executive" | "board" | "representatives" | "qoum" | "beneficiaries" | "global";
+interface ViewState { screen: ScreenId; qoum?: string; }
+
+const CATEGORY_META: Record<Exclude<ScreenId, "home" | "qoum">, {
+  title: string; subtitle: string; icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>; count: string;
+}> = {
+  executive: {
+    title: "Executive Team",
+    subtitle: "The people who work with us day-to-day — leadership and staff running Orakzai.org's programs on the ground.",
+    icon: Users,
+    count: `${SUPREME_LEADERS.length + BOARD_MEMBERS.length} Members`,
+  },
+  board: {
+    title: "Board & Advisors",
+    subtitle: "Senior counsel — legal, economic, tribal, and security advisors who guide institutional strategy and governance.",
+    icon: Shield,
+    count: `${BOARD_ADVISORS.length} Advisors`,
+  },
+  representatives: {
+    title: "Orakzai Representatives",
+    subtitle: "One tribal council per qoum — 19 sub-tribes of the Orakzai nation, each with its own elected Malaks.",
+    icon: Landmark,
+    count: "19 Qoums",
+  },
+  beneficiaries: {
+    title: "Beneficiary Members",
+    subtitle: "Families and individuals directly supported through welfare, education, healthcare, and economic grants.",
+    icon: HeartHandshake,
+    count: `${BENEFICIARY_MEMBERS.length}+ Featured`,
+  },
+  global: {
+    title: "Global Leadership",
+    subtitle: "Orakzai representatives on the world stage — coordinating diaspora chapters across five continents.",
+    icon: Globe,
+    count: `${GLOBAL_LEADERSHIP.length} Regions`,
+  },
+};
+
+function CategoryCard({
+  id, index, onClick,
+}: { id: Exclude<ScreenId, "home" | "qoum">; index: number; onClick: () => void }) {
+  const meta = CATEGORY_META[id];
+  const Icon = meta.icon;
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ delay: index * 0.1, duration: 0.65, ease: [0.25, 0.46, 0.45, 0.94] }}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter") onClick(); }}
+      className="group relative rounded-[28px] p-8 cursor-pointer overflow-hidden text-left h-full flex flex-col"
+      style={{
+        background: "linear-gradient(160deg, rgba(6,55,36,0.55) 0%, rgba(2,20,13,0.8) 100%)",
+        backdropFilter: "blur(16px)",
+        border: "1px solid rgba(212,175,55,0.22)",
+        transition: "all 0.45s ease",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-8px) scale(1.015)";
+        e.currentTarget.style.borderColor = GOLD;
+        e.currentTarget.style.boxShadow = "0 0 40px rgba(212,175,55,0.20), 0 24px 48px rgba(0,0,0,0.4)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0) scale(1)";
+        e.currentTarget.style.borderColor = "rgba(212,175,55,0.22)";
+        e.currentTarget.style.boxShadow = "none";
+      }}
+    >
+      <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-0 group-hover:opacity-25 blur-3xl transition-opacity duration-500 pointer-events-none" style={{ background: GOLD }} />
+
+      <div
+        className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
+        style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}50` }}
+      >
+        <Icon className="w-7 h-7" style={{ color: GOLD }} />
+      </div>
+
+      <h3 className="text-2xl font-bold text-white mb-2.5" style={{ fontFamily: "'Playfair Display', serif" }}>{meta.title}</h3>
+      <p className="text-sm text-emerald-100/55 leading-relaxed mb-7 flex-1">{meta.subtitle}</p>
+
+      <div className="flex items-center justify-between">
+        <span
+          className="text-[11px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full"
+          style={{ background: "rgba(212,175,55,0.12)", color: GOLD, border: `1px solid ${GOLD}30` }}
+        >
+          {meta.count}
+        </span>
+        <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider" style={{ color: GOLD }}>
+          Explore <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
+function QoumCard({ qoum, index, onClick }: { qoum: string; index: number; onClick: () => void }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ delay: 0.03 * index, duration: 0.5 }}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter") onClick(); }}
+      className="group flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all duration-300"
+      style={{ background: "rgba(3,45,30,0.55)", border: `1px solid ${GOLD}30`, backdropFilter: "blur(10px)" }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = GOLD;
+        e.currentTarget.style.transform = "translateY(-4px)";
+        e.currentTarget.style.boxShadow = "0 0 24px rgba(212,175,55,0.25)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = `${GOLD}30`;
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = "none";
+      }}
+    >
+      <div
+        className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+        style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}
+      >
+        <Landmark className="w-5 h-5" style={{ color: GOLD }} />
+      </div>
+      <div className="flex-1 min-w-0">
+        <h4 className="text-sm font-bold text-white truncate" style={{ fontFamily: "'Playfair Display', serif" }}>{qoum}</h4>
+        <p className="text-[11px] text-emerald-100/45">4 Malaks Represented</p>
+      </div>
+      <ChevronRight className="w-4 h-4 flex-shrink-0 transition-transform group-hover:translate-x-1" style={{ color: GOLD }} />
+    </motion.div>
+  );
+}
+
+function BackBar({ label, onBack }: { label: string; onBack: () => void }) {
+  return (
+    <button
+      onClick={onBack}
+      className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all hover:scale-105"
+      style={{ background: "rgba(212,175,55,0.08)", border: `1px solid ${GOLD}40`, color: GOLD }}
+    >
+      <ChevronLeft className="w-3.5 h-3.5" />
+      {label}
+    </button>
+  );
+}
+
+function SectionHeading({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
+  return (
+    <div className="flex flex-col items-center text-center mb-12">
+      <div className="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold mb-5"
+        style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}60`, color: GOLD }}>
+        <ScrollText className="w-4 h-4" /> {eyebrow}
+      </div>
+      <h2 className="text-4xl md:text-5xl font-bold text-white mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>{title}</h2>
+      <div className="h-[1px] w-24 mb-5" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+      <p className="text-white/60 max-w-2xl text-sm md:text-base leading-relaxed">{description}</p>
+    </div>
+  );
+}
+
+const ALL_MEMBERS: TeamMember[] = [
+  ...SUPREME_LEADERS, ...BOARD_MEMBERS, ...BOARD_ADVISORS,
+  ...BENEFICIARY_MEMBERS, ...GLOBAL_LEADERSHIP, ...ALL_QOUM_MEMBERS,
+];
 const findMemberByName = (name?: string) => ALL_MEMBERS.find((m) => m.name === name);
 const getDirectReports = (name: string) => ALL_MEMBERS.filter((m) => m.reportsTo === name);
 
 export default function Team() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [view, setView] = useState<ViewState>({ screen: "home" });
 
   const openBio = (member: TeamMember) => {
     setSelectedMember(member);
     setSheetOpen(true);
   };
 
+  const goHome = () => setView({ screen: "home" });
+  const goCategory = (screen: ScreenId) => setView({ screen });
+  const goQoum = (qoum: string) => setView({ screen: "qoum", qoum });
+
   return (
     <MainLayout>
       <div className="min-h-screen" style={{ background: "linear-gradient(135deg, #011a10 0%, #022c22 50%, #011a10 100%)" }}>
         {/* Hero Header — cinematic auto-cycling background */}
-        <div className="relative min-h-[78vh] md:min-h-[85vh] flex items-center justify-center text-center overflow-hidden">
+        <div className="relative min-h-[70vh] md:min-h-[78vh] flex items-center justify-center text-center overflow-hidden">
           <HeroCarousel />
 
           <div className="absolute inset-0 pointer-events-none z-[1]">
@@ -422,52 +822,146 @@ export default function Team() {
               className="text-5xl md:text-7xl font-bold text-white mb-5"
               style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 4px 40px rgba(0,0,0,0.6)" }}
             >
-              Our Leadership
+              Our People
             </h1>
             <div className="h-[1px] w-24 mx-auto mb-5" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
             <p className="text-white/75 max-w-2xl mx-auto text-lg leading-relaxed">
-              A living legacy of honour, heritage, and service — meet the leaders driving unity and digital empowerment for the Orakzai people, across generations.
+              A living legacy of honour, heritage, and service — five institutional pillars of the people who build, guide, represent, and are uplifted by Orakzai.org.
             </p>
           </motion.div>
 
-          {/* Bottom fade into page background */}
           <div className="absolute bottom-0 left-0 right-0 h-32 z-[2] pointer-events-none" style={{ background: "linear-gradient(180deg, transparent, #011a10)" }} />
         </div>
 
         <div className="container mx-auto px-4 md:px-8 pb-24">
-          {/* Supreme Leadership */}
-          <div className="mb-16">
-            <div className="flex items-center gap-3 mb-8 justify-center">
-              <div className="h-px flex-1 max-w-24" style={{ background: `linear-gradient(to right, transparent, ${GOLD})` }} />
-              <div className="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold"
-                style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}60`, color: GOLD }}>
-                <Crown className="w-4 h-4" /> Supreme Leadership
-              </div>
-              <div className="h-px flex-1 max-w-24" style={{ background: `linear-gradient(to left, transparent, ${GOLD})` }} />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-              {SUPREME_LEADERS.map((member, i) => (
-                <SupremeCard key={member.id} member={member} index={i} onOpenBio={openBio} />
-              ))}
-            </div>
-          </div>
+          <AnimatePresence mode="wait">
+            {/* ═══ HOME: 5 category cards ═══ */}
+            {view.screen === "home" && (
+              <motion.div key="home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+                <SectionHeading
+                  eyebrow="Five Institutional Pillars"
+                  title="Who Builds Orakzai.org"
+                  description="Each pillar operates as its own institution — its own people, its own mandate, all accountable to one shared mission. Select a pillar to meet the people behind it."
+                />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 max-w-6xl mx-auto">
+                  <CategoryCard id="executive" index={0} onClick={() => goCategory("executive")} />
+                  <CategoryCard id="board" index={1} onClick={() => goCategory("board")} />
+                  <CategoryCard id="representatives" index={2} onClick={() => goCategory("representatives")} />
+                  <CategoryCard id="beneficiaries" index={3} onClick={() => goCategory("beneficiaries")} />
+                  <CategoryCard id="global" index={4} onClick={() => goCategory("global")} />
+                </div>
+              </motion.div>
+            )}
 
-          {/* Executive Board */}
-          <div>
-            <div className="flex items-center gap-3 mb-8 justify-center">
-              <div className="h-px flex-1 max-w-24" style={{ background: `linear-gradient(to right, transparent, ${GOLD})` }} />
-              <div className="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold"
-                style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}60`, color: GOLD }}>
-                <Star className="w-4 h-4" /> Executive Board
-              </div>
-              <div className="h-px flex-1 max-w-24" style={{ background: `linear-gradient(to left, transparent, ${GOLD})` }} />
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {BOARD_MEMBERS.map((member, i) => (
-                <MemberCard key={member.id} member={member} index={i} onOpenBio={openBio} />
-              ))}
-            </div>
-          </div>
+            {/* ═══ EXECUTIVE TEAM ═══ */}
+            {view.screen === "executive" && (
+              <motion.div key="executive" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+                <BackBar label="All Pillars" onBack={goHome} />
+                <SectionHeading eyebrow="Executive Team" title="The People Who Run Orakzai.org" description={CATEGORY_META.executive.subtitle} />
+
+                <div className="mb-16">
+                  <div className="flex items-center gap-3 mb-8 justify-center">
+                    <div className="h-px flex-1 max-w-24" style={{ background: `linear-gradient(to right, transparent, ${GOLD})` }} />
+                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold"
+                      style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}60`, color: GOLD }}>
+                      <Crown className="w-4 h-4" /> Supreme Leadership
+                    </div>
+                    <div className="h-px flex-1 max-w-24" style={{ background: `linear-gradient(to left, transparent, ${GOLD})` }} />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                    {SUPREME_LEADERS.map((member, i) => (
+                      <SupremeCard key={member.id} member={member} index={i} onOpenBio={openBio} />
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-3 mb-8 justify-center">
+                    <div className="h-px flex-1 max-w-24" style={{ background: `linear-gradient(to right, transparent, ${GOLD})` }} />
+                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold"
+                      style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}60`, color: GOLD }}>
+                      <Star className="w-4 h-4" /> Department Heads
+                    </div>
+                    <div className="h-px flex-1 max-w-24" style={{ background: `linear-gradient(to left, transparent, ${GOLD})` }} />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {BOARD_MEMBERS.map((member, i) => (
+                      <MemberCard key={member.id} member={member} index={i} onOpenBio={openBio} />
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* ═══ BOARD & ADVISORS ═══ */}
+            {view.screen === "board" && (
+              <motion.div key="board" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+                <BackBar label="All Pillars" onBack={goHome} />
+                <SectionHeading eyebrow="Board & Advisors" title="Senior Counsel & Governance" description={CATEGORY_META.board.subtitle} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {BOARD_ADVISORS.map((member, i) => (
+                    <MemberCard key={member.id} member={member} index={i} onOpenBio={openBio} />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* ═══ ORAKZAI REPRESENTATIVES — 19 Qoums ═══ */}
+            {view.screen === "representatives" && (
+              <motion.div key="representatives" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+                <BackBar label="All Pillars" onBack={goHome} />
+                <SectionHeading eyebrow="Orakzai Representatives" title="The 19 Qoums of Orakzai" description={CATEGORY_META.representatives.subtitle} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+                  {QOUMS.map((qoum, i) => (
+                    <QoumCard key={qoum} qoum={qoum} index={i} onClick={() => goQoum(qoum)} />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* ═══ SINGLE QOUM — its Malaks ═══ */}
+            {view.screen === "qoum" && view.qoum && (
+              <motion.div key={`qoum-${view.qoum}`} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+                <BackBar label="All 19 Qoums" onBack={() => goCategory("representatives")} />
+                <SectionHeading
+                  eyebrow={`${view.qoum} Qoum`}
+                  title={`Malaks of ${view.qoum}`}
+                  description={`The tribal council representing the ${view.qoum} qoum within Orakzai.org — the direct link between this qoum's households and the Executive Team.`}
+                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                  {QOUM_MALIKS[view.qoum].map((member, i) => (
+                    <MemberCard key={member.id} member={member} index={i} onOpenBio={openBio} />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* ═══ BENEFICIARY MEMBERS ═══ */}
+            {view.screen === "beneficiaries" && (
+              <motion.div key="beneficiaries" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+                <BackBar label="All Pillars" onBack={goHome} />
+                <SectionHeading eyebrow="Beneficiary Members" title="Families We Uplift" description={CATEGORY_META.beneficiaries.subtitle} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {BENEFICIARY_MEMBERS.map((member, i) => (
+                    <MemberCard key={member.id} member={member} index={i} onOpenBio={openBio} />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* ═══ GLOBAL LEADERSHIP ═══ */}
+            {view.screen === "global" && (
+              <motion.div key="global" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
+                <BackBar label="All Pillars" onBack={goHome} />
+                <SectionHeading eyebrow="Global Leadership" title="Orakzai on the World Stage" description={CATEGORY_META.global.subtitle} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {GLOBAL_LEADERSHIP.map((member, i) => (
+                    <MemberCard key={member.id} member={member} index={i} onOpenBio={openBio} />
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
