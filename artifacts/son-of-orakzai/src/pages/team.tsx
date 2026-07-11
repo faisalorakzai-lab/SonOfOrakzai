@@ -10,7 +10,7 @@ import {
 const GOLD = "#D4AF37";
 
 const HERO_SLIDES = [
-  { src: "/hero/faisal-orakzai-portrait.jpg", caption: "Leadership for a New Generation" },
+  { src: "/faisal-orakzai-unitar.jpg", caption: "Chairman Faisal Orakzai — UNITAR, United Nations" },
   { src: "/hero/heritage-tribal-elders.jpg", caption: "The Tribes of Our Frontier — Orakzai Elders" },
   { src: "/hero/heritage-dost-mohammad-khan.jpg", caption: "A Legacy of Honour & Command" },
   { src: "/hero/heritage-frontier-jirga.jpeg", caption: "A Heritage of Diplomacy & Resolve" },
@@ -85,6 +85,9 @@ interface TeamMember {
   bio: string;
   location?: string;
   reportsTo?: string;
+  leadershipPrinciples?: { title: string; description: string }[];
+  strategicFocusAreas?: { title: string; description: string }[];
+  currentInitiatives?: { title: string; status: string; description: string }[];
 }
 
 const SUPREME_LEADERS: TeamMember[] = [
@@ -94,7 +97,7 @@ const SUPREME_LEADERS: TeamMember[] = [
     title: "Founder & Chairman",
     focus: "Vision, Leadership & National Outreach",
     intro: "Leading Orakzai with a vision of digital empowerment and unity for the Orakzai community across Pakistan and beyond.",
-    photo: "/faisal-orakzai.png",
+    photo: "/faisal-orakzai-unitar.jpg",
     linkedin: "https://www.linkedin.com/in/faisalorakzaii",
     twitter: "https://x.com/faisalorakzaii",
     website: "https://faisalorakzai.com",
@@ -103,6 +106,28 @@ const SUPREME_LEADERS: TeamMember[] = [
     mission: "To forge a legacy of unity and progress for the Orakzai people — where every voice is heard, every talent is nurtured, and no family is left behind. Our strength is our togetherness.",
     bio: "Chairman Faisal Orakzai is the driving force behind Orakzai's transformation into a nationally recognized community movement. With a visionary approach rooted in deep love for his homeland, he has spearheaded initiatives spanning education, healthcare, digital empowerment, and civic representation. Under his leadership, the organization has grown from a grassroots effort into a structured institution serving thousands of Orakzai families. His commitment to transparent governance and inclusive leadership sets the tone for everything the organization does. Chairman Faisal believes that true prosperity is collective — and that the Orakzai district's greatest resource is the resilience and talent of its people.",
     location: "Karachi, Pakistan",
+    leadershipPrinciples: [
+      { title: "Unity Above All", description: "Every decision begins with one question: does this bring our people closer together?" },
+      { title: "Transparent Governance", description: "Trust is built through accountability — every rupee, every project, every outcome is reported openly." },
+      { title: "Inclusive Progress", description: "No family is left behind. Development that excludes any segment of society is incomplete." },
+      { title: "Youth as the Vanguard", description: "The next generation of Orakzai leaders will be digital, educated, and globally competitive." },
+      { title: "Heritage with Modernity", description: "Our roots in Pashtunwali give us character; our embrace of technology gives us reach." },
+    ],
+    strategicFocusAreas: [
+      { title: "Digital Empowerment", description: "Building the infrastructure for Orakzai youth to compete in Pakistan's digital economy through skill labs, coding bootcamps, and freelancing programs." },
+      { title: "Education Access", description: "Scholarships, learning centers, and distance-learning partnerships to ensure no child in Orakzai district is denied quality education." },
+      { title: "Healthcare Outreach", description: "Mobile medical units, telemedicine, and preventive health camps reaching the most remote villages of the district." },
+      { title: "Civic Representation", description: "Amplifying the Orakzai voice in national policy through structured engagement with government bodies and legislative forums." },
+      { title: "Economic Innovation", description: "Interest-free micro-grants, enterprise incubation, and job placement programs creating sustainable livelihoods." },
+      { title: "Global Diaspora Network", description: "Connecting Orakzai communities across 12 countries into a unified force for development and advocacy." },
+    ],
+    currentInitiatives: [
+      { title: "Digital Skill Lab — Phase II", status: "Active", description: "Expanding coding, AI literacy, and freelancing training to 500 new students across three districts." },
+      { title: "Sehat-e-Orakzai Mobile Clinics", status: "Active", description: "Four mobile health units conducting monthly camps across 28 remote villages." },
+      { title: "Global Scholarship Fund 2026", status: "Open", description: "Full university scholarships for 50 Orakzai students — applications now open for the 2026–27 academic year." },
+      { title: "UNITAR Community Leadership Program", status: "Completed", description: "Representing the Orakzai community at the United Nations Institute for Training and Research in Geneva." },
+      { title: "Orakzai Digital Embassy Launch", status: "Ongoing", description: "Building sonoforakzai.vercel.app into a comprehensive digital homeland for the entire Orakzai nation." },
+    ],
   },
   {
     id: 2,
@@ -130,8 +155,8 @@ const BOARD_MEMBERS: TeamMember[] = [
     intro: "Driving educational initiatives and digital literacy programs that empower women across the Orakzai region.",
     photo: "/team/maria-hussain.jpg",
     linkedin: "#", twitter: "#",
-    bio: "Maria Hussain has dedicated over a decade to transforming education access across the Orakzai district. A graduate of Quaid-i-Azam University with a Master's in Education Policy, she designed and launched the organization's flagship scholarship program that has benefited more than 500 students. She oversees curriculum development, teacher training initiatives, and digital literacy programs. Maria's philosophy is simple: an educated Orakzai is an empowered Orakzai. Under her guidance, the Education Department has established five learning centers and partnered with national universities for distance learning programs.",
-    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+    bio: "Maria Hussain is a distinguished education policy specialist, digital transformation advocate, and social impact leader. She holds a Master's degree in Education Policy from Quaid-i-Azam University, Islamabad, and is a UN APCICT Certified Trainer. Operating actively between Islamabad and Khyber Pakhtunkhwa, she has dedicated over a decade to driving educational equity, digital literacy, and women's empowerment across underserved regions, with a profound focus on the Orakzai District.\n\nKey Achievements & Career Track Record\n\nEducational Infrastructure: As the Education Head at Suno F Orakzai, she spearheads grassroots academic initiatives. Under her leadership, the organization established five localized learning centers in Orakzai to bridge infrastructure gaps.\n\nScholarship Design: She conceptualized and executed a flagship scholarship program that has successfully funded and transformed the academic journeys of over 500 students in the district.\n\nAcademic Development: She directly oversees core educational operations, including modern curriculum development, teacher training workshops, and distance learning partnerships with national universities.\n\nDigital & Women Empowerment: Serving as the Director of Operations at Infotex and Program Coordinator for WiFi DX (Women ICT Frontier Initiative), she trains women in critical ICT and digital skills, enabling them to transition into the modern digital economy.\n\nVision and Philosophy for Orakzai\n\nMaria's core operational philosophy is simple yet transformative: \"An educated Orakzai is an empowered Orakzai.\"\n\nHer vision is to move past traditional schooling and equip the youth and women of Orakzai with practical digital literacy. By introducing computer training, online skill labs, and remote learning programs, she aims to break geographical barriers. Her ultimate goal is to connect the remote talent of Orakzai directly to mainstream national and international socioeconomic opportunities.",
+    location: "Islamabad Capital Territory, Islamabad, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
   {
@@ -1024,7 +1049,7 @@ export default function Team() {
         </div>
       </div>
 
-      {/* ─── FULL PROFILE PANEL (org-chart style) ─── */}
+      {/* ─── FULL PROFILE PANEL ─── */}
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetContent
           side="right"
@@ -1032,12 +1057,282 @@ export default function Team() {
           style={{ borderColor: "rgba(212,175,55,0.3)", background: "#061209" }}
         >
           {selectedMember && (() => {
-            const superior = findMemberByName(selectedMember.reportsTo);
             const directs = getDirectReports(selectedMember.name);
+            const superior = findMemberByName(selectedMember.reportsTo);
             const contactHref =
               selectedMember.website ||
               (selectedMember.linkedin && selectedMember.linkedin !== "#" ? selectedMember.linkedin : undefined) ||
               "/contact";
+
+            /* ══ GLOBAL INSTITUTIONAL LAYOUT — for supreme/chairman profiles ══ */
+            if (selectedMember.isSupreme) {
+              return (
+                <>
+                  <div className="h-1 w-full" style={{ background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />
+
+                  {/* 1. EXECUTIVE PORTRAIT — full-width, cinematic */}
+                  <div className="relative w-full overflow-hidden" style={{ height: 340 }}>
+                    <img
+                      src={selectedMember.photo}
+                      alt={selectedMember.name}
+                      className="w-full h-full object-cover"
+                      style={{ objectPosition: "center 15%" }}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(selectedMember.name)}&backgroundColor=064e3b&textColor=D4AF37`;
+                      }}
+                    />
+                    {/* Portrait overlay gradient */}
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(6,18,9,0.1) 0%, rgba(6,18,9,0.0) 40%, rgba(6,18,9,0.85) 100%)" }} />
+                    {/* Crown badge */}
+                    <div
+                      className="absolute top-4 left-4 flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold shadow-lg"
+                      style={{ background: `linear-gradient(135deg, #F5E07E, ${GOLD}, #B8962E)`, color: "#022c22" }}
+                    >
+                      <Crown className="w-3.5 h-3.5" />
+                      {selectedMember.supremeTitle}
+                    </div>
+                    <div
+                      className="absolute bottom-4 right-4 flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold"
+                      style={{ background: "rgba(6,18,9,0.75)", border: `1px solid ${GOLD}40`, color: GOLD, backdropFilter: "blur(8px)" }}
+                    >
+                      <BadgeCheck className="w-3 h-3" /> Verified Leadership
+                    </div>
+                  </div>
+
+                  <SheetHeader className="px-7 pt-6 pb-0 text-left">
+                    {/* 2. NAME & POSITION */}
+                    <SheetTitle className="text-3xl font-bold text-white leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+                      {selectedMember.name}
+                    </SheetTitle>
+                    <p className="text-sm font-bold mt-1 uppercase tracking-[0.16em]" style={{ color: GOLD }}>{selectedMember.title}</p>
+                    <div className="flex items-center gap-3 mt-2 flex-wrap">
+                      <span className="flex items-center gap-1.5 text-xs text-emerald-100/50">
+                        <MapPin className="w-3 h-3" /> {selectedMember.location}
+                      </span>
+                      <span className="text-emerald-100/25">·</span>
+                      <span className="flex items-center gap-1.5 text-xs text-emerald-100/50">
+                        <Star className="w-3 h-3" /> {selectedMember.focus}
+                      </span>
+                    </div>
+
+                    {/* Contact & Social Links */}
+                    <div className="flex items-center gap-2.5 mt-5 flex-wrap">
+                      <a
+                        href={contactHref}
+                        target={contactHref.startsWith("http") ? "_blank" : undefined}
+                        rel={contactHref.startsWith("http") ? "noopener noreferrer" : undefined}
+                        className="flex items-center gap-2 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
+                        style={{ background: GOLD, color: "#022c22" }}
+                      >
+                        <Mail className="w-3.5 h-3.5" /> Contact
+                      </a>
+                      {selectedMember.linkedin && selectedMember.linkedin !== "#" && (
+                        <a href={selectedMember.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                          className="p-2.5 rounded-full transition-all hover:scale-110"
+                          style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
+                          <Linkedin className="w-4 h-4" style={{ color: GOLD }} />
+                        </a>
+                      )}
+                      {selectedMember.twitter && selectedMember.twitter !== "#" && (
+                        <a href={selectedMember.twitter} target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"
+                          className="p-2.5 rounded-full transition-all hover:scale-110"
+                          style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
+                          <Twitter className="w-4 h-4" style={{ color: GOLD }} />
+                        </a>
+                      )}
+                      {selectedMember.website && (
+                        <a href={selectedMember.website} target="_blank" rel="noopener noreferrer" aria-label="Website"
+                          className="p-2.5 rounded-full transition-all hover:scale-110"
+                          style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
+                          <Globe className="w-4 h-4" style={{ color: GOLD }} />
+                        </a>
+                      )}
+                    </div>
+                  </SheetHeader>
+
+                  <div className="px-7 pt-6 pb-12 space-y-8">
+                    <div className="h-px" style={{ background: `linear-gradient(to right, transparent, ${GOLD}40, transparent)` }} />
+
+
+                    {/* 3. TEAM (direct reports) — shown at top */}
+                    {directs.length > 0 && (
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.22em] font-bold mb-4" style={{ color: GOLD }}>
+                          Team ({directs.length})
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {directs.map((d) => (
+                            <button
+                              key={d.id}
+                              onClick={() => openBio(d)}
+                              className="flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-full transition-all hover:scale-105"
+                              style={{ background: "rgba(212,175,55,0.08)", border: `1px solid ${GOLD}30` }}
+                            >
+                              <img src={d.photo} alt={d.name} className="w-7 h-7 rounded-full object-cover"
+                                style={{ objectPosition: "top center" }} />
+                              <span className="text-xs text-white/80">{d.name.split(" ")[0]}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 4. MISSION STATEMENT / QUOTE */}
+                    {selectedMember.mission && (
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.22em] font-bold mb-3" style={{ color: GOLD }}>Mission Statement</p>
+                        <div className="relative pl-5 py-1">
+                          <div className="absolute left-0 top-0 h-full w-[3px] rounded-full" style={{ background: `linear-gradient(to bottom, ${GOLD}, rgba(212,175,55,0.2))` }} />
+                          <p className="text-white/85 text-base leading-relaxed italic font-medium" style={{ fontFamily: "'Playfair Display', serif" }}>
+                            &ldquo;{selectedMember.mission}&rdquo;
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 4. BIOGRAPHY */}
+                    <div>
+                      <p className="text-[10px] uppercase tracking-[0.22em] font-bold mb-3" style={{ color: GOLD }}>Biography</p>
+                      <p className="text-emerald-100/75 leading-relaxed text-sm">{selectedMember.bio}</p>
+                    </div>
+
+                    {/* 5. LEADERSHIP PRINCIPLES */}
+                    {selectedMember.leadershipPrinciples && selectedMember.leadershipPrinciples.length > 0 && (
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.22em] font-bold mb-4" style={{ color: GOLD }}>Leadership Principles</p>
+                        <div className="space-y-3">
+                          {selectedMember.leadershipPrinciples.map((principle, i) => (
+                            <div
+                              key={i}
+                              className="flex gap-4 p-4 rounded-xl"
+                              style={{ background: "rgba(212,175,55,0.05)", border: "1px solid rgba(212,175,55,0.15)" }}
+                            >
+                              <div
+                                className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold"
+                                style={{ background: `linear-gradient(135deg, #F5E07E, ${GOLD})`, color: "#022c22" }}
+                              >
+                                {i + 1}
+                              </div>
+                              <div>
+                                <p className="text-sm font-bold text-white mb-1">{principle.title}</p>
+                                <p className="text-xs text-emerald-100/55 leading-relaxed">{principle.description}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 6. STRATEGIC FOCUS AREAS */}
+                    {selectedMember.strategicFocusAreas && selectedMember.strategicFocusAreas.length > 0 && (
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.22em] font-bold mb-4" style={{ color: GOLD }}>Strategic Focus Areas</p>
+                        <div className="grid grid-cols-1 gap-3">
+                          {selectedMember.strategicFocusAreas.map((area, i) => (
+                            <div
+                              key={i}
+                              className="p-4 rounded-xl"
+                              style={{ background: "linear-gradient(135deg, rgba(4,26,16,0.8), rgba(2,14,9,0.9))", border: "1px solid rgba(212,175,55,0.18)" }}
+                            >
+                              <div className="flex items-start gap-2 mb-1.5">
+                                <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ background: GOLD }} />
+                                <p className="text-sm font-bold text-white">{area.title}</p>
+                              </div>
+                              <p className="text-xs text-emerald-100/55 leading-relaxed pl-3.5">{area.description}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 7. CURRENT INITIATIVES */}
+                    {selectedMember.currentInitiatives && selectedMember.currentInitiatives.length > 0 && (
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.22em] font-bold mb-4" style={{ color: GOLD }}>Current Initiatives</p>
+                        <div className="space-y-3">
+                          {selectedMember.currentInitiatives.map((initiative, i) => (
+                            <div
+                              key={i}
+                              className="p-4 rounded-xl"
+                              style={{ background: "rgba(3,35,22,0.7)", border: "1px solid rgba(212,175,55,0.14)" }}
+                            >
+                              <div className="flex items-center justify-between mb-2">
+                                <p className="text-sm font-bold text-white">{initiative.title}</p>
+                                <span
+                                  className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full flex-shrink-0 ml-2"
+                                  style={{
+                                    background: initiative.status === "Active"
+                                      ? "rgba(16,185,129,0.15)"
+                                      : initiative.status === "Completed"
+                                      ? "rgba(212,175,55,0.12)"
+                                      : "rgba(59,130,246,0.15)",
+                                    color: initiative.status === "Active"
+                                      ? "#10b981"
+                                      : initiative.status === "Completed"
+                                      ? GOLD
+                                      : "#60a5fa",
+                                    border: `1px solid ${initiative.status === "Active" ? "rgba(16,185,129,0.3)" : initiative.status === "Completed" ? "rgba(212,175,55,0.3)" : "rgba(59,130,246,0.3)"}`,
+                                  }}
+                                >
+                                  {initiative.status}
+                                </span>
+                              </div>
+                              <p className="text-xs text-emerald-100/55 leading-relaxed">{initiative.description}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* 9. CONTACT & SOCIAL LINKS (footer) */}
+                    <div
+                      className="p-5 rounded-2xl"
+                      style={{ background: "linear-gradient(135deg, rgba(6,55,36,0.5), rgba(2,20,13,0.8))", border: `1px solid ${GOLD}30` }}
+                    >
+                      <p className="text-[10px] uppercase tracking-[0.22em] font-bold mb-4" style={{ color: GOLD }}>Contact & Social Links</p>
+                      <div className="flex flex-col gap-3">
+                        {selectedMember.website && (
+                          <a href={selectedMember.website} target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-3 text-sm text-white/80 hover:text-white transition-colors group">
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                              style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
+                              <Globe className="w-4 h-4" style={{ color: GOLD }} />
+                            </div>
+                            <span className="group-hover:underline">{selectedMember.website.replace("https://", "")}</span>
+                            <ArrowUpRight className="w-3.5 h-3.5 ml-auto opacity-40 group-hover:opacity-100" style={{ color: GOLD }} />
+                          </a>
+                        )}
+                        {selectedMember.linkedin && selectedMember.linkedin !== "#" && (
+                          <a href={selectedMember.linkedin} target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-3 text-sm text-white/80 hover:text-white transition-colors group">
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                              style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
+                              <Linkedin className="w-4 h-4" style={{ color: GOLD }} />
+                            </div>
+                            <span className="group-hover:underline">linkedin.com/in/faisalorakzaii</span>
+                            <ArrowUpRight className="w-3.5 h-3.5 ml-auto opacity-40 group-hover:opacity-100" style={{ color: GOLD }} />
+                          </a>
+                        )}
+                        {selectedMember.twitter && selectedMember.twitter !== "#" && (
+                          <a href={selectedMember.twitter} target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-3 text-sm text-white/80 hover:text-white transition-colors group">
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                              style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
+                              <Twitter className="w-4 h-4" style={{ color: GOLD }} />
+                            </div>
+                            <span className="group-hover:underline">x.com/faisalorakzaii</span>
+                            <ArrowUpRight className="w-3.5 h-3.5 ml-auto opacity-40 group-hover:opacity-100" style={{ color: GOLD }} />
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            }
+
+            /* ══ STANDARD ORG-CHART LAYOUT — for all other team members ══ */
             return (
               <>
                 <div className="h-1 w-full" style={{ background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />
@@ -1059,15 +1354,6 @@ export default function Team() {
                           }}
                         />
                       </div>
-                      {selectedMember.isSupreme && (
-                        <div
-                          className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center"
-                          style={{ background: GOLD, border: "2px solid #061209" }}
-                          title="Verified Leadership"
-                        >
-                          <BadgeCheck className="w-3.5 h-3.5 text-emerald-950" />
-                        </div>
-                      )}
                     </div>
                     <div className="pt-1">
                       <SheetTitle className="text-2xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -1080,7 +1366,6 @@ export default function Team() {
                     </div>
                   </div>
 
-                  {/* Action row: Contact + social — org-chart-profile style */}
                   <div className="flex items-center gap-2.5 mt-5 flex-wrap">
                     <a
                       href={contactHref}
@@ -1117,7 +1402,6 @@ export default function Team() {
                 </SheetHeader>
 
                 <div className="px-8 pt-6 pb-10">
-                  {/* Location / Focus info grid — org-chart profile style */}
                   <div className="grid grid-cols-2 gap-4 py-5 border-y" style={{ borderColor: "rgba(212,175,55,0.15)" }}>
                     <div>
                       <p className="text-[11px] uppercase tracking-widest text-emerald-100/40 mb-1.5 flex items-center gap-1.5">
@@ -1133,7 +1417,6 @@ export default function Team() {
                     </div>
                   </div>
 
-                  {/* Reporting line — mini org chart */}
                   {superior && (
                     <button
                       onClick={() => openBio(superior)}
@@ -1150,7 +1433,6 @@ export default function Team() {
                     </button>
                   )}
 
-                  {/* Direct reports — mini org chart */}
                   {directs.length > 0 && (
                     <div className="mt-5">
                       <p className="text-[11px] uppercase tracking-widest text-emerald-100/40 mb-2.5 flex items-center gap-1.5">
@@ -1183,7 +1465,7 @@ export default function Team() {
                       </p>
                     </div>
                   )}
-                  <p className="text-emerald-100/70 leading-relaxed text-sm">{selectedMember.bio}</p>
+                  <p className="text-emerald-100/70 leading-relaxed text-sm whitespace-pre-line">{selectedMember.bio}</p>
                 </div>
               </>
             );
