@@ -130,8 +130,8 @@ const BOARD_MEMBERS: TeamMember[] = [
     intro: "Driving educational initiatives and digital literacy programs that empower women across the Orakzai region.",
     photo: "/team/maria-hussain.jpg",
     linkedin: "#", twitter: "#",
-    bio: "Maria Hussain has dedicated over a decade to transforming education access across the Orakzai district. A graduate of Quaid-i-Azam University with a Master's in Education Policy, she designed and launched the organization's flagship scholarship program that has benefited more than 500 students. She oversees curriculum development, teacher training initiatives, and digital literacy programs. Maria's philosophy is simple: an educated Orakzai is an empowered Orakzai. Under her guidance, the Education Department has established five learning centers and partnered with national universities for distance learning programs.",
-    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+    bio: "Maria Hussain is a distinguished education policy specialist, digital transformation advocate, and social impact leader. She holds a Master's degree in Education Policy from Quaid-i-Azam University, Islamabad, and is a UN APCICT Certified Trainer. Operating actively between Islamabad and Khyber Pakhtunkhwa, she has dedicated over a decade to driving educational equity, digital literacy, and women's empowerment across underserved regions, with a profound focus on the Orakzai District.\n\nKey Achievements & Career Track Record\n\nEducational Infrastructure: As the Education Head at Suno F Orakzai, she spearheads grassroots academic initiatives. Under her leadership, the organization established five localized learning centers in Orakzai to bridge infrastructure gaps.\n\nScholarship Design: She conceptualized and executed a flagship scholarship program that has successfully funded and transformed the academic journeys of over 500 students in the district.\n\nAcademic Development: She directly oversees core educational operations, including modern curriculum development, teacher training workshops, and distance learning partnerships with national universities.\n\nDigital & Women Empowerment: Serving as the Director of Operations at Infotex and Program Coordinator for WiFi DX (Women ICT Frontier Initiative), she trains women in critical ICT and digital skills, enabling them to transition into the modern digital economy.\n\nVision and Philosophy for Orakzai\n\nMaria's core operational philosophy is simple yet transformative: \"An educated Orakzai is an empowered Orakzai.\"\n\nHer vision is to move past traditional schooling and equip the youth and women of Orakzai with practical digital literacy. By introducing computer training, online skill labs, and remote learning programs, she aims to break geographical barriers. Her ultimate goal is to connect the remote talent of Orakzai directly to mainstream national and international socioeconomic opportunities.",
+    location: "Islamabad Capital Territory, Islamabad, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
   {
@@ -1183,7 +1183,7 @@ export default function Team() {
                       </p>
                     </div>
                   )}
-                  <p className="text-emerald-100/70 leading-relaxed text-sm">{selectedMember.bio}</p>
+                  <p className="text-emerald-100/70 leading-relaxed text-sm whitespace-pre-line">{selectedMember.bio}</p>
                 </div>
               </>
             );
