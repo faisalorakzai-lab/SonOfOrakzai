@@ -649,6 +649,7 @@ function CategoryCard({
   const Icon = meta.icon;
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const ordinal = String(index + 1).padStart(2, "0");
 
   return (
     <motion.div
@@ -660,45 +661,68 @@ function CategoryCard({
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === "Enter") onClick(); }}
-      className="group relative rounded-[28px] p-8 cursor-pointer overflow-hidden text-left h-full flex flex-col"
+      className="group relative rounded-[22px] p-8 cursor-pointer overflow-hidden text-left h-full flex flex-col min-h-[336px]"
       style={{
-        background: "linear-gradient(160deg, rgba(6,55,36,0.55) 0%, rgba(2,20,13,0.8) 100%)",
-        backdropFilter: "blur(16px)",
-        border: "1px solid rgba(212,175,55,0.22)",
-        transition: "all 0.45s ease",
+        background: "linear-gradient(160deg, rgba(5,26,16,0.94) 0%, rgba(11,17,17,0.97) 55%, rgba(4,12,9,0.98) 100%)",
+        backdropFilter: "blur(18px)",
+        border: "1px solid rgba(212,175,55,0.24)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 28px rgba(0,0,0,0.35)",
+        transition: "transform 0.45s cubic-bezier(0.22,1,0.36,1), border-color 0.45s ease, box-shadow 0.45s ease",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-8px) scale(1.015)";
+        e.currentTarget.style.transform = "translateY(-10px) scale(1.02)";
         e.currentTarget.style.borderColor = GOLD;
-        e.currentTarget.style.boxShadow = "0 0 40px rgba(212,175,55,0.20), 0 24px 48px rgba(0,0,0,0.4)";
+        e.currentTarget.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(212,175,55,0.35), 0 32px 60px rgba(0,0,0,0.5), 0 0 48px rgba(212,175,55,0.18)";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.transform = "translateY(0) scale(1)";
-        e.currentTarget.style.borderColor = "rgba(212,175,55,0.22)";
-        e.currentTarget.style.boxShadow = "none";
+        e.currentTarget.style.borderColor = "rgba(212,175,55,0.24)";
+        e.currentTarget.style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 28px rgba(0,0,0,0.35)";
       }}
     >
-      <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-0 group-hover:opacity-25 blur-3xl transition-opacity duration-500 pointer-events-none" style={{ background: GOLD }} />
+      {/* top hairline accent — brightens on hover */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[2px] opacity-40 group-hover:opacity-100 transition-opacity duration-500"
+        style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }}
+      />
+      {/* ambient corner glow */}
+      <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full opacity-0 group-hover:opacity-30 blur-3xl transition-opacity duration-500 pointer-events-none" style={{ background: GOLD }} />
+      {/* institutional index mark */}
+      <span
+        className="absolute top-7 right-8 text-[11px] font-bold tracking-[0.2em] opacity-30 group-hover:opacity-60 transition-opacity duration-500"
+        style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}
+      >
+        {ordinal}
+      </span>
 
       <div
-        className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
-        style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}50` }}
+        className="relative w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3"
+        style={{
+          background: "linear-gradient(155deg, rgba(212,175,55,0.16), rgba(212,175,55,0.04))",
+          border: `1px solid ${GOLD}55`,
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08)",
+        }}
       >
         <Icon className="w-7 h-7" style={{ color: GOLD }} />
       </div>
 
-      <h3 className="text-2xl font-bold text-white mb-2.5" style={{ fontFamily: "'Playfair Display', serif" }}>{meta.title}</h3>
+      <h3 className="text-2xl font-bold text-white mb-2.5 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>{meta.title}</h3>
       <p className="text-sm text-emerald-100/55 leading-relaxed mb-7 flex-1">{meta.subtitle}</p>
 
-      <div className="flex items-center justify-between">
+      <div className="relative flex items-center justify-between pt-5 border-t" style={{ borderColor: "rgba(212,175,55,0.14)" }}>
         <span
-          className="text-[11px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full"
-          style={{ background: "rgba(212,175,55,0.12)", color: GOLD, border: `1px solid ${GOLD}30` }}
+          className="text-[10.5px] font-extrabold uppercase tracking-[0.14em] px-3.5 py-[7px] rounded-full"
+          style={{
+            background: `linear-gradient(135deg, ${GOLD}, #a9822f)`,
+            color: "#0a1f14",
+            boxShadow: "0 2px 10px rgba(212,175,55,0.35)",
+          }}
         >
           {meta.count}
         </span>
-        <span className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider" style={{ color: GOLD }}>
-          Explore <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+        <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.14em]" style={{ color: GOLD }}>
+          Explore
+          <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1.5" />
         </span>
       </div>
     </motion.div>
@@ -843,12 +867,12 @@ export default function Team() {
                   title="Who Builds Orakzai.org"
                   description="Each pillar operates as its own institution — its own people, its own mandate, all accountable to one shared mission. Select a pillar to meet the people behind it."
                 />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 max-w-6xl mx-auto">
-                  <CategoryCard id="executive" index={0} onClick={() => goCategory("executive")} />
-                  <CategoryCard id="board" index={1} onClick={() => goCategory("board")} />
-                  <CategoryCard id="representatives" index={2} onClick={() => goCategory("representatives")} />
-                  <CategoryCard id="beneficiaries" index={3} onClick={() => goCategory("beneficiaries")} />
-                  <CategoryCard id="global" index={4} onClick={() => goCategory("global")} />
+                <div className="flex flex-wrap justify-center gap-6 md:gap-7 max-w-6xl mx-auto">
+                  {(["executive", "board", "representatives", "beneficiaries", "global"] as const).map((id, i) => (
+                    <div key={id} className="w-full md:w-[calc(50%-14px)] lg:w-[calc(33.333%-19px)]">
+                      <CategoryCard id={id} index={i} onClick={() => goCategory(id)} />
+                    </div>
+                  ))}
                 </div>
               </motion.div>
             )}
