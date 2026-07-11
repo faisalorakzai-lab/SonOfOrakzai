@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { MainLayout } from "@/components/layout/main-layout";
 import { motion, useInView } from "framer-motion";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Linkedin, Twitter, Crown, Shield, Star, ChevronRight } from "lucide-react";
+import { Linkedin, Twitter, Crown, Shield, Star, ChevronRight, Globe, BadgeCheck } from "lucide-react";
 
 const GOLD = "#D4AF37";
 
@@ -15,6 +15,7 @@ interface TeamMember {
   photo: string;
   linkedin?: string;
   twitter?: string;
+  website?: string;
   isSupreme?: boolean;
   supremeTitle?: string;
   mission?: string;
@@ -25,14 +26,15 @@ const SUPREME_LEADERS: TeamMember[] = [
   {
     id: 1,
     name: "Faisal Orakzai",
-    title: "Chairman",
+    title: "Founder & Chairman",
     focus: "Vision, Leadership & National Outreach",
     intro: "Leading Orakzai with a vision of digital empowerment and unity for the Orakzai community across Pakistan and beyond.",
     photo: "/faisal-orakzai.png",
-    linkedin: "#",
-    twitter: "#",
+    linkedin: "https://www.linkedin.com/in/faisalorakzaii",
+    twitter: "https://x.com/faisalorakzaii",
+    website: "https://faisalorakzai.com",
     isSupreme: true,
-    supremeTitle: "Chairman",
+    supremeTitle: "Founder & Chairman",
     mission: "To forge a legacy of unity and progress for the Orakzai people — where every voice is heard, every talent is nurtured, and no family is left behind. Our strength is our togetherness.",
     bio: "Chairman Faisal Orakzai is the driving force behind Orakzai's transformation into a nationally recognized community movement. With a visionary approach rooted in deep love for his homeland, he has spearheaded initiatives spanning education, healthcare, digital empowerment, and civic representation. Under his leadership, the organization has grown from a grassroots effort into a structured institution serving thousands of Orakzai families. His commitment to transparent governance and inclusive leadership sets the tone for everything the organization does. Chairman Faisal believes that true prosperity is collective — and that the Orakzai district's greatest resource is the resilience and talent of its people.",
   },
@@ -183,55 +185,84 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
       transition={{ delay: index * 0.18, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      className="relative flex flex-col items-center text-center p-8 rounded-2xl border"
+      className="relative flex flex-col items-center text-center p-9 pt-11 rounded-[28px] overflow-hidden"
       style={{
-        background: "rgba(3,45,30,0.7)",
-        backdropFilter: "blur(16px)",
-        borderColor: GOLD,
-        borderWidth: "1px",
+        background: "linear-gradient(160deg, rgba(6,55,36,0.9) 0%, rgba(2,20,13,0.95) 100%)",
+        backdropFilter: "blur(18px)",
+        border: `1px solid ${hovered ? GOLD : "rgba(212,175,55,0.5)"}`,
         boxShadow: hovered
-          ? "0 0 40px rgba(212,175,55,0.45), 0 8px 32px rgba(0,0,0,0.4)"
-          : "0 4px 24px rgba(0,0,0,0.3)",
+          ? "0 0 56px rgba(212,175,55,0.35), 0 20px 48px rgba(0,0,0,0.5)"
+          : "0 8px 32px rgba(0,0,0,0.35)",
         transform: hovered ? "translateY(-8px)" : "translateY(0)",
-        transition: "all 0.35s ease",
+        transition: "all 0.4s ease",
       }}
     >
+      {/* Ambient corner glow */}
+      <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-20 blur-3xl pointer-events-none" style={{ background: GOLD }} />
+      <div className="absolute -bottom-16 -left-16 w-40 h-40 rounded-full opacity-10 blur-3xl pointer-events-none" style={{ background: GOLD }} />
+
+      {/* Fine gold hairline frame */}
+      <div className="absolute inset-3 rounded-[22px] pointer-events-none" style={{ border: "1px solid rgba(212,175,55,0.18)" }} />
+
       {/* Supreme Badge */}
       <div
-        className="absolute -top-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-4 py-1 rounded-full text-xs font-bold"
-        style={{ background: GOLD, color: "#022c22" }}
+        className="absolute -top-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-lg z-10"
+        style={{ background: `linear-gradient(135deg, #F5E07E, ${GOLD}, #B8962E)`, color: "#022c22" }}
       >
         <Crown className="w-3.5 h-3.5" />
         {member.supremeTitle}
       </div>
 
-      <div className="mt-2 mb-4">
-        <MemberAvatar src={member.photo} name={member.name} size={128} />
+      {/* Avatar with ornamental ring */}
+      <div className="relative mt-2 mb-5">
+        <div
+          className="absolute -inset-2 rounded-full opacity-70"
+          style={{ background: `conic-gradient(from 180deg, ${GOLD}, transparent 40%, transparent 60%, ${GOLD})`, filter: "blur(2px)" }}
+        />
+        <MemberAvatar src={member.photo} name={member.name} size={152} />
+        <div
+          className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full flex items-center justify-center z-10"
+          style={{ background: GOLD, border: "2px solid #022c22" }}
+          title="Verified Leadership"
+        >
+          <BadgeCheck className="w-4 h-4 text-emerald-950" />
+        </div>
       </div>
 
-      <h3 className="text-xl font-bold text-white mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
-      <p className="text-sm font-semibold mb-1" style={{ color: GOLD }}>{member.title}</p>
-      <p className="text-xs text-white/50 mb-3">{member.focus}</p>
-      <p className="text-sm text-white/70 leading-relaxed mb-4 max-w-xs">{member.intro}</p>
+      <h3 className="text-2xl font-bold text-white mb-1.5 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
+      <p className="text-sm font-bold mb-1 uppercase tracking-widest" style={{ color: GOLD }}>{member.title}</p>
+      <p className="text-xs text-white/45 mb-4">{member.focus}</p>
+      <div className="h-px w-16 mb-4" style={{ background: `linear-gradient(to right, transparent, ${GOLD}80, transparent)` }} />
+      <p className="text-sm text-white/70 leading-relaxed mb-6 max-w-xs">{member.intro}</p>
 
       <button
         onClick={() => onOpenBio(member)}
-        className="flex items-center gap-1.5 mb-4 rounded-full px-5 py-1.5 text-xs font-bold transition-all hover:scale-105"
-        style={{ background: "rgba(212,175,55,0.12)", border: `1px solid ${GOLD}60`, color: GOLD }}
+        className="flex items-center gap-1.5 mb-5 rounded-full px-6 py-2 text-xs font-bold uppercase tracking-wider transition-all hover:scale-105"
+        style={{ background: `linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.08))`, border: `1px solid ${GOLD}70`, color: GOLD }}
       >
         Full Biography
         <ChevronRight className="w-3.5 h-3.5" />
       </button>
 
-      <div className="flex gap-3">
-        <a href={member.linkedin || "#"} className="p-2 rounded-full transition-all hover:scale-110"
-          style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
-          <Linkedin className="w-4 h-4" style={{ color: GOLD }} />
-        </a>
-        <a href={member.twitter || "#"} className="p-2 rounded-full transition-all hover:scale-110"
-          style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}40` }}>
-          <Twitter className="w-4 h-4" style={{ color: GOLD }} />
-        </a>
+      <div className="flex gap-3 z-10">
+        {member.linkedin && (
+          <a href={member.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} className="p-2.5 rounded-full transition-all hover:scale-110 hover:bg-[#D4AF37]/20"
+            style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}50` }}>
+            <Linkedin className="w-4 h-4" style={{ color: GOLD }} />
+          </a>
+        )}
+        {member.twitter && (
+          <a href={member.twitter} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on X`} className="p-2.5 rounded-full transition-all hover:scale-110 hover:bg-[#D4AF37]/20"
+            style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}50` }}>
+            <Twitter className="w-4 h-4" style={{ color: GOLD }} />
+          </a>
+        )}
+        {member.website && (
+          <a href={member.website} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} website`} className="p-2.5 rounded-full transition-all hover:scale-110 hover:bg-[#D4AF37]/20"
+            style={{ background: "rgba(212,175,55,0.1)", border: `1px solid ${GOLD}50` }}>
+            <Globe className="w-4 h-4" style={{ color: GOLD }} />
+          </a>
+        )}
       </div>
     </motion.div>
   );
