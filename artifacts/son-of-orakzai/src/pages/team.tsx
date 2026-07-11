@@ -449,31 +449,61 @@ const ALL_QOUM_MEMBERS: TeamMember[] = Object.values(QOUM_MALIKS).flat();
 
 /* Circular avatar — object-position: top crops name text at bottom.
    Clickable: opens the full profile, per "click the picture" requirement. */
-function MemberAvatar({ src, name, size = 128, onClick }: { src: string; name: string; size?: number; onClick?: () => void }) {
+function MemberAvatar({
+  src, name, size = 128, onClick, dualRing = false, verified = false,
+}: { src: string; name: string; size?: number; onClick?: () => void; dualRing?: boolean; verified?: boolean }) {
+  const ringPad = dualRing ? 10 : 0;
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={`Open ${name}'s full profile`}
-      className="rounded-full overflow-hidden flex-shrink-0 transition-transform hover:scale-[1.04] active:scale-95"
-      style={{
-        width: size, height: size,
-        border: `3px solid ${GOLD}`,
-        boxShadow: `0 0 16px rgba(212,175,55,0.35)`,
-        cursor: onClick ? "pointer" : "default",
-      }}
-    >
-      <img
-        src={src}
-        alt={name}
-        className="w-full h-full object-cover pointer-events-none"
-        style={{ objectPosition: 'top center' }}
-        onError={(e) => {
-          (e.target as HTMLImageElement).src =
-            `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=064e3b&textColor=D4AF37`;
+    <div className="relative flex-shrink-0" style={{ width: size + ringPad * 2, height: size + ringPad * 2 }}>
+      {dualRing && (
+        <div
+          className="absolute inset-0 rounded-full pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, rgba(6,95,60,0.0) 58%, rgba(16,120,74,0.55) 72%, rgba(16,120,74,0) 90%)",
+            filter: "blur(3px)",
+          }}
+        />
+      )}
+      <button
+        type="button"
+        onClick={onClick}
+        aria-label={`Open ${name}'s full profile`}
+        className="absolute rounded-full overflow-hidden transition-transform hover:scale-[1.04] active:scale-95"
+        style={{
+          top: ringPad, left: ringPad, width: size, height: size,
+          border: `3px solid ${GOLD}`,
+          boxShadow: dualRing
+            ? `0 0 0 4px rgba(4,20,14,0.9), 0 0 22px rgba(212,175,55,0.4)`
+            : `0 0 16px rgba(212,175,55,0.35)`,
+          cursor: onClick ? "pointer" : "default",
         }}
-      />
-    </button>
+      >
+        <img
+          src={src}
+          alt={name}
+          className="w-full h-full object-cover pointer-events-none"
+          style={{ objectPosition: 'top center' }}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src =
+              `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=064e3b&textColor=D4AF37`;
+          }}
+        />
+      </button>
+      {verified && (
+        <div
+          className="absolute w-8 h-8 rounded-full flex items-center justify-center z-10"
+          style={{
+            bottom: ringPad - 2, right: ringPad - 2,
+            background: `linear-gradient(135deg, #F5E07E, ${GOLD}, #B8962E)`,
+            border: "2.5px solid #041a10",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+          }}
+          title="Verified Leadership"
+        >
+          <BadgeCheck className="w-4 h-4 text-emerald-950" />
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -522,32 +552,35 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
         {member.supremeTitle}
       </div>
 
-      {/* Avatar with ornamental ring */}
-      <div className="relative mt-2 mb-5">
-        <div
-          className="absolute -inset-2 rounded-full opacity-70"
-          style={{ background: `conic-gradient(from 180deg, ${GOLD}, transparent 40%, transparent 60%, ${GOLD})`, filter: "blur(2px)" }}
+      {/* Avatar — dual ring (gold inner + emerald outer glow) + verified badge */}
+      <div className="relative mt-3 mb-6">
+        <MemberAvatar
+          src={member.photo}
+          name={member.name}
+          size={148}
+          onClick={() => onOpenBio(member)}
+          dualRing
+          verified
         />
-        <MemberAvatar src={member.photo} name={member.name} size={152} onClick={() => onOpenBio(member)} />
-        <div
-          className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full flex items-center justify-center z-10"
-          style={{ background: GOLD, border: "2px solid #022c22" }}
-          title="Verified Leadership"
-        >
-          <BadgeCheck className="w-4 h-4 text-emerald-950" />
-        </div>
       </div>
 
-      <h3 className="text-2xl font-bold text-white mb-1.5 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
-      <p className="text-sm font-bold mb-4 uppercase tracking-widest" style={{ color: GOLD }}>{member.title}</p>
+      <h3 className="text-[26px] leading-tight font-bold text-white mb-2 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
+      <p className="text-[13px] font-bold mb-6" style={{ color: GOLD, fontFamily: "'Inter', sans-serif", letterSpacing: "0.16em" }}>{member.title.toUpperCase()}</p>
 
-      <div
-        className="flex items-center gap-1.5 rounded-full px-6 py-2 text-xs font-bold uppercase tracking-wider transition-all group-hover:scale-105"
-        style={{ background: `linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.08))`, border: `1px solid ${GOLD}70`, color: GOLD }}
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); onOpenBio(member); }}
+        className="relative flex items-center gap-2 rounded-full px-7 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] transition-all duration-300"
+        style={{
+          background: hovered ? GOLD : "rgba(212,175,55,0.08)",
+          border: `1px solid ${GOLD}`,
+          color: hovered ? "#04140e" : GOLD,
+          boxShadow: hovered ? "0 6px 20px rgba(212,175,55,0.35)" : "none",
+        }}
       >
         View Full Profile
-        <ChevronRight className="w-3.5 h-3.5" />
-      </div>
+        <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300" style={{ transform: hovered ? "translateX(3px)" : "translateX(0)" }} />
+      </button>
     </motion.div>
   );
 }
@@ -569,33 +602,35 @@ function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: n
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === "Enter") onOpenBio(member); }}
-      className="flex flex-col items-center text-center p-6 rounded-2xl border cursor-pointer"
+      className="flex flex-col items-center text-center p-7 rounded-2xl border cursor-pointer h-full"
       style={{
-        background: "rgba(3,45,30,0.6)",
-        backdropFilter: "blur(12px)",
-        borderColor: hovered ? GOLD : `${GOLD}40`,
+        background: "linear-gradient(160deg, rgba(6,55,36,0.42) 0%, rgba(2,20,13,0.68) 100%)",
+        backdropFilter: "blur(14px)",
+        borderColor: hovered ? GOLD : `${GOLD}35`,
         borderWidth: "1px",
         boxShadow: hovered
-          ? "0 0 28px rgba(212,175,55,0.35), 0 6px 24px rgba(0,0,0,0.35)"
-          : "0 2px 12px rgba(0,0,0,0.2)",
+          ? "0 0 28px rgba(212,175,55,0.3), 0 10px 28px rgba(0,0,0,0.35)"
+          : "inset 0 1px 0 rgba(255,255,255,0.03), 0 2px 12px rgba(0,0,0,0.2)",
         transform: hovered ? "translateY(-6px)" : "translateY(0)",
         transition: "all 0.3s ease",
       }}
     >
-      <div className="mb-4">
-        <MemberAvatar src={member.photo} name={member.name} size={96} onClick={() => onOpenBio(member)} />
+      <div className="mb-5">
+        <MemberAvatar src={member.photo} name={member.name} size={92} onClick={() => onOpenBio(member)} />
       </div>
 
-      <h3 className="text-base font-bold text-white mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
-      <p className="text-xs font-semibold mb-4" style={{ color: GOLD }}>{member.title}</p>
+      <h3 className="text-base font-bold text-white mb-1.5 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
+      <p className="text-[11px] font-semibold mb-5 uppercase tracking-[0.12em]" style={{ color: GOLD, fontFamily: "'Inter', sans-serif" }}>{member.title}</p>
 
-      <div
-        className="flex items-center gap-1 rounded-full px-4 py-1 text-xs font-bold transition-all"
-        style={{ background: "rgba(212,175,55,0.12)", border: `1px solid ${GOLD}60`, color: GOLD }}
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); onOpenBio(member); }}
+        className="mt-auto flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-all"
+        style={{ color: GOLD }}
       >
         View Profile
-        <ChevronRight className="w-3 h-3" />
-      </div>
+        <ChevronRight className="w-3 h-3 transition-transform duration-300" style={{ transform: hovered ? "translateX(3px)" : "translateX(0)" }} />
+      </button>
     </motion.div>
   );
 }
