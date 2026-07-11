@@ -1059,14 +1059,14 @@ export default function Home() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="inline-flex items-center gap-3 mb-8"
             >
-              <div className="h-[1px] w-8" style={{ background: GOLD }} />
+              <div className="h-[1px] w-6 flex-shrink-0" style={{ background: GOLD }} />
               <span
-                className="text-xs font-bold tracking-[0.4em] uppercase"
+                className="text-[10px] sm:text-xs font-bold tracking-[0.2em] sm:tracking-[0.4em] uppercase whitespace-nowrap"
                 style={{ color: GOLD }}
               >
                 Orakzai.org — Digital Embassy
               </span>
-              <div className="h-[1px] w-8" style={{ background: GOLD }} />
+              <div className="h-[1px] w-6 flex-shrink-0" style={{ background: GOLD }} />
             </motion.div>
 
             {/* Global reach line */}
@@ -1094,12 +1094,12 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.5 }}
             >
               <h1
-                className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-4 leading-[1.07]"
+                className="text-[2.6rem] sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-4 leading-[1.1]"
                 style={{ fontFamily: "'Playfair Display', serif", textShadow: '0 4px 60px rgba(0,0,0,0.6)' }}
               >
-                Mutahid,{' '}
-                <span style={{ color: GOLD }}>Ba-Ikhtiyar,</span>
-                <br />Taraqi-Yafta
+                <span className="block">Mutahid,</span>
+                <span className="block" style={{ color: GOLD }}>Ba-Ikhtiyar,</span>
+                <span className="block text-white">Taraqi-Yafta</span>
               </h1>
             </motion.div>
 
@@ -1133,11 +1133,11 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 1 }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-col sm:flex-row gap-3"
             >
               <Link
                 href="/join"
-                className="relative overflow-hidden px-10 py-4 rounded-full font-bold text-base transition-all hover:-translate-y-1 active:scale-95 group inline-block"
+                className="relative overflow-hidden px-8 py-3.5 rounded-full font-bold text-base transition-all hover:-translate-y-1 active:scale-95 group inline-block text-center"
                 style={{
                   background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
                   color: '#011a10',
@@ -1150,7 +1150,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/about"
-                className="px-10 py-4 rounded-full font-semibold text-base text-white transition-all hover:-translate-y-1 hover:bg-white/10 active:scale-95 inline-block"
+                className="px-8 py-3.5 rounded-full font-semibold text-base text-white transition-all hover:-translate-y-1 hover:bg-white/10 active:scale-95 inline-block text-center"
                 style={{
                   border: `1.5px solid rgba(212,175,55,0.55)`,
                   backdropFilter: 'blur(8px)',
