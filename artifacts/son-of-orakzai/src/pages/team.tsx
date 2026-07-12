@@ -1,6 +1,12 @@
 import { useState, useRef, useEffect } from "react";
+import { useLocation } from "wouter";
 import { MainLayout } from "@/components/layout/main-layout";
 import { motion, AnimatePresence, useInView } from "framer-motion";
+
+/* slug helper — "Faisal Orakzai" → "faisalorakzai" */
+function toSlug(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9\s]/g, "").replace(/\s+/g, "").trim();
+}
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import {
   Linkedin, Twitter, Crown, Shield, Star, ChevronRight, ChevronLeft, Globe, BadgeCheck,
@@ -536,8 +542,10 @@ function MemberAvatar({
 
 function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: number; onOpenBio: (m: TeamMember) => void }) {
   const [hovered, setHovered] = useState(false);
+  const [, navigate] = useLocation();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
+  const profileUrl = `/team-${toSlug(member.name)}`;
 
   return (
     <motion.div
@@ -547,10 +555,10 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
       transition={{ delay: index * 0.18, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      onClick={() => onOpenBio(member)}
+      onClick={() => navigate(profileUrl)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => { if (e.key === "Enter") onOpenBio(member); }}
+      onKeyDown={(e) => { if (e.key === "Enter") navigate(profileUrl); }}
       className="relative flex flex-col items-center text-center p-9 pt-11 rounded-[28px] overflow-hidden cursor-pointer"
       style={{
         background: "linear-gradient(160deg, rgba(6,55,36,0.9) 0%, rgba(2,20,13,0.95) 100%)",
@@ -581,22 +589,13 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
 
       {/* Avatar — dual ring (gold inner + emerald outer glow) + verified badge */}
       <div className="relative mt-3 mb-6">
-        <MemberAvatar
-          src={member.photo}
-          name={member.name}
-          size={148}
-          onClick={() => onOpenBio(member)}
-          dualRing
-          verified
-        />
+        <MemberAvatar src={member.photo} name={member.name} size={148} dualRing verified />
       </div>
 
       <h3 className="text-[26px] leading-tight font-bold text-white mb-2 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
       <p className="text-[13px] font-bold mb-6" style={{ color: GOLD, fontFamily: "'Inter', sans-serif", letterSpacing: "0.16em" }}>{member.title.toUpperCase()}</p>
 
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); onOpenBio(member); }}
+      <span
         className="relative flex items-center gap-2 rounded-full px-7 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] transition-all duration-300"
         style={{
           background: hovered ? GOLD : "rgba(212,175,55,0.08)",
@@ -606,16 +605,18 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
         }}
       >
         View Full Profile
-        <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300" style={{ transform: hovered ? "translateX(3px)" : "translateX(0)" }} />
-      </button>
+        <ChevronRight className="w-3.5 h-3.5" style={{ transform: hovered ? "translateX(3px)" : "translateX(0)", transition: "transform 0.3s" }} />
+      </span>
     </motion.div>
   );
 }
 
 function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: number; onOpenBio: (m: TeamMember) => void }) {
   const [hovered, setHovered] = useState(false);
+  const [, navigate] = useLocation();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
+  const profileUrl = `/team-${toSlug(member.name)}`;
 
   return (
     <motion.div
@@ -625,10 +626,10 @@ function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: n
       transition={{ delay: 0.1 + index * 0.07, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      onClick={() => onOpenBio(member)}
+      onClick={() => navigate(profileUrl)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => { if (e.key === "Enter") onOpenBio(member); }}
+      onKeyDown={(e) => { if (e.key === "Enter") navigate(profileUrl); }}
       className="flex flex-col items-center text-center p-7 rounded-2xl border cursor-pointer h-full"
       style={{
         background: "linear-gradient(160deg, rgba(6,55,36,0.42) 0%, rgba(2,20,13,0.68) 100%)",
@@ -643,21 +644,16 @@ function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: n
       }}
     >
       <div className="mb-5">
-        <MemberAvatar src={member.photo} name={member.name} size={92} onClick={() => onOpenBio(member)} />
+        <MemberAvatar src={member.photo} name={member.name} size={92} />
       </div>
 
       <h3 className="text-base font-bold text-white mb-1.5 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
       <p className="text-[11px] font-semibold mb-5 uppercase tracking-[0.12em]" style={{ color: GOLD, fontFamily: "'Inter', sans-serif" }}>{member.title}</p>
 
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); onOpenBio(member); }}
-        className="mt-auto flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-all"
-        style={{ color: GOLD }}
-      >
+      <span className="mt-auto flex items-center gap-1 text-xs font-bold uppercase tracking-wider" style={{ color: GOLD }}>
         View Profile
-        <ChevronRight className="w-3 h-3 transition-transform duration-300" style={{ transform: hovered ? "translateX(3px)" : "translateX(0)" }} />
-      </button>
+        <ChevronRight className="w-3 h-3" style={{ transform: hovered ? "translateX(3px)" : "translateX(0)", transition: "transform 0.3s" }} />
+      </span>
     </motion.div>
   );
 }
