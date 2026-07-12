@@ -259,13 +259,14 @@ export const BOARD_MEMBERS: TeamMember[] = [
   {
     id: 11,
     name: "Muhammad Hayat",
-    title: "Finance & Transparency Head",
-    focus: "Audit & Annual Reports",
+    title: "Finance, Transparency & Marketing Head",
+    focus: "Global Marketing Strategies, Chartered Accounting & Audit Reports",
     intro: "Ensuring financial integrity and full transparency in all community funds through rigorous audit practices.",
     photo: "/team/muhammad-hayat.jpg",
     linkedin: "#", twitter: "#",
-    bio: "Muhammad Hayat is the guardian of Orakzai's financial integrity. A chartered accountant with extensive experience in nonprofit finance, he oversees all financial planning, budgeting, auditing, and reporting processes. Under his stewardship, the organization has achieved full financial transparency — publishing detailed annual reports and implementing blockchain-verified fund tracking for donor contributions. Muhammad Hayat has built a culture of accountability within the organization, ensuring that every rupee donated by community members and partners is deployed with maximum impact and complete honesty. His work has earned the trust of donors, government bodies, and the communities the organization serves.",
-    location: "Peshawar, Pakistan",
+    mission: "To engineer bulletproof financial transparency and scale global brand penetration—uniting corporate chartered accounting precision with high-impact capital marketing strategies.",
+    bio: "Muhammad Hayat is a top-tier institutional leader and the Finance, Transparency & Marketing Head at Orakzai.org. As an elite Chartered Accountant combined with powerful expertise as a Marketing Expert, his multi-dimensional portfolio drives both strict fiscal accountability and international growth metrics. Operating directly out of the United Arab Emirates (UAE), Muhammad Hayat serves as the absolute bridge for global donor relations, capital campaign management, and corporate financial oversight. He commandingly steers all international budgeting, blockchain-verified fundraising compliance, and transparent auditing processes. By perfectly executing standard financial audits alongside advanced digital marketing and brand growth strategies, he ensures that the organization's cross-border operations remain completely secure, highly visible, and perfectly optimized for maximum global impact.",
+    location: "United Arab Emirates (UAE)",
     reportsTo: "Faisal Orakzai",
   },
 ];
