@@ -354,6 +354,19 @@ export const BOARD_ADVISORS: TeamMember[] = [
     location: "Hangu, Orakzai & Islamabad, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
+  {
+    id: 108,
+    name: "Hafiz Malik Habib Noor Orakzai",
+    title: "Senior Board Advisor (Chairman PTIP)",
+    focus: "Political Strategy, Socio-Economic Advocacy & Public Relations",
+    intro: "The sitting Chairman of PTIP, bringing macro-level political governance and public policy advocacy to the advisory panel.",
+    photo: "/team/hafiz-malik-habib-noor.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To synthesize political foresight with regional empowerment—utilizing executive leadership frameworks to drive structured socio-economic development and national integration.",
+    bio: "Hafiz Malik Habib Noor Orakzai is a highly distinguished political leader, strategist, and Senior Board Advisor at Orakzai.org. As the sitting Chairman of PTIP, his entry into the advisory panel brings a powerful dimension of macro-level political governance, community organization, and public policy advocacy to the group. Operating dynamically across Kohat and Islamabad, Hafiz Malik Habib Noor acts as a critical institutional anchor, aligning regional welfare initiatives with broader national advocacy networks. His profound command over tribal diplomacy, youth mobilization frameworks, and structural public relations ensures the organization's long-term community roadmaps are executed with supreme strategic oversight and absolute institutional excellence.",
+    location: "Kohat & Islamabad, Pakistan",
+    reportsTo: "Faisal Orakzai",
+  },
 ];
 
 /* ── Beneficiary Members — families & individuals supported by Orakzai.org ── */
