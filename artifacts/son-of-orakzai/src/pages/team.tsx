@@ -622,10 +622,10 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
 const QOUMS: string[] = [
-  "Ismailzai", "Lashkarzai", "Massuzai", "Alisherzai", "Daulatzai",
-  "Muhammad Khel", "Abdul Aziz Khel", "Zemasht", "Sturi Khel", "Lashmanai",
-  "Mishti", "Sheikhan", "Ali Khel", "Mula Khel", "Feroz Khel",
-  "Bar Muhammad Khel", "Khwaja Khel", "Rabia Khel", "Hamsaya",
+  "Ali Khel", "Mula Khel", "Mamozai", "Ali Sherzai", "Eisa Khel",
+  "Akhund Khel", "Shikhan", "Sepoy", "Bar Muhammad Khel", "Mani Khel",
+  "Feroz Khel", "Utman Khel", "Bezoti", "Stori Khel", "Alizai",
+  "Muhammad Khel", "Daulatzai", "Mishti",
 ];
 
 const MALIK_FIRST_NAMES = [
