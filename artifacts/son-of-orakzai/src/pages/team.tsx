@@ -78,6 +78,7 @@ function HeroCarousel() {
 export interface TeamMember {
   id: number;
   name: string;
+  slug?: string;
   title: string;
   focus: string;
   intro: string;
@@ -425,6 +426,7 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
   {
     id: 300,
     name: "Faisal Orakzai",
+    slug: "faisalorakzai-global",
     title: "Founder & Chairman (Technology Entrepreneur & Computer Scientist)",
     focus: "Decentralized Systems Architecture, Tokenomics & Quantitative AI Trading Engine Design",
     intro: "An elite technology entrepreneur and computer scientist leading Orakzai's global technical architecture and digital asset strategy.",
@@ -602,7 +604,7 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
   // Profile links live under whichever pillar page is currently open
   // (e.g. /board-advisor/name, not always /team/name) so "View Profile"
   // takes you back to the same pillar instead of the generic team hub.
-  const profileUrl = `${location}/${toSlug(member.name)}`;
+  const profileUrl = `${location}/${member.slug ?? toSlug(member.name)}`;
 
   return (
     <motion.div
@@ -673,7 +675,7 @@ function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: n
   const inView = useInView(ref, { once: true, margin: '-40px' });
   // Same pillar-aware profile link as SupremeCard — stay under the
   // current pillar route instead of always linking to /team/name.
-  const profileUrl = `${location}/${toSlug(member.name)}`;
+  const profileUrl = `${location}/${member.slug ?? toSlug(member.name)}`;
 
   return (
     <motion.div

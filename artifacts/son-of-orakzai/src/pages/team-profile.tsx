@@ -37,7 +37,7 @@ export default function TeamProfile() {
   // links return to the pillar the visitor came from, not always /team.
   const pillarBase = location.replace(new RegExp(`/${slug}$`), "") || "/team";
 
-  const member = ALL_PROFILEABLE.find((m) => toSlug(m.name) === slug);
+  const member = ALL_PROFILEABLE.find((m) => (m.slug ?? toSlug(m.name)) === slug);
 
   useEffect(() => {
     if (!member) {
