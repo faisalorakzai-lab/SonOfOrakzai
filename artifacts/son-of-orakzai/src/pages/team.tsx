@@ -246,13 +246,14 @@ export const BOARD_MEMBERS: TeamMember[] = [
   {
     id: 10,
     name: "Sher Wali Orakzai",
-    title: "Talent & Sports Director",
-    focus: "Talent Hunt & Youth Development",
+    title: "Talent, Sports & Cultural Director",
+    focus: "Literary Arts & Poetry, Talent Hunt & Youth Sports Development",
     intro: "Identifying and nurturing sporting talent and creative skills among Orakzai youth for national recognition.",
     photo: "/team/sher-wali.png",
     linkedin: "#", twitter: "#",
-    bio: "Sher Wali Orakzai champions the immense untapped potential of Orakzai youth through sports, arts, and talent development programs. A former regional-level athlete himself, he established the organization's Sports Academy which has produced national-level competitors in cricket, football, and martial arts. Beyond athletics, Sher Wali runs talent discovery programs that have identified and supported young artists, musicians, and performers from the district. He believes that nurturing talent builds confidence, discipline, and community pride — qualities that transform individuals and societies alike. His programs have become a source of joy and aspiration for thousands of young Orakzai.",
-    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+    mission: "To preserve regional heritage and inspire youth empowerment—uniting sports administration with literary excellence to cultivate creative and athletic leadership.",
+    bio: "Sher Wali Orakzai is a distinguished cultural leader, celebrated regional poet, and the Talent, Sports & Cultural Director at Orakzai.org. Seamlessly blending his deep passion for literary arts and poetry with professional youth development frameworks, his leadership champions the creative and athletic potential of the region. Based out of Kohat, Sher Wali orchestrates the organization's comprehensive talent hunt operations, sports academies, and cultural heritage preservation programs. As a prominent poet and former athlete, he spearheads initiatives that provide mentorship and platforms for young sportspersons, artists, and writers alike. His strategic focus on nurturing discipline through sports and instilling cultural pride through literature forms a foundational pillar for youth empowerment, turning grassroots potential into structured national success.",
+    location: "Kohat, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
   {
