@@ -323,6 +323,19 @@ export const BOARD_ADVISORS: TeamMember[] = [
     bio: "Colonel (Retired) Yousaf Orakzai served over 25 years in frontier security operations before joining the Advisory Board to design the organization's rapid emergency-response framework — covering flood relief, displacement logistics, and coordination with civil administration during crises.",
     location: "Rawalpindi, Pakistan",
   },
+  {
+    id: 106,
+    name: "Senator Aurangzeb Khan Orakzai",
+    title: "Senior Board Advisor (Senator & MPA)",
+    focus: "Sovereign Governance, Legislative Strategy & Institutional Advisory",
+    intro: "A veteran legislator anchoring state-level governance frameworks and legislative strategy for the organization's institutional roadmap.",
+    photo: "/team/senator-aurangzeb.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To anchor macro-level legislative frameworks and steer strategic regional governance—deploying state-level advisory to build sustainable socio-economic infrastructure.",
+    bio: "Senator Aurangzeb Khan Orakzai is an illustrious statesman, veteran legislator, and Senior Board Advisor at Orakzai.org. Possessing a formidable legacy of apex public service on the national stage as a Senator and Member of the Provincial Assembly (MPA), his unparalleled legislative acumen and governance foresight provide executive-tier counsel to the organization's institutional roadmap. Operative across Islamabad and the Orakzai District, Senator Aurangzeb serves as the strategic anchor bridging state-level policy formulation with grassroots socioeconomic deployment. His profound mastery over tribal diplomacy, regional security architecture, and legislative alignment forms the structural cornerstone of the advisory council. By orchestrating high-level governance frameworks and sustainable socio-economic directives, he ensures the organization scales its sovereign regional impact while maintaining absolute institutional excellence.",
+    location: "Orakzai District & Islamabad, Pakistan",
+    reportsTo: "Faisal Orakzai",
+  },
 ];
 
 /* ── Beneficiary Members — families & individuals supported by Orakzai.org ── */
