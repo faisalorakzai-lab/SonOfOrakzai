@@ -605,6 +605,19 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
     bio: "Laloona Orakzai is an exceptionally accomplished international operations leader, project strategist, and an esteemed executive member of the Global Leadership panel at Orakzai.org. Bringing a phenomenal tenure of over 8 years across various UN agencies, her leadership anchors the organization with elite capabilities in international project management, structured human resources, institutional reporting, and administrative governance. In addition to her international development pedigree, she is a GoHighLevel Certified Administrator working with RepStack, holding seasoned technical mastery over enterprise CRM automation, customer lifecycle optimization, and advanced workflow architecture. An alumna of the University of Peshawar operating out of Khyber Pakhtunkhwa, her unique expertise seamlessly bridges high-level bureaucratic administration with cutting-edge tech automation, providing the board with unmatched capability in structuring modern, automated client interaction pipelines.",
     location: "Peshawar District, Khyber Pakhtunkhwa, Pakistan",
   },
+  {
+    id: 320,
+    name: "Dr. Uzma Orakzai",
+    slug: "dr-uzma-orakzai-academia",
+    title: "Global Leadership (Associate Professor of English Literature, University of Peshawar)",
+    focus: "English Literature, Applied Linguistics, Critical Discourse & Academic Research Systems",
+    intro: "A distinguished academician serving as Associate Professor of English Literature at the University of Peshawar, with deep expertise in applied linguistics and critical discourse.",
+    photo: "/team/dr-uzma-orakzai-academia.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To cultivate advanced intellectual thought and champion academic research paradigms—deploying rigorous literary and linguistic governance to empower next-generation scholars and institutional networks.",
+    bio: "Dr. Uzma Orakzai is a highly distinguished academician, literary scholar, and an esteemed member of the Global Leadership panel at Orakzai.org. Serving as an Associate Professor of English Literature within the Department of English and Applied Linguistics at the historic University of Peshawar (UOP), her professional pedigree anchors the platform with elite scholarly credibility and deep qualitative research oversight. Operating from Peshawar, Pakistan, her established track record features extensive genuine publications, institutional leadership, and advanced linguistic methodology frameworks. Her profound command over critical discourse, system-level curriculum management, and academic governance provides the advisory board with unmatched intellectual muscle, ensuring the organization's knowledge ecosystems and analytical frameworks align with world-class institutional metrics.",
+    location: "Peshawar, Pakistan",
+  },
 ];
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
