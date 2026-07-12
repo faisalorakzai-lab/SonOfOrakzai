@@ -488,6 +488,19 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
     bio: "Arslan Orakzai is a highly distinguished technology executive, infrastructure specialist, and an esteemed member of the Global Leadership panel at Orakzai.org. Serving as the Chief Executive Officer at Apollo Telecom (Pvt) Ltd., his presence brings massive operational authority, telecom engineering prowess, and corporate management expertise to the advisory council. Operating out of the federal capital of Islamabad, his leadership anchors large-scale enterprise communication infrastructures, regulatory integrations, and critical network deployments. His seasoned mastery in executing complex technology frameworks and expanding infrastructure channels across multiple business verticals provides the platform with an unmatched systemic edge, aligning regional communications with global industry standards.",
     location: "Islamabad, Pakistan",
   },
+  {
+    id: 310,
+    name: "Ahmad Orakzai",
+    slug: "ahmad-orakzai-finance",
+    title: "Global Leadership (Financial Modeling Associate, S&P Global)",
+    focus: "Quantitative Financial Modeling, Valuation Architectures & Data Analytics",
+    intro: "A distinguished corporate finance professional and quantitative analyst serving as a Financial Modeling Associate at S&P Global.",
+    photo: "/team/ahmad-orakzai-finance.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To engineer high-fidelity financial models and structure institutional market analytics—deploying precise data intelligence to optimize asset valuation and drive corporate growth portfolios.",
+    bio: "Ahmad Orakzai is a distinguished corporate finance professional, quantitative analyst, and a key executive member of the Global Leadership panel at Orakzai.org. Serving as a Financial Modeling Associate at S&P Global, his corporate pedigree anchors the platform with elite capabilities in algorithmic asset valuation, macro-level market data structuring, and rigorous predictive modeling. Operating from the institutional hub of Islamabad, his expertise specializes in synthesizing complex financial datasets into actionable enterprise intelligence. His sharp mathematical precision and technical command over corporate valuation frameworks provide the advisory panel with an essential quantitative edge, perfectly optimizing the organization's strategic asset pipelines and cross-border financial systems.",
+    location: "Islamabad, Pakistan",
+  },
 ];
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
