@@ -540,6 +540,19 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
     bio: "Hamza Saeed Orakzai is an exceptionally prominent C-suite executive, distinguished public policy expert, and a premier member of the Global Leadership panel at Orakzai.org. Serving as the Chief Market Development Officer (CMDO) and a founding director at the Special Technology Zones Authority (STZA), his leadership has been instrumental in architecting the foundational legal and commercial frameworks for Pakistan's modern digital economy. As an globally recognized Eisenhower Fellow operating out of Islamabad, he has co-authored groundbreaking state frameworks, including the Special Technology Zones Act 2021 and its regulatory rulesets. His phenomenal commercial legacy includes scaling the national tech zone network from 12 to 32 notified zones—housing over 250 technology enterprises—and managing an asset jurisdiction that scaled from US$500 million to over US$1.3 billion. A seasoned international diplomat, he leads critical bilateral tech and science cooperation frameworks globally, providing the board with apex-level systemic oversight and macro-level market strategy execution.",
     location: "Islamabad, Pakistan",
   },
+  {
+    id: 314,
+    name: "Najeeb Orakzai",
+    slug: "najeeb-orakzai-microsoft",
+    title: "Global Leadership (Senior Infrastructure Engineer, Microsoft)",
+    focus: "Enterprise Cloud Infrastructure, Hyperscale Distributed Networks & Systems Resilience",
+    intro: "A top-tier international technology executive and systems engineer serving as Senior Infrastructure Engineer at Microsoft.",
+    photo: "/team/najeeb-orakzai-microsoft.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To architect hyper-resilient digital infrastructures and scale global enterprise systems—utilizing apex engineering paradigms to drive seamless computational synergy and structural innovation.",
+    bio: "Najeeb Orakzai is a top-tier international technology executive, systems engineer, and an esteemed member of the Global Leadership council at Orakzai.org. Serving as a Senior Infrastructure Engineer at Microsoft, his corporate pedigree anchors the platform with elite capabilities in managing hyper-scale cloud fabrics, resilient system architectures, and massive distributed data deployments. Operating from the global technology hub of Seattle, USA, his expertise specializes in orchestrating high-availability digital networks and robust system frameworks for global enterprise solutions. His deep technical command over large-scale cloud environments and structural systems engineering provides the board with a formidable tech foundation, perfectly aligning regional deployments with world-class operational standards.",
+    location: "Seattle, USA",
+  },
 ];
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
