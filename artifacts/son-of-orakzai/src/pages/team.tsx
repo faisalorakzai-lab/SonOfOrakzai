@@ -579,6 +579,19 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
     bio: "Shanzay J. Orakzai (professionally recognized as Shanzay J. / Shanzay Javaid) is an exceptionally accomplished international attorney, corporate strategist, and Senior Board Advisor at Orakzai.org. Currently serving as Corporate Counsel at the prominent performance management software company 15Five, she brings absolute legal precision, Ivy League pedigree as a Harvard Law School alumna, and cutting-edge corporate mastery to the advisory council. Operating primarily out of Massachusetts, USA, her extensive expertise bridges corporate governance, global data privacy compliance, and cross-border vendor architectures. Having established a flawless track record in advising executive teams on commercial risk management and SaaS compliance frameworks, she provides the organization with supreme regulatory foresight. Her leadership ensures the group's fast-growth tech ecosystems and innovative platforms scale with total operational resilience and elite global standard.",
     location: "Massachusetts, USA",
   },
+  {
+    id: 316,
+    name: "Habib Malik Orakzai",
+    slug: "habib-malik-orakzai-pihro",
+    title: "Global Leadership (President, PIHRO)",
+    focus: "International Advocacy, Human Rights Frameworks & Global Strategic Partnerships",
+    intro: "A distinguished international advocate serving as President of the Pakistan International Human Rights Organization (PIHRO), bridging global advocacy with institutional governance.",
+    photo: "/team/habib-malik-orakzai-pihro.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To champion institutional transparency and engineer impactful socio-legal frameworks—deploying international advocacy across global corridors to secure structural accountability and human welfare standard.",
+    bio: "Habib Malik Orakzai is a highly distinguished international advocate, socio-legal strategist, and an esteemed executive member of the Global Leadership panel at Orakzai.org. Serving as the President of the Pakistan International Human Rights Organization (PIHRO), his elite leadership anchors the platform with profound expertise in global policy advocacy, cross-border alliance building, and institutional governance frameworks. Operating directly between the diplomatic hub of Geneva, Switzerland, and the federal capital of Islamabad, his extensive track record bridges grassroots systemic development with global advisory standards. His seasoned oversight in directing large-scale human rights networks and structuring transparent transnational operations provides the board with a powerful ethical blueprint, steering the organization's corporate and social milestones toward unprecedented international distinction.",
+    location: "Geneva, Switzerland / Islamabad, Pakistan",
+  },
 ];
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
