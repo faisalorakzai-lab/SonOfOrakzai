@@ -132,17 +132,17 @@ const SUPREME_LEADERS: TeamMember[] = [
   {
     id: 2,
     name: "Malak Speen Gul Orakzai",
-    title: "Founder",
-    focus: "Foundation, Heritage & Community Roots",
-    intro: "Visionary founder who established the platform to preserve Orakzai heritage while building a progressive digital homeland for future generations.",
+    title: "Co-Founder & Chairman of CSR (Former MNA)",
+    focus: "Regional Governance, National Legislative Advocacy & Institutional CSR Strategy",
+    intro: "Distinguished statesman, Former Member of National Assembly (MNA) for Hangu, and Co-Founder anchoring national governance and CSR frameworks for the Orakzai nation.",
     photo: "/malak-speen-gul.jpg",
     linkedin: "#",
     twitter: "#",
     isSupreme: true,
-    supremeTitle: "Founder",
-    mission: "I founded this organization with one belief: that the sons and daughters of Orakzai carry within them the seeds of greatness. Our duty is to water those seeds — with education, with opportunity, and with unwavering unity.",
-    bio: "Malak Speen Gul Orakzai is the founder and patriarch of Orakzai, a man whose life embodies the spirit of selfless service. Born and raised in the Orakzai district, he witnessed firsthand the challenges faced by his community — limited access to education, healthcare, and economic opportunity. Driven by an unshakeable belief in the potential of his people, he laid the foundation of this organization with his own resources, rallying elders, youth, and professionals around a shared vision. Malak Speen Gul's wisdom, rooted in decades of tribal leadership and community mediation, continues to guide the organization's values and direction. He is universally revered as the moral compass of the movement.",
-    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+    supremeTitle: "Co-Founder",
+    mission: "To establish structural pathways for regional empowerment—anchoring national governance frameworks and corporate social responsibility to build sustainable, high-impact socio-economic foundations.",
+    bio: "Malak Speen Gul Orakzai is a distinguished statesman, prominent regional leader, and the Co-Founder of Orakzai.org. Bringing a powerful legacy of public service, legislative oversight, and national governance as a Former Member of the National Assembly (MNA) for Hangu, his strategic leadership bridges high-level policy frameworks in Islamabad with impactful developmental deployment across the Orakzai and Hangu regions. Functioning as the Chairman of Corporate Social Responsibility (CSR), he orchestrates the organization's institutional welfare architectures, regional integration initiatives, and sustainable development portfolios. His decades of unmatched tribal diplomacy, state-level legislative acumen, and dedication to structural enablement form the foundational bedrock of the group's socio-economic strategy, driving long-term stability and progress across national and regional frontiers.",
+    location: "Orakzai District & Hangu, Khyber Pakhtunkhwa, Pakistan",
   },
 ];
 
@@ -870,6 +870,76 @@ export default function Team() {
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [view, setView] = useState<ViewState>({ screen: "home" });
+
+  // ── SEO: dynamic title + meta + JSON-LD Person schema ──
+  useEffect(() => {
+    document.title = "Leadership Team | Faisal Orakzai, Malak Speen Gul Orakzai — Orakzai.org";
+
+    const setMeta = (name: string, content: string, prop = false) => {
+      const sel = prop ? `meta[property="${name}"]` : `meta[name="${name}"]`;
+      let el = document.querySelector(sel) as HTMLMetaElement | null;
+      if (!el) { el = document.createElement("meta"); prop ? el.setAttribute("property", name) : el.setAttribute("name", name); document.head.appendChild(el); }
+      el.setAttribute("content", content);
+    };
+
+    setMeta("description", "Meet the leadership of Orakzai.org — Founder & Chairman Faisal Orakzai, Co-Founder Malak Speen Gul Orakzai (Former MNA), and a dedicated board serving 50,000+ Orakzai families across 12 countries.");
+    setMeta("keywords", "Faisal Orakzai, Malak Speen Gul Orakzai, Orakzai leadership, Orakzai team, Orakzai.org team, Orakzai chairman, Orakzai co-founder, MNA Hangu, Orakzai board, Maria Hussain Orakzai, Dr Asma Orakzai");
+    setMeta("og:title", "Leadership Team — Faisal Orakzai & Malak Speen Gul Orakzai | Orakzai.org", true);
+    setMeta("og:description", "Faisal Orakzai (Founder & Chairman) and Malak Speen Gul Orakzai (Co-Founder, Former MNA) lead Orakzai.org — the digital embassy of the Orakzai nation.", true);
+    setMeta("og:url", "https://sonoforakzai.vercel.app/team", true);
+    setMeta("twitter:title", "Leadership Team — Faisal Orakzai | Orakzai.org");
+    setMeta("twitter:description", "Meet Faisal Orakzai and Malak Speen Gul Orakzai — the founders of Orakzai.org, serving the Orakzai nation across Pakistan and beyond.");
+
+    // JSON-LD Person schema for key leaders
+    const existing = document.getElementById("team-jsonld");
+    if (existing) existing.remove();
+    const script = document.createElement("script");
+    script.id = "team-jsonld";
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify([
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Faisal Orakzai",
+        "jobTitle": "Founder & Chairman",
+        "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
+        "description": "Faisal Orakzai is the Founder and Chairman of Orakzai.org, the digital embassy of the Orakzai nation. A visionary leader dedicated to uniting 50,000+ Orakzai families across 12 countries through education, healthcare, and digital empowerment.",
+        "url": "https://sonoforakzai.vercel.app/team",
+        "image": "https://sonoforakzai.vercel.app/faisal-orakzai.png",
+        "sameAs": ["https://www.linkedin.com/in/faisalorakzaii"],
+        "nationality": "Pakistani",
+        "alumniOf": "Orakzai District, Khyber Pakhtunkhwa"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Malak Speen Gul Orakzai",
+        "jobTitle": "Co-Founder & Chairman of CSR",
+        "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
+        "description": "Malak Speen Gul Orakzai is the Co-Founder of Orakzai.org and Former Member of the National Assembly (MNA) for Hangu. A distinguished statesman anchoring national governance frameworks and CSR strategy for the Orakzai nation.",
+        "url": "https://sonoforakzai.vercel.app/team",
+        "image": "https://sonoforakzai.vercel.app/malak-speen-gul.jpg",
+        "nationality": "Pakistani",
+        "alumniOf": "National Assembly of Pakistan"
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Dr. Asma Orakzai",
+        "jobTitle": "Director of Health Services",
+        "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
+        "description": "Dr. Asma Orakzai is a Women Health Leader and clinical architect at Orakzai.org, with clinical associations at Aga Khan University Hospital. She leads telemedicine networks and maternal health systems for the Orakzai region.",
+        "url": "https://sonoforakzai.vercel.app/team",
+        "nationality": "Pakistani"
+      }
+    ]);
+    document.head.appendChild(script);
+
+    return () => {
+      document.title = "Orakzai.org — Digital Embassy";
+      document.getElementById("team-jsonld")?.remove();
+    };
+  }, []);
 
   const openBio = (member: TeamMember) => {
     setSelectedMember(member);
