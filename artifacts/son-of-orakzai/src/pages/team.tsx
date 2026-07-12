@@ -594,10 +594,8 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === "Enter") navigate(profileUrl); }}
-      className="relative flex flex-col items-center text-center p-9 pt-11 rounded-[28px] overflow-hidden cursor-pointer"
+      className="relative flex flex-col items-center text-center p-9 pt-14 rounded-[28px] cursor-pointer"
       style={{
-        background: "linear-gradient(160deg, rgba(6,55,36,0.9) 0%, rgba(2,20,13,0.95) 100%)",
-        backdropFilter: "blur(18px)",
         border: `1px solid ${hovered ? GOLD : "rgba(212,175,55,0.5)"}`,
         boxShadow: hovered
           ? "0 0 56px rgba(212,175,55,0.35), 0 20px 48px rgba(0,0,0,0.5)"
@@ -606,14 +604,14 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
         transition: "all 0.4s ease",
       }}
     >
-      {/* Ambient corner glow */}
-      <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-20 blur-3xl pointer-events-none" style={{ background: GOLD }} />
-      <div className="absolute -bottom-16 -left-16 w-40 h-40 rounded-full opacity-10 blur-3xl pointer-events-none" style={{ background: GOLD }} />
+      {/* Background, glow & hairline frame — clipped to the card, kept below the badge */}
+      <div className="absolute inset-0 rounded-[28px] overflow-hidden pointer-events-none" style={{ background: "linear-gradient(160deg, rgba(6,55,36,0.9) 0%, rgba(2,20,13,0.95) 100%)", backdropFilter: "blur(18px)" }}>
+        <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full opacity-20 blur-3xl" style={{ background: GOLD }} />
+        <div className="absolute -bottom-16 -left-16 w-40 h-40 rounded-full opacity-10 blur-3xl" style={{ background: GOLD }} />
+        <div className="absolute inset-3 rounded-[22px]" style={{ border: "1px solid rgba(212,175,55,0.18)" }} />
+      </div>
 
-      {/* Fine gold hairline frame */}
-      <div className="absolute inset-3 rounded-[22px] pointer-events-none" style={{ border: "1px solid rgba(212,175,55,0.18)" }} />
-
-      {/* Supreme Badge */}
+      {/* Supreme Badge — sits above the clipped background so it is never cut off */}
       <div
         className="absolute -top-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-lg z-10"
         style={{ background: `linear-gradient(135deg, #F5E07E, ${GOLD}, #B8962E)`, color: "#022c22" }}
