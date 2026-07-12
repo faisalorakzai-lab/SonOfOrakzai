@@ -514,6 +514,19 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
     bio: "Zarak Khan Orakzai is a top-tier international technology leader, cloud systems engineer, and a premier executive member of the Global Leadership panel at Orakzai.org. Serving as an Enterprise Software Architect at Amazon Web Services (AWS), his corporate pedigree anchors the platform with elite capabilities in distributed systems design, fault-tolerant infrastructure, and hyperscale software deployment models. Operating directly out of the global technology epicenter of California, USA, his expertise specializes in orchestrating highly secure, massive-scale cloud environments for global enterprises. His advanced command over computing frameworks and structural cloud topologies provides the organization with a powerful engineering foundation, ensuring all backend software networks and computational frameworks operate with absolute efficiency and world-class resilience.",
     location: "California, USA",
   },
+  {
+    id: 312,
+    name: "Asfandyar Orakzai",
+    slug: "asfandyar-orakzai-capgemini",
+    title: "Global Leadership (Lead Data Engineer, Capgemini)",
+    focus: "Enterprise Data Engineering, Big Data Architecture & Advanced Predictive Analytics Pipelines",
+    intro: "An exceptionally accomplished international data infrastructure executive and cloud engineer serving as the Lead Data Engineer at Capgemini.",
+    photo: "/team/asfandyar-orakzai-capgemini.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To engineer hyper-efficient data systems and orchestrate robust analytical frameworks—transforming multi-tier distributed datasets into elite institutional intelligence and scalable technological assets.",
+    bio: "Asfandyar Orakzai is an exceptionally accomplished international data infrastructure executive, cloud engineer, and a premier member of the Global Leadership panel at Orakzai.org. Serving as the Lead Data Engineer at Capgemini, his corporate pedigree anchors the platform with elite capabilities in enterprise-scale data modeling, real-time streaming architectures, and high-performance pipeline design. Operating from the global financial and tech hub of London, UK, his leadership specializes in managing critical data lifecycles and structuring resilient architectures for complex institutional frameworks. His seasoned command over big data environments, cloud integrations, and structural analytics tools provides the organization with a powerful technical foundation, ensuring all decentralized data networks deploy with supreme precision and absolute execution excellence.",
+    location: "London, United Kingdom (UK)",
+  },
 ];
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
