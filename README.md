@@ -1,3 +1,3 @@
-# Son Of Orakzai NGO Website
+# Orakzai NGO Website
 
 A premium global NGO platform for the Orakzai community.
