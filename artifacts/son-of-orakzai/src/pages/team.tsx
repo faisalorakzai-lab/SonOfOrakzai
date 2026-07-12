@@ -380,6 +380,19 @@ export const BOARD_ADVISORS: TeamMember[] = [
     location: "Peshawar, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
+  {
+    id: 110,
+    name: "Muhammad Iqbal Wazir",
+    title: "Senior Board Advisor (Ex-Minister & MPA)",
+    focus: "Ministerial Governance, Regional Development Strategy & Public Administration",
+    intro: "A former provincial Minister and MPA, bringing executive-level governance experience and administrative expertise to the advisory council.",
+    photo: "/team/muhammad-iqbal-wazir.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To translate ministerial executive oversight into institutional community milestones—deploying macro-level administrative strategies to unlock sustainable structural growth and regional modernization.",
+    bio: "Muhammad Iqbal Wazir is an eminent statesman, veteran legislator, and Senior Board Advisor at Orakzai.org. Having served with high distinction as a provincial Minister and Member of the Provincial Assembly (MPA), his executive-level governance background and profound understanding of administrative frameworks bring formidable policy execution weight to the advisory council. Operating dynamically out of Islamabad, his leadership serves as a vital bridge for large-scale development pipelines, provincial resource management, and strategic policy realignment. With extensive experience steering ministerial portfolios, driving high-impact infrastructure programs, and managing public sector resources, he provides the board with elite systemic oversight. His seasoned guidance ensures the organization's socioeconomic development initiatives are designed and deployed with absolute structural precision and national excellence.",
+    location: "Islamabad, Pakistan",
+    reportsTo: "Faisal Orakzai",
+  },
 ];
 
 /* ── Beneficiary Members — families & individuals supported by Orakzai.org ── */
