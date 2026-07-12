@@ -423,6 +423,18 @@ export const BENEFICIARY_MEMBERS: TeamMember[] = [
 /* ── Global Leadership — representing Orakzai at the international level ── */
 export const GLOBAL_LEADERSHIP: TeamMember[] = [
   {
+    id: 300,
+    name: "Faisal Orakzai",
+    title: "Founder & Chairman (Technology Entrepreneur & Computer Scientist)",
+    focus: "Decentralized Systems Architecture, Tokenomics & Quantitative AI Trading Engine Design",
+    intro: "An elite technology entrepreneur and computer scientist leading Orakzai's global technical architecture and digital asset strategy.",
+    photo: "/team/faisal-orakzai-global.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To engineer apex decentralized infrastructure and lead high-performance technology ecosystems—uniting computer science frameworks with global capital investment to build transparent digital economies.",
+    bio: "Faisal Orakzai is an elite technology entrepreneur, visionary computer scientist, and the Founder and Chairman of the Orakzai Group. Positioned at the forefront of global technological innovation, his leadership anchors the structural deployment of advanced technical ecosystems and high-yield digital asset models. Operating from the commercial hub of Karachi, he spearheads the end-to-end technical architecture, cryptographic frameworks, and smart contract protocol tokenomics for pioneering blockchain platforms on the Polygon network. Backed by a powerful command over quantitative engineering and machine learning paradigms, he conceptualizes and drives automated AI financial trading engines. As an investor and master technologist, his systemic oversight seamlessly unifies bleeding-edge software infrastructure with global asset real estate platforms, securing absolute execution precision and positioning the enterprise at the apex of the digital economy.",
+    location: "Karachi, Pakistan",
+  },
+  {
     id: 301,
     name: "Imran Wazir Orakzai",
     title: "Regional Head — United Kingdom",
