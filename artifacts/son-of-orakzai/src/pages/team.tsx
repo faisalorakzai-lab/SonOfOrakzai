@@ -863,14 +863,66 @@ const ALL_MEMBERS: TeamMember[] = [
 const findMemberByName = (name?: string) => ALL_MEMBERS.find((m) => m.name === name);
 const getDirectReports = (name: string) => ALL_MEMBERS.filter((m) => m.reportsTo === name);
 
-export default function Team() {
+/* ── Route map for the 5 institutional pillars — each pillar owns a clean,
+   SEO-friendly, directly-linkable URL. "executive" is served at /team
+   itself (its own hub); the other four each get a dedicated route. ── */
+const PILLAR_ROUTES: Record<Exclude<ScreenId, "home" | "qoum">, string> = {
+  executive: "/team",
+  board: "/board-advisor",
+  representatives: "/orakzai-representative",
+  beneficiaries: "/beneficiary-member",
+  global: "/global-leadership",
+};
+
+/* ── Per-pillar SEO metadata: exact document titles + descriptions per URL ── */
+const PILLAR_SEO: Record<Exclude<ScreenId, "home" | "qoum">, { title: string; description: string }> = {
+  executive: {
+    title: "Executive Leadership Team | Orakzai",
+    description: "Meet the Executive Team of Orakzai.org — Founder & Chairman Faisal Orakzai, Co-Founder Malak Speen Gul Orakzai (Former MNA), and the staff running Orakzai.org's programs on the ground.",
+  },
+  board: {
+    title: "Board of Directors & Senior Advisory | Orakzai",
+    description: "Senior counsel to Orakzai.org — legal, economic, tribal, and security advisors who guide institutional strategy and governance.",
+  },
+  representatives: {
+    title: "Orakzai Tribal Representatives & Council | Orakzai",
+    description: "One tribal council per qoum — 19 sub-tribes of the Orakzai nation, each with its own elected Malaks representing their households.",
+  },
+  beneficiaries: {
+    title: "Beneficiary Members & Community Impact | Orakzai",
+    description: "Families and individuals directly supported by Orakzai.org through welfare, education, healthcare, and economic grants.",
+  },
+  global: {
+    title: "Global Leadership & Diaspora Network | Orakzai",
+    description: "Orakzai representatives on the world stage — coordinating diaspora chapters across five continents.",
+  },
+};
+
+export default function Team({
+  initialScreen = "home",
+}: {
+  initialScreen?: ScreenId;
+  /* present so this component structurally satisfies wouter's
+     RouteComponentProps when used directly as a <Route component={Team} />
+     for /team; unused otherwise. */
+  params?: Record<string, string | undefined>;
+} = {}) {
+  const [, navigate] = useLocation();
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [view, setView] = useState<ViewState>({ screen: "home" });
+  const [view, setView] = useState<ViewState>({ screen: initialScreen });
 
-  // ── SEO: dynamic title + meta + JSON-LD Person schema ──
+  // A dedicated pillar route (anything but /team) renders exactly one
+  // screen — "back to all pillars" must leave this component and go to
+  // the /team hub instead of resetting local state.
+  const isDedicatedPillarRoute = initialScreen !== "home";
+
+  // ── SEO: dynamic title + meta + JSON-LD per pillar/route ──
   useEffect(() => {
-    document.title = "Leadership Team | Faisal Orakzai, Malak Speen Gul Orakzai — Orakzai.org";
+    const activeScreen = view.screen === "qoum" ? "representatives" : view.screen;
+    const seo = activeScreen !== "home" ? PILLAR_SEO[activeScreen as Exclude<ScreenId, "home" | "qoum">] : null;
+
+    document.title = seo ? seo.title : "Our People | Orakzai.org — Digital Embassy";
 
     const setMeta = (name: string, content: string, prop = false) => {
       const sel = prop ? `meta[property="${name}"]` : `meta[name="${name}"]`;
@@ -879,72 +931,111 @@ export default function Team() {
       el.setAttribute("content", content);
     };
 
-    setMeta("description", "Meet the leadership of Orakzai.org — Founder & Chairman Faisal Orakzai, Co-Founder Malak Speen Gul Orakzai (Former MNA), and a dedicated board serving 50,000+ Orakzai families across 12 countries.");
-    setMeta("keywords", "Faisal Orakzai, Malak Speen Gul Orakzai, Orakzai leadership, Orakzai team, Orakzai.org team, Orakzai chairman, Orakzai co-founder, MNA Hangu, Orakzai board, Maria Hussain Orakzai, Dr Asma Orakzai");
-    setMeta("og:title", "Leadership Team — Faisal Orakzai & Malak Speen Gul Orakzai | Orakzai.org", true);
-    setMeta("og:description", "Faisal Orakzai (Founder & Chairman) and Malak Speen Gul Orakzai (Co-Founder, Former MNA) lead Orakzai.org — the digital embassy of the Orakzai nation.", true);
-    setMeta("og:url", "https://sonoforakzai.vercel.app/team", true);
-    setMeta("twitter:title", "Leadership Team — Faisal Orakzai | Orakzai.org");
-    setMeta("twitter:description", "Meet Faisal Orakzai and Malak Speen Gul Orakzai — the founders of Orakzai.org, serving the Orakzai nation across Pakistan and beyond.");
+    const path = activeScreen !== "home" ? PILLAR_ROUTES[activeScreen as Exclude<ScreenId, "home" | "qoum">] : "/team";
+    const description = seo ? seo.description : "Five institutional pillars of the people who build, guide, represent, and are uplifted by Orakzai.org.";
 
-    // JSON-LD Person schema for key leaders
+    setMeta("description", description);
+    setMeta("keywords", "Faisal Orakzai, Malak Speen Gul Orakzai, Orakzai leadership, Orakzai team, Orakzai.org team, Orakzai chairman, Orakzai co-founder, MNA Hangu, Orakzai board, Maria Hussain Orakzai, Dr Asma Orakzai");
+    setMeta("og:title", seo ? seo.title : "Our People | Orakzai.org", true);
+    setMeta("og:description", description, true);
+    setMeta("og:url", `https://sonoforakzai.vercel.app${path}`, true);
+    setMeta("twitter:title", seo ? seo.title : "Our People | Orakzai.org");
+    setMeta("twitter:description", description);
+
+    // Structured data: BreadcrumbList + CollectionPage for the active pillar,
+    // plus the founding Person schema on the /team (executive) route.
     const existing = document.getElementById("team-jsonld");
     if (existing) existing.remove();
     const script = document.createElement("script");
     script.id = "team-jsonld";
     script.type = "application/ld+json";
-    script.textContent = JSON.stringify([
+
+    const structuredData: Record<string, unknown>[] = [
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Faisal Orakzai",
-        "jobTitle": "Founder & Chairman",
-        "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
-        "description": "Faisal Orakzai is the Founder and Chairman of Orakzai.org, the digital embassy of the Orakzai nation. A visionary leader dedicated to uniting 50,000+ Orakzai families across 12 countries through education, healthcare, and digital empowerment.",
-        "url": "https://sonoforakzai.vercel.app/team",
-        "image": "https://sonoforakzai.vercel.app/faisal-orakzai.png",
-        "sameAs": ["https://www.linkedin.com/in/faisalorakzaii"],
-        "nationality": "Pakistani",
-        "alumniOf": "Orakzai District, Khyber Pakhtunkhwa"
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Our People", "item": "https://sonoforakzai.vercel.app/team" },
+          { "@type": "ListItem", "position": 2, "name": seo ? seo.title.split(" | ")[0] : "Our People", "item": `https://sonoforakzai.vercel.app${path}` },
+        ],
       },
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Malak Speen Gul Orakzai",
-        "jobTitle": "Co-Founder & Chairman of CSR",
-        "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
-        "description": "Malak Speen Gul Orakzai is the Co-Founder of Orakzai.org and Former Member of the National Assembly (MNA) for Hangu. A distinguished statesman anchoring national governance frameworks and CSR strategy for the Orakzai nation.",
-        "url": "https://sonoforakzai.vercel.app/team",
-        "image": "https://sonoforakzai.vercel.app/malak-speen-gul.jpg",
-        "nationality": "Pakistani",
-        "alumniOf": "National Assembly of Pakistan"
+        "@type": "CollectionPage",
+        "name": seo ? seo.title : "Our People | Orakzai.org",
+        "description": description,
+        "url": `https://sonoforakzai.vercel.app${path}`,
+        "isPartOf": { "@type": "Organization", "name": "Orakzai.org" },
       },
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Dr. Asma Orakzai",
-        "jobTitle": "Director of Health Services",
-        "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
-        "description": "Dr. Asma Orakzai is a Women Health Leader and clinical architect at Orakzai.org, with clinical associations at Aga Khan University Hospital. She leads telemedicine networks and maternal health systems for the Orakzai region.",
-        "url": "https://sonoforakzai.vercel.app/team",
-        "nationality": "Pakistani"
-      }
-    ]);
+    ];
+
+    if (activeScreen === "executive") {
+      structuredData.push(
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Faisal Orakzai",
+          "jobTitle": "Founder & Chairman",
+          "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
+          "description": "Faisal Orakzai is the Founder and Chairman of Orakzai.org, the digital embassy of the Orakzai nation. A visionary leader dedicated to uniting 50,000+ Orakzai families across 12 countries through education, healthcare, and digital empowerment.",
+          "url": "https://sonoforakzai.vercel.app/team",
+          "image": "https://sonoforakzai.vercel.app/faisal-orakzai.png",
+          "sameAs": ["https://www.linkedin.com/in/faisalorakzaii"],
+          "nationality": "Pakistani",
+          "alumniOf": "Orakzai District, Khyber Pakhtunkhwa",
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Malak Speen Gul Orakzai",
+          "jobTitle": "Co-Founder & Chairman of CSR",
+          "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
+          "description": "Malak Speen Gul Orakzai is the Co-Founder of Orakzai.org and Former Member of the National Assembly (MNA) for Hangu. A distinguished statesman anchoring national governance frameworks and CSR strategy for the Orakzai nation.",
+          "url": "https://sonoforakzai.vercel.app/team",
+          "image": "https://sonoforakzai.vercel.app/malak-speen-gul.jpg",
+          "nationality": "Pakistani",
+          "alumniOf": "National Assembly of Pakistan",
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Dr. Asma Orakzai",
+          "jobTitle": "Director of Health Services",
+          "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
+          "description": "Dr. Asma Orakzai is a Women Health Leader and clinical architect at Orakzai.org, with clinical associations at Aga Khan University Hospital. She leads telemedicine networks and maternal health systems for the Orakzai region.",
+          "url": "https://sonoforakzai.vercel.app/team",
+          "nationality": "Pakistani",
+        },
+      );
+    }
+
+    script.textContent = JSON.stringify(structuredData);
     document.head.appendChild(script);
 
     return () => {
       document.title = "Orakzai.org — Digital Embassy";
       document.getElementById("team-jsonld")?.remove();
     };
-  }, []);
+  }, [view.screen]);
 
   const openBio = (member: TeamMember) => {
     setSelectedMember(member);
     setSheetOpen(true);
   };
 
-  const goHome = () => setView({ screen: "home" });
-  const goCategory = (screen: ScreenId) => setView({ screen });
+  // "All Pillars" always returns to the /team hub. On dedicated pillar
+  // routes that means a real navigation; on /team itself it's just a
+  // local state reset back to the card grid.
+  const goHome = () => {
+    if (isDedicatedPillarRoute) navigate("/team");
+    else setView({ screen: "home" });
+  };
+  // Category cards on the /team hub: "Executive Team" stays on /team and
+  // switches the local view; the other four pillars have their own route.
+  const goCategory = (screen: Exclude<ScreenId, "home" | "qoum">) => {
+    if (screen === "executive") setView({ screen });
+    else navigate(PILLAR_ROUTES[screen]);
+  };
   const goQoum = (qoum: string) => setView({ screen: "qoum", qoum });
 
   return (

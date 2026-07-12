@@ -15,6 +15,10 @@ import Contact from "@/pages/contact";
 import Dashboard from "@/pages/dashboard";
 import Team from "@/pages/team";
 import TeamProfile from "@/pages/team-profile";
+import BoardAdvisor from "@/pages/board-advisor";
+import OrakzaiRepresentative from "@/pages/orakzai-representative";
+import BeneficiaryMember from "@/pages/beneficiary-member";
+import GlobalLeadership from "@/pages/global-leadership";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +30,10 @@ function Router() {
       <Route path="/services" component={Services} />
       <Route path="/community" component={Community} />
       <Route path="/team" component={Team} />
+      <Route path="/board-advisor" component={BoardAdvisor} />
+      <Route path="/orakzai-representative" component={OrakzaiRepresentative} />
+      <Route path="/beneficiary-member" component={BeneficiaryMember} />
+      <Route path="/global-leadership" component={GlobalLeadership} />
       <Route path="/team/:slug" component={TeamProfile} />
       <Route path="/join" component={Join} />
       <Route path="/impact" component={Impact} />
