@@ -475,6 +475,19 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
     bio: "Faiçal Orakzai is a highly accomplished global property technology entrepreneur, hospitality strategist, and a premier member of the Global Leadership panel at Orakzai.org. As the Co-Founder and CEO of easyBNB, his executive presence anchors the platform with profound mastery over PropTech solutions, decentralized asset management pipelines, and high-growth operational scalability. Based out of Paris, France, his leadership bridges European real estate markets with cutting-edge short-term rental management ecosystems, orchestrating frictionless digital workflows for premium properties. His deep command of cross-border real estate operational tech and scalable market penetration models provides the advisory framework with an unmatched asset optimization perspective, steering the organization's property initiatives toward world-class standard and market efficiency.",
     location: "Paris, France",
   },
+  {
+    id: 309,
+    name: "Arslan Orakzai",
+    slug: "arslan-orakzai-telecom",
+    title: "Global Leadership (CEO, Apollo Telecom)",
+    focus: "Telecommunications Infrastructure, Enterprise Connectivity & Scalable Networks",
+    intro: "A highly distinguished technology executive and infrastructure specialist serving as Chief Executive Officer at Apollo Telecom.",
+    photo: "/team/arslan-orakzai-telecom.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To architect seamless communication networks and scale next-generation connectivity—deploying high-performance telecom frameworks to unlock regional business agility and technical synergy.",
+    bio: "Arslan Orakzai is a highly distinguished technology executive, infrastructure specialist, and an esteemed member of the Global Leadership panel at Orakzai.org. Serving as the Chief Executive Officer at Apollo Telecom (Pvt) Ltd., his presence brings massive operational authority, telecom engineering prowess, and corporate management expertise to the advisory council. Operating out of the federal capital of Islamabad, his leadership anchors large-scale enterprise communication infrastructures, regulatory integrations, and critical network deployments. His seasoned mastery in executing complex technology frameworks and expanding infrastructure channels across multiple business verticals provides the platform with an unmatched systemic edge, aligning regional communications with global industry standards.",
+    location: "Islamabad, Pakistan",
+  },
 ];
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
