@@ -69,7 +69,7 @@ function HeroCarousel() {
   );
 }
 
-interface TeamMember {
+export interface TeamMember {
   id: number;
   name: string;
   title: string;
@@ -90,7 +90,7 @@ interface TeamMember {
   currentInitiatives?: { title: string; status: string; description: string }[];
 }
 
-const SUPREME_LEADERS: TeamMember[] = [
+export const SUPREME_LEADERS: TeamMember[] = [
   {
     id: 1,
     name: "Faisal Orakzai",
@@ -146,7 +146,7 @@ const SUPREME_LEADERS: TeamMember[] = [
   },
 ];
 
-const BOARD_MEMBERS: TeamMember[] = [
+export const BOARD_MEMBERS: TeamMember[] = [
   {
     id: 3,
     name: "Maria Hussain",
@@ -175,13 +175,14 @@ const BOARD_MEMBERS: TeamMember[] = [
   {
     id: 5,
     name: "Kashif Orakzai",
-    title: "Operations & Logistics Head",
-    focus: "Orakzai Transport Corp & Field Work",
-    intro: "Overseeing ground operations and logistics to ensure efficient delivery of services across the district.",
+    title: "Core Team Member & Security Liaison",
+    focus: "Public Safety, Police Liaison & Field Operations",
+    intro: "Law enforcement professional ensuring safety, security compliance, and structured on-ground operations for all community initiatives.",
     photo: "/team/kashif-orakzai.png",
     linkedin: "#", twitter: "#",
-    bio: "Kashif Orakzai is the operational backbone of Orakzai, ensuring that every project is delivered with precision and efficiency. With a background in supply chain management and project coordination, he has streamlined the organization's field operations across multiple districts. From coordinating relief deliveries in disaster zones to managing the logistics of large-scale community events, Kashif's meticulous planning ensures nothing falls through the cracks. He has developed the organization's standard operating procedures and volunteer management systems, enabling it to scale its impact while maintaining accountability at every level.",
-    location: "Orakzai District, Khyber Pakhtunkhwa, Pakistan",
+    mission: "To serve and secure the community framework—leveraging professional enforcement background to maintain absolute safety and structured support for all regional initiatives.",
+    bio: "Kashif Orakzai is an indispensable Core Team Member and the Security Liaison lead for Orakzai.org. Serving actively within the law enforcement and police services, his professional background brings strong discipline, structural coordination, and reliable public safety management to the organization's on-ground activities. Based across Hangu and the Orakzai District, Kashif works directly within the core team to ensure all local community initiatives, public events, and field programs are executed safely, smoothly, and in full compliance with local security guidelines. His practical experience in regional law enforcement, combined with his dedicated volunteer oversight, provides a trusted foundation of stability and safety for every team member and project across the district.",
+    location: "Hangu & Orakzai District, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
   {
@@ -259,7 +260,7 @@ const BOARD_MEMBERS: TeamMember[] = [
 ];
 
 /* ── Board & Advisors — senior counsel guiding governance & strategy ── */
-const BOARD_ADVISORS: TeamMember[] = [
+export const BOARD_ADVISORS: TeamMember[] = [
   {
     id: 101,
     name: "Barrister Naeem Orakzai",
@@ -318,7 +319,7 @@ const BOARD_ADVISORS: TeamMember[] = [
 ];
 
 /* ── Beneficiary Members — families & individuals supported by Orakzai.org ── */
-const BENEFICIARY_MEMBERS: TeamMember[] = [
+export const BENEFICIARY_MEMBERS: TeamMember[] = [
   {
     id: 201,
     name: "Bibi Shireen Family",
@@ -372,7 +373,7 @@ const BENEFICIARY_MEMBERS: TeamMember[] = [
 ];
 
 /* ── Global Leadership — representing Orakzai at the international level ── */
-const GLOBAL_LEADERSHIP: TeamMember[] = [
+export const GLOBAL_LEADERSHIP: TeamMember[] = [
   {
     id: 301,
     name: "Imran Wazir Orakzai",
