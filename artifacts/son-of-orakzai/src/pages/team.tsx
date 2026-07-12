@@ -207,13 +207,14 @@ export const BOARD_MEMBERS: TeamMember[] = [
   {
     id: 7,
     name: "Zubair Orakzai",
-    title: "IT & Blockchain Strategist",
-    focus: "Digital Homeland & Tech Infrastructure",
+    title: "IT & Blockchain Strategist / Media Head (Orakzai Bond)",
+    focus: "Ecosystem Media Communications, Tech Infrastructure & Blockchain Strategy",
     intro: "Architecting the digital backbone of Orakzai, building blockchain-powered transparency systems.",
     photo: "/team/zubair-orakzai.jpg",
     linkedin: "#", twitter: "#",
-    bio: "Zubair Orakzai is a technology entrepreneur and blockchain specialist who brings cutting-edge digital solutions to the Orakzai community's development agenda. Educated at NUST and internationally certified in blockchain applications, he is building transparent fund-tracking systems and digital identity solutions for community members. Zubair also leads the Digital Skill Lab initiative, which provides free coding, freelancing, and tech entrepreneurship training to Orakzai youth. His vision is to position the Orakzai district as a hub for Pakistan's digital economy, creating sustainable livelihoods through technology and innovation.",
-    location: "Islamabad, Pakistan",
+    mission: "To engineer high-performance tech frameworks and command institutional media architectures—uniting digital communications with blockchain strategy to secure ecosystem transparency and global reach.",
+    bio: "M. Zubair Orakzai is a core visionary leader, technology engineer, and the IT & Blockchain Strategist at Orakzai.org. Functioning dynamically within the ecosystem, he also serves as the Media Head for Orakzai Bond, strategically commanding the intersection of cryptographic infrastructure rollout and high-end digital media communication. Based out of Murree, Zubair spearheads the integration of next-generation digital frameworks, ecosystem transparency models, and tech-driven public solutions for regional and digital operations. Backed by structured expertise in network configurations and blockchain application deployments, he manages the group's digital skill-building initiatives, core tech infrastructure pipelines, and authoritative brand messaging frameworks. His critical combination of technical systems deployment and media coordination ensures the group's decentralized platforms and community footprints maintain world-class execution and strategic visibility across both global and regional networks.",
+    location: "Murree, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
   {
