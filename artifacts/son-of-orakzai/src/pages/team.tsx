@@ -592,6 +592,19 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
     bio: "Salah Orakzai is a distinguished international diplomatic professional, compliance analyst, and a premier member of the Global Leadership council at Orakzai.org. Serving as a Visa Officer at the Royal Norwegian Embassy, his background anchors the platform with elite capabilities in transnational legal compliance, cross-border protocol management, and stringent verification frameworks. Operating from the global diplomatic and commercial corridor of Abu Dhabi, UAE, his expertise specializes in evaluating high-standard institutional regulations and maintaining flawless international administrative metrics. His seasoned command over complex sovereign guidelines and global mobility networks provides the board with an invaluable systemic advantage, ensuring the platform's cross-border initiatives operate with absolute compliance and elite geopolitical alignment.",
     location: "Abu Dhabi, UAE",
   },
+  {
+    id: 319,
+    name: "Laloona Orakzai",
+    slug: "laloona-orakzai-automation",
+    title: "Global Leadership (Project Coordinator & GoHighLevel Certified Admin)",
+    focus: "Global Project Management, CRM Automation, Institutional HR & Workflow Optimization",
+    intro: "An accomplished international operations leader with over 8 years across UN agencies, now a GoHighLevel Certified Administrator specializing in CRM automation and workflow optimization.",
+    photo: "/team/laloona-orakzai-automation.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To engineer hyper-efficient workflow optimization frameworks and scale customer operations—deploying advanced CRM automation and elite project management tools to orchestrate seamless institutional expansion.",
+    bio: "Laloona Orakzai is an exceptionally accomplished international operations leader, project strategist, and an esteemed executive member of the Global Leadership panel at Orakzai.org. Bringing a phenomenal tenure of over 8 years across various UN agencies, her leadership anchors the organization with elite capabilities in international project management, structured human resources, institutional reporting, and administrative governance. In addition to her international development pedigree, she is a GoHighLevel Certified Administrator working with RepStack, holding seasoned technical mastery over enterprise CRM automation, customer lifecycle optimization, and advanced workflow architecture. An alumna of the University of Peshawar operating out of Khyber Pakhtunkhwa, her unique expertise seamlessly bridges high-level bureaucratic administration with cutting-edge tech automation, providing the board with unmatched capability in structuring modern, automated client interaction pipelines.",
+    location: "Peshawar District, Khyber Pakhtunkhwa, Pakistan",
+  },
 ];
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
