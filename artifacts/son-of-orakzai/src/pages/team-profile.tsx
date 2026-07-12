@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Link, useParams } from "wouter";
+import { Link, useLocation, useParams } from "wouter";
 import { MainLayout } from "@/components/layout/main-layout";
 import { motion } from "framer-motion";
 import { MapPin, Star, Linkedin, Twitter, Globe, Mail, ArrowLeft, Crown, BadgeCheck } from "lucide-react";
@@ -30,6 +30,12 @@ const ALL_PROFILEABLE: TeamMember[] = [
 export default function TeamProfile() {
   const params = useParams<{ slug: string }>();
   const slug = params.slug ?? "";
+  const [location] = useLocation();
+  // This route is mounted at /team/:slug as well as under each of the
+  // other four pillar pages (/board-advisor/:slug, etc). Derive the
+  // pillar's own base path from the current URL so "Back" and canonical
+  // links return to the pillar the visitor came from, not always /team.
+  const pillarBase = location.replace(new RegExp(`/${slug}$`), "") || "/team";
 
   const member = ALL_PROFILEABLE.find((m) => toSlug(m.name) === slug);
 
@@ -58,7 +64,7 @@ export default function TeamProfile() {
     setMeta("og:title", `${member.name} — ${member.title} | Orakzai.org`, true);
     setMeta("og:description", desc, true);
     setMeta("og:image", `https://sonoforakzai.vercel.app${member.photo}`, true);
-    setMeta("og:url", `https://sonoforakzai.vercel.app/team/${slug}`, true);
+    setMeta("og:url", `https://sonoforakzai.vercel.app${pillarBase}/${slug}`, true);
     setMeta("twitter:title", `${member.name} | Orakzai.org`);
     setMeta("twitter:description", desc);
     setMeta("twitter:image", `https://sonoforakzai.vercel.app${member.photo}`);
@@ -76,7 +82,7 @@ export default function TeamProfile() {
       "jobTitle": member.title,
       "description": member.bio.replace(/\n/g, " "),
       "image": `https://sonoforakzai.vercel.app${member.photo}`,
-      "url": `https://sonoforakzai.vercel.app/team/${slug}`,
+      "url": `https://sonoforakzai.vercel.app${pillarBase}/${slug}`,
       "worksFor": { "@type": "Organization", "name": "Orakzai.org", "url": "https://sonoforakzai.vercel.app" },
       ...(member.linkedin && member.linkedin !== "#" ? { "sameAs": [member.linkedin] } : {}),
       ...(member.location ? { "address": { "@type": "PostalAddress", "addressLocality": member.location } } : {}),
@@ -87,7 +93,7 @@ export default function TeamProfile() {
       document.title = "Orakzai.org — Digital Embassy";
       document.getElementById("profile-jsonld")?.remove();
     };
-  }, [member, slug]);
+  }, [member, slug, pillarBase]);
 
   /* ── 404 ── */
   if (!member) {
@@ -95,7 +101,7 @@ export default function TeamProfile() {
       <MainLayout>
         <div className="min-h-screen flex flex-col items-center justify-center" style={{ background: "#011a10" }}>
           <p className="text-white/60 text-lg mb-6">Profile not found.</p>
-          <Link href="/team" className="text-sm font-bold uppercase tracking-widest px-6 py-3 rounded-full" style={{ background: GOLD, color: "#011a10" }}>
+          <Link href={pillarBase} className="text-sm font-bold uppercase tracking-widest px-6 py-3 rounded-full" style={{ background: GOLD, color: "#011a10" }}>
             ← Back to Team
           </Link>
         </div>
@@ -120,7 +126,7 @@ export default function TeamProfile() {
 
           <div className="relative z-10 max-w-4xl mx-auto px-5 pt-24 pb-12">
             {/* Back link */}
-            <Link href="/team" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-10 transition-opacity hover:opacity-70" style={{ color: GOLD }}>
+            <Link href={pillarBase} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-10 transition-opacity hover:opacity-70" style={{ color: GOLD }}>
               <ArrowLeft className="w-3.5 h-3.5" /> Team
             </Link>
 
@@ -287,7 +293,7 @@ export default function TeamProfile() {
 
           {/* Back CTA */}
           <div className="pt-4">
-            <Link href="/team" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest px-6 py-3 rounded-full transition-all hover:scale-105" style={{ background: `${GOLD}18`, border: `1px solid ${GOLD}44`, color: GOLD }}>
+            <Link href={pillarBase} className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest px-6 py-3 rounded-full transition-all hover:scale-105" style={{ background: `${GOLD}18`, border: `1px solid ${GOLD}44`, color: GOLD }}>
               <ArrowLeft className="w-4 h-4" /> View Full Team
             </Link>
           </div>

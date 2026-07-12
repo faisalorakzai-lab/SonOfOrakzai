@@ -35,6 +35,10 @@ function Router() {
       <Route path="/beneficiary-member" component={BeneficiaryMember} />
       <Route path="/global-leadership" component={GlobalLeadership} />
       <Route path="/team/:slug" component={TeamProfile} />
+      <Route path="/board-advisor/:slug" component={TeamProfile} />
+      <Route path="/orakzai-representative/:slug" component={TeamProfile} />
+      <Route path="/beneficiary-member/:slug" component={TeamProfile} />
+      <Route path="/global-leadership/:slug" component={TeamProfile} />
       <Route path="/join" component={Join} />
       <Route path="/impact" component={Impact} />
       <Route path="/donate" component={Donate} />

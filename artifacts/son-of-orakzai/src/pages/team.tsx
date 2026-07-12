@@ -569,10 +569,13 @@ function MemberAvatar({
 
 function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: number; onOpenBio: (m: TeamMember) => void }) {
   const [hovered, setHovered] = useState(false);
-  const [, navigate] = useLocation();
+  const [location, navigate] = useLocation();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
-  const profileUrl = `/team/${toSlug(member.name)}`;
+  // Profile links live under whichever pillar page is currently open
+  // (e.g. /board-advisor/name, not always /team/name) so "View Profile"
+  // takes you back to the same pillar instead of the generic team hub.
+  const profileUrl = `${location}/${toSlug(member.name)}`;
 
   return (
     <motion.div
@@ -640,10 +643,12 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
 
 function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: number; onOpenBio: (m: TeamMember) => void }) {
   const [hovered, setHovered] = useState(false);
-  const [, navigate] = useLocation();
+  const [location, navigate] = useLocation();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
-  const profileUrl = `/team/${toSlug(member.name)}`;
+  // Same pillar-aware profile link as SupremeCard — stay under the
+  // current pillar route instead of always linking to /team/name.
+  const profileUrl = `${location}/${toSlug(member.name)}`;
 
   return (
     <motion.div
