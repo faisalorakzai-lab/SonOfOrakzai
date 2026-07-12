@@ -367,6 +367,19 @@ export const BOARD_ADVISORS: TeamMember[] = [
     location: "Kohat & Islamabad, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
+  {
+    id: 109,
+    name: "Nighat Yasmin Orakzai",
+    title: "Senior Board Advisor (Former MPA 2002 - 2023)",
+    focus: "Legislative Oversight, Women Empowerment & Public Policy Formulation",
+    intro: "A veteran parliamentarian with a historic tenure as MPA from 2002 to 2023, bringing unmatched policy-making authority to the advisory council.",
+    photo: "/team/nighat-yasmin-orakzai.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To leverage decades of legislative mastery and public policy insight—advocating for structural gender equity, provincial governance realignment, and sustainable community empowerment models.",
+    bio: "Nighat Yasmin Orakzai is a legendary stateswoman, veteran parliamentarian, and Senior Board Advisor at Orakzai.org. Serving as a distinguished Member of the Provincial Assembly (MPA) across a historic and expansive tenure from 2002 to 2023, her extensive legislative career brings unmatched policy-making authority and governance experience to the advisory council. Based out of Peshawar, her impactful legacy anchors the organization's high-level advocacy pipelines and regional human development strategies. With over two decades of experience in navigating complex provincial legislative frameworks, driving grassroots welfare systems, and championing women's socioeconomic rights, she acts as a pivotal structural strategist. Her seasoned insight guides the board toward absolute execution, maintaining elite institutional standards across all regional community development and integration programs.",
+    location: "Peshawar, Pakistan",
+    reportsTo: "Faisal Orakzai",
+  },
 ];
 
 /* ── Beneficiary Members — families & individuals supported by Orakzai.org ── */
