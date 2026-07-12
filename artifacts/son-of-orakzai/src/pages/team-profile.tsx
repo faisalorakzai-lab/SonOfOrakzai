@@ -58,7 +58,7 @@ export default function TeamProfile() {
     setMeta("og:title", `${member.name} — ${member.title} | Orakzai.org`, true);
     setMeta("og:description", desc, true);
     setMeta("og:image", `https://sonoforakzai.vercel.app${member.photo}`, true);
-    setMeta("og:url", `https://sonoforakzai.vercel.app/team-${slug}`, true);
+    setMeta("og:url", `https://sonoforakzai.vercel.app/team/${slug}`, true);
     setMeta("twitter:title", `${member.name} | Orakzai.org`);
     setMeta("twitter:description", desc);
     setMeta("twitter:image", `https://sonoforakzai.vercel.app${member.photo}`);
@@ -76,7 +76,7 @@ export default function TeamProfile() {
       "jobTitle": member.title,
       "description": member.bio.replace(/\n/g, " "),
       "image": `https://sonoforakzai.vercel.app${member.photo}`,
-      "url": `https://sonoforakzai.vercel.app/team-${slug}`,
+      "url": `https://sonoforakzai.vercel.app/team/${slug}`,
       "worksFor": { "@type": "Organization", "name": "Orakzai.org", "url": "https://sonoforakzai.vercel.app" },
       ...(member.linkedin && member.linkedin !== "#" ? { "sameAs": [member.linkedin] } : {}),
       ...(member.location ? { "address": { "@type": "PostalAddress", "addressLocality": member.location } } : {}),

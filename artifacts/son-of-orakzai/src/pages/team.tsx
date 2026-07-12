@@ -545,7 +545,7 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
   const [, navigate] = useLocation();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
-  const profileUrl = `/team-${toSlug(member.name)}`;
+  const profileUrl = `/team/${toSlug(member.name)}`;
 
   return (
     <motion.div
@@ -616,7 +616,7 @@ function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: n
   const [, navigate] = useLocation();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
-  const profileUrl = `/team-${toSlug(member.name)}`;
+  const profileUrl = `/team/${toSlug(member.name)}`;
 
   return (
     <motion.div

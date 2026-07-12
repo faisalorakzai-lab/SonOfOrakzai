@@ -26,7 +26,7 @@ function Router() {
       <Route path="/services" component={Services} />
       <Route path="/community" component={Community} />
       <Route path="/team" component={Team} />
-      <Route path="/team-:slug" component={TeamProfile} />
+      <Route path="/team/:slug" component={TeamProfile} />
       <Route path="/join" component={Join} />
       <Route path="/impact" component={Impact} />
       <Route path="/donate" component={Donate} />
