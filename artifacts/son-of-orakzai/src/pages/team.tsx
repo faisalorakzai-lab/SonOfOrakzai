@@ -351,6 +351,19 @@ export const BOARD_ADVISORS: TeamMember[] = [
     location: "Islamabad, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
+  {
+    id: 112,
+    name: "Ahmad Hanif Orakzai",
+    title: "Senior Board Advisor (PAS Officer, BS-22)",
+    focus: "Public Administration, Apex Bureaucratic Policy & Strategic Governance",
+    intro: "An exceptionally distinguished civil servant of the elite Pakistan Administrative Service, serving at the apex of civil governance in Grade BS-22.",
+    photo: "/team/ahmad-hanif-orakzai.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To deploy top-tier administrative mastery and civil service foresight—anchoring structural development blueprints within federal governance frameworks for absolute execution excellence.",
+    bio: "Ahmad Hanif Orakzai is an exceptionally distinguished civil servant, public administrator, and Senior Board Advisor at Orakzai.org. Belonging to the elite Pakistan Administrative Service (PAS) and serving at the absolute apex of civil governance in Grade BS-22, his extensive career in state machinery brings unmatched bureaucratic authority and administrative mastery to the advisory council. Operating out of the federal capital of Islamabad, his leadership provides the board with unparalleled insight into large-scale public sector management, regulatory frameworks, and national policy execution. With a historic footprint in heading key institutional portfolios and organizing macro-level structural operations, he guides the organization's strategic initiatives toward total alignment with state standards and institutional sustainability.",
+    location: "Islamabad, Pakistan",
+    reportsTo: "Faisal Orakzai",
+  },
 ];
 
 /* ── Beneficiary Members — families & individuals supported by Orakzai.org ── */
