@@ -566,6 +566,19 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
     bio: "Habib Malik Orakzai is a highly distinguished international advocate, socio-legal strategist, and an esteemed executive member of the Global Leadership panel at Orakzai.org. Serving as the President of the Pakistan International Human Rights Organization (PIHRO), his elite leadership anchors the platform with profound expertise in global policy advocacy, cross-border alliance building, and institutional governance frameworks. Operating directly between the diplomatic hub of Geneva, Switzerland, and the federal capital of Islamabad, his extensive track record bridges grassroots systemic development with global advisory standards. His seasoned oversight in directing large-scale human rights networks and structuring transparent transnational operations provides the board with a powerful ethical blueprint, steering the organization's corporate and social milestones toward unprecedented international distinction.",
     location: "Geneva, Switzerland / Islamabad, Pakistan",
   },
+  {
+    id: 317,
+    name: "Umer Orakzai",
+    slug: "umer-orakzai-governance",
+    title: "Global Leadership (Director - PAMS, Elementary & Secondary Education Foundation)",
+    focus: "Public Sector Governance, Strategic Administrative Management & Institutional Policy Execution",
+    intro: "A highly accomplished public sector executive serving as Director (PAMS) at the Elementary & Secondary Education Foundation, leading large-scale institutional development.",
+    photo: "/team/umer-orakzai-governance.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To architect resilient administrative systems and drive large-scale institutional development—deploying structured public sector governance to achieve operational standard and strategic organizational growth.",
+    bio: "Umer Orakzai is a highly accomplished public sector executive, administrative strategist, and an esteemed member of the Global Leadership panel at Orakzai.org. Serving as the Director (PAMS) at the Elementary & Secondary Education Foundation, his leadership anchors the platform with profound expertise in macro-level resource administration, institutional policy deployment, and large-scale organizational governance. Operating from the federal capital of Islamabad, his professional legacy bridges strategic public sector compliance with structured program management metrics. His seasoned command over complex administrative frameworks and systemic operational channels provides the advisory board with critical institutional oversight, aligning regional foundational networks with absolute executive standards and long-term sustainability metrics.",
+    location: "Islamabad, Pakistan",
+  },
 ];
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
