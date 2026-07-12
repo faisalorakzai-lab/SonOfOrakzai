@@ -393,6 +393,19 @@ export const BOARD_ADVISORS: TeamMember[] = [
     location: "Islamabad, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
+  {
+    id: 111,
+    name: "Sajid Hussain Turi",
+    title: "Senior Board Advisor (Ex-Federal Minister & MNA 2008 - 2023)",
+    focus: "Federal Governance, Overseas Alliances & Human Resource Development",
+    intro: "Pakistan's former Federal Minister for Overseas Pakistanis and Human Resource Development, with a historic 15-year tenure as MNA from 2008 to 2023.",
+    photo: "/team/sajid-hussain-turi.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To bridge national legislative authority with global diaspora engagement—utilizing macro-level federal frameworks to drive sustainable regional development and international human capital cultivation.",
+    bio: "Sajid Hussain Turi is an illustrious statesman, veteran federal legislator, and Senior Board Advisor at Orakzai.org. Having served with high distinction as Pakistan's Federal Minister for Overseas Pakistanis and Human Resource Development, alongside a historic 15-year continuous tenure as a Member of the National Assembly (MNA) from 2008 to 2023, his presence anchors the board with apex-level state governance authority. Operating primarily out of Islamabad, his vast expertise specializes in cross-border diplomacy, strategic international collaborations, and institutional human capital empowerment. His seasoned mastery in alignment of federal public policies, driving national infrastructure initiatives, and optimizing diaspora engagement frameworks provides the organization with supreme executive oversight. His guidance ensures the group's socio-economic and regional transformation programs scale with absolute structural precision and elite national excellence.",
+    location: "Islamabad, Pakistan",
+    reportsTo: "Faisal Orakzai",
+  },
 ];
 
 /* ── Beneficiary Members — families & individuals supported by Orakzai.org ── */
