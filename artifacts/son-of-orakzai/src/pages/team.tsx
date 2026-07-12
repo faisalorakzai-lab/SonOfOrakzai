@@ -336,6 +336,19 @@ export const BOARD_ADVISORS: TeamMember[] = [
     location: "Orakzai District & Islamabad, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
+  {
+    id: 107,
+    name: "Yousaf Khan",
+    title: "Board Advisor (Sitting MNA)",
+    focus: "Parliamentary Policy, National Legislative Oversight & Regional Development",
+    intro: "The sitting Member of the National Assembly for Hangu and Orakzai, linking the organization directly with national policy channels.",
+    photo: "/team/yousaf-khan.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To synthesize current legislative initiatives with targeted regional execution—leveraging active parliamentary authority to drive sustainable civic advancement and socioeconomic empowerment.",
+    bio: "Yousaf Khan is an eminent political figure, active national legislator, and Board Advisor at Orakzai.org. Serving as the sitting Member of the National Assembly (MNA) for the Hangu and Orakzai constituency, his presence on the advisory panel links the organization directly with contemporary national decision-making and top-tier legislative oversight. Operating dynamically between the federal capital of Islamabad and the regional centers of Hangu and Orakzai, his leadership ensures local socio-development initiatives are seamlessly integrated with national policy channels. With an expansive command over public policy, institutional governance, and parliamentary strategy, Yousaf Khan serves as a vital strategic advisor. His active involvement steers the organization's high-impact community programs, regional infrastructure alignment, and public empowerment strategies toward absolute execution and state-level excellence.",
+    location: "Hangu, Orakzai & Islamabad, Pakistan",
+    reportsTo: "Faisal Orakzai",
+  },
 ];
 
 /* ── Beneficiary Members — families & individuals supported by Orakzai.org ── */
