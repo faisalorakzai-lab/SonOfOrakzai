@@ -527,6 +527,19 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
     bio: "Asfandyar Orakzai is an exceptionally accomplished international data infrastructure executive, cloud engineer, and a premier member of the Global Leadership panel at Orakzai.org. Serving as the Lead Data Engineer at Capgemini, his corporate pedigree anchors the platform with elite capabilities in enterprise-scale data modeling, real-time streaming architectures, and high-performance pipeline design. Operating from the global financial and tech hub of London, UK, his leadership specializes in managing critical data lifecycles and structuring resilient architectures for complex institutional frameworks. His seasoned command over big data environments, cloud integrations, and structural analytics tools provides the organization with a powerful technical foundation, ensuring all decentralized data networks deploy with supreme precision and absolute execution excellence.",
     location: "London, United Kingdom (UK)",
   },
+  {
+    id: 313,
+    name: "Hamza Saeed Orakzai",
+    slug: "hamza-saeed-orakzai-stza",
+    title: "Global Leadership (Chief Market Development Officer, STZA & Eisenhower Fellow)",
+    focus: "Technology Ecosystem Architecture, Macroeconomic Public Policy & Tech-Zone Commercialization",
+    intro: "A prominent C-suite executive and public policy expert serving as Chief Market Development Officer and founding director at the Special Technology Zones Authority (STZA).",
+    photo: "/team/hamza-saeed-orakzai-stza.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To architect world-class legal and commercial frameworks that fuel digital economies—scaling tech zones, driving asset governance, and eliminating macro-level structural infrastructure bottlenecks.",
+    bio: "Hamza Saeed Orakzai is an exceptionally prominent C-suite executive, distinguished public policy expert, and a premier member of the Global Leadership panel at Orakzai.org. Serving as the Chief Market Development Officer (CMDO) and a founding director at the Special Technology Zones Authority (STZA), his leadership has been instrumental in architecting the foundational legal and commercial frameworks for Pakistan's modern digital economy. As an globally recognized Eisenhower Fellow operating out of Islamabad, he has co-authored groundbreaking state frameworks, including the Special Technology Zones Act 2021 and its regulatory rulesets. His phenomenal commercial legacy includes scaling the national tech zone network from 12 to 32 notified zones—housing over 250 technology enterprises—and managing an asset jurisdiction that scaled from US$500 million to over US$1.3 billion. A seasoned international diplomat, he leads critical bilateral tech and science cooperation frameworks globally, providing the board with apex-level systemic oversight and macro-level market strategy execution.",
+    location: "Islamabad, Pakistan",
+  },
 ];
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
