@@ -365,6 +365,19 @@ export const BOARD_ADVISORS: TeamMember[] = [
     location: "Islamabad, Pakistan",
     reportsTo: "Faisal Orakzai",
   },
+  {
+    id: 113,
+    name: "Shanzay J. Orakzai",
+    title: "Board Advisor (Corporate Counsel & Harvard Law Alumna)",
+    focus: "Corporate Governance, Global Data Privacy Compliance & Emerging Tech Law",
+    intro: "An accomplished international attorney and Harvard Law School alumna serving as Corporate Counsel at 15Five, advising on corporate governance and global data privacy compliance.",
+    photo: "/team/shanzay-j-orakzai-legal.png",
+    linkedin: "#", twitter: "#",
+    mission: "To architect bulletproof legal frameworks and design next-generation data privacy strategies—deploying elite corporate governance to guide fast-growth technology ecosystems toward seamless global compliance.",
+    bio: "Shanzay J. Orakzai (professionally recognized as Shanzay J. / Shanzay Javaid) is an exceptionally accomplished international attorney, corporate strategist, and Senior Board Advisor at Orakzai.org. Currently serving as Corporate Counsel at the prominent performance management software company 15Five, she brings absolute legal precision, Ivy League pedigree as a Harvard Law School alumna, and cutting-edge corporate mastery to the advisory council. Operating primarily out of Massachusetts, USA, her extensive expertise bridges corporate governance, global data privacy compliance, and cross-border vendor architectures. Having established a flawless track record in advising executive teams on commercial risk management and SaaS compliance frameworks, she provides the organization with supreme regulatory foresight. Her leadership ensures the group's fast-growth tech ecosystems and innovative platforms scale with total operational resilience and elite global standard.",
+    location: "Massachusetts, USA",
+    reportsTo: "Faisal Orakzai",
+  },
 ];
 
 /* ── Beneficiary Members — families & individuals supported by Orakzai.org ── */
@@ -552,6 +565,19 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
     mission: "To architect hyper-resilient digital infrastructures and scale global enterprise systems—utilizing apex engineering paradigms to drive seamless computational synergy and structural innovation.",
     bio: "Najeeb Orakzai is a top-tier international technology executive, systems engineer, and an esteemed member of the Global Leadership council at Orakzai.org. Serving as a Senior Infrastructure Engineer at Microsoft, his corporate pedigree anchors the platform with elite capabilities in managing hyper-scale cloud fabrics, resilient system architectures, and massive distributed data deployments. Operating from the global technology hub of Seattle, USA, his expertise specializes in orchestrating high-availability digital networks and robust system frameworks for global enterprise solutions. His deep technical command over large-scale cloud environments and structural systems engineering provides the board with a formidable tech foundation, perfectly aligning regional deployments with world-class operational standards.",
     location: "Seattle, USA",
+  },
+  {
+    id: 315,
+    name: "Shanzay J. Orakzai",
+    slug: "shanzay-j-orakzai-legal",
+    title: "Global Leadership (Corporate Counsel, 15Five & Harvard Law Alumna)",
+    focus: "Corporate Governance, Global Data Privacy Compliance & Emerging Tech Law",
+    intro: "An accomplished international attorney and Harvard Law School alumna serving as Corporate Counsel at the performance management software company 15Five.",
+    photo: "/team/shanzay-j-orakzai-legal.png",
+    linkedin: "#", twitter: "#",
+    mission: "To architect bulletproof legal frameworks and design next-generation data privacy strategies—deploying elite corporate governance to guide fast-growth technology ecosystems toward seamless global compliance.",
+    bio: "Shanzay J. Orakzai (professionally recognized as Shanzay J. / Shanzay Javaid) is an exceptionally accomplished international attorney, corporate strategist, and Senior Board Advisor at Orakzai.org. Currently serving as Corporate Counsel at the prominent performance management software company 15Five, she brings absolute legal precision, Ivy League pedigree as a Harvard Law School alumna, and cutting-edge corporate mastery to the advisory council. Operating primarily out of Massachusetts, USA, her extensive expertise bridges corporate governance, global data privacy compliance, and cross-border vendor architectures. Having established a flawless track record in advising executive teams on commercial risk management and SaaS compliance frameworks, she provides the organization with supreme regulatory foresight. Her leadership ensures the group's fast-growth tech ecosystems and innovative platforms scale with total operational resilience and elite global standard.",
+    location: "Massachusetts, USA",
   },
 ];
 
