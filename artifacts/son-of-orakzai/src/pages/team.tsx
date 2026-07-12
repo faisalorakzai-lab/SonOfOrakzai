@@ -579,6 +579,19 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
     bio: "Umer Orakzai is a highly accomplished public sector executive, administrative strategist, and an esteemed member of the Global Leadership panel at Orakzai.org. Serving as the Director (PAMS) at the Elementary & Secondary Education Foundation, his leadership anchors the platform with profound expertise in macro-level resource administration, institutional policy deployment, and large-scale organizational governance. Operating from the federal capital of Islamabad, his professional legacy bridges strategic public sector compliance with structured program management metrics. His seasoned command over complex administrative frameworks and systemic operational channels provides the advisory board with critical institutional oversight, aligning regional foundational networks with absolute executive standards and long-term sustainability metrics.",
     location: "Islamabad, Pakistan",
   },
+  {
+    id: 318,
+    name: "Salah Orakzai",
+    slug: "salah-orakzai-diplomacy",
+    title: "Global Leadership (Visa Officer, Royal Norwegian Embassy)",
+    focus: "Diplomatic Affairs, Cross-Border Regulatory Compliance & Risk Verification Frameworks",
+    intro: "A distinguished international diplomatic professional serving as a Visa Officer at the Royal Norwegian Embassy, specializing in cross-border regulatory compliance.",
+    photo: "/team/salah-orakzai-diplomacy.jpg",
+    linkedin: "#", twitter: "#",
+    mission: "To uphold international regulatory integrity and streamline diplomatic verification architectures—deploying precise governance models to steer cross-border mobility and global policy alignment.",
+    bio: "Salah Orakzai is a distinguished international diplomatic professional, compliance analyst, and a premier member of the Global Leadership council at Orakzai.org. Serving as a Visa Officer at the Royal Norwegian Embassy, his background anchors the platform with elite capabilities in transnational legal compliance, cross-border protocol management, and stringent verification frameworks. Operating from the global diplomatic and commercial corridor of Abu Dhabi, UAE, his expertise specializes in evaluating high-standard institutional regulations and maintaining flawless international administrative metrics. His seasoned command over complex sovereign guidelines and global mobility networks provides the board with an invaluable systemic advantage, ensuring the platform's cross-border initiatives operate with absolute compliance and elite geopolitical alignment.",
+    location: "Abu Dhabi, UAE",
+  },
 ];
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
