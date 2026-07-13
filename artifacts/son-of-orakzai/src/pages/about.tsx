@@ -36,32 +36,32 @@ const pillars = [
   {
     icon: Scale,
     title: "Rights & Representation",
-    desc: "Promoting community engagement, constructive dialogue, and initiatives that strengthen the collective voice and interests of the Orakzai community.",
+    desc: "Legal advocacy and institutional representation dedicated to protecting the rights, interests, and collective voice of Orakzai communities worldwide.",
   },
   {
     icon: GraduationCap,
     title: "Education & Global Scholarships",
-    desc: "Creating pathways for students through mentorship, learning resources, scholarships, and international educational opportunities.",
+    desc: "Scholarships, mentorship, leadership development, and international educational pathways that empower the next generation of Orakzai students.",
   },
   {
     icon: HandHeart,
-    title: "Social Welfare & Humanitarian Support",
-    desc: "Supporting vulnerable families through community-driven welfare initiatives, emergency assistance, and long-term social development programs.",
+    title: "Social Welfare & Crisis Relief",
+    desc: "Humanitarian assistance, poverty alleviation, emergency response initiatives, and sustainable support systems for vulnerable families.",
   },
   {
     icon: TrendingUp,
-    title: "Economic Innovation",
-    desc: "Encouraging entrepreneurship, digital skills, professional growth, and business development that contribute to stronger local economies.",
+    title: "Economic Innovation & Grants",
+    desc: "Interest-free business grants, entrepreneurship support, digital innovation, and local economic development designed to strengthen community prosperity.",
   },
   {
     icon: Globe2,
     title: "Global Diaspora Network",
-    desc: "Connecting Orakzai families and professionals across different countries to encourage collaboration, mentorship, and cultural exchange.",
+    desc: "Connecting Orakzai professionals, families, entrepreneurs, and organizations across Pakistan, the Gulf, Europe, North America, and beyond.",
   },
   {
     icon: HeartPulse,
-    title: "Healthcare & Community Well-being",
-    desc: "Promoting awareness, healthcare access initiatives, clean water projects, and healthier communities for future generations.",
+    title: "Healthcare Infrastructure & Access",
+    desc: "Supporting modern healthcare initiatives through mobile clinics, clean water projects, preventive care, and improved medical accessibility in underserved regions.",
   },
 ];
 
