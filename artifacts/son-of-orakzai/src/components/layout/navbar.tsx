@@ -30,7 +30,7 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
     { href: "/community", label: "Community Stories", icon: Users, desc: "Real change, real people" },
   ],
   "Services": [
-    { href: "/services", label: "Migrant Welfare & Diaspora Protection Fund", icon: ShieldCheck, desc: "Premium member protection & repatriation" },
+    { href: "/migrant-welfare", label: "Migrant Welfare & Diaspora Protection Fund", icon: ShieldCheck, desc: "Premium member protection & repatriation" },
     { href: "/services", label: "Rights & Representation", icon: Scale, desc: "Legal advocacy & representation" },
     { href: "/services", label: "Education & Global Scholarships", icon: GraduationCap, desc: "Scholarships & training" },
     { href: "/services", label: "Social Welfare & Crisis Relief", icon: HandHeart, desc: "Humanitarian & emergency aid" },

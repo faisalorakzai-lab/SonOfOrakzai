@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { MainLayout } from "@/components/layout/main-layout";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -162,7 +163,17 @@ export default function Services() {
                         {service.metric}
                       </div>
                     )}
-                    {service.modalDetails ? (
+                    {service.id === "migrant-welfare-protection" ? (
+                      <Link href="/migrant-welfare">
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-between hover:bg-primary hover:text-white group/btn"
+                        >
+                          Learn More
+                          <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                        </Button>
+                      </Link>
+                    ) : service.modalDetails ? (
                       <Button
                         variant="ghost"
                         className="w-full justify-between hover:bg-primary hover:text-white group/btn"

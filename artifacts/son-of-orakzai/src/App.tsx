@@ -19,6 +19,7 @@ import BoardAdvisor from "@/pages/board-advisor";
 import OrakzaiRepresentative from "@/pages/orakzai-representative";
 import BeneficiaryMember from "@/pages/beneficiary-member";
 import GlobalLeadership from "@/pages/global-leadership";
+import MigrantWelfare from "@/pages/migrant-welfare";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/orakzai-representative" component={OrakzaiRepresentative} />
       <Route path="/beneficiary-member" component={BeneficiaryMember} />
       <Route path="/global-leadership" component={GlobalLeadership} />
+      <Route path="/migrant-welfare" component={MigrantWelfare} />
       <Route path="/team/:slug" component={TeamProfile} />
       <Route path="/board-advisor/:slug" component={TeamProfile} />
       <Route path="/orakzai-representative/:slug" component={TeamProfile} />

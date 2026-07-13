@@ -371,6 +371,7 @@ const pillars = [
     title: 'Migrant Welfare & Diaspora Protection Fund',
     desc: 'A dedicated premium community membership program for Orakzai migrants globally and domestically, providing complete healthcare coverage, repatriation services, and family security systems.',
     stat: '100% comprehensive coverage',
+    href: '/migrant-welfare',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M24 6 L40 12 V22 C40 33 33 40 24 42 C15 40 8 33 8 22 V12 Z" />
@@ -383,14 +384,16 @@ const pillars = [
 function PillarCard({ pillar, index }: { pillar: typeof pillars[0]; index: number }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
+  const href = (pillar as any).href ?? '/services';
 
   return (
+    <Link href={href} className="block h-full">
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 60 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.75, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative h-full"
+      className="group relative h-full cursor-pointer"
     >
       {/* Glow layer — sits behind the card */}
       <div
@@ -501,6 +504,7 @@ function PillarCard({ pillar, index }: { pillar: typeof pillars[0]; index: numbe
         />
       </div>
     </motion.div>
+    </Link>
   );
 }
 
