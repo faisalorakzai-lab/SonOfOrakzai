@@ -14,6 +14,11 @@ import {
   Award,
   Lightbulb,
   Sprout,
+  Sparkles,
+  Dumbbell,
+  Droplet,
+  Ambulance,
+  ShieldCheck,
 } from "lucide-react";
 import { MainLayout } from "@/components/layout/main-layout";
 
@@ -62,6 +67,31 @@ const pillars = [
     icon: HeartPulse,
     title: "Healthcare Infrastructure & Access",
     desc: "Supporting modern healthcare initiatives through mobile clinics, clean water projects, preventive care, and improved medical accessibility in underserved regions.",
+  },
+  {
+    icon: Sparkles,
+    title: "Women Empowerment & Skilled Artisans Support",
+    desc: "Launching dedicated vocational training centers, healthcare programs, and marketplace infrastructure to empower women and support local small-scale artisans.",
+  },
+  {
+    icon: Dumbbell,
+    title: "Youth Development & Sports Infrastructure",
+    desc: "Establishing local sports academies, youth mentorship programs, and constructive recreational facilities to engage the younger generation and promote healthy community development.",
+  },
+  {
+    icon: Droplet,
+    title: "Clean Water & Sanitation (WASH)",
+    desc: "Installing solar-powered water filtration plants and modern tube wells in remote areas to ensure access to safe, clean drinking water and hygienic sanitation systems.",
+  },
+  {
+    icon: Ambulance,
+    title: "Emergency Ambulance & Mobile Health",
+    desc: "Deploying fully equipped free ambulance services and mobile healthcare vans to provide immediate emergency response and basic medical care to far-flung rural areas.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Migrant Welfare & Diaspora Protection Fund",
+    desc: "A dedicated premium community membership program for Orakzai migrants globally and domestically, providing complete healthcare coverage, repatriation services, and family security systems.",
   },
 ];
 
@@ -223,7 +253,7 @@ export default function About() {
       {/* ─── STRATEGIC PILLARS ─── */}
       <section className="py-20" style={{ background: "linear-gradient(180deg, #040e07 0%, #061209 100%)" }}>
         <div className="container mx-auto px-4">
-          <SectionHeading eyebrow="Everything we build is guided by six core priorities" title="Our Strategic Pillars" />
+          <SectionHeading eyebrow="Everything we build is guided by eleven core priorities" title="Our Strategic Pillars" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {pillars.map((pillar, i) => (
               <motion.div

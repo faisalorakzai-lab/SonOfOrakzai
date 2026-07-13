@@ -302,6 +302,82 @@ const pillars = [
       </svg>
     ),
   },
+  {
+    id: 7,
+    title: 'Women Empowerment & Skilled Artisans Support',
+    desc: 'Launching dedicated vocational training centers, healthcare programs, and marketplace infrastructure to empower women and support local small-scale artisans.',
+    stat: '450+ beneficiaries enrolled',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="24" cy="24" r="14" />
+        <circle cx="24" cy="24" r="3" />
+        <line x1="24" y1="10" x2="24" y2="16" />
+        <line x1="24" y1="32" x2="24" y2="38" />
+        <line x1="10" y1="24" x2="16" y2="24" />
+        <line x1="32" y1="24" x2="38" y2="24" />
+        <line x1="14.5" y1="14.5" x2="18.5" y2="18.5" />
+        <line x1="29.5" y1="29.5" x2="33.5" y2="33.5" />
+        <line x1="33.5" y1="14.5" x2="29.5" y2="18.5" />
+        <line x1="18.5" y1="29.5" x2="14.5" y2="33.5" />
+      </svg>
+    ),
+  },
+  {
+    id: 8,
+    title: 'Youth Development & Sports Infrastructure',
+    desc: 'Establishing local sports academies, youth mentorship programs, and constructive recreational facilities to engage the younger generation and promote healthy community development.',
+    stat: '15+ sports facilities supported',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M16 8 H32 V16 Q32 26 24 26 Q16 26 16 16 Z" />
+        <path d="M16 10 H8 Q8 18 16 18" />
+        <path d="M32 10 H40 Q40 18 32 18" />
+        <line x1="24" y1="26" x2="24" y2="34" />
+        <line x1="16" y1="40" x2="32" y2="40" />
+        <line x1="20" y1="34" x2="28" y2="34" />
+      </svg>
+    ),
+  },
+  {
+    id: 9,
+    title: 'Clean Water & Sanitation (WASH)',
+    desc: 'Installing solar-powered water filtration plants and modern tube wells in remote areas to ensure access to safe, clean drinking water and hygienic sanitation systems.',
+    stat: '80+ clean water points installed',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M24 6 C24 6 12 22 12 30 A12 12 0 0 0 36 30 C36 22 24 6 24 6 Z" />
+        <path d="M18 30 Q18 34 22 35" strokeOpacity="0.5" />
+      </svg>
+    ),
+  },
+  {
+    id: 10,
+    title: 'Emergency Ambulance & Mobile Health',
+    desc: 'Deploying fully equipped free ambulance services and mobile healthcare vans to provide immediate emergency response and basic medical care to far-flung rural areas.',
+    stat: '2,400+ emergency dispatches',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="6" y="18" width="28" height="14" rx="2" />
+        <path d="M34 22 H42 L44 28 V32 H34 Z" />
+        <circle cx="14" cy="34" r="3" />
+        <circle cx="36" cy="34" r="3" />
+        <line x1="16" y1="21" x2="16" y2="29" />
+        <line x1="12" y1="25" x2="20" y2="25" />
+      </svg>
+    ),
+  },
+  {
+    id: 11,
+    title: 'Migrant Welfare & Diaspora Protection Fund',
+    desc: 'A dedicated premium community membership program for Orakzai migrants globally and domestically, providing complete healthcare coverage, repatriation services, and family security systems.',
+    stat: '100% comprehensive coverage',
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M24 6 L40 12 V22 C40 33 33 40 24 42 C15 40 8 33 8 22 V12 Z" />
+        <path d="M17 24 L22 29 L32 18" strokeOpacity="0.85" />
+      </svg>
+    ),
+  },
 ];
 
 function PillarCard({ pillar, index }: { pillar: typeof pillars[0]; index: number }) {
@@ -513,9 +589,11 @@ function StrategicPillars() {
               letterSpacing: '0.015em',
             }}
           >
-            Orakzai.org operates through six strategic pillars — each one a dedicated institution 
+            Orakzai.org operates through eleven strategic pillars — each one a dedicated institution 
             in itself — spanning rights advocacy, global education, humanitarian relief, economic 
-            innovation, diaspora connectivity, and frontline healthcare access.
+            innovation, diaspora connectivity, frontline healthcare access, women's empowerment, 
+            youth & sports development, clean water access, emergency medical response, and 
+            migrant welfare protection.
           </p>
         </FadeIn>
 
