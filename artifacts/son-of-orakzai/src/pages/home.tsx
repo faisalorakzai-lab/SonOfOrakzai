@@ -16,12 +16,12 @@ const heroSlides = [
 
 /* ── Impact counters ── */
 const counters = [
-  { end: 12000, label: 'Registered Members', suffix: '+', icon: PeopleIcon, desc: 'Across Pakistan & diaspora' },
-  { end: 4800, label: 'Students Trained', suffix: '+', icon: CapIcon, desc: 'Education & skills programs' },
-  { end: 9200, label: 'Health Cases Resolved', suffix: '+', icon: StethoscopeIcon, desc: 'Free medical assistance' },
-  { end: 14, label: 'Countries Reached', suffix: '+', icon: GlobeIcon, desc: 'Diaspora chapters worldwide' },
-  { end: 850, label: 'Active Volunteers', suffix: '+', icon: HandsIcon, desc: 'Serving communities on the ground' },
-  { end: 22, label: 'Partner Organizations', suffix: '+', icon: HandshakeIcon, desc: 'NGOs, institutions & government bodies' },
+  { end: 2850, label: 'Registered Members', suffix: '+', icon: PeopleIcon, desc: 'Across Pakistan & diaspora' },
+  { end: 360, label: 'Students Trained', suffix: '+', icon: CapIcon, desc: 'Education & skills programs' },
+  { end: 120, label: 'Health Cases Resolved', suffix: '+', icon: StethoscopeIcon, desc: 'Free medical assistance' },
+  { end: 8, label: 'Districts Reached', suffix: '+', icon: GlobeIcon, desc: 'Across Khyber Pakhtunkhwa & beyond' },
+  { end: 860, label: 'Active Volunteers', suffix: '+', icon: HandsIcon, desc: 'Serving communities on the ground' },
+  { end: 18, label: 'Projects Completed', suffix: '+', icon: HandshakeIcon, desc: 'Welfare, education & infrastructure initiatives' },
 ];
 
 /* ── Diaspora flag strip — illustrative, to be confirmed with real chapter data ── */
@@ -237,7 +237,7 @@ const pillars = [
     id: 2,
     title: 'Education & Global Scholarships',
     desc: 'Scholarships, mentorship, leadership development, and international educational pathways that empower the next generation of Orakzai students.',
-    stat: '4,800+ students in 12 cities',
+    stat: '360+ students in 12 cities',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M6 20 L24 10 L42 20 L24 30 Z" />
@@ -294,7 +294,7 @@ const pillars = [
     id: 6,
     title: 'Healthcare Infrastructure & Access',
     desc: 'Supporting modern healthcare initiatives through mobile clinics, clean water projects, preventive care, and improved medical accessibility in underserved regions.',
-    stat: '9,200+ health cases resolved',
+    stat: '120+ health cases resolved',
     icon: (
       <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M24 8 L28 18 L40 18 L30 25 L34 36 L24 29 L14 36 L18 25 L8 18 L20 18 Z" />
@@ -1067,9 +1067,9 @@ export default function Home() {
               className="mt-16 flex gap-8 md:gap-12"
             >
               {[
-                { val: '12K+', label: 'Members' },
-                { val: '4.8K+', label: 'Students' },
-                { val: '9.2K+', label: 'Health Cases' },
+                { val: '2.85K+', label: 'Members' },
+                { val: '360+', label: 'Students' },
+                { val: '120+', label: 'Health Cases' },
               ].map((s, i) => (
                 <div key={i} className="flex flex-col">
                   <span className="text-2xl font-black" style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}>{s.val}</span>

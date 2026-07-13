@@ -34,12 +34,12 @@ export default function Impact() {
         .select("*", { count: "exact", head: true });
 
       setStats({
-        totalMembers: totalMembers || 2847,
-        studentsTrainedCount: 1240,
-        healthCasesCount: 3500,
+        totalMembers: totalMembers || 2850,
+        studentsTrainedCount: 360,
+        healthCasesCount: 120,
         districtsReached: 8,
-        volunteerCount: 420,
-        projectsCompleted: 65,
+        volunteerCount: 860,
+        projectsCompleted: 18,
       });
       setIsLoading(false);
     }
