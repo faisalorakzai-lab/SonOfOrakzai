@@ -3,7 +3,7 @@ import { MainLayout } from "@/components/layout/main-layout";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   ShieldCheck, Plane, Landmark, HeartHandshake, Users, GraduationCap,
-  CheckCircle2, ChevronRight, CreditCard, Smartphone, Lock, Sparkles,
+  CheckCircle2, ChevronRight, Smartphone, Lock, Sparkles,
   IdCard, Fingerprint, ChevronDown, Wallet, ArrowRight, Copy, CheckCheck,
   MessageCircle, Clock,
 } from "lucide-react";
@@ -295,52 +295,6 @@ function CopyField({ label, value }: { label: string; value: string }) {
       <button type="button" onClick={handleCopy} className="shrink-0 transition-colors" style={{ color: copied ? "#4ade80" : "rgba(212,175,55,0.7)" }} title="Copy">
         {copied ? <CheckCheck className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
       </button>
-    </div>
-  );
-}
-
-/* ═══════════════════════════ Payment gateways (overview strip) ═══════════════════════════ */
-function PaymentGateways() {
-  return (
-    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
-      {PAYMENT_METHODS.map((g, i) => (
-        <FadeIn key={g.id} delay={i * 0.08}>
-          <div className="relative rounded-2xl p-6 h-full overflow-hidden flex items-center gap-3" style={{ background: "rgba(0,18,11,0.6)", border: "1px solid rgba(212,175,55,0.18)" }}>
-            <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide" style={{ background: "rgba(74,222,128,0.12)", color: "#4ade80", border: "1px solid rgba(74,222,128,0.3)" }}>
-              Active
-            </div>
-            <div className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0" style={{ background: g.color }}>
-              {g.letter}
-            </div>
-            <div>
-              <h4 className="text-lg font-bold" style={{ color: "rgba(255,255,255,0.92)" }}>{g.name}</h4>
-              <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>{g.kind === "wallet" ? "Mobile Wallet Transfer" : "United Bank Limited"}</p>
-            </div>
-          </div>
-        </FadeIn>
-      ))}
-      <FadeIn delay={0.4}>
-        <div className="relative rounded-2xl p-6 h-full overflow-hidden flex items-center gap-3" style={{ background: "rgba(0,18,11,0.6)", border: "1px solid rgba(212,175,55,0.18)" }}>
-          <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide" style={{ background: "rgba(212,175,55,0.12)", color: GOLD, border: "1px solid rgba(212,175,55,0.3)" }}>
-            Coming Soon
-          </div>
-          <div className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0" style={{ background: "linear-gradient(135deg,#635BFF,#4338CA)" }}>
-            <CreditCard className="w-5 h-5" />
-          </div>
-          <div>
-            <h4 className="text-lg font-bold mb-0.5" style={{ color: "rgba(255,255,255,0.92)" }}>Stripe (International)</h4>
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>Recurring USD/AED/SAR billing — launching soon</p>
-          </div>
-        </div>
-      </FadeIn>
-      <div className="sm:col-span-2 md:col-span-3 flex items-start gap-3 rounded-xl p-4" style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.25)" }}>
-        <MessageCircle className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
-        <p className="text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
-          Tap your preferred gateway in the enrollment form below to reveal its account details, send your dues, then confirm the
-          transaction reference there. WhatsApp your receipt to <span className="font-bold" style={{ color: GOLD }}>{WHATSAPP_NUMBER}</span> to
-          finish verification — your Membership ID activates once confirmed.
-        </p>
-      </div>
     </div>
   );
 }
@@ -676,14 +630,6 @@ export default function MigrantWelfare() {
           </div>
         </div>
       </section>
-
-      <Section
-        eyebrow="Automated Billing"
-        title="Direct-Debit Subscription Gateways"
-        desc="Monthly membership dues will be collected automatically through the following channels. Integration is in final rollout."
-      >
-        <PaymentGateways />
-      </Section>
 
       <section className="py-20" style={{ background: "#00120B", borderTop: "1px solid rgba(212,175,55,0.1)" }}>
         <div className="max-w-5xl mx-auto px-6">
