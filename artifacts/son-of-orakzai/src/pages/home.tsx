@@ -4,8 +4,6 @@ import { Button } from '@/components/ui/button';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 
-const founderPath = '/malak-speen-gul.jpg';
-const chairmanPath = '/faisal-orakzai.png';
 const GOLD = '#D4AF37';
 
 /* ── Hero background slideshow — 3-second interval ── */
@@ -807,108 +805,6 @@ function FadeIn({
   );
 }
 
-/* ── Leadership card ── */
-function LeaderCard({
-  imgSrc,
-  altText,
-  title,
-  name,
-  bio,
-  direction,
-}: {
-  imgSrc: string;
-  altText: string;
-  title: string;
-  name: string;
-  bio: string;
-  direction: 'left' | 'right';
-}) {
-  return (
-    <FadeIn direction={direction}>
-      <div
-        className="relative group rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl"
-        style={{
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(212,175,55,0.18)',
-          boxShadow: '0 8px 40px rgba(0,0,0,0.35)',
-        }}
-      >
-        {/* Gold patterned corners */}
-        <GoldCorner position="tl" />
-        <GoldCorner position="tr" />
-        <GoldCorner position="bl" />
-        <GoldCorner position="br" />
-
-        {/* Top gold accent */}
-        <div className="h-[2px] w-full" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}80, ${GOLD}, ${GOLD}80, transparent)` }} />
-
-        <div className="p-8">
-          {/* Profile image */}
-          <div className="relative mx-auto mb-6 w-36 h-36">
-            <div
-              className="absolute inset-0 rounded-full animate-pulse"
-              style={{ background: `radial-gradient(circle, rgba(212,175,55,0.18) 0%, transparent 70%)`, transform: 'scale(1.3)' }}
-            />
-            <div
-              className="w-full h-full rounded-full overflow-hidden relative z-10"
-              style={{
-                border: `3px solid ${GOLD}`,
-                boxShadow: `0 0 0 6px rgba(212,175,55,0.08), 0 8px 32px rgba(212,175,55,0.25)`,
-              }}
-            >
-              <img src={imgSrc} alt={altText} className="w-full h-full object-cover" />
-            </div>
-            {/* Badge */}
-            <div
-              className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase whitespace-nowrap"
-              style={{ background: `linear-gradient(135deg, #b8860b, ${GOLD})`, color: '#011a10' }}
-            >
-              Verified
-            </div>
-          </div>
-
-          {/* Title badge */}
-          <div className="text-center mb-4">
-            <span
-              className="inline-block px-4 py-1.5 rounded-full text-xs font-bold tracking-[0.2em] uppercase mb-3"
-              style={{ background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.25)', color: GOLD }}
-            >
-              {title}
-            </span>
-            <h3
-              className="text-2xl font-bold text-white mb-1"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              {name}
-            </h3>
-            <div className="h-[1px] w-16 mx-auto my-3" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-          </div>
-
-          <p className="text-white/55 text-sm leading-relaxed text-center" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1rem' }}>
-            {bio}
-          </p>
-
-          {/* Hover reveal */}
-          <div
-            className="mt-6 pt-5 flex justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-400"
-            style={{ borderTop: '1px solid rgba(212,175,55,0.12)' }}
-          >
-            <Link
-              href="/team"
-              className="px-5 py-2 rounded-full text-xs font-bold tracking-wider uppercase transition-all hover:-translate-y-0.5 inline-block"
-              style={{ background: `linear-gradient(135deg, #b8860b, ${GOLD})`, color: '#011a10' }}
-            >
-              Full Profile
-            </Link>
-          </div>
-        </div>
-        {/* Bottom gold trim */}
-        <div className="h-[1px] w-full" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}50, transparent)` }} />
-      </div>
-    </FadeIn>
-  );
-}
-
 /* ── Impact counter card ── */
 function ImpactCard({
   end,
@@ -1195,84 +1091,6 @@ export default function Home() {
           STRATEGIC PILLARS — 6-CARD SOVEREIGN GRID
       ═══════════════════════════════════════════════ */}
       <StrategicPillars />
-
-      {/* ═══════════════════════════════
-          LEADERSHIP VISIONARIES
-      ═══════════════════════════════ */}
-      <section className="py-28 relative" style={{ background: 'linear-gradient(180deg, #011a10 0%, #00120a 100%)' }}>
-        <div className="absolute inset-0 orakzai-pattern opacity-25 pointer-events-none" />
-        <div
-          className="absolute inset-0"
-          style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 40%, rgba(6,78,59,0.12) 0%, transparent 70%)' }}
-        />
-
-        {/* Decorative top line */}
-        <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}50, transparent)` }} />
-
-        <div className="max-w-[1400px] mx-auto px-6 md:px-14 relative z-10">
-          <FadeIn direction="up" className="text-center mb-16">
-            <p className="text-xs font-bold tracking-[0.4em] uppercase mb-3" style={{ color: GOLD }}>Institutional Leadership</p>
-            <h2
-              className="text-4xl md:text-5xl font-bold text-white mb-5"
-              style={{ fontFamily: "'Playfair Display', serif", textShadow: '0 2px 30px rgba(0,0,0,0.4)' }}
-            >
-              Our Visionaries
-            </h2>
-            <div className="h-[1px] w-24 mx-auto" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-            <p className="text-white/45 mt-5 max-w-xl mx-auto text-sm leading-relaxed">
-              Guided by conviction and a lifelong commitment to the Orakzai people — these leaders bridge history with a bold future.
-            </p>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
-            <LeaderCard
-              imgSrc={founderPath}
-              altText="Malak Speen Gul Orakzai"
-              title="Founder & Former MNA"
-              name="Malak Speen Gul Orakzai"
-              bio="A lifelong advocate for the rights and development of the Orakzai district, building bridges between tradition and modernity with unwavering dignity."
-              direction="left"
-            />
-            <LeaderCard
-              imgSrc={chairmanPath}
-              altText="Faisal Orakzai"
-              title="Chairman"
-              name="Faisal Orakzai"
-              bio="Spearheading digital initiatives and youth empowerment programs to prepare the next generation for global opportunities and national leadership."
-              direction="right"
-            />
-          </div>
-
-          {/* International Chapters strip */}
-          <FadeIn direction="up" delay={0.2} className="mt-16">
-            <div
-              className="max-w-4xl mx-auto rounded-2xl px-8 py-7"
-              style={{ background: 'rgba(212,175,55,0.05)', border: '1px solid rgba(212,175,55,0.16)' }}
-            >
-              <p className="text-center text-[11px] font-bold tracking-[0.35em] uppercase mb-5" style={{ color: GOLD }}>
-                International Advisory &amp; Community Representatives
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-                {[
-                  { name: 'Sample Lead', role: 'UK Community', flag: '🇬🇧' },
-                  { name: 'Sample Lead', role: 'UAE Community', flag: '🇦🇪' },
-                  { name: 'Sample Lead', role: 'North America Community', flag: '🇺🇸' },
-                  { name: 'Sample Lead', role: 'Advisory Board', flag: '🇨🇦' },
-                ].map((p, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <span className="text-xl">{p.flag}</span>
-                    <div>
-                      <p className="text-white text-sm font-semibold leading-tight">{p.name}</p>
-                      <p className="text-white/35 text-xs">{p.role}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p className="text-center text-[10px] text-white/20 mt-5 uppercase tracking-widest">Placeholder roster — pending confirmed chapter leadership</p>
-            </div>
-          </FadeIn>
-        </div>
-      </section>
 
       {/* ═══════════════════════════════
           IMPACT COUNTERS

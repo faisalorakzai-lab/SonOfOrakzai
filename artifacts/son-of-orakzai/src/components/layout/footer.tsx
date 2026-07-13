@@ -84,15 +84,6 @@ const newsLinks = [
   { href: "/blog", label: "Upcoming Events" },
 ];
 
-const offices = [
-  { city: "Karachi", region: "National HQ", flag: "🇵🇰" },
-  { city: "Kohat", region: "Khyber Pakhtunkhwa", flag: "🏔️" },
-  { city: "Hangu", region: "KP Region", flag: "🏔️" },
-  { city: "Ghaljo", region: "Orakzai District HQ", flag: "🌿" },
-  { city: "Dubai", region: "Gulf Liaison", flag: "🇦🇪" },
-  { city: "London", region: "UK Diaspora Desk", flag: "🇬🇧" },
-];
-
 function FooterLinkList({ title, links }: { title: string; links: { href: string; label: string }[] }) {
   return (
     <div>
@@ -261,31 +252,8 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Global offices */}
+          {/* Contact */}
           <div className="lg:col-span-2">
-            <h3
-              className="font-bold text-sm mb-5 uppercase tracking-[0.22em] flex items-center gap-2"
-              style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}
-            >
-              <span className="w-3 h-[1px] inline-block" style={{ background: GOLD }} />
-              Global Offices
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-              {offices.map((office) => (
-                <div
-                  key={office.city}
-                  className="flex items-start gap-2.5 p-3 rounded-xl transition-all hover:bg-white/[0.04] cursor-pointer"
-                  style={{ border: '1px solid rgba(212,175,55,0.08)' }}
-                >
-                  <MapPin className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
-                  <div>
-                    <p className="text-white text-sm font-semibold leading-tight">{office.flag} {office.city}</p>
-                    <p className="text-white/35 text-xs mt-0.5">{office.region}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
             {/* Contact block */}
             <h3
               className="font-bold text-sm mb-4 uppercase tracking-[0.22em] flex items-center gap-2"
