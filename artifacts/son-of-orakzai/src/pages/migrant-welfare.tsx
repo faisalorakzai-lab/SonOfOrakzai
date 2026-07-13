@@ -297,30 +297,110 @@ function CopyField({ label, value }: { label: string; value: string }) {
   );
 }
 
-/* ═══════════════════════════ Payment gateways ═══════════════════════════ */
+/* ═══════════════════════════ Payment gateways (overview strip) ═══════════════════════════ */
 function PaymentGateways() {
   return (
-    <div className="grid md:grid-cols-2 gap-5">
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-5">
       {PAYMENT_METHODS.map((g, i) => (
         <FadeIn key={g.id} delay={i * 0.08}>
-          <div className="relative rounded-2xl p-6 h-full overflow-hidden" style={{ background: "rgba(0,18,11,0.6)", border: "1px solid rgba(212,175,55,0.18)" }}>
+          <div className="relative rounded-2xl p-6 h-full overflow-hidden flex items-center gap-3" style={{ background: "rgba(0,18,11,0.6)", border: "1px solid rgba(212,175,55,0.18)" }}>
             <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide" style={{ background: "rgba(74,222,128,0.12)", color: "#4ade80", border: "1px solid rgba(74,222,128,0.3)" }}>
               Active
             </div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0" style={{ background: g.color }}>
-                {g.letter}
-              </div>
-              <div>
-                <h4 className="text-lg font-bold" style={{ color: "rgba(255,255,255,0.92)" }}>{g.name}</h4>
-                <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>{g.kind === "wallet" ? "Mobile Wallet Transfer" : "United Bank Limited"}</p>
-              </div>
+            <div className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0" style={{ background: g.color }}>
+              {g.letter}
             </div>
-            <div className="space-y-2.5">
-              {g.kind === "wallet" ? (
+            <div>
+              <h4 className="text-lg font-bold" style={{ color: "rgba(255,255,255,0.92)" }}>{g.name}</h4>
+              <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>{g.kind === "wallet" ? "Mobile Wallet Transfer" : "United Bank Limited"}</p>
+            </div>
+          </div>
+        </FadeIn>
+      ))}
+      <FadeIn delay={0.4}>
+        <div className="relative rounded-2xl p-6 h-full overflow-hidden flex items-center gap-3" style={{ background: "rgba(0,18,11,0.6)", border: "1px solid rgba(212,175,55,0.18)" }}>
+          <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide" style={{ background: "rgba(212,175,55,0.12)", color: GOLD, border: "1px solid rgba(212,175,55,0.3)" }}>
+            Coming Soon
+          </div>
+          <div className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0" style={{ background: "linear-gradient(135deg,#635BFF,#4338CA)" }}>
+            <CreditCard className="w-5 h-5" />
+          </div>
+          <div>
+            <h4 className="text-lg font-bold mb-0.5" style={{ color: "rgba(255,255,255,0.92)" }}>Stripe (International)</h4>
+            <p className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>Recurring USD/AED/SAR billing — launching soon</p>
+          </div>
+        </div>
+      </FadeIn>
+      <div className="sm:col-span-2 md:col-span-3 flex items-start gap-3 rounded-xl p-4" style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.25)" }}>
+        <MessageCircle className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
+        <p className="text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
+          Tap your preferred gateway in the enrollment form below to reveal its account details, send your dues, then confirm the
+          transaction reference there. WhatsApp your receipt to <span className="font-bold" style={{ color: GOLD }}>{WHATSAPP_NUMBER}</span> to
+          finish verification — your Membership ID activates once confirmed.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════ Payment method picker (click → reveal account) ═══════════════════════════ */
+function PaymentMethodPicker({ selected, onSelect }: { selected: string; onSelect: (id: string) => void }) {
+  const activeMethod = PAYMENT_METHODS.find((m) => m.id === selected);
+
+  return (
+    <div className="space-y-3">
+      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2.5">
+        {PAYMENT_METHODS.map((m) => {
+          const isSelected = selected === m.id;
+          return (
+            <button
+              key={m.id}
+              type="button"
+              onClick={() => onSelect(isSelected ? "" : m.id)}
+              className="relative flex flex-col items-center gap-2 rounded-xl px-2 py-3 transition-all duration-200"
+              style={{
+                background: isSelected ? "rgba(212,175,55,0.12)" : "rgba(0,0,0,0.3)",
+                border: `1px solid ${isSelected ? GOLD : "rgba(212,175,55,0.2)"}`,
+                boxShadow: isSelected ? "0 0 0 1px rgba(212,175,55,0.25), 0 8px 20px rgba(212,175,55,0.15)" : "none",
+              }}
+            >
+              <div className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0" style={{ background: m.color }}>
+                {m.letter}
+              </div>
+              <span className="text-[11px] font-semibold text-center leading-tight" style={{ color: isSelected ? GOLD : "rgba(255,255,255,0.75)" }}>
+                {m.name}
+              </span>
+              {isSelected && (
+                <CheckCircle2 className="w-3.5 h-3.5 absolute top-1.5 right-1.5" style={{ color: GOLD }} />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      <AnimatePresence mode="wait">
+        {activeMethod && (
+          <motion.div
+            key={activeMethod.id}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="rounded-xl p-4 space-y-2.5 mt-1" style={{ background: "rgba(212,175,55,0.05)", border: "1px solid rgba(212,175,55,0.25)" }}>
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center text-white font-bold text-[11px] flex-shrink-0" style={{ background: activeMethod.color }}>
+                  {activeMethod.letter}
+                </div>
+                <p className="text-xs font-bold uppercase tracking-wide" style={{ color: GOLD }}>
+                  {activeMethod.name} — send here
+                </p>
+              </div>
+              {activeMethod.kind === "wallet" ? (
                 <>
                   <CopyField label="Account Title" value={WALLET_ACCOUNT_TITLE} />
-                  <CopyField label={`${g.name} Number`} value={WALLET_NUMBER} />
+                  <CopyField label={`${activeMethod.name} Number`} value={WALLET_NUMBER} />
                 </>
               ) : (
                 <>
@@ -330,28 +410,9 @@ function PaymentGateways() {
                 </>
               )}
             </div>
-          </div>
-        </FadeIn>
-      ))}
-      <FadeIn delay={0.4}>
-        <div className="relative rounded-2xl p-6 h-full overflow-hidden flex flex-col" style={{ background: "rgba(0,18,11,0.6)", border: "1px solid rgba(212,175,55,0.18)" }}>
-          <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide" style={{ background: "rgba(212,175,55,0.12)", color: GOLD, border: "1px solid rgba(212,175,55,0.3)" }}>
-            Coming Soon
-          </div>
-          <div className="w-11 h-11 rounded-full flex items-center justify-center mb-4 text-white font-bold" style={{ background: "linear-gradient(135deg,#635BFF,#4338CA)" }}>
-            <CreditCard className="w-5 h-5" />
-          </div>
-          <h4 className="text-lg font-bold mb-1" style={{ color: "rgba(255,255,255,0.92)" }}>Stripe (International)</h4>
-          <p className="text-sm flex-1" style={{ color: "rgba(255,255,255,0.5)" }}>Recurring card billing for USD, AED &amp; SAR diaspora members — automated subscriptions launching soon.</p>
-        </div>
-      </FadeIn>
-      <div className="md:col-span-2 flex items-start gap-3 rounded-xl p-4" style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.25)" }}>
-        <MessageCircle className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
-        <p className="text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
-          After sending your payment, WhatsApp your receipt to <span className="font-bold" style={{ color: GOLD }}>{WHATSAPP_NUMBER}</span> and
-          enter the same transaction reference in the enrollment form below — your Membership ID activates once verified.
-        </p>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -503,24 +564,14 @@ function IntakeForm({ selectedPackage, currency }: { selectedPackage: string | n
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-5">
-          <div className="space-y-2">
-            <Label style={{ color: "rgba(255,255,255,0.7)" }}>Payment Method Used</Label>
-            <Select value={paymentMethod} onValueChange={setPaymentMethod}>
-              <SelectTrigger className="bg-black/30 border-[#D4AF37]/25 text-white">
-                <SelectValue placeholder="Select gateway" />
-              </SelectTrigger>
-              <SelectContent>
-                {PAYMENT_METHODS.map((m) => (
-                  <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <Label style={{ color: "rgba(255,255,255,0.7)" }}>Transaction ID / Reference</Label>
-            <Input value={txnRef} onChange={(e) => setTxnRef(e.target.value)} placeholder="e.g. TXN849213765" className="bg-black/30 border-[#D4AF37]/25 text-white placeholder:text-white/30" />
-          </div>
+        <div className="space-y-2">
+          <Label style={{ color: "rgba(255,255,255,0.7)" }}>Payment Method Used</Label>
+          <PaymentMethodPicker selected={paymentMethod} onSelect={setPaymentMethod} />
+        </div>
+
+        <div className="space-y-2">
+          <Label style={{ color: "rgba(255,255,255,0.7)" }}>Transaction ID / Reference</Label>
+          <Input value={txnRef} onChange={(e) => setTxnRef(e.target.value)} placeholder="e.g. TXN849213765" className="bg-black/30 border-[#D4AF37]/25 text-white placeholder:text-white/30" />
         </div>
 
         <div className="flex items-start gap-2 text-xs pt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
