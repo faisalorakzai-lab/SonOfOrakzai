@@ -2,74 +2,11 @@ import { useState } from "react";
 import { MainLayout } from "@/components/layout/main-layout";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Monitor, HeartPulse, Scale, Trophy, HandHeart, ArrowRight, Sparkles, Dumbbell, Droplet, Ambulance, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Scale, GraduationCap, HandHeart, TrendingUp, Globe, HeartPulse, Sparkles, Dumbbell, Droplet, Ambulance, ShieldCheck, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const services = [
-  {
-    id: "digital-skill-lab",
-    title: "Digital Skill Lab",
-    icon: Monitor,
-    description: "Empowering youth with modern digital skills including AI, Freelancing, Web Development, and Graphic Design to compete in the global market.",
-    features: ["6-Month Intensive Bootcamps", "Freelancing Mentorship", "AI & Tech Workshops"]
-  },
-  {
-    id: "sehat-e-orakzai",
-    title: "Sehat-e-Orakzai",
-    icon: HeartPulse,
-    description: "Bringing accessible healthcare to remote areas through telemedicine platforms and organizing free medical camps with specialist doctors.",
-    features: ["Free Medical Camps", "Telemedicine Portal", "Maternal Health Support"]
-  },
-  {
-    id: "jirga-e-naujawan",
-    title: "Jirga-e-Naujawan",
-    icon: Scale,
-    description: "A modern complaint and resolution portal where community issues are addressed collectively by youth and elders in a transparent manner.",
-    features: ["Online Complaint Registration", "Community Mediations", "Legal Awareness Sessions"]
-  },
-  {
-    id: "talent-hunt",
-    title: "Talent Hunt",
-    icon: Trophy,
-    description: "Identifying and nurturing hidden talent in sports, arts, and academics across the district through organized competitions and awards.",
-    features: ["Annual Sports Festival", "Academic Excellence Awards", "Cultural Arts Exhibitions"]
-  },
-  {
-    id: "imdad-e-bahan",
-    title: "Imdad-e-Bahan",
-    icon: HandHeart,
-    description: "A centralized donation and support system providing immediate relief during emergencies and sustained support for deserving families.",
-    features: ["Emergency Relief Funds", "Widow Support Program", "Educational Scholarships"]
-  },
-  {
-    id: "women-empowerment-artisans",
-    title: "Women Empowerment & Skilled Artisans Support",
-    icon: Sparkles,
-    description: "Launching dedicated vocational training centers, healthcare programs, and marketplace infrastructure to empower women and support local small-scale artisans.",
-    metric: "450+ Beneficiaries Enrolled"
-  },
-  {
-    id: "youth-sports-development",
-    title: "Youth Development & Sports Infrastructure",
-    icon: Dumbbell,
-    description: "Establishing local sports academies, youth mentorship programs, and constructive recreational facilities to engage the younger generation and promote healthy community development.",
-    metric: "15+ Sports Facilities Supported"
-  },
-  {
-    id: "clean-water-sanitation",
-    title: "Clean Water & Sanitation (WASH)",
-    icon: Droplet,
-    description: "Installing solar-powered water filtration plants and modern tube wells in remote areas to ensure access to safe, clean drinking water and hygienic sanitation systems.",
-    metric: "80+ Clean Water Points Installed"
-  },
-  {
-    id: "emergency-ambulance-health",
-    title: "Emergency Ambulance & Mobile Health",
-    icon: Ambulance,
-    description: "Deploying fully equipped free ambulance services and mobile healthcare vans to provide immediate emergency response and basic medical care to far-flung rural areas.",
-    metric: "2,400+ Emergency Dispatches"
-  },
   {
     id: "migrant-welfare-protection",
     title: "Migrant Welfare & Diaspora Protection Fund",
@@ -98,6 +35,76 @@ const services = [
         }
       ]
     }
+  },
+  {
+    id: "rights-representation",
+    title: "Rights & Representation",
+    icon: Scale,
+    description: "Legal advocacy and institutional representation dedicated to protecting the rights, interests, and collective voice of Orakzai communities worldwide.",
+    metric: "120+ Cases Represented"
+  },
+  {
+    id: "education-global-scholarships",
+    title: "Education & Global Scholarships",
+    icon: GraduationCap,
+    description: "Scholarships, mentorship, leadership development, and international educational pathways that empower the next generation of Orakzai students.",
+    metric: "360+ Students in 12 Cities"
+  },
+  {
+    id: "social-welfare-crisis-relief",
+    title: "Social Welfare & Crisis Relief",
+    icon: HandHeart,
+    description: "Humanitarian assistance, poverty alleviation, emergency response initiatives, and sustainable support systems for vulnerable families.",
+    metric: "3,100+ Families Supported"
+  },
+  {
+    id: "economic-innovation-grants",
+    title: "Economic Innovation & Grants",
+    icon: TrendingUp,
+    description: "Interest-free business grants, entrepreneurship support, digital innovation, and local economic development designed to strengthen community prosperity.",
+    metric: "340+ Grants Disbursed"
+  },
+  {
+    id: "global-diaspora-network",
+    title: "Global Diaspora Network",
+    icon: Globe,
+    description: "Connecting Orakzai professionals, families, entrepreneurs, and organizations across Pakistan, the Gulf, Europe, North America, and beyond.",
+    metric: "14+ Countries, 8 Active Chapters"
+  },
+  {
+    id: "healthcare-infrastructure-access",
+    title: "Healthcare Infrastructure & Access",
+    icon: HeartPulse,
+    description: "Supporting modern healthcare initiatives through mobile clinics, clean water projects, preventive care, and improved medical accessibility in underserved regions.",
+    metric: "120+ Health Cases Resolved"
+  },
+  {
+    id: "women-empowerment-artisans",
+    title: "Women Empowerment & Skilled Artisans Support",
+    icon: Sparkles,
+    description: "Launching dedicated vocational training centers, healthcare programs, and marketplace infrastructure to empower women and support local small-scale artisans.",
+    metric: "450+ Beneficiaries Enrolled"
+  },
+  {
+    id: "youth-sports-development",
+    title: "Youth Development & Sports Infrastructure",
+    icon: Dumbbell,
+    description: "Establishing local sports academies, youth mentorship programs, and constructive recreational facilities to engage the younger generation and promote healthy community development.",
+    metric: "15+ Sports Facilities Supported"
+  },
+  {
+    id: "clean-water-sanitation",
+    title: "Clean Water & Sanitation (WASH)",
+    icon: Droplet,
+    description: "Installing solar-powered water filtration plants and modern tube wells in remote areas to ensure access to safe, clean drinking water and hygienic sanitation systems.",
+    metric: "80+ Clean Water Points Installed"
+  },
+  {
+    id: "emergency-ambulance-health",
+    title: "Emergency Ambulance & Mobile Health",
+    icon: Ambulance,
+    description: "Deploying fully equipped free ambulance services and mobile healthcare vans to provide immediate emergency response and basic medical care to far-flung rural areas.",
+    metric: "2,400+ Emergency Dispatches"
   }
 ];
 
@@ -150,16 +157,6 @@ export default function Services() {
                     <p className="text-muted-foreground mb-6 line-clamp-3">
                       {service.description}
                     </p>
-                    {service.features && (
-                      <ul className="space-y-2 mb-8">
-                        {service.features.map((feature, j) => (
-                          <li key={j} className="flex items-center text-sm font-medium text-foreground/80">
-                            <div className="w-1.5 h-1.5 rounded-full bg-accent mr-3" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                     {service.metric && (
                       <div className="mb-8 inline-flex items-center rounded-full bg-accent/10 px-4 py-2 text-sm font-bold text-primary">
                         {service.metric}

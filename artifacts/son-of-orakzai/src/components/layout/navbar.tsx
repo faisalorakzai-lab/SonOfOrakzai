@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, Globe, ChevronDown, MapPin, TrendingUp, Newspaper, Users, GraduationCap, Heart, Briefcase, BarChart2, BookOpen, Phone, Info, UserCheck } from "lucide-react";
+import { Menu, X, Globe, ChevronDown, MapPin, TrendingUp, Newspaper, Users, GraduationCap, Heart, Briefcase, BarChart2, BookOpen, Phone, Info, UserCheck, ShieldCheck, Scale, HandHeart, HeartPulse, Sparkles, Dumbbell, Droplet, Ambulance } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -30,10 +30,17 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
     { href: "/community", label: "Community Stories", icon: Users, desc: "Real change, real people" },
   ],
   "Services": [
-    { href: "/services", label: "Education & Skills", icon: GraduationCap, desc: "Scholarships & training" },
-    { href: "/services", label: "Healthcare Access", icon: Heart, desc: "Medical support programs" },
-    { href: "/services", label: "Legal Aid", icon: Briefcase, desc: "Rights & representation" },
-    { href: "/services", label: "Community Dev", icon: Users, desc: "Grassroots initiatives" },
+    { href: "/services", label: "Migrant Welfare & Diaspora Protection Fund", icon: ShieldCheck, desc: "Premium member protection & repatriation" },
+    { href: "/services", label: "Rights & Representation", icon: Scale, desc: "Legal advocacy & representation" },
+    { href: "/services", label: "Education & Global Scholarships", icon: GraduationCap, desc: "Scholarships & training" },
+    { href: "/services", label: "Social Welfare & Crisis Relief", icon: HandHeart, desc: "Humanitarian & emergency aid" },
+    { href: "/services", label: "Economic Innovation & Grants", icon: TrendingUp, desc: "Business grants & entrepreneurship" },
+    { href: "/services", label: "Global Diaspora Network", icon: Globe, desc: "Connecting Orakzai worldwide" },
+    { href: "/services", label: "Healthcare Infrastructure & Access", icon: HeartPulse, desc: "Medical support programs" },
+    { href: "/services", label: "Women Empowerment & Artisans", icon: Sparkles, desc: "Vocational training for women" },
+    { href: "/services", label: "Youth & Sports Development", icon: Dumbbell, desc: "Academies & mentorship" },
+    { href: "/services", label: "Clean Water & Sanitation", icon: Droplet, desc: "WASH infrastructure projects" },
+    { href: "/services", label: "Emergency Ambulance & Health", icon: Ambulance, desc: "Rapid response & mobile clinics" },
   ],
   "News & Updates": [
     { href: "/blog", label: "Latest News", icon: Newspaper, desc: "Breaking updates" },

@@ -70,10 +70,10 @@ const impactLinks = [
 ];
 
 const serviceLinks = [
+  { href: "/services", label: "Migrant Welfare & Diaspora Protection Fund" },
   { href: "/services", label: "Education & Skills" },
   { href: "/services", label: "Healthcare Access" },
   { href: "/services", label: "Legal Aid" },
-  { href: "/services", label: "Diaspora Connect" },
   { href: "/services", label: "Youth Programs" },
 ];
 
