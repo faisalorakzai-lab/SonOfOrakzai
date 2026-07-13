@@ -795,7 +795,7 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
   );
 }
 
-function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: number; onOpenBio: (m: TeamMember) => void }) {
+function MemberCard({ member, index, onOpenBio, showLocation }: { member: TeamMember; index: number; onOpenBio: (m: TeamMember) => void; showLocation?: boolean }) {
   const [hovered, setHovered] = useState(false);
   const [location, navigate] = useLocation();
   const ref = useRef(null);
@@ -829,9 +829,25 @@ function MemberCard({ member, index, onOpenBio }: { member: TeamMember; index: n
         transition: "all 0.3s ease",
       }}
     >
-      <div className="mb-5">
+      <div className="relative mb-3">
         <MemberAvatar src={member.photo} name={member.name} size={92} />
       </div>
+
+      {showLocation && member.location && (
+        <span
+          className="flex items-center justify-center gap-1 px-2.5 py-1 mb-3 rounded-full text-[9.5px] font-bold text-center leading-tight max-w-full"
+          style={{
+            background: "linear-gradient(135deg, #1a3d26 0%, #0d2417 100%)",
+            border: `1px solid ${GOLD}`,
+            color: GOLD,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.35)",
+            fontFamily: "'Inter', sans-serif",
+          }}
+        >
+          <MapPin className="w-2.5 h-2.5 shrink-0" />
+          <span>{member.location}</span>
+        </span>
+      )}
 
       <h3 className="text-base font-bold text-white mb-1.5 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
       <p className="text-[11px] font-semibold mb-5 uppercase tracking-[0.12em]" style={{ color: GOLD, fontFamily: "'Inter', sans-serif" }}>{member.title}</p>
@@ -1385,7 +1401,7 @@ export default function Team({
                 <SectionHeading eyebrow="Global Leadership" title="Orakzai on the World Stage" description={CATEGORY_META.global.subtitle} />
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {GLOBAL_LEADERSHIP.map((member, i) => (
-                    <MemberCard key={member.id} member={member} index={i} onOpenBio={openBio} />
+                    <MemberCard key={member.id} member={member} index={i} onOpenBio={openBio} showLocation />
                   ))}
                 </div>
               </motion.div>
