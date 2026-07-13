@@ -4,7 +4,8 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   ShieldCheck, Plane, Landmark, HeartHandshake, Users, GraduationCap,
   CheckCircle2, ChevronRight, CreditCard, Smartphone, Lock, Sparkles,
-  IdCard, Fingerprint, ChevronDown, Wallet, ArrowRight,
+  IdCard, Fingerprint, ChevronDown, Wallet, ArrowRight, Copy, CheckCheck,
+  MessageCircle, Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -78,9 +79,24 @@ const PACKAGES = [
 
 const HOW_IT_WORKS = [
   { step: "01", title: "Register", desc: "Complete the intake form with your details and select your qoum (tribal section)." },
-  { step: "02", title: "Verify", desc: "Your details are matched against the 18 verified Orakzai qoums and cross-checked with your local Malak." },
-  { step: "03", title: "Activate", desc: "Receive your Unique Digital Membership ID and choose a monthly billing method." },
-  { step: "04", title: "Protected", desc: "Coverage activates immediately — healthcare, repatriation, and funeral support are on standby." },
+  { step: "02", title: "Pay", desc: "Send your monthly dues via EasyPaisa, JazzCash, NayaPay, SadaPay, or UBL bank transfer." },
+  { step: "03", title: "Verify", desc: "Enter your transaction reference — our team verifies it against your qoum's records within 48 hours." },
+  { step: "04", title: "Protected", desc: "Once verified, your Membership ID activates — healthcare, repatriation, and funeral support are on standby." },
+];
+
+/* ── Real, active payment channels for monthly membership dues ── */
+const WALLET_ACCOUNT_TITLE = "Muhammad Faisal";
+const WALLET_NUMBER = "03367970004";
+const UBL_ACCOUNT_NUMBER = "0909318870498";
+const UBL_IBAN = "PK13UNIL0109000318870498";
+const WHATSAPP_NUMBER = "+92 336 7970004";
+
+const PAYMENT_METHODS = [
+  { id: "easypaisa", name: "EasyPaisa", kind: "wallet", color: "linear-gradient(135deg,#6DC04B,#4CA836)", letter: "E" },
+  { id: "jazzcash", name: "JazzCash", kind: "wallet", color: "linear-gradient(135deg,#EE3124,#C41E14)", letter: "J" },
+  { id: "nayapay", name: "NayaPay", kind: "wallet", color: "linear-gradient(135deg,#00B37E,#00875F)", letter: "N" },
+  { id: "sadapay", name: "SadaPay", kind: "wallet", color: "linear-gradient(135deg,#7C5CFC,#5A3FD6)", letter: "S" },
+  { id: "ubl", name: "UBL Bank Transfer", kind: "bank", color: "linear-gradient(135deg,#003087,#00257A)", letter: "U" },
 ];
 
 const FAQS = [
@@ -260,35 +276,88 @@ function PackageCard({ pkg, currency, index, selected, onSelect }: any) {
   );
 }
 
+/* ═══════════════════════════ Copyable field ═══════════════════════════ */
+function CopyField({ label, value }: { label: string; value: string }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(value);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  return (
+    <div className="flex items-center justify-between rounded-lg px-4 py-3 gap-3" style={{ background: "rgba(0,0,0,0.3)" }}>
+      <div className="min-w-0">
+        <p className="text-[10px] uppercase tracking-wide mb-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>{label}</p>
+        <p className="font-mono font-semibold text-sm break-all" style={{ color: "rgba(255,255,255,0.92)" }}>{value}</p>
+      </div>
+      <button onClick={handleCopy} className="shrink-0 transition-colors" style={{ color: copied ? "#4ade80" : "rgba(212,175,55,0.7)" }} title="Copy">
+        {copied ? <CheckCheck className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+      </button>
+    </div>
+  );
+}
+
 /* ═══════════════════════════ Payment gateways ═══════════════════════════ */
 function PaymentGateways() {
-  const gateways = [
-    { name: "EasyPaisa", desc: "Automated monthly direct-debit from your mobile wallet", icon: Smartphone, color: "linear-gradient(135deg,#6DC04B,#4CA836)" },
-    { name: "JazzCash", desc: "Automated monthly direct-debit from your mobile wallet", icon: Smartphone, color: "linear-gradient(135deg,#EE3124,#C41E14)" },
-    { name: "Stripe (International)", desc: "Recurring card billing for USD, AED & SAR diaspora members", icon: CreditCard, color: "linear-gradient(135deg,#635BFF,#4338CA)" },
-  ];
   return (
-    <div className="grid md:grid-cols-3 gap-5">
-      {gateways.map((g, i) => (
-        <FadeIn key={g.name} delay={i * 0.1}>
+    <div className="grid md:grid-cols-2 gap-5">
+      {PAYMENT_METHODS.map((g, i) => (
+        <FadeIn key={g.id} delay={i * 0.08}>
           <div className="relative rounded-2xl p-6 h-full overflow-hidden" style={{ background: "rgba(0,18,11,0.6)", border: "1px solid rgba(212,175,55,0.18)" }}>
-            <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide" style={{ background: "rgba(212,175,55,0.12)", color: GOLD, border: "1px solid rgba(212,175,55,0.3)" }}>
-              Integration Pending
+            <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide" style={{ background: "rgba(74,222,128,0.12)", color: "#4ade80", border: "1px solid rgba(74,222,128,0.3)" }}>
+              Active
             </div>
-            <div className="w-11 h-11 rounded-full flex items-center justify-center mb-4 text-white font-bold" style={{ background: g.color }}>
-              <g.icon className="w-5 h-5" />
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0" style={{ background: g.color }}>
+                {g.letter}
+              </div>
+              <div>
+                <h4 className="text-lg font-bold" style={{ color: "rgba(255,255,255,0.92)" }}>{g.name}</h4>
+                <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>{g.kind === "wallet" ? "Mobile Wallet Transfer" : "United Bank Limited"}</p>
+              </div>
             </div>
-            <h4 className="text-lg font-bold mb-1" style={{ color: "rgba(255,255,255,0.92)" }}>{g.name}</h4>
-            <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>{g.desc}</p>
+            <div className="space-y-2.5">
+              {g.kind === "wallet" ? (
+                <>
+                  <CopyField label="Account Title" value={WALLET_ACCOUNT_TITLE} />
+                  <CopyField label={`${g.name} Number`} value={WALLET_NUMBER} />
+                </>
+              ) : (
+                <>
+                  <CopyField label="Account Title" value={WALLET_ACCOUNT_TITLE} />
+                  <CopyField label="Account Number" value={UBL_ACCOUNT_NUMBER} />
+                  <CopyField label="IBAN Number" value={UBL_IBAN} />
+                </>
+              )}
+            </div>
           </div>
         </FadeIn>
       ))}
+      <FadeIn delay={0.4}>
+        <div className="relative rounded-2xl p-6 h-full overflow-hidden flex flex-col" style={{ background: "rgba(0,18,11,0.6)", border: "1px solid rgba(212,175,55,0.18)" }}>
+          <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide" style={{ background: "rgba(212,175,55,0.12)", color: GOLD, border: "1px solid rgba(212,175,55,0.3)" }}>
+            Coming Soon
+          </div>
+          <div className="w-11 h-11 rounded-full flex items-center justify-center mb-4 text-white font-bold" style={{ background: "linear-gradient(135deg,#635BFF,#4338CA)" }}>
+            <CreditCard className="w-5 h-5" />
+          </div>
+          <h4 className="text-lg font-bold mb-1" style={{ color: "rgba(255,255,255,0.92)" }}>Stripe (International)</h4>
+          <p className="text-sm flex-1" style={{ color: "rgba(255,255,255,0.5)" }}>Recurring card billing for USD, AED &amp; SAR diaspora members — automated subscriptions launching soon.</p>
+        </div>
+      </FadeIn>
+      <div className="md:col-span-2 flex items-start gap-3 rounded-xl p-4" style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.25)" }}>
+        <MessageCircle className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
+        <p className="text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>
+          After sending your payment, WhatsApp your receipt to <span className="font-bold" style={{ color: GOLD }}>{WHATSAPP_NUMBER}</span> and
+          enter the same transaction reference in the enrollment form below — your Membership ID activates once verified.
+        </p>
+      </div>
     </div>
   );
 }
 
 /* ═══════════════════════════ Digital membership card ═══════════════════════════ */
-function MembershipCardPreview({ name, qoum, packageName, membershipId }: any) {
+function MembershipCardPreview({ name, qoum, packageName, membershipId, txnRef }: any) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.92, y: 20 }}
@@ -323,26 +392,34 @@ function MembershipCardPreview({ name, qoum, packageName, membershipId }: any) {
       </div>
       <div className="relative z-10 mt-4 pt-4 flex items-center justify-between" style={{ borderTop: "1px solid rgba(212,175,55,0.2)" }}>
         <span className="text-xs font-semibold" style={{ color: "rgba(255,255,255,0.6)" }}>{packageName}</span>
-        <span className="text-[10px] font-bold uppercase px-2.5 py-1 rounded-full" style={{ background: "rgba(212,175,55,0.15)", color: GOLD }}>Active</span>
+        <span className="text-[10px] font-bold uppercase px-2.5 py-1 rounded-full flex items-center gap-1" style={{ background: "rgba(212,175,55,0.15)", color: GOLD }}>
+          <Clock className="w-3 h-3" /> Pending Verification
+        </span>
       </div>
+      {txnRef && (
+        <div className="relative z-10 mt-3 text-[11px] font-mono" style={{ color: "rgba(255,255,255,0.4)" }}>
+          Txn Ref: {txnRef}
+        </div>
+      )}
     </motion.div>
   );
 }
 
 /* ═══════════════════════════ Intake / signup form ═══════════════════════════ */
-function IntakeForm({ selectedPackage }: { selectedPackage: string | null }) {
+function IntakeForm({ selectedPackage, currency }: { selectedPackage: string | null; currency: string }) {
   const { toast } = useToast();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [qoum, setQoum] = useState("");
   const [location, setLocation] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [txnRef, setTxnRef] = useState("");
   const [membershipId, setMembershipId] = useState<string | null>(null);
 
-  const packageName = useMemo(
-    () => PACKAGES.find((p) => p.id === selectedPackage)?.name ?? "No package selected",
-    [selectedPackage]
-  );
+  const selectedPkg = useMemo(() => PACKAGES.find((p) => p.id === selectedPackage), [selectedPackage]);
+  const packageName = selectedPkg?.name ?? "No package selected";
+  const amountDue = selectedPkg ? formatAmount(selectedPkg.monthlyPKR, currency) : null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -354,11 +431,19 @@ function IntakeForm({ selectedPackage }: { selectedPackage: string | null }) {
       });
       return;
     }
+    if (!paymentMethod || !txnRef.trim()) {
+      toast({
+        title: "Payment confirmation required",
+        description: "Please send your monthly dues via one of the gateways above, then enter the payment method and transaction reference to activate your Membership ID.",
+        variant: "destructive",
+      });
+      return;
+    }
     const id = generateMembershipId(name, qoum, phone);
     setMembershipId(id);
     toast({
-      title: "Membership ID generated",
-      description: `Your Unique Digital Membership ID ${id} has been issued and mapped to the ${qoum} qoum.`,
+      title: "Membership ID generated — pending verification",
+      description: `Your Unique Digital Membership ID ${id} has been issued and mapped to the ${qoum} qoum. WhatsApp your payment receipt to ${WHATSAPP_NUMBER} to complete verification.`,
     });
   };
 
@@ -406,13 +491,45 @@ function IntakeForm({ selectedPackage }: { selectedPackage: string | null }) {
           </Select>
         </div>
 
+        <div className="h-[1px] w-full my-2" style={{ background: "linear-gradient(90deg, rgba(212,175,55,0.4), transparent)" }} />
+
+        <div>
+          <h4 className="text-base font-bold mb-1 flex items-center gap-2" style={{ color: "rgba(255,255,255,0.92)" }}>
+            <Wallet className="w-4 h-4" style={{ color: GOLD }} /> Confirm Your Payment
+          </h4>
+          <p className="text-xs mb-4" style={{ color: "rgba(255,255,255,0.45)" }}>
+            {amountDue ? `Send ${amountDue} using one of the gateways above, ` : "Select a package above, send its monthly due, "}
+            then confirm the details here. Your Membership ID is issued immediately but stays <span style={{ color: GOLD }}>Pending Verification</span> until we confirm receipt.
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-5">
+          <div className="space-y-2">
+            <Label style={{ color: "rgba(255,255,255,0.7)" }}>Payment Method Used</Label>
+            <Select value={paymentMethod} onValueChange={setPaymentMethod}>
+              <SelectTrigger className="bg-black/30 border-[#D4AF37]/25 text-white">
+                <SelectValue placeholder="Select gateway" />
+              </SelectTrigger>
+              <SelectContent>
+                {PAYMENT_METHODS.map((m) => (
+                  <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label style={{ color: "rgba(255,255,255,0.7)" }}>Transaction ID / Reference</Label>
+            <Input value={txnRef} onChange={(e) => setTxnRef(e.target.value)} placeholder="e.g. TXN849213765" className="bg-black/30 border-[#D4AF37]/25 text-white placeholder:text-white/30" />
+          </div>
+        </div>
+
         <div className="flex items-start gap-2 text-xs pt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
           <Lock className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
           Your details are used solely to generate and verify your Unique Digital Membership ID against your qoum's records.
         </div>
 
         <Button type="submit" className="w-full font-bold text-base py-6" style={{ background: GOLD, color: "#04140e" }}>
-          Generate My Membership ID
+          Confirm Payment &amp; Generate My Membership ID
           <ArrowRight className="w-4 h-4 ml-2" />
         </Button>
       </form>
@@ -420,7 +537,15 @@ function IntakeForm({ selectedPackage }: { selectedPackage: string | null }) {
       <div className="lg:sticky lg:top-24">
         <AnimatePresence mode="wait">
           {membershipId ? (
-            <MembershipCardPreview name={name} qoum={qoum} packageName={packageName} membershipId={membershipId} />
+            <div className="space-y-4">
+              <MembershipCardPreview name={name} qoum={qoum} packageName={packageName} membershipId={membershipId} txnRef={txnRef} />
+              <div className="flex items-start gap-2.5 rounded-xl p-4 text-xs" style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.25)" }}>
+                <MessageCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
+                <span style={{ color: "rgba(255,255,255,0.6)" }}>
+                  WhatsApp your payment receipt to <span className="font-bold" style={{ color: GOLD }}>{WHATSAPP_NUMBER}</span> to complete verification and fully activate your card.
+                </span>
+              </div>
+            </div>
           ) : (
             <div className="rounded-2xl p-8 text-center" style={{ background: "rgba(0,18,11,0.5)", border: "1px dashed rgba(212,175,55,0.3)" }}>
               <IdCard className="w-10 h-10 mx-auto mb-3" style={{ color: "rgba(212,175,55,0.5)" }} />
@@ -518,7 +643,7 @@ export default function MigrantWelfare() {
               Every membership is locked to a Unique Digital Membership ID, permanently mapped to your qoum out of the 18 verified Orakzai sections.
             </p>
           </FadeIn>
-          <IntakeForm selectedPackage={selectedPackage} />
+          <IntakeForm selectedPackage={selectedPackage} currency={currency} />
         </div>
       </section>
 
