@@ -198,6 +198,7 @@ function CurrencyToggle({ currency, setCurrency }: { currency: string; setCurren
       {Object.keys(CURRENCIES).map((code) => (
         <button
           key={code}
+          type="button"
           onClick={() => setCurrency(code)}
           className="px-4 py-2 rounded-full text-sm font-bold transition-all duration-300"
           style={{
@@ -260,6 +261,7 @@ function PackageCard({ pkg, currency, index, selected, onSelect }: any) {
         </ul>
 
         <Button
+          type="button"
           onClick={() => onSelect(pkg.id)}
           className="w-full font-bold"
           style={{
@@ -290,7 +292,7 @@ function CopyField({ label, value }: { label: string; value: string }) {
         <p className="text-[10px] uppercase tracking-wide mb-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>{label}</p>
         <p className="font-mono font-semibold text-sm break-all" style={{ color: "rgba(255,255,255,0.92)" }}>{value}</p>
       </div>
-      <button onClick={handleCopy} className="shrink-0 transition-colors" style={{ color: copied ? "#4ade80" : "rgba(212,175,55,0.7)" }} title="Copy">
+      <button type="button" onClick={handleCopy} className="shrink-0 transition-colors" style={{ color: copied ? "#4ade80" : "rgba(212,175,55,0.7)" }} title="Copy">
         {copied ? <CheckCheck className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
       </button>
     </div>
