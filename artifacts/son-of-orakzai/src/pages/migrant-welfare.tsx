@@ -164,7 +164,7 @@ function Hero() {
           }}
         />
       </div>
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
         <FadeIn>
           <div className="inline-flex items-center gap-3 mb-7 px-5 py-2 rounded-full" style={{ border: `1px solid rgba(212,175,55,0.35)`, background: "rgba(212,175,55,0.06)" }}>
             <ShieldCheck className="w-4 h-4" style={{ color: GOLD }} />
@@ -220,7 +220,7 @@ function PackageCard({ pkg, currency, index, selected, onSelect }: any) {
   return (
     <FadeIn delay={index * 0.12} className="h-full">
       <div
-        className="relative h-full rounded-3xl p-8 flex flex-col gap-5 transition-all duration-500"
+        className="relative h-full rounded-2xl sm:rounded-3xl p-5 sm:p-8 flex flex-col gap-5 transition-all duration-500"
         style={{
           background: pkg.featured ? "linear-gradient(160deg, rgba(6,55,36,0.85) 0%, rgba(2,20,13,0.95) 100%)" : "rgba(0,18,11,0.65)",
           backdropFilter: "blur(18px)",
@@ -305,7 +305,7 @@ function PaymentMethodPicker({ selected, onSelect }: { selected: string; onSelec
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2.5">
+      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
         {PAYMENT_METHODS.map((m) => {
           const isSelected = selected === m.id;
           return (
@@ -465,8 +465,8 @@ function IntakeForm({ selectedPackage, currency }: { selectedPackage: string | n
   };
 
   return (
-    <div className="grid lg:grid-cols-[1fr_400px] gap-10 items-start">
-      <form onSubmit={handleSubmit} className="space-y-5 rounded-3xl p-8" style={{ background: "rgba(0,18,11,0.6)", border: "1px solid rgba(212,175,55,0.18)" }}>
+    <div className="grid lg:grid-cols-[1fr_400px] gap-6 lg:gap-10 items-start overflow-hidden">
+      <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 min-w-0" style={{ background: "rgba(0,18,11,0.6)", border: "1px solid rgba(212,175,55,0.18)" }}>
         <div className="mb-2">
           <h3 className="text-2xl font-bold mb-1" style={{ fontFamily: "'Playfair Display', serif", color: "rgba(255,255,255,0.95)" }}>Membership Intake Form</h3>
           <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>Currently selected package: <span style={{ color: GOLD }}>{packageName}</span></p>
@@ -570,8 +570,8 @@ function IntakeForm({ selectedPackage, currency }: { selectedPackage: string | n
 /* ═══════════════════════════ Section wrapper ═══════════════════════════ */
 function Section({ eyebrow, title, desc, children }: any) {
   return (
-    <section className="relative py-20" style={{ background: EMERALD_DEEP }}>
-      <div className="max-w-6xl mx-auto px-6">
+    <section className="relative py-20 overflow-hidden" style={{ background: EMERALD_DEEP }}>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <FadeIn className="text-center mb-14 max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="h-[1px] w-8" style={{ background: `linear-gradient(90deg, transparent, ${GOLD})` }} />
@@ -609,8 +609,8 @@ export default function MigrantWelfare() {
         </div>
       </Section>
 
-      <section className="py-20" style={{ background: "#00120B", borderTop: "1px solid rgba(212,175,55,0.1)" }}>
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="py-20 overflow-hidden" style={{ background: "#00120B", borderTop: "1px solid rgba(212,175,55,0.1)" }}>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <FadeIn className="text-center mb-14 max-w-2xl mx-auto">
             <span className="text-[10px] font-black tracking-[0.35em] uppercase" style={{ color: GOLD }}>How It Works</span>
             <h2 className="text-3xl md:text-4xl font-bold mt-4 mb-4" style={{ fontFamily: "'Playfair Display', serif", color: "rgba(255,255,255,0.96)" }}>
@@ -631,8 +631,8 @@ export default function MigrantWelfare() {
         </div>
       </section>
 
-      <section className="py-20" style={{ background: "#00120B", borderTop: "1px solid rgba(212,175,55,0.1)" }}>
-        <div className="max-w-5xl mx-auto px-6">
+      <section className="py-20 overflow-hidden" style={{ background: "#00120B", borderTop: "1px solid rgba(212,175,55,0.1)" }}>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <FadeIn className="text-center mb-14 max-w-2xl mx-auto">
             <span className="text-[10px] font-black tracking-[0.35em] uppercase" style={{ color: GOLD }}>Enroll Now</span>
             <h2 className="text-3xl md:text-4xl font-bold mt-4 mb-4" style={{ fontFamily: "'Playfair Display', serif", color: "rgba(255,255,255,0.96)" }}>
