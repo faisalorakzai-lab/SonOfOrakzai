@@ -11,24 +11,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select";
-import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useToast } from "@/hooks/use-toast";
 
 const GOLD = "#D4AF37";
 const EMERALD_DEEP = "#00120B";
-
-/* ── The 18 verified Orakzai qoums (sections), matching the tribal
-   council roster used across the Team → Community Council screens ── */
-const QOUMS: string[] = [
-  "Ali Khel", "Mula Khel", "Mamozai", "Ali Sherzai", "Eisa Khel",
-  "Akhund Khel", "Shikhan", "Sepoy", "Bar Muhammad Khel", "Mani Khel",
-  "Feroz Khel", "Utman Khel", "Bezoti", "Stori Khel", "Alizai",
-  "Muhammad Khel", "Daulatzai", "Mishti",
-];
 
 /* ── Currency conversion (illustrative diaspora-facing rates,
    base unit = PKR; editable later against a live FX feed) ── */
@@ -78,10 +66,10 @@ const PACKAGES = [
 ];
 
 const HOW_IT_WORKS = [
-  { step: "01", title: "Register", desc: "Complete the intake form with your details and select your qoum (tribal section)." },
-  { step: "02", title: "Pay", desc: "Send your monthly dues via EasyPaisa, JazzCash, NayaPay, SadaPay, or UBL bank transfer." },
-  { step: "03", title: "Verify", desc: "Enter your transaction reference — our team verifies it against your qoum's records within 48 hours." },
-  { step: "04", title: "Protected", desc: "Once verified, your Membership ID activates — healthcare, repatriation, and funeral support are on standby." },
+  { step: "01", title: "Register", desc: "Complete the global intake form with your personal details and select your membership package." },
+  { step: "02", title: "Pay", desc: "Send your monthly dues via EasyPaisa, JazzCash, UBL bank transfer, Binance USDT, or Orakzai Bond." },
+  { step: "03", title: "Verify", desc: "Enter your transaction reference — our team verifies it within 48 hours and activates your account." },
+  { step: "04", title: "Protected", desc: "Once verified, your Membership ID activates — healthcare, repatriation, and family support are on standby." },
 ];
 
 /* ── Real, active payment channels for monthly membership dues ── */
@@ -91,45 +79,51 @@ const UBL_ACCOUNT_NUMBER = "0909318870498";
 const UBL_IBAN = "PK13UNIL0109000318870498";
 const WHATSAPP_NUMBER = "+92 336 7970004";
 
+/* ── Crypto payment details ── */
+const BINANCE_PAY_ID = "958774360";
+const ORAKZAI_BOND_ADDRESS = "0x9b02e2edd6f58d626aaa91889708dbf39dfa8cd7";
+const ORAKZAI_BOND_NETWORK = "BEP20 · POLYGON BLOCKCHAIN";
+
 const PAYMENT_METHODS = [
   { id: "easypaisa", name: "EasyPaisa", kind: "wallet", color: "linear-gradient(135deg,#6DC04B,#4CA836)", letter: "E" },
   { id: "jazzcash", name: "JazzCash", kind: "wallet", color: "linear-gradient(135deg,#EE3124,#C41E14)", letter: "J" },
   { id: "nayapay", name: "NayaPay", kind: "wallet", color: "linear-gradient(135deg,#00B37E,#00875F)", letter: "N" },
   { id: "sadapay", name: "SadaPay", kind: "wallet", color: "linear-gradient(135deg,#7C5CFC,#5A3FD6)", letter: "S" },
-  { id: "ubl", name: "UBL Bank Transfer", kind: "bank", color: "linear-gradient(135deg,#003087,#00257A)", letter: "U" },
+  { id: "ubl", name: "UBL Bank", kind: "bank", color: "linear-gradient(135deg,#003087,#00257A)", letter: "U" },
+  { id: "binance", name: "Binance USDT", kind: "binance", color: "linear-gradient(135deg,#F3BA2F,#C99A00)", letter: "₿" },
+  { id: "orakzai-bond", name: "Orakzai Bond", kind: "bond", color: "linear-gradient(135deg,#8B5CF6,#6D28D9)", letter: "⬡" },
 ];
 
 const FAQS = [
   {
     q: "Who is eligible to join the Migrant Welfare & Diaspora Protection Fund?",
-    a: "Any Orakzai national — whether working domestically in another Pakistani city or living abroad as part of the diaspora — belonging to one of the 18 verified Orakzai qoums is eligible to enroll.",
+    a: "This program is open globally — any individual working abroad or living as part of the diaspora can enroll. Whether you are in the Gulf, Europe, North America, Southeast Asia, or anywhere in the world, you qualify.",
   },
   {
     q: "How is my Unique Digital Membership ID generated?",
-    a: "Upon registration, a cryptographic hash is generated from your identity details and mapped permanently to your qoum, producing a unique, non-transferable Membership ID used for all claims and verification.",
+    a: "Upon registration, a cryptographic hash is generated from your identity details, producing a unique, non-transferable Membership ID used for all claims and verification — regardless of nationality or background.",
   },
   {
-    q: "When do automated monthly payments begin?",
-    a: "Direct-debit billing through EasyPaisa, JazzCash, and international Stripe subscriptions is being finalized. Members who register now are placed in the priority activation queue and notified the moment billing goes live.",
+    q: "Can I pay with cryptocurrency?",
+    a: "Yes. We accept USDT via Binance Pay (ID: 958774360) and the native Orakzai Bond token (BEP20 / POLYGON Blockchain). Crypto payments are fully supported for international members who prefer decentralized transactions.",
   },
   {
     q: "What happens if I need to file a claim?",
-    a: "Claims are filed via your Membership ID through the Orakzai.org welfare desk or WhatsApp helpline, and are reviewed by the Executive Team and your qoum's Malak within 48 hours for critical cases.",
+    a: "Claims are filed via your Membership ID through the Orakzai.org welfare desk or WhatsApp helpline. Cases are reviewed by the Executive Team within 48 hours for critical healthcare and repatriation situations.",
   },
 ];
 
 /* ── Deterministic client-side hash → Unique Digital Membership ID ── */
-function generateMembershipId(name: string, qoum: string, phone: string): string {
-  const qoumIdx = QOUMS.indexOf(qoum);
-  const clanCode = qoum.replace(/[^A-Za-z]/g, "").slice(0, 3).toUpperCase().padEnd(3, "X");
-  const seed = `${name.trim().toLowerCase()}|${qoum}|${phone}|${Date.now()}`;
+function generateMembershipId(name: string, phone: string): string {
+  const initials = name.trim().replace(/[^A-Za-z ]/g, "").split(" ").map((w) => w[0] ?? "X").join("").slice(0, 3).toUpperCase().padEnd(3, "X");
+  const seed = `${name.trim().toLowerCase()}|${phone}|${Date.now()}`;
   let hash = 0;
   for (let i = 0; i < seed.length; i++) {
     hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
   }
   const digits = String(hash % 100000).padStart(5, "0");
-  const sectionTag = String((qoumIdx >= 0 ? qoumIdx : 0) + 1).padStart(2, "0");
-  return `OKZ-${clanCode}${sectionTag}-${digits}`;
+  const year = new Date().getFullYear().toString().slice(-2);
+  return `OKZ-${initials}${year}-${digits}`;
 }
 
 /* ── Reusable fade-in wrapper ── */
@@ -181,8 +175,8 @@ function Hero() {
             </span>
           </h1>
           <p className="text-base md:text-lg max-w-2xl mx-auto leading-relaxed" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "Inter, sans-serif" }}>
-            A sovereign, community-backed membership program securing every Orakzai migrant — at home or abroad —
-            with complete healthcare coverage, dignified repatriation, and lasting family security.
+            A sovereign, community-backed global membership program — open to every migrant and diaspora member worldwide —
+            providing complete healthcare coverage, dignified repatriation, and lasting family security.
           </p>
         </FadeIn>
       </div>
@@ -305,7 +299,7 @@ function PaymentMethodPicker({ selected, onSelect }: { selected: string; onSelec
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+      <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
         {PAYMENT_METHODS.map((m) => {
           const isSelected = selected === m.id;
           return (
@@ -358,11 +352,30 @@ function PaymentMethodPicker({ selected, onSelect }: { selected: string; onSelec
                   <CopyField label="Account Title" value={WALLET_ACCOUNT_TITLE} />
                   <CopyField label={`${activeMethod.name} Number`} value={WALLET_NUMBER} />
                 </>
-              ) : (
+              ) : activeMethod.kind === "bank" ? (
                 <>
                   <CopyField label="Account Title" value={WALLET_ACCOUNT_TITLE} />
                   <CopyField label="Account Number" value={UBL_ACCOUNT_NUMBER} />
                   <CopyField label="IBAN Number" value={UBL_IBAN} />
+                </>
+              ) : activeMethod.kind === "binance" ? (
+                <>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: "rgba(255,255,255,0.5)" }}>Network</span>
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full" style={{ background: "rgba(243,186,47,0.15)", color: "#F3BA2F" }}>BNB Smart Chain (BEP20)</span>
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full" style={{ background: "rgba(243,186,47,0.15)", color: "#F3BA2F" }}>USDT</span>
+                  </div>
+                  <CopyField label="Binance Pay ID" value={BINANCE_PAY_ID} />
+                  <p className="text-[11px] mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>Open Binance app → Pay → Send → enter this ID to pay in USDT.</p>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: "rgba(255,255,255,0.5)" }}>Network</span>
+                    <span className="text-[11px] font-bold px-2 py-0.5 rounded-full" style={{ background: "rgba(139,92,246,0.2)", color: "#a78bfa" }}>{ORAKZAI_BOND_NETWORK}</span>
+                  </div>
+                  <CopyField label="Orakzai Bond Contract Address" value={ORAKZAI_BOND_ADDRESS} />
+                  <p className="text-[11px] mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>Send ORAKZAI BOND tokens to this contract address on BEP20 / POLYGON. Confirm the network before sending.</p>
                 </>
               )}
             </div>
@@ -374,7 +387,7 @@ function PaymentMethodPicker({ selected, onSelect }: { selected: string; onSelec
 }
 
 /* ═══════════════════════════ Digital membership card ═══════════════════════════ */
-function MembershipCardPreview({ name, qoum, packageName, membershipId, txnRef }: any) {
+function MembershipCardPreview({ name, location, packageName, membershipId, txnRef }: any) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.92, y: 20 }}
@@ -398,7 +411,7 @@ function MembershipCardPreview({ name, qoum, packageName, membershipId, txnRef }
       <div className="relative z-10 mb-6">
         <p className="text-[10px] uppercase tracking-widest mb-1" style={{ color: "rgba(255,255,255,0.4)" }}>Member</p>
         <p className="text-xl font-bold" style={{ color: "white", fontFamily: "'Playfair Display', serif" }}>{name || "Full Name"}</p>
-        <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)" }}>{qoum ? `${qoum} Qoum` : "Qoum not selected"}</p>
+        <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)" }}>{location || "Global Member"}</p>
       </div>
       <div className="relative z-10 flex items-center justify-between">
         <div>
@@ -428,7 +441,6 @@ function IntakeForm({ selectedPackage, currency }: { selectedPackage: string | n
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [qoum, setQoum] = useState("");
   const [location, setLocation] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [txnRef, setTxnRef] = useState("");
@@ -440,10 +452,10 @@ function IntakeForm({ selectedPackage, currency }: { selectedPackage: string | n
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !phone || !qoum || !selectedPackage) {
+    if (!name || !phone || !selectedPackage) {
       toast({
         title: "Missing information",
-        description: "Please provide your name, phone number, qoum, and select a membership package before enrolling.",
+        description: "Please provide your name, phone number, and select a membership package before enrolling.",
         variant: "destructive",
       });
       return;
@@ -456,11 +468,11 @@ function IntakeForm({ selectedPackage, currency }: { selectedPackage: string | n
       });
       return;
     }
-    const id = generateMembershipId(name, qoum, phone);
+    const id = generateMembershipId(name, phone);
     setMembershipId(id);
     toast({
       title: "Membership ID generated — pending verification",
-      description: `Your Unique Digital Membership ID ${id} has been issued and mapped to the ${qoum} qoum. WhatsApp your payment receipt to ${WHATSAPP_NUMBER} to complete verification.`,
+      description: `Your Unique Digital Membership ID ${id} has been issued. WhatsApp your payment receipt to ${WHATSAPP_NUMBER} to complete verification.`,
     });
   };
 
@@ -494,20 +506,6 @@ function IntakeForm({ selectedPackage, currency }: { selectedPackage: string | n
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label style={{ color: "rgba(255,255,255,0.7)" }}>Qoum (Tribal Section)</Label>
-          <Select value={qoum} onValueChange={setQoum}>
-            <SelectTrigger className="bg-black/30 border-[#D4AF37]/25 text-white">
-              <SelectValue placeholder="Select your qoum from the 18 verified sections" />
-            </SelectTrigger>
-            <SelectContent>
-              {QOUMS.map((q) => (
-                <SelectItem key={q} value={q}>{q}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
         <div className="h-[1px] w-full my-2" style={{ background: "linear-gradient(90deg, rgba(212,175,55,0.4), transparent)" }} />
 
         <div>
@@ -532,7 +530,7 @@ function IntakeForm({ selectedPackage, currency }: { selectedPackage: string | n
 
         <div className="flex items-start gap-2 text-xs pt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
           <Lock className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
-          Your details are used solely to generate and verify your Unique Digital Membership ID against your qoum's records.
+          Your details are used solely to generate and verify your Unique Digital Membership ID. Open to all nationalities worldwide.
         </div>
 
         <Button type="submit" className="w-full font-bold text-base py-6" style={{ background: GOLD, color: "#04140e" }}>
@@ -545,7 +543,7 @@ function IntakeForm({ selectedPackage, currency }: { selectedPackage: string | n
         <AnimatePresence mode="wait">
           {membershipId ? (
             <div className="space-y-4">
-              <MembershipCardPreview name={name} qoum={qoum} packageName={packageName} membershipId={membershipId} txnRef={txnRef} />
+              <MembershipCardPreview name={name} location={location} packageName={packageName} membershipId={membershipId} txnRef={txnRef} />
               <div className="flex items-start gap-2.5 rounded-xl p-4 text-xs" style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.25)" }}>
                 <MessageCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
                 <span style={{ color: "rgba(255,255,255,0.6)" }}>
@@ -639,7 +637,7 @@ export default function MigrantWelfare() {
               Secure Your Digital Membership
             </h2>
             <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
-              Every membership is locked to a Unique Digital Membership ID, permanently mapped to your qoum out of the 18 verified Orakzai sections.
+              Open to everyone worldwide. Every membership is locked to a Unique Digital Membership ID — pay via local wallets, bank transfer, USDT, or Orakzai Bond.
             </p>
           </FadeIn>
           <IntakeForm selectedPackage={selectedPackage} currency={currency} />
