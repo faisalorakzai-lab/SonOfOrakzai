@@ -224,13 +224,12 @@ const pillars = [
     desc: 'Legal advocacy and institutional representation dedicated to protecting the rights, interests, and collective voice of Orakzai communities worldwide.',
     stat: '120+ cases represented',
     icon: (
-      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="24" y1="6" x2="24" y2="42" />
-        <line x1="10" y1="10" x2="38" y2="10" />
-        <path d="M10 10 L4 22 Q4 30 10 30 Q16 30 16 22 Z" />
-        <path d="M38 10 L44 22 Q44 30 38 30 Q32 30 32 22 Z" />
-        <line x1="16" y1="42" x2="32" y2="42" />
-      </svg>
+      <img
+        src="/rights-representation.jpg"
+        alt="Rights & Representation — raised fists"
+        className="w-full h-full object-cover rounded-full"
+        style={{ borderRadius: '50%' }}
+      />
     ),
   },
   {
