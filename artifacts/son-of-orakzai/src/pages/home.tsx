@@ -238,12 +238,12 @@ const pillars = [
     desc: 'Scholarships, mentorship, leadership development, and international educational pathways that empower the next generation of Orakzai students.',
     stat: '360+ students in 12 cities',
     icon: (
-      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 20 L24 10 L42 20 L24 30 Z" />
-        <path d="M14 24.5 V35 Q24 42 34 35 V24.5" />
-        <path d="M42 20 V30" />
-        <circle cx="42" cy="32" r="2.5" />
-      </svg>
+      <img
+        src="/education-scholarships.jpg"
+        alt="Education & Global Scholarships"
+        className="w-full h-full object-cover rounded-full"
+        style={{ borderRadius: '50%' }}
+      />
     ),
   },
   {
