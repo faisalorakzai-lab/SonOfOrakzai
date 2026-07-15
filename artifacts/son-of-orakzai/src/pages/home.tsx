@@ -252,12 +252,12 @@ const pillars = [
     desc: 'Humanitarian assistance, poverty alleviation, emergency response initiatives, and sustainable support systems for vulnerable families.',
     stat: '3,100+ families supported',
     icon: (
-      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M24 40 C24 40 8 29 8 18 A9 9 0 0 1 24 13.5 A9 9 0 0 1 40 18 C40 29 24 40 24 40Z" />
-        <path d="M18 26 Q18 20 24 17 Q30 20 30 26" strokeOpacity="0.6" />
-        <line x1="24" y1="17" x2="24" y2="10" strokeOpacity="0.5" />
-        <path d="M20 10 Q24 6 28 10" strokeOpacity="0.5" />
-      </svg>
+      <img
+        src="/social-welfare.jpg"
+        alt="Social Welfare & Crisis Relief"
+        className="w-full h-full object-cover rounded-full"
+        style={{ borderRadius: '50%' }}
+      />
     ),
   },
   {
