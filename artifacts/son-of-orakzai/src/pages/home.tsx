@@ -345,14 +345,7 @@ const pillars = [
     desc: 'Deploying fully equipped free ambulance services and mobile healthcare vans to provide immediate emergency response and basic medical care to far-flung rural areas.',
     stat: '2,400+ emergency dispatches',
     icon: (
-      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="6" y="18" width="28" height="14" rx="2" />
-        <path d="M34 22 H42 L44 28 V32 H34 Z" />
-        <circle cx="14" cy="34" r="3" />
-        <circle cx="36" cy="34" r="3" />
-        <line x1="16" y1="21" x2="16" y2="29" />
-        <line x1="12" y1="25" x2="20" y2="25" />
-      </svg>
+      <img src="/emergency-ambulance.jpg" alt="Emergency Ambulance & Mobile Health" className="w-8 h-8 rounded-full object-cover border-2 border-yellow-500" />
     ),
   },
   {
