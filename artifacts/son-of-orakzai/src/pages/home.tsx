@@ -322,14 +322,12 @@ const pillars = [
     desc: 'Establishing local sports academies, youth mentorship programs, and constructive recreational facilities to engage the younger generation and promote healthy community development.',
     stat: '15+ sports facilities supported',
     icon: (
-      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M16 8 H32 V16 Q32 26 24 26 Q16 26 16 16 Z" />
-        <path d="M16 10 H8 Q8 18 16 18" />
-        <path d="M32 10 H40 Q40 18 32 18" />
-        <line x1="24" y1="26" x2="24" y2="34" />
-        <line x1="16" y1="40" x2="32" y2="40" />
-        <line x1="20" y1="34" x2="28" y2="34" />
-      </svg>
+      <img
+        src="/youth-sports.jpg"
+        alt="Youth Development & Sports Infrastructure"
+        className="w-full h-full object-cover rounded-full"
+        style={{ borderRadius: '50%' }}
+      />
     ),
   },
   {
