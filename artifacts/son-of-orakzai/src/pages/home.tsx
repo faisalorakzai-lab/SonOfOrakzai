@@ -355,10 +355,7 @@ const pillars = [
     stat: '100% comprehensive coverage',
     href: '/migrant-welfare',
     icon: (
-      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M24 6 L40 12 V22 C40 33 33 40 24 42 C15 40 8 33 8 22 V12 Z" />
-        <path d="M17 24 L22 29 L32 18" strokeOpacity="0.85" />
-      </svg>
+      <img src="/migrant-welfare-diaspora.jpg" alt="Migrant Welfare & Diaspora Protection Fund" className="w-8 h-8 rounded-full object-cover border-2 border-yellow-500" />
     ),
   },
 ];
