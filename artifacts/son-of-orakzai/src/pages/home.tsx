@@ -336,10 +336,7 @@ const pillars = [
     desc: 'Installing solar-powered water filtration plants and modern tube wells in remote areas to ensure access to safe, clean drinking water and hygienic sanitation systems.',
     stat: '80+ clean water points installed',
     icon: (
-      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M24 6 C24 6 12 22 12 30 A12 12 0 0 0 36 30 C36 22 24 6 24 6 Z" />
-        <path d="M18 30 Q18 34 22 35" strokeOpacity="0.5" />
-      </svg>
+      <img src="/clean-water-sanitation.jpg" alt="Clean Water & Sanitation" className="w-8 h-8 rounded-full object-cover border-2 border-yellow-500" />
     ),
   },
   {
