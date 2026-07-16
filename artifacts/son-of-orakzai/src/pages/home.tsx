@@ -266,12 +266,12 @@ const pillars = [
     desc: 'Interest-free business grants, entrepreneurship support, digital innovation, and local economic development designed to strengthen community prosperity.',
     stat: '340+ grants disbursed',
     icon: (
-      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="6,36 16,22 24,28 34,14 42,18" />
-        <polyline points="34,14 42,14 42,22" />
-        <line x1="6" y1="42" x2="42" y2="42" />
-        <line x1="6" y1="6" x2="6" y2="42" />
-      </svg>
+      <img
+        src="/economic-innovation.jpg"
+        alt="Economic Innovation & Grants"
+        className="w-full h-full object-cover rounded-full"
+        style={{ borderRadius: '50%' }}
+      />
     ),
   },
   {
