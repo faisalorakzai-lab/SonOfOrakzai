@@ -280,13 +280,12 @@ const pillars = [
     desc: 'Connecting Orakzai professionals, families, entrepreneurs, and organizations across Pakistan, the Gulf, Europe, North America, and beyond.',
     stat: '14+ countries, 8 active chapters',
     icon: (
-      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="24" cy="24" r="18" />
-        <ellipse cx="24" cy="24" rx="8" ry="18" />
-        <line x1="6" y1="24" x2="42" y2="24" />
-        <line x1="8" y1="15" x2="40" y2="15" />
-        <line x1="8" y1="33" x2="40" y2="33" />
-      </svg>
+      <img
+        src="/global-diaspora.jpg"
+        alt="Global Diaspora Network"
+        className="w-full h-full object-cover rounded-full"
+        style={{ borderRadius: '50%' }}
+      />
     ),
   },
   {
