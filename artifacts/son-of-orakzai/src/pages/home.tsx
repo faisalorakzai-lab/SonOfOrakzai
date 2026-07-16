@@ -294,10 +294,12 @@ const pillars = [
     desc: 'Supporting modern healthcare initiatives through mobile clinics, clean water projects, preventive care, and improved medical accessibility in underserved regions.',
     stat: '120+ health cases resolved',
     icon: (
-      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M24 8 L28 18 L40 18 L30 25 L34 36 L24 29 L14 36 L18 25 L8 18 L20 18 Z" />
-        <circle cx="24" cy="24" r="6" strokeOpacity="0.35" />
-      </svg>
+      <img
+        src="/healthcare-infrastructure.jpg"
+        alt="Healthcare Infrastructure & Access"
+        className="w-full h-full object-cover rounded-full"
+        style={{ borderRadius: '50%' }}
+      />
     ),
   },
   {
