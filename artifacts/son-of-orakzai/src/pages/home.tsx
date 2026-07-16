@@ -308,18 +308,12 @@ const pillars = [
     desc: 'Launching dedicated vocational training centers, healthcare programs, and marketplace infrastructure to empower women and support local small-scale artisans.',
     stat: '450+ beneficiaries enrolled',
     icon: (
-      <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8" stroke="#D4AF37" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="24" cy="24" r="14" />
-        <circle cx="24" cy="24" r="3" />
-        <line x1="24" y1="10" x2="24" y2="16" />
-        <line x1="24" y1="32" x2="24" y2="38" />
-        <line x1="10" y1="24" x2="16" y2="24" />
-        <line x1="32" y1="24" x2="38" y2="24" />
-        <line x1="14.5" y1="14.5" x2="18.5" y2="18.5" />
-        <line x1="29.5" y1="29.5" x2="33.5" y2="33.5" />
-        <line x1="33.5" y1="14.5" x2="29.5" y2="18.5" />
-        <line x1="18.5" y1="29.5" x2="14.5" y2="33.5" />
-      </svg>
+      <img
+        src="/women-empowerment.jpg"
+        alt="Women Empowerment & Skilled Artisans Support"
+        className="w-full h-full object-cover rounded-full"
+        style={{ borderRadius: '50%' }}
+      />
     ),
   },
   {
