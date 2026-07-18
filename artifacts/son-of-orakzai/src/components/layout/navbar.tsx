@@ -16,13 +16,6 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
     { href: "/team", label: "Leadership", icon: UserCheck, desc: "Meet our visionaries" },
     { href: "/impact", label: "Mission & Vision", icon: TrendingUp, desc: "What drives us forward" },
   ],
-  "Global Offices": [
-    { href: "/contact", label: "Karachi — National HQ", icon: MapPin, desc: "Main national headquarters" },
-    { href: "/contact", label: "Kohat — KP Region", icon: MapPin, desc: "Khyber Pakhtunkhwa office" },
-    { href: "/contact", label: "Hangu — KP Region", icon: MapPin, desc: "Hangu district chapter" },
-    { href: "/contact", label: "Ghaljo — District HQ", icon: MapPin, desc: "Orakzai district HQ" },
-    { href: "/contact", label: "International Desk", icon: Globe, desc: "Diaspora & global liaison" },
-  ],
   "Our Impact": [
     { href: "/impact", label: "Impact Reports", icon: BarChart2, desc: "Annual transparency reports" },
     { href: "/impact", label: "Education Programs", icon: GraduationCap, desc: "Students trained & placed" },
@@ -52,7 +45,6 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
 const topNavItems = [
   { href: "/", label: "Home", dropdown: null },
   { href: "/about", label: "About Us", dropdown: "About Us" },
-  { href: "/contact", label: "Global Offices", dropdown: "Global Offices" },
   { href: "/impact", label: "Our Impact", dropdown: "Our Impact" },
   { href: "/services", label: "Services", dropdown: "Services" },
   { href: "/blog", label: "News & Updates", dropdown: "News & Updates" },

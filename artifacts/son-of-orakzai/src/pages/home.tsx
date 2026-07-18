@@ -142,6 +142,116 @@ function useCounter(end: number, inView: boolean, duration = 2200) {
   return count;
 }
 
+/* ── Floating ambient orb ── */
+function AmbientOrb({ x, y, size, color, delay }: { x: string; y: string; size: number; color: string; delay: number }) {
+  return (
+    <motion.div
+      className="absolute rounded-full pointer-events-none"
+      style={{ left: x, top: y, width: size, height: size, background: color, filter: 'blur(60px)' }}
+      animate={{ scale: [1, 1.18, 1], opacity: [0.45, 0.75, 0.45] }}
+      transition={{ duration: 6 + delay, repeat: Infinity, ease: 'easeInOut', delay }}
+    />
+  );
+}
+
+/* ── Globe SVG emblem — right-side decorative ── */
+function GlobeEmblem() {
+  return (
+    <motion.div
+      className="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block pointer-events-none"
+      style={{ width: 520, height: 520, right: '-80px' }}
+      initial={{ opacity: 0, scale: 0.88, x: 40 }}
+      animate={{ opacity: 1, scale: 1, x: 0 }}
+      transition={{ duration: 1.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <svg viewBox="0 0 520 520" fill="none" className="w-full h-full" aria-hidden>
+        <defs>
+          <radialGradient id="globeGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#064e3b" stopOpacity="0.55" />
+            <stop offset="60%" stopColor="#022c22" stopOpacity="0.28" />
+            <stop offset="100%" stopColor="#011a10" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="globeSheen" cx="35%" cy="30%" r="55%">
+            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="arcGold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0" />
+            <stop offset="50%" stopColor="#D4AF37" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="arcEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#064e3b" stopOpacity="0" />
+            <stop offset="50%" stopColor="#10b981" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#064e3b" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        {/* Glow base */}
+        <circle cx="260" cy="260" r="240" fill="url(#globeGlow)" />
+        <circle cx="260" cy="260" r="240" fill="url(#globeSheen)" />
+
+        {/* Outer ring */}
+        <circle cx="260" cy="260" r="238" stroke="rgba(212,175,55,0.18)" strokeWidth="1" />
+        <circle cx="260" cy="260" r="220" stroke="rgba(212,175,55,0.08)" strokeWidth="0.6" />
+
+        {/* Latitude lines */}
+        {[50, 80, 110, 150, 190, 220].map((ry, i) => (
+          <ellipse key={i} cx="260" cy="260" rx={Math.sqrt(238*238 - (260 - (260 - ry + 20))*(260 - (260 - ry + 20))) || 180} ry={ry} stroke="rgba(212,175,55,0.09)" strokeWidth="0.7" fill="none" />
+        ))}
+
+        {/* Longitude arcs */}
+        {[0, 30, 60, 90, 120, 150].map((angle, i) => (
+          <ellipse key={i} cx="260" cy="260" rx={30 + i * 28} ry="238" stroke="rgba(212,175,55,0.07)" strokeWidth="0.6" fill="none"
+            transform={`rotate(${angle} 260 260)`} />
+        ))}
+
+        {/* Bright meridian arcs — animated */}
+        <motion.ellipse cx="260" cy="260" rx="238" ry="238" stroke="url(#arcGold)" strokeWidth="1.5" fill="none"
+          strokeDasharray="180 600"
+          animate={{ strokeDashoffset: [0, -780] }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+        />
+        <motion.ellipse cx="260" cy="260" rx="160" ry="238" stroke="url(#arcEmerald)" strokeWidth="1" fill="none"
+          strokeDasharray="120 500"
+          animate={{ strokeDashoffset: [0, 620] }}
+          transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
+        />
+
+        {/* Global node dots */}
+        {[
+          { cx: 180, cy: 170 }, { cx: 290, cy: 140 }, { cx: 340, cy: 210 },
+          { cx: 200, cy: 280 }, { cx: 310, cy: 300 }, { cx: 240, cy: 340 },
+          { cx: 370, cy: 260 }, { cx: 150, cy: 320 }, { cx: 280, cy: 380 },
+        ].map((pt, i) => (
+          <motion.circle key={i} cx={pt.cx} cy={pt.cy} r="3.5" fill={GOLD}
+            animate={{ opacity: [0.3, 1, 0.3], r: [2.5, 4, 2.5] }}
+            transition={{ duration: 2.5, delay: i * 0.35, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        ))}
+
+        {/* Connection lines between nodes */}
+        {[
+          [180,170, 290,140], [290,140, 340,210], [340,210, 310,300],
+          [310,300, 280,380], [200,280, 240,340], [150,320, 200,280],
+          [370,260, 340,210], [290,140, 200,280], [180,170, 150,320],
+        ].map(([x1,y1,x2,y2], i) => (
+          <motion.line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
+            stroke="rgba(212,175,55,0.22)" strokeWidth="0.8"
+            animate={{ opacity: [0.1, 0.5, 0.1] }}
+            transition={{ duration: 3, delay: i * 0.28, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        ))}
+
+        {/* Gold cross-hairs at center */}
+        <line x1="245" y1="260" x2="275" y2="260" stroke={GOLD} strokeWidth="1" opacity="0.4" />
+        <line x1="260" y1="245" x2="260" y2="275" stroke={GOLD} strokeWidth="1" opacity="0.4" />
+        <circle cx="260" cy="260" r="5" stroke={GOLD} strokeWidth="1.2" fill="none" opacity="0.5" />
+      </svg>
+    </motion.div>
+  );
+}
+
 /* ── Hero Slideshow ── */
 function HeroSlideshow() {
   const [index, setIndex] = useState(0);
@@ -149,7 +259,7 @@ function HeroSlideshow() {
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % heroSlides.length);
-    }, 3000);
+    }, 3500);
     return () => clearInterval(timer);
   }, []);
 
@@ -158,10 +268,10 @@ function HeroSlideshow() {
       <AnimatePresence mode="sync">
         <motion.div
           key={index}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: 'easeInOut' }}
+          transition={{ duration: 1.6, ease: 'easeInOut' }}
           className="absolute inset-0"
         >
           <img
@@ -172,46 +282,49 @@ function HeroSlideshow() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Layered overlays for depth */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, rgba(0,20,10,0.96) 0%, rgba(1,26,16,0.84) 40%, rgba(1,26,16,0.52) 100%)' }} />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,8,4,0.90) 0%, transparent 50%)' }} />
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 70% 55% at 28% 42%, rgba(6,78,59,0.25) 0%, transparent 68%)' }} />
+      {/* Deep multi-layer overlay — richer dark-emerald atmosphere */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(108deg, rgba(0,12,7,0.97) 0%, rgba(1,20,12,0.90) 35%, rgba(1,26,16,0.62) 65%, rgba(0,8,4,0.40) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,6,3,0.96) 0%, rgba(0,10,6,0.60) 28%, transparent 55%)' }} />
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 75% 60% at 22% 45%, rgba(6,78,59,0.32) 0%, transparent 65%)' }} />
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 55% 50% at 80% 30%, rgba(16,185,129,0.06) 0%, transparent 60%)' }} />
 
-      {/* Global connectivity grid overlay — faint gold/emerald geometric lattice */}
+      {/* Ambient floating orbs */}
+      <AmbientOrb x="5%" y="15%" size={300} color="rgba(6,78,59,0.35)" delay={0} />
+      <AmbientOrb x="60%" y="60%" size={200} color="rgba(212,175,55,0.06)" delay={2.5} />
+      <AmbientOrb x="75%" y="10%" size={160} color="rgba(16,185,129,0.08)" delay={1.2} />
+
+      {/* Global connectivity grid — fine gold lattice */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: [
-            'linear-gradient(rgba(212,175,55,0.055) 1px, transparent 1px)',
-            'linear-gradient(90deg, rgba(212,175,55,0.055) 1px, transparent 1px)',
-            'linear-gradient(rgba(6,78,59,0.06) 1px, transparent 1px)',
-            'linear-gradient(90deg, rgba(6,78,59,0.06) 1px, transparent 1px)',
+            'linear-gradient(rgba(212,175,55,0.05) 1px, transparent 1px)',
+            'linear-gradient(90deg, rgba(212,175,55,0.05) 1px, transparent 1px)',
           ].join(', '),
-          backgroundSize: '80px 80px, 80px 80px, 20px 20px, 20px 20px',
-          maskImage: 'radial-gradient(ellipse 85% 80% at 30% 50%, black 30%, transparent 80%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 85% 80% at 30% 50%, black 30%, transparent 80%)',
+          backgroundSize: '72px 72px',
+          maskImage: 'radial-gradient(ellipse 70% 75% at 25% 50%, black 20%, transparent 75%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 75% at 25% 50%, black 20%, transparent 75%)',
         }}
       />
-      {/* Diagonal connectivity lines — borderless unity motif */}
-      <svg
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        aria-hidden
-        style={{ opacity: 0.045 }}
-      >
+
+      {/* Animated arc — sweeping gold line across the hero */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden style={{ opacity: 0.08 }}>
         <defs>
-          <linearGradient id="connLine" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="sweepArc" x1="0%" y1="50%" x2="100%" y2="50%">
             <stop offset="0%" stopColor="#D4AF37" stopOpacity="0" />
-            <stop offset="40%" stopColor="#D4AF37" stopOpacity="1" />
-            <stop offset="60%" stopColor="#064e3b" stopOpacity="1" />
-            <stop offset="100%" stopColor="#064e3b" stopOpacity="0" />
+            <stop offset="30%" stopColor="#D4AF37" stopOpacity="1" />
+            <stop offset="70%" stopColor="#D4AF37" stopOpacity="1" />
+            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
           </linearGradient>
         </defs>
-        {[0, 160, 320, 480, 640].map((offset, i) => (
-          <line key={i} x1={offset} y1="0" x2={offset + 800} y2="100%" stroke="url(#connLine)" strokeWidth="1" />
-        ))}
-        {[0, 120, 240, 360].map((offset, i) => (
-          <line key={`h${i}`} x1="0" y1={offset} x2="100%" y2={offset + 400} stroke="url(#connLine)" strokeWidth="0.8" />
-        ))}
+        <motion.path d="M-100,400 Q400,100 1600,350" stroke="url(#sweepArc)" strokeWidth="1.5" fill="none"
+          animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] }}
+        />
+        <motion.path d="M-100,600 Q600,200 1700,450" stroke="url(#sweepArc)" strokeWidth="1" fill="none"
+          animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.6, 0.6, 0] }}
+          transition={{ duration: 10, delay: 3, repeat: Infinity, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] }}
+        />
       </svg>
 
       {/* Slide label */}
@@ -1042,81 +1155,124 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center overflow-hidden">
         <HeroSlideshow />
 
-        {/* Hero content */}
-        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 md:px-14 lg:px-20 pt-32 pb-28">
-          <div className="max-w-3xl mx-auto md:mx-0">
+        {/* Decorative globe emblem — right side, desktop only */}
+        <div className="absolute inset-0 z-[5] pointer-events-none">
+          <GlobeEmblem />
+        </div>
 
-            {/* Eyebrow tag */}
+        {/* Hero content */}
+        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 md:px-14 lg:px-20 pt-36 pb-32">
+          <div className="max-w-2xl">
+
+            {/* Eyebrow tag — institution credential bar */}
             <motion.div
-              initial={{ opacity: 0, y: -16 }}
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="inline-flex items-center gap-3 mb-8"
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="inline-flex items-center gap-3 mb-7"
             >
-              <div className="h-[1px] w-6 flex-shrink-0" style={{ background: GOLD }} />
+              <div className="h-px w-8 flex-shrink-0" style={{ background: `linear-gradient(90deg, transparent, ${GOLD})` }} />
               <span
-                className="text-[10px] sm:text-xs font-bold tracking-[0.2em] sm:tracking-[0.4em] uppercase whitespace-nowrap"
-                style={{ color: GOLD }}
+                className="text-[9px] sm:text-[11px] font-black tracking-[0.35em] uppercase"
+                style={{ color: GOLD, letterSpacing: '0.32em' }}
               >
                 ORAKZAI.ORG — GLOBAL HUMANITARIAN EMBASSY
               </span>
-              <div className="h-[1px] w-6 flex-shrink-0" style={{ background: GOLD }} />
+              <div className="h-px w-8 flex-shrink-0" style={{ background: `linear-gradient(90deg, ${GOLD}, transparent)` }} />
             </motion.div>
 
-            {/* Global reach line */}
+            {/* Pill badge — global reach */}
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.4 }}
-              className="flex flex-wrap items-center gap-4 mb-6"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.35 }}
+              className="flex flex-wrap items-center gap-3 mb-8"
             >
               <div
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full"
-                style={{ background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.25)' }}
+                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full"
+                style={{
+                  background: 'rgba(212,175,55,0.07)',
+                  border: '1px solid rgba(212,175,55,0.30)',
+                  backdropFilter: 'blur(12px)',
+                  boxShadow: '0 0 20px rgba(212,175,55,0.06)',
+                }}
               >
-                <GlobeIcon className="w-3.5 h-3.5" style={{ color: GOLD }} />
-                <span className="text-[11px] font-semibold tracking-wide text-white/70">
+                <GlobeIcon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: GOLD }} />
+                <span className="text-[11px] font-semibold tracking-wider" style={{ color: 'rgba(255,255,255,0.75)' }}>
                   Empowering Lives Across 12+ Countries
                 </span>
+              </div>
+              {/* Live indicator */}
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full"
+                style={{ background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.22)' }}>
+                <motion.span
+                  className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                  style={{ background: '#10b981' }}
+                  animate={{ opacity: [1, 0.3, 1] }}
+                  transition={{ duration: 1.8, repeat: Infinity }}
+                />
+                <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'rgba(16,185,129,0.9)' }}>Active</span>
               </div>
             </motion.div>
 
             {/* Main heading */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 35 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
+              transition={{ duration: 1.1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
               <h1
-                className="text-[2.6rem] sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-4 leading-[1.1]"
-                style={{ fontFamily: "'Playfair Display', serif", textShadow: '0 4px 60px rgba(0,0,0,0.6)' }}
+                className="font-black text-white leading-[1.05] mb-5"
+                style={{
+                  fontFamily: "'Playfair Display', serif",
+                  fontSize: 'clamp(2.6rem, 7vw, 5rem)',
+                  textShadow: '0 4px 80px rgba(0,0,0,0.7), 0 0 120px rgba(0,0,0,0.4)',
+                  letterSpacing: '-0.01em',
+                }}
               >
                 <span className="block">Mutahid,</span>
-                <span className="block" style={{ color: GOLD }}>Ba-Ikhtiyar,</span>
+                <span
+                  className="block"
+                  style={{
+                    background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 45%, #f5e07a 75%, ${GOLD} 100%)`,
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    filter: 'drop-shadow(0 0 30px rgba(212,175,55,0.45))',
+                  }}
+                >
+                  Ba-Ikhtiyar,
+                </span>
                 <span className="block text-white">Taraqi-Yafta</span>
               </h1>
             </motion.div>
 
-            {/* Subtitle */}
+            {/* Subtitle — SADA-E-INSANIYAT */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.8 }}
+              transition={{ duration: 1, delay: 0.75 }}
             >
-              <div className="flex items-center gap-4 my-6">
-                <div className="h-[1px] flex-1 max-w-[80px]" style={{ background: `linear-gradient(90deg, ${GOLD}, transparent)` }} />
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-px flex-1 max-w-[60px]" style={{ background: `linear-gradient(90deg, ${GOLD}, transparent)` }} />
                 <h2
-                  className="text-sm md:text-base font-bold tracking-[0.4em] uppercase"
-                  style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}
+                  className="text-xs md:text-sm font-black tracking-[0.45em] uppercase"
+                  style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif", letterSpacing: '0.42em' }}
                 >
                   S A D A - E - I N S A N I Y A T
                 </h2>
-                <div className="h-[1px] flex-1 max-w-[80px]" style={{ background: `linear-gradient(270deg, ${GOLD}, transparent)` }} />
+                <div className="h-px flex-1 max-w-[60px]" style={{ background: `linear-gradient(270deg, ${GOLD}, transparent)` }} />
               </div>
 
               <p
-                className="text-white/65 text-lg md:text-xl leading-relaxed max-w-xl mb-10"
-                style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.15rem' }}
+                className="leading-[1.8] mb-10"
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
+                  color: 'rgba(255,255,255,0.68)',
+                  maxWidth: '520px',
+                  textShadow: '0 2px 20px rgba(0,0,0,0.5)',
+                }}
               >
                 A digital sanctuary where heritage fuels global progress. Uniting underprivileged communities across all borders — empowering every family, elevating every student, and protecting every life.
               </p>
