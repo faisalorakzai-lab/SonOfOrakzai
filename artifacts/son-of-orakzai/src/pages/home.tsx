@@ -177,6 +177,43 @@ function HeroSlideshow() {
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,8,4,0.90) 0%, transparent 50%)' }} />
       <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 70% 55% at 28% 42%, rgba(6,78,59,0.25) 0%, transparent 68%)' }} />
 
+      {/* Global connectivity grid overlay — faint gold/emerald geometric lattice */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: [
+            'linear-gradient(rgba(212,175,55,0.055) 1px, transparent 1px)',
+            'linear-gradient(90deg, rgba(212,175,55,0.055) 1px, transparent 1px)',
+            'linear-gradient(rgba(6,78,59,0.06) 1px, transparent 1px)',
+            'linear-gradient(90deg, rgba(6,78,59,0.06) 1px, transparent 1px)',
+          ].join(', '),
+          backgroundSize: '80px 80px, 80px 80px, 20px 20px, 20px 20px',
+          maskImage: 'radial-gradient(ellipse 85% 80% at 30% 50%, black 30%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 85% 80% at 30% 50%, black 30%, transparent 80%)',
+        }}
+      />
+      {/* Diagonal connectivity lines — borderless unity motif */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        aria-hidden
+        style={{ opacity: 0.045 }}
+      >
+        <defs>
+          <linearGradient id="connLine" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0" />
+            <stop offset="40%" stopColor="#D4AF37" stopOpacity="1" />
+            <stop offset="60%" stopColor="#064e3b" stopOpacity="1" />
+            <stop offset="100%" stopColor="#064e3b" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        {[0, 160, 320, 480, 640].map((offset, i) => (
+          <line key={i} x1={offset} y1="0" x2={offset + 800} y2="100%" stroke="url(#connLine)" strokeWidth="1" />
+        ))}
+        {[0, 120, 240, 360].map((offset, i) => (
+          <line key={`h${i}`} x1="0" y1={offset} x2="100%" y2={offset + 400} stroke="url(#connLine)" strokeWidth="0.8" />
+        ))}
+      </svg>
+
       {/* Slide label */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -1006,8 +1043,8 @@ export default function Home() {
         <HeroSlideshow />
 
         {/* Hero content */}
-        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 md:px-14 pt-28 pb-24">
-          <div className="max-w-3xl">
+        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 md:px-14 lg:px-20 pt-32 pb-28">
+          <div className="max-w-3xl mx-auto md:mx-0">
 
             {/* Eyebrow tag */}
             <motion.div
@@ -1021,7 +1058,7 @@ export default function Home() {
                 className="text-[10px] sm:text-xs font-bold tracking-[0.2em] sm:tracking-[0.4em] uppercase whitespace-nowrap"
                 style={{ color: GOLD }}
               >
-                Orakzai.org — Digital Embassy
+                ORAKZAI.ORG — GLOBAL HUMANITARIAN EMBASSY
               </span>
               <div className="h-[1px] w-6 flex-shrink-0" style={{ background: GOLD }} />
             </motion.div>
@@ -1039,7 +1076,7 @@ export default function Home() {
               >
                 <GlobeIcon className="w-3.5 h-3.5" style={{ color: GOLD }} />
                 <span className="text-[11px] font-semibold tracking-wide text-white/70">
-                  Orakzai Community in {globalNodes.length} Countries
+                  Empowering Lives Across 12+ Countries
                 </span>
               </div>
             </motion.div>
@@ -1072,7 +1109,7 @@ export default function Home() {
                   className="text-sm md:text-base font-bold tracking-[0.4em] uppercase"
                   style={{ color: GOLD, fontFamily: "'Cormorant Garamond', serif" }}
                 >
-                  SADA-E-ORAKZAI
+                  S A D A - E - I N S A N I Y A T
                 </h2>
                 <div className="h-[1px] flex-1 max-w-[80px]" style={{ background: `linear-gradient(270deg, ${GOLD}, transparent)` }} />
               </div>
@@ -1081,7 +1118,7 @@ export default function Home() {
                 className="text-white/65 text-lg md:text-xl leading-relaxed max-w-xl mb-10"
                 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.15rem' }}
               >
-                A digital homeland where tradition meets modernity. Uniting the Orakzai nation across borders — empowering every family, every student, every leader.
+                A digital sanctuary where heritage fuels global progress. Uniting underprivileged communities across all borders — empowering every family, elevating every student, and protecting every life.
               </p>
             </motion.div>
 
@@ -1090,33 +1127,75 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 1 }}
-              className="flex flex-col sm:flex-row gap-3"
+              className="flex flex-col sm:flex-row gap-4"
             >
+              {/* Primary CTA — glassmorphism + gold gradient hover */}
               <Link
                 href="/join"
-                className="relative overflow-hidden px-8 py-3.5 rounded-full font-bold text-base transition-all hover:-translate-y-1 active:scale-95 group inline-block text-center"
+                className="relative overflow-hidden px-9 py-4 rounded-full font-bold text-base active:scale-95 group inline-block text-center"
                 style={{
                   background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
+                  backgroundSize: '200% auto',
                   color: '#011a10',
-                  boxShadow: `0 8px 32px rgba(212,175,55,0.45), 0 2px 8px rgba(212,175,55,0.3)`,
+                  boxShadow: `0 8px 40px rgba(212,175,55,0.50), 0 2px 8px rgba(212,175,55,0.3), inset 0 1px 0 rgba(255,255,255,0.25)`,
                   fontFamily: "'Playfair Display', serif",
                   letterSpacing: '0.05em',
+                  transition: 'background-position 0.6s ease, transform 0.25s ease, box-shadow 0.35s ease',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.backgroundPosition = 'right center';
+                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-3px)';
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 14px 50px rgba(212,175,55,0.65), 0 4px 12px rgba(212,175,55,0.4), inset 0 1px 0 rgba(255,255,255,0.35)`;
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.backgroundPosition = 'left center';
+                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 8px 40px rgba(212,175,55,0.50), 0 2px 8px rgba(212,175,55,0.3), inset 0 1px 0 rgba(255,255,255,0.25)`;
                 }}
               >
+                {/* Glassmorphism sheen */}
+                <span
+                  className="absolute inset-0 rounded-full pointer-events-none"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.0) 60%)',
+                    backdropFilter: 'blur(2px)',
+                  }}
+                />
                 <span className="relative z-10">Join the Movement</span>
               </Link>
+
+              {/* Secondary CTA — glass border with smooth gold hover blend */}
               <Link
                 href="/about"
-                className="px-8 py-3.5 rounded-full font-semibold text-base text-white transition-all hover:-translate-y-1 hover:bg-white/10 active:scale-95 inline-block text-center"
+                className="relative overflow-hidden px-9 py-4 rounded-full font-semibold text-base text-white active:scale-95 inline-block text-center group"
                 style={{
                   border: `1.5px solid rgba(212,175,55,0.55)`,
-                  backdropFilter: 'blur(8px)',
+                  backdropFilter: 'blur(14px)',
+                  WebkitBackdropFilter: 'blur(14px)',
                   background: 'rgba(212,175,55,0.06)',
                   fontFamily: "'Playfair Display', serif",
                   letterSpacing: '0.05em',
+                  transition: 'background 0.45s ease, border-color 0.35s ease, transform 0.25s ease, box-shadow 0.35s ease',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(212,175,55,0.14)';
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(212,175,55,0.85)';
+                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-3px)';
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 8px 30px rgba(212,175,55,0.22)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(212,175,55,0.06)';
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(212,175,55,0.55)';
+                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)';
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none';
                 }}
               >
-                Our Story
+                {/* Inner glass sheen */}
+                <span
+                  className="absolute inset-0 rounded-full pointer-events-none"
+                  style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)' }}
+                />
+                <span className="relative z-10">Our Story</span>
               </Link>
             </motion.div>
 
