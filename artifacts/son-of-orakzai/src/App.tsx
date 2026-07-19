@@ -22,6 +22,7 @@ import GlobalLeadership from "@/pages/global-leadership";
 import MigrantWelfare from "@/pages/migrant-welfare";
 import RightsRepresentation from "@/pages/rights-representation";
 import EducationScholarships from "@/pages/education-scholarships";
+import EconomicInnovationGrants from "@/pages/economic-innovation-grants";
 import SocialWelfareRelief from "@/pages/social-welfare-relief";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ function Router() {
       <Route path="/migrant-welfare" component={MigrantWelfare} />
       <Route path="/rights-representation" component={RightsRepresentation} />
       <Route path="/education-scholarships" component={EducationScholarships} />
+      <Route path="/economic-innovation-grants" component={EconomicInnovationGrants} />
       <Route path="/social-welfare-relief" component={SocialWelfareRelief} />
       <Route path="/team/:slug" component={TeamProfile} />
       <Route path="/board-advisor/:slug" component={TeamProfile} />
