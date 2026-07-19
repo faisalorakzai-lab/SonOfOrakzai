@@ -645,7 +645,7 @@ function ReportingPortal() {
     toast({
       title: `Case ID ${id} registered`,
       description:
-        "Your case has been securely logged. A legal officer will contact you within 48 hours.",
+        "Your case has been securely logged and forwarded to legal@orakzai.org. A legal officer will contact you within 48 hours.",
     });
 
     // Simulate progressive status advancement for demo
@@ -933,7 +933,8 @@ function ReportingPortal() {
                 <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
                   Your report is encrypted end-to-end. We do not share personal information with any third party.
                   Anonymous submissions are fully accepted. You may contact us via WhatsApp at{" "}
-                  <span style={{ color: GOLD }}>+92 336 7970004</span> for urgent cases.
+                  <span style={{ color: GOLD }}>+92 336 0854603</span> or email{" "}
+                  <span style={{ color: GOLD }}>legal@orakzai.org</span> for urgent cases.
                 </p>
               </div>
 
@@ -1124,7 +1125,7 @@ function ReportingPortal() {
 
                   {/* WhatsApp CTA */}
                   <a
-                    href="https://wa.me/923367970004"
+                    href="https://wa.me/923360854603"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-between rounded-2xl px-5 py-4 transition-all hover:-translate-y-0.5"
@@ -1140,7 +1141,7 @@ function ReportingPortal() {
                           Urgent? Contact us on WhatsApp
                         </p>
                         <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
-                          +92 336 7970004 · Available 24/7
+                          +92 336 0854603 · Available 24/7
                         </p>
                       </div>
                     </div>
