@@ -25,7 +25,7 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
   "Services": [
     { href: "/migrant-welfare", label: "Migrant Welfare & Diaspora Protection Fund", icon: ShieldCheck, desc: "Premium member protection & repatriation" },
     { href: "/rights-representation", label: "Rights & Representation", icon: Scale, desc: "Legal advocacy & representation" },
-    { href: "/services", label: "Education & Global Scholarships", icon: GraduationCap, desc: "Scholarships & training" },
+    { href: "/education-scholarships", label: "Education & Global Scholarships", icon: GraduationCap, desc: "Scholarships & training" },
     { href: "/services", label: "Social Welfare & Crisis Relief", icon: HandHeart, desc: "Humanitarian & emergency aid" },
     { href: "/services", label: "Economic Innovation & Grants", icon: TrendingUp, desc: "Business grants & entrepreneurship" },
     { href: "/services", label: "Global Diaspora Network", icon: Globe, desc: "Connecting Orakzai worldwide" },
