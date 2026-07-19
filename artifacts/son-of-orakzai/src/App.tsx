@@ -25,6 +25,7 @@ import EducationScholarships from "@/pages/education-scholarships";
 import EconomicInnovationGrants from "@/pages/economic-innovation-grants";
 import GlobalDiasporaNetwork from "@/pages/global-diaspora-network";
 import HealthcareInfrastructure from "@/pages/healthcare-infrastructure";
+import WomenEmpowermentArtisans from "@/pages/women-empowerment-artisans";
 import SocialWelfareRelief from "@/pages/social-welfare-relief";
 
 const queryClient = new QueryClient();
@@ -47,6 +48,7 @@ function Router() {
       <Route path="/economic-innovation-grants" component={EconomicInnovationGrants} />
       <Route path="/global-diaspora-network" component={GlobalDiasporaNetwork} />
       <Route path="/healthcare-infrastructure" component={HealthcareInfrastructure} />
+      <Route path="/women-empowerment-artisans" component={WomenEmpowermentArtisans} />
       <Route path="/social-welfare-relief" component={SocialWelfareRelief} />
       <Route path="/team/:slug" component={TeamProfile} />
       <Route path="/board-advisor/:slug" component={TeamProfile} />
