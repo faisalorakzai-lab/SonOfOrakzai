@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, Globe, ChevronDown, MapPin, TrendingUp, Newspaper, Users, GraduationCap, Heart, Briefcase, BarChart2, BookOpen, Phone, Info, UserCheck, ShieldCheck, Scale, HandHeart, HeartPulse, Sparkles, Dumbbell, Droplet, Ambulance } from "lucide-react";
+import { Menu, X, Globe, ChevronDown, MapPin, TrendingUp, Newspaper, Users, GraduationCap, Heart, Briefcase, BarChart2, BookOpen, Phone, Info, UserCheck, ShieldCheck, Scale, HandHeart, HeartPulse, Sparkles, Dumbbell, Droplet } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -33,7 +33,7 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
     { href: "/women-empowerment-artisans", label: "Women Empowerment & Artisans", icon: Sparkles, desc: "Vocational training for women" },
     { href: "/youth-sports-development", label: "Youth & Sports Development", icon: Dumbbell, desc: "Academies & mentorship" },
     { href: "/clean-water-sanitation", label: "Clean Water & Sanitation", icon: Droplet, desc: "WASH infrastructure projects" },
-    { href: "/services", label: "Emergency Ambulance & Health", icon: Ambulance, desc: "Rapid response & mobile clinics" },
+    { href: "/services", label: "Emergency  & Health", icon: desc: "Rapid response & mobile clinics" },
   ],
   "News & Updates": [
     { href: "/blog", label: "Latest News", icon: Newspaper, desc: "Breaking updates" },
