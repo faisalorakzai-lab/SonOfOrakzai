@@ -23,6 +23,7 @@ import MigrantWelfare from "@/pages/migrant-welfare";
 import RightsRepresentation from "@/pages/rights-representation";
 import EducationScholarships from "@/pages/education-scholarships";
 import EconomicInnovationGrants from "@/pages/economic-innovation-grants";
+import GlobalDiasporaNetwork from "@/pages/global-diaspora-network";
 import SocialWelfareRelief from "@/pages/social-welfare-relief";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,7 @@ function Router() {
       <Route path="/rights-representation" component={RightsRepresentation} />
       <Route path="/education-scholarships" component={EducationScholarships} />
       <Route path="/economic-innovation-grants" component={EconomicInnovationGrants} />
+      <Route path="/global-diaspora-network" component={GlobalDiasporaNetwork} />
       <Route path="/social-welfare-relief" component={SocialWelfareRelief} />
       <Route path="/team/:slug" component={TeamProfile} />
       <Route path="/board-advisor/:slug" component={TeamProfile} />
