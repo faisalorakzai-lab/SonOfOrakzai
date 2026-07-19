@@ -228,7 +228,7 @@ function Hero() {
           className="text-base sm:text-lg leading-relaxed max-w-3xl mx-auto mb-10"
           style={{ color: "rgba(255,255,255,0.6)" }}
         >
-          Son of Orakzai deploys structured humanitarian operations at the intersection of rapid crisis
+          Orakzai.org deploys structured humanitarian operations at the intersection of rapid crisis
           intervention, precision disaster relief management, and sustainable social welfare programming —
           ensuring that vulnerable global populations receive immediate, transparent, and dignified support
           when it matters most.
@@ -1101,7 +1101,7 @@ function CtaBand() {
             </h2>
             <p className="text-sm leading-relaxed max-w-xl mx-auto mb-8" style={{ color: "rgba(255,255,255,0.55)" }}>
               Your donation powers direct relief operations — no intermediaries, no overhead. Join thousands
-              of global supporters who trust Son of Orakzai to deploy aid with integrity.
+              of global supporters who trust Orakzai.org to deploy aid with integrity.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
