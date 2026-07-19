@@ -31,7 +31,7 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
     { href: "/global-diaspora-network", label: "Global Diaspora Network", icon: Globe, desc: "Connecting Orakzai worldwide" },
     { href: "/healthcare-infrastructure", label: "Healthcare Infrastructure & Access", icon: HeartPulse, desc: "Medical support programs" },
     { href: "/women-empowerment-artisans", label: "Women Empowerment & Artisans", icon: Sparkles, desc: "Vocational training for women" },
-    { href: "/services", label: "Youth & Sports Development", icon: Dumbbell, desc: "Academies & mentorship" },
+    { href: "/youth-sports-development", label: "Youth & Sports Development", icon: Dumbbell, desc: "Academies & mentorship" },
     { href: "/services", label: "Clean Water & Sanitation", icon: Droplet, desc: "WASH infrastructure projects" },
     { href: "/services", label: "Emergency Ambulance & Health", icon: Ambulance, desc: "Rapid response & mobile clinics" },
   ],
