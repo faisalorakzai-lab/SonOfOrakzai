@@ -27,6 +27,7 @@ import GlobalDiasporaNetwork from "@/pages/global-diaspora-network";
 import HealthcareInfrastructure from "@/pages/healthcare-infrastructure";
 import WomenEmpowermentArtisans from "@/pages/women-empowerment-artisans";
 import YouthSportsDevelopment from "@/pages/youth-sports-development";
+import CleanWaterSanitation from "@/pages/clean-water-sanitation";
 import SocialWelfareRelief from "@/pages/social-welfare-relief";
 
 const queryClient = new QueryClient();
@@ -51,6 +52,7 @@ function Router() {
       <Route path="/healthcare-infrastructure" component={HealthcareInfrastructure} />
       <Route path="/women-empowerment-artisans" component={WomenEmpowermentArtisans} />
       <Route path="/youth-sports-development" component={YouthSportsDevelopment} />
+      <Route path="/clean-water-sanitation" component={CleanWaterSanitation} />
       <Route path="/social-welfare-relief" component={SocialWelfareRelief} />
       <Route path="/team/:slug" component={TeamProfile} />
       <Route path="/board-advisor/:slug" component={TeamProfile} />
