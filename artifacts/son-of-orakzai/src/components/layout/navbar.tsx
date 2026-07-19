@@ -27,7 +27,7 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
     { href: "/rights-representation", label: "Rights & Representation", icon: Scale, desc: "Legal advocacy & representation" },
     { href: "/education-scholarships", label: "Education & Global Scholarships", icon: GraduationCap, desc: "Scholarships & training" },
     { href: "/social-welfare-relief", label: "Social Welfare & Crisis Relief", icon: HandHeart, desc: "Humanitarian & emergency aid" },
-    { href: "/services", label: "Economic Innovation & Grants", icon: TrendingUp, desc: "Business grants & entrepreneurship" },
+    { href: "/economic-innovation-grants", label: "Economic Innovation & Grants", icon: TrendingUp, desc: "Business grants & entrepreneurship" },
     { href: "/services", label: "Global Diaspora Network", icon: Globe, desc: "Connecting Orakzai worldwide" },
     { href: "/services", label: "Healthcare Infrastructure & Access", icon: HeartPulse, desc: "Medical support programs" },
     { href: "/services", label: "Women Empowerment & Artisans", icon: Sparkles, desc: "Vocational training for women" },
