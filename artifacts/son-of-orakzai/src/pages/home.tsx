@@ -5,6 +5,63 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 
 const GOLD = '#D4AF37';
+/* ── Global Orakzai community nodes ── */
+const globalNodes = [
+  { city: 'Ghaljo', country: 'Pakistan', flag: '🇵🇰', x: 63, y: 40, tag: 'Primary Homeland' },
+  { city: 'Kabul', country: 'Afghanistan', flag: '🇦🇫', x: 60, y: 37, tag: 'Historical Homeland' },
+  { city: 'Riyadh', country: 'Saudi Arabia', flag: '🇸🇦', x: 59, y: 44, tag: 'Community' },
+  { city: 'Dubai', country: 'UAE', flag: '🇦🇪', x: 61, y: 46, tag: 'Community' },
+  { city: 'Doha', country: 'Qatar', flag: '🇶🇦', x: 60, y: 47, tag: 'Community' },
+  { city: 'Muscat', country: 'Oman', flag: '🇴🇲', x: 62, y: 48, tag: 'Community' },
+  { city: 'Manama', country: 'Bahrain', flag: '🇧🇭', x: 59, y: 45, tag: 'Community' },
+  { city: 'London', country: 'UK', flag: '🇬🇧', x: 47, y: 27, tag: 'Community' },
+  { city: 'New York', country: 'USA', flag: '🇺🇸', x: 22, y: 33, tag: 'Community' },
+  { city: 'Toronto', country: 'Canada', flag: '🇨🇦', x: 20, y: 26, tag: 'Community' },
+  { city: 'Kuala Lumpur', country: 'Malaysia', flag: '🇲🇾', x: 78, y: 58, tag: 'Community' },
+  { city: 'Sydney', country: 'Australia', flag: '🇦🇺', x: 85, y: 74, tag: 'Community' },
+];
+
+/* ── Partner / featured logos ── */
+const partnerLogos = [
+  'Global Diaspora Council', 'KP Welfare Trust', 'Crescent Relief Network', 'UnityEd Foundation', 'Frontier Health Alliance', 'Orakzai Chamber of Commerce',
+];
+
+/* ── Diaspora voices ── */
+const testimonials = [
+  { quote: 'Orakzai.org gave our community in the Gulf a real voice — from scholarships to staying connected with home.', name: 'Sample Member', place: 'Dubai, UAE', flag: '🇦🇪' },
+  { quote: 'Even from London, I feel part of every initiative back home. The diaspora network is the reason I stay involved.', name: 'Sample Member', place: 'London, UK', flag: '🇬🇧' },
+  { quote: 'The scholarship program changed my daughter's future. This is what a global homeland should feel like.', name: 'Sample Member', place: 'Toronto, Canada', flag: '🇨🇦' },
+];
+
+/* ── SVG Icons ── */
+function GlobeIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
+      <circle cx="24" cy="24" r="18" stroke="currentColor" strokeWidth="2.5" />
+      <ellipse cx="24" cy="24" rx="8" ry="18" stroke="currentColor" strokeWidth="2.5" />
+      <line x1="6" y1="24" x2="42" y2="24" stroke="currentColor" strokeWidth="2.5" />
+    </svg>
+  );
+}
+
+/* ── Animated counter hook ── */
+function useCounter(end: number, inView: boolean, duration = 2200) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const start = 0;
+    const step = (end / duration) * 16;
+    let current = start;
+    const timer = setInterval(() => {
+      current = Math.min(current + step, end);
+      setCount(Math.floor(current));
+      if (current >= end) clearInterval(timer);
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, end, duration]);
+  return count;
+}
+
 
 /* ── Clean hero background — stable, no flickering ── */
 function HeroBg() {
