@@ -33,7 +33,6 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
     { href: "/women-empowerment-artisans", label: "Women Empowerment & Artisans", icon: Sparkles, desc: "Vocational training for women" },
     { href: "/youth-sports-development", label: "Youth & Sports Development", icon: Dumbbell, desc: "Academies & mentorship" },
     { href: "/clean-water-sanitation", label: "Clean Water & Sanitation", icon: Droplet, desc: "WASH infrastructure projects" },
-    { href: "/services", label: "Emergency  & Health", icon: desc: "Rapid response & mobile clinics" },
   ],
   "News & Updates": [
     { href: "/blog", label: "Latest News", icon: Newspaper, desc: "Breaking updates" },
