@@ -370,6 +370,21 @@ function HeroSlideshow() {
 const pillars = [
   {
     id: 1,
+    title: 'Migrant Welfare & Diaspora Protection Fund',
+    desc: 'A dedicated premium community membership program for Orakzai migrants globally and domestically, providing complete healthcare coverage, repatriation services, and family security systems.',
+    stat: '100% comprehensive coverage',
+    href: '/migrant-welfare',
+    icon: (
+      <img
+        src="/migrant-welfare-diaspora.jpg"
+        alt="Migrant Welfare & Diaspora Protection Fund"
+        className="w-full h-full object-cover rounded-full"
+        style={{ borderRadius: '50%' }}
+      />
+    ),
+  },
+  {
+    id: 2,
     title: 'Rights & Representation',
     desc: 'Legal advocacy and institutional representation dedicated to protecting the rights, interests, and collective voice of Orakzai communities worldwide.',
     stat: '120+ cases represented',
@@ -383,7 +398,7 @@ const pillars = [
     ),
   },
   {
-    id: 2,
+    id: 3,
     title: 'Education & Global Scholarships',
     desc: 'Scholarships, mentorship, leadership development, and international educational pathways that empower the next generation of Orakzai students.',
     stat: '360+ students in 12 cities',
@@ -397,7 +412,7 @@ const pillars = [
     ),
   },
   {
-    id: 3,
+    id: 4,
     title: 'Social Welfare & Crisis Relief',
     desc: 'Humanitarian assistance, poverty alleviation, emergency response initiatives, and sustainable support systems for vulnerable families.',
     stat: '3,100+ families supported',
@@ -411,7 +426,7 @@ const pillars = [
     ),
   },
   {
-    id: 4,
+    id: 5,
     title: 'Economic Innovation & Grants',
     desc: 'Interest-free business grants, entrepreneurship support, digital innovation, and local economic development designed to strengthen community prosperity.',
     stat: '340+ grants disbursed',
@@ -425,7 +440,7 @@ const pillars = [
     ),
   },
   {
-    id: 5,
+    id: 6,
     title: 'Global Diaspora Network',
     desc: 'Connecting Orakzai professionals, families, entrepreneurs, and organizations across Pakistan, the Gulf, Europe, North America, and beyond.',
     stat: '14+ countries, 8 active chapters',
@@ -439,7 +454,7 @@ const pillars = [
     ),
   },
   {
-    id: 6,
+    id: 7,
     title: 'Healthcare Infrastructure & Access',
     desc: 'Supporting modern healthcare initiatives through mobile clinics, clean water projects, preventive care, and improved medical accessibility in underserved regions.',
     stat: '120+ health cases resolved',
@@ -453,7 +468,7 @@ const pillars = [
     ),
   },
   {
-    id: 7,
+    id: 8,
     title: 'Women Empowerment & Skilled Artisans Support',
     desc: 'Launching dedicated vocational training centers, healthcare programs, and marketplace infrastructure to empower women and support local small-scale artisans.',
     stat: '450+ beneficiaries enrolled',
@@ -467,7 +482,7 @@ const pillars = [
     ),
   },
   {
-    id: 8,
+    id: 9,
     title: 'Youth Development & Sports Infrastructure',
     desc: 'Establishing local sports academies, youth mentorship programs, and constructive recreational facilities to engage the younger generation and promote healthy community development.',
     stat: '15+ sports facilities supported',
@@ -481,31 +496,18 @@ const pillars = [
     ),
   },
   {
-    id: 9,
+    id: 10,
     title: 'Clean Water & Sanitation (WASH)',
     desc: 'Installing solar-powered water filtration plants and modern tube wells in remote areas to ensure access to safe, clean drinking water and hygienic sanitation systems.',
     stat: '80+ clean water points installed',
+    href: '/clean-water-sanitation',
     icon: (
-      <img src="/clean-water-sanitation.jpg" alt="Clean Water & Sanitation" className="w-8 h-8 rounded-full object-cover border-2 border-yellow-500" />
-    ),
-  },
-  {
-    id: 10,
-    title: 'Emergency Ambulance & Mobile Health',
-    desc: 'Deploying fully equipped free ambulance services and mobile healthcare vans to provide immediate emergency response and basic medical care to far-flung rural areas.',
-    stat: '2,400+ emergency dispatches',
-    icon: (
-      <img src="/emergency-ambulance.jpg" alt="Emergency Ambulance & Mobile Health" className="w-8 h-8 rounded-full object-cover border-2 border-yellow-500" />
-    ),
-  },
-  {
-    id: 11,
-    title: 'Migrant Welfare & Diaspora Protection Fund',
-    desc: 'A dedicated premium community membership program for Orakzai migrants globally and domestically, providing complete healthcare coverage, repatriation services, and family security systems.',
-    stat: '100% comprehensive coverage',
-    href: '/migrant-welfare',
-    icon: (
-      <img src="/migrant-welfare-diaspora.jpg" alt="Migrant Welfare & Diaspora Protection Fund" className="w-8 h-8 rounded-full object-cover border-2 border-yellow-500" />
+      <img
+        src="/clean-water-sanitation.jpg"
+        alt="Clean Water & Sanitation"
+        className="w-full h-full object-cover rounded-full"
+        style={{ borderRadius: '50%' }}
+      />
     ),
   },
 ];
@@ -722,11 +724,10 @@ function StrategicPillars() {
               letterSpacing: '0.015em',
             }}
           >
-            Orakzai.org operates through eleven strategic pillars — each one a dedicated institution 
-            in itself — spanning rights advocacy, global education, humanitarian relief, economic 
-            innovation, diaspora connectivity, frontline healthcare access, women's empowerment, 
-            youth & sports development, clean water access, emergency medical response, and 
-            migrant welfare protection.
+            Orakzai.org operates through ten strategic pillars — each one a dedicated institution 
+            in itself — spanning migrant welfare protection, rights advocacy, global education, 
+            humanitarian relief, economic innovation, diaspora connectivity, frontline healthcare 
+            access, women's empowerment, youth & sports development, and clean water access.
           </p>
         </FadeIn>
 
