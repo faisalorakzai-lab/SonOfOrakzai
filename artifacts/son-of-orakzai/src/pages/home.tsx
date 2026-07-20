@@ -304,112 +304,105 @@ function GlobeEmblem() {
 }
 
 
-function HeroSlideshow() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % heroSlides.length);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, []);
-
+/* ── Cinematic Background — particle network + animated atmosphere ── */
+function CinematicBg() {
   return (
     <div className="absolute inset-0 overflow-hidden">
-      <AnimatePresence mode="sync">
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, scale: 1.04 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.6, ease: 'easeInOut' }}
-          className="absolute inset-0"
-        >
-          <img
-            src={heroSlides[index].src}
-            alt={heroSlides[index].alt}
-            className="w-full h-full object-cover"
-          />
-        </motion.div>
-      </AnimatePresence>
+      {/* Deep dark-emerald base */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(155deg, #000d06 0%, #001108 25%, #00120b 55%, #000b05 100%)' }} />
 
-      {/* Deep multi-layer overlay — richer dark-emerald atmosphere */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(108deg, rgba(0,12,7,0.97) 0%, rgba(1,20,12,0.90) 35%, rgba(1,26,16,0.62) 65%, rgba(0,8,4,0.40) 100%)' }} />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,6,3,0.96) 0%, rgba(0,10,6,0.60) 28%, transparent 55%)' }} />
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 75% 60% at 22% 45%, rgba(6,78,59,0.32) 0%, transparent 65%)' }} />
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 55% 50% at 80% 30%, rgba(16,185,129,0.06) 0%, transparent 60%)' }} />
+      {/* Slow-pulsing atmosphere washes */}
+      <motion.div className="absolute inset-0 pointer-events-none"
+        animate={{ opacity: [0.55, 1, 0.55] }}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ background: 'radial-gradient(ellipse 85% 65% at 18% 42%, rgba(6,78,59,0.30) 0%, transparent 65%)' }} />
+      <motion.div className="absolute inset-0 pointer-events-none"
+        animate={{ opacity: [0.25, 0.65, 0.25] }}
+        transition={{ duration: 20, delay: 6, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ background: 'radial-gradient(ellipse 55% 48% at 78% 62%, rgba(16,185,129,0.07) 0%, transparent 60%)' }} />
+      <motion.div className="absolute inset-0 pointer-events-none"
+        animate={{ opacity: [0.15, 0.40, 0.15] }}
+        transition={{ duration: 24, delay: 10, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ background: 'radial-gradient(ellipse 48% 38% at 52% 78%, rgba(212,175,55,0.05) 0%, transparent 68%)' }} />
+      <motion.div className="absolute inset-0 pointer-events-none"
+        animate={{ opacity: [0.2, 0.5, 0.2] }}
+        transition={{ duration: 18, delay: 3, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ background: 'radial-gradient(ellipse 35% 45% at 5% 80%, rgba(6,60,40,0.20) 0%, transparent 60%)' }} />
+
+      {/* Fine gold lattice grid */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: [
+          'linear-gradient(rgba(212,175,55,0.045) 1px, transparent 1px)',
+          'linear-gradient(90deg, rgba(212,175,55,0.045) 1px, transparent 1px)',
+        ].join(', '),
+        backgroundSize: '68px 68px',
+        maskImage: 'radial-gradient(ellipse 68% 72% at 22% 50%, black 12%, transparent 72%)',
+        WebkitMaskImage: 'radial-gradient(ellipse 68% 72% at 22% 50%, black 12%, transparent 72%)',
+      }} />
 
       {/* Ambient floating orbs */}
-      <AmbientOrb x="5%" y="15%" size={300} color="rgba(6,78,59,0.35)" delay={0} />
-      <AmbientOrb x="60%" y="60%" size={200} color="rgba(212,175,55,0.06)" delay={2.5} />
-      <AmbientOrb x="75%" y="10%" size={160} color="rgba(16,185,129,0.08)" delay={1.2} />
+      <AmbientOrb x="4%"  y="12%" size={320} color="rgba(6,78,59,0.38)"   delay={0} />
+      <AmbientOrb x="58%" y="58%" size={220} color="rgba(212,175,55,0.055)" delay={2.5} />
+      <AmbientOrb x="78%" y="8%"  size={170} color="rgba(16,185,129,0.07)" delay={1.2} />
+      <AmbientOrb x="15%" y="70%" size={180} color="rgba(4,50,30,0.25)"   delay={4} />
 
-      {/* Global connectivity grid — fine gold lattice */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: [
-            'linear-gradient(rgba(212,175,55,0.05) 1px, transparent 1px)',
-            'linear-gradient(90deg, rgba(212,175,55,0.05) 1px, transparent 1px)',
-          ].join(', '),
-          backgroundSize: '72px 72px',
-          maskImage: 'radial-gradient(ellipse 70% 75% at 25% 50%, black 20%, transparent 75%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 70% 75% at 25% 50%, black 20%, transparent 75%)',
-        }}
-      />
+      {/* Particle network SVG */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden
+        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+        {cinematicLinks.map(([a, b], i) => (
+          <motion.line key={i}
+            x1={cinematicNodes[a].x} y1={cinematicNodes[a].y}
+            x2={cinematicNodes[b].x} y2={cinematicNodes[b].y}
+            stroke="rgba(212,175,55,0.18)" strokeWidth="0.09"
+            animate={{ opacity: [0.04, 0.28, 0.04] }}
+            transition={{ duration: 4.5 + i * 0.35, delay: i * 0.28, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        ))}
+        {cinematicNodes.map((n, i) => (
+          <motion.circle key={i} cx={n.x} cy={n.y} r="0.38" fill={GOLD}
+            animate={{ opacity: [0.18, 0.95, 0.18], r: [0.22, 0.50, 0.22] }}
+            transition={{ duration: 2.8 + i * 0.28, delay: i * 0.22, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        ))}
+        {[[0,2],[4,6],[9,5],[13,7],[2,9],[6,10]].map(([a,b], i) => (
+          <motion.circle key={`pulse-${i}`} r="0.22" fill={GOLD}
+            animate={{
+              cx: [cinematicNodes[a].x, cinematicNodes[b].x, cinematicNodes[a].x],
+              cy: [cinematicNodes[a].y, cinematicNodes[b].y, cinematicNodes[a].y],
+              opacity: [0, 1, 0],
+            }}
+            transition={{ duration: 4.5 + i * 0.7, delay: i * 1.2, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        ))}
+      </svg>
 
-      {/* Animated arc — sweeping gold line across the hero */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden style={{ opacity: 0.08 }}>
+      {/* Sweeping gold arc */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden style={{ opacity: 0.09 }}>
         <defs>
           <linearGradient id="sweepArc" x1="0%" y1="50%" x2="100%" y2="50%">
-            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0" />
-            <stop offset="30%" stopColor="#D4AF37" stopOpacity="1" />
-            <stop offset="70%" stopColor="#D4AF37" stopOpacity="1" />
+            <stop offset="0%"   stopColor="#D4AF37" stopOpacity="0" />
+            <stop offset="28%"  stopColor="#D4AF37" stopOpacity="1" />
+            <stop offset="72%"  stopColor="#D4AF37" stopOpacity="1" />
             <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
           </linearGradient>
         </defs>
-        <motion.path d="M-100,400 Q400,100 1600,350" stroke="url(#sweepArc)" strokeWidth="1.5" fill="none"
+        <motion.path d="M-100,420 Q450,80 1620,360" stroke="url(#sweepArc)" strokeWidth="1.5" fill="none"
           animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] }}
+          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] }}
         />
-        <motion.path d="M-100,600 Q600,200 1700,450" stroke="url(#sweepArc)" strokeWidth="1" fill="none"
-          animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.6, 0.6, 0] }}
-          transition={{ duration: 10, delay: 3, repeat: Infinity, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] }}
+        <motion.path d="M-100,620 Q620,180 1720,470" stroke="url(#sweepArc)" strokeWidth="0.9" fill="none"
+          animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.55, 0.55, 0] }}
+          transition={{ duration: 11, delay: 4, repeat: Infinity, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] }}
+        />
+        <motion.path d="M200,-50 Q800,300 600,900" stroke="url(#sweepArc)" strokeWidth="0.7" fill="none"
+          animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.35, 0.35, 0] }}
+          transition={{ duration: 13, delay: 7, repeat: Infinity, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] }}
         />
       </svg>
 
-      {/* Slide label */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={`label-${index}`}
-          initial={{ opacity: 0, x: -12 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 8 }}
-          transition={{ duration: 0.5 }}
-          className="absolute top-1/2 -translate-y-1/2 right-8 md:right-14 hidden md:flex flex-col items-end gap-2 z-10"
-        >
-          <span className="text-[11px] font-bold tracking-[0.25em] uppercase" style={{ color: GOLD }}>{heroSlides[index].label}</span>
-          <div className="h-[1px] w-20" style={{ background: `linear-gradient(90deg, transparent, ${GOLD})` }} />
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Dot indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-2.5 items-center">
-        {heroSlides.map((_, i) => (
-          <button
-            key={i}
-            aria-label={`Slide ${i + 1}`}
-            onClick={() => setIndex(i)}
-            className="transition-all duration-500 rounded-full"
-            style={{
-              width: i === index ? '32px' : '8px',
-              height: '4px',
-              background: i === index ? GOLD : 'rgba(255,255,255,0.25)',
-              boxShadow: i === index ? `0 0 12px rgba(212,175,55,0.7)` : 'none',
-            }}
-          />
-        ))}
-      </div>
+      {/* Text legibility overlays — last */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(108deg, rgba(0,8,4,0.93) 0%, rgba(0,14,8,0.84) 32%, rgba(0,18,11,0.42) 62%, rgba(0,5,2,0.22) 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,6,3,0.97) 0%, rgba(0,10,6,0.68) 20%, transparent 48%)' }} />
     </div>
   );
 }
