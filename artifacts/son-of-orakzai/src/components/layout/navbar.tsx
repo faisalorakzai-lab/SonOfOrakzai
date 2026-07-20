@@ -163,23 +163,40 @@ export function Navbar() {
                   onMouseEnter={() => hasDropdown && handleMouseEnter(item.label)}
                   onMouseLeave={handleMouseLeave}
                 >
-                  <Link href={item.href}>
-                    <span
+                  {hasDropdown ? (
+                    /* ── Parent with dropdown: button only — no page navigation ── */
+                    <button
+                      type="button"
+                      onClick={() => setOpenDropdown(openDropdown === item.label ? null : item.label)}
                       className={cn(
-                        "flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer whitespace-nowrap",
+                        "flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer whitespace-nowrap bg-transparent border-0",
                         isActive ? "text-yellow-300" : "text-white/70 hover:text-white"
                       )}
                       style={isActive ? { color: GOLD } : {}}
                     >
                       {item.label}
-                      {hasDropdown && (
-                        <ChevronDown
-                          className="w-3 h-3 transition-transform duration-200"
-                          style={{ transform: openDropdown === item.label ? "rotate(180deg)" : "rotate(0deg)", color: openDropdown === item.label ? GOLD : "inherit" }}
-                        />
-                      )}
-                    </span>
-                  </Link>
+                      <ChevronDown
+                        className="w-3 h-3 transition-transform duration-200"
+                        style={{
+                          transform: openDropdown === item.label ? "rotate(180deg)" : "rotate(0deg)",
+                          color: openDropdown === item.label ? GOLD : "inherit",
+                        }}
+                      />
+                    </button>
+                  ) : (
+                    /* ── Leaf nav item: navigates on click ── */
+                    <Link href={item.href}>
+                      <span
+                        className={cn(
+                          "flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer whitespace-nowrap",
+                          isActive ? "text-yellow-300" : "text-white/70 hover:text-white"
+                        )}
+                        style={isActive ? { color: GOLD } : {}}
+                      >
+                        {item.label}
+                      </span>
+                    </Link>
+                  )}
                   {hasDropdown && (
                     <AnimatePresence>
                       {openDropdown === item.label && (
@@ -251,48 +268,79 @@ export function Navbar() {
               {topNavItems.map((item) => {
                 const hasDropdown = item.dropdown && dropdownMenus[item.dropdown];
                 const isOpen = mobileOpenDropdown === item.label;
+                const isActive = location === item.href;
                 return (
                   <div key={item.label}>
-                    <div
-                      className="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer"
-                      style={{ color: location === item.href ? GOLD : "rgba(255,255,255,0.75)" }}
-                      onClick={() => {
-                        if (hasDropdown) {
-                          setMobileOpenDropdown(isOpen ? null : item.label);
-                        } else {
-                          setIsMobileMenuOpen(false);
-                        }
-                      }}
-                    >
-                      <Link href={item.href} onClick={() => !hasDropdown && setIsMobileMenuOpen(false)}>
+                    {hasDropdown ? (
+                      /* ── Parent with dropdown: full-row button toggles accordion, no navigation ── */
+                      <button
+                        type="button"
+                        className="w-full flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer bg-transparent border-0 text-left"
+                        style={{ color: isActive ? GOLD : "rgba(255,255,255,0.75)" }}
+                        onClick={() => setMobileOpenDropdown(isOpen ? null : item.label)}
+                      >
                         <span className="text-sm font-medium">{item.label}</span>
-                      </Link>
-                      {hasDropdown && (
                         <ChevronDown
-                          className="w-4 h-4 transition-transform"
-                          style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0)", color: GOLD }}
+                          className="w-4 h-4 transition-transform duration-250"
+                          style={{
+                            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+                            color: GOLD,
+                            transition: "transform 0.25s ease",
+                          }}
                         />
-                      )}
-                    </div>
-                    {hasDropdown && isOpen && (
-                      <div className="ml-4 pl-4 border-l border-[rgba(212,175,55,0.15)] space-y-1 mb-2">
-                        {dropdownMenus[item.dropdown!].map((sub) => {
-                          const Icon = sub.icon;
-                          return (
-                            <Link key={sub.label} href={sub.href}>
-                              <div
-                                className="flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-pointer"
-                                style={{ color: "rgba(255,255,255,0.6)" }}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                              >
-                                <Icon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: GOLD }} />
-                                <span className="text-xs font-medium">{sub.label}</span>
-                              </div>
-                            </Link>
-                          );
-                        })}
-                      </div>
+                      </button>
+                    ) : (
+                      /* ── Leaf nav item: navigates and closes menu ── */
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <div
+                          className="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer"
+                          style={{ color: isActive ? GOLD : "rgba(255,255,255,0.75)" }}
+                        >
+                          <span className="text-sm font-medium">{item.label}</span>
+                        </div>
+                      </Link>
                     )}
+
+                    {/* ── Accordion child items ── */}
+                    <AnimatePresence initial={false}>
+                      {hasDropdown && isOpen && (
+                        <motion.div
+                          key="accordion"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.22, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                        >
+                          <div className="ml-4 pl-4 border-l border-[rgba(212,175,55,0.15)] space-y-1 mb-2 pt-1">
+                            {dropdownMenus[item.dropdown!].map((sub) => {
+                              const Icon = sub.icon;
+                              return (
+                                <Link
+                                  key={sub.label}
+                                  href={sub.href}
+                                  onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    setMobileOpenDropdown(null);
+                                  }}
+                                >
+                                  <div
+                                    className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg cursor-pointer transition-colors hover:bg-[rgba(212,175,55,0.07)]"
+                                    style={{ color: "rgba(255,255,255,0.6)" }}
+                                  >
+                                    <Icon className="w-3.5 h-3.5 flex-shrink-0" style={{ color: GOLD }} />
+                                    <span className="text-xs font-medium">{sub.label}</span>
+                                  </div>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               })}
