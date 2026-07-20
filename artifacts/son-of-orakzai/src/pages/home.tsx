@@ -6,404 +6,123 @@ import { useRef, useState, useEffect } from 'react';
 
 const GOLD = '#D4AF37';
 
-/* ── Cinematic background — particle network nodes ── */
-const cinematicNodes = [
-  { x: 8,  y: 18 }, { x: 22, y: 62 }, { x: 38, y: 28 }, { x: 52, y: 75 },
-  { x: 65, y: 15 }, { x: 70, y: 52 }, { x: 82, y: 32 }, { x: 88, y: 68 },
-  { x: 18, y: 82 }, { x: 34, y: 46 }, { x: 58, y: 40 }, { x: 14, y: 44 },
-  { x: 48, y: 10 }, { x: 76, y: 80 }, { x: 30, y: 20 }, { x: 60, y: 90 },
-];
-const cinematicLinks = [
-  [0,2],[2,4],[4,6],[6,7],[7,5],[5,3],[3,8],[8,1],[1,11],[11,0],
-  [9,2],[9,5],[9,10],[10,4],[10,6],[12,4],[12,2],[13,7],[13,5],[14,0],[14,2],
-];
-
-/* ── Impact counters ── */
-const counters = [
-  { end: 2850, label: 'Registered Members', suffix: '+', icon: PeopleIcon, desc: 'Across Pakistan & diaspora' },
-  { end: 360, label: 'Students Trained', suffix: '+', icon: CapIcon, desc: 'Education & skills programs' },
-  { end: 120, label: 'Health Cases Resolved', suffix: '+', icon: StethoscopeIcon, desc: 'Free medical assistance' },
-  { end: 8, label: 'Districts Reached', suffix: '+', icon: GlobeIcon, desc: 'Across Khyber Pakhtunkhwa & beyond' },
-  { end: 860, label: 'Active Volunteers', suffix: '+', icon: HandsIcon, desc: 'Serving communities on the ground' },
-  { end: 18, label: 'Projects Completed', suffix: '+', icon: HandshakeIcon, desc: 'Welfare, education & infrastructure initiatives' },
-];
-
-/* ── Diaspora flag strip — illustrative, to be confirmed with real chapter data ── */
-const diasporaFlags = [
-  { flag: '🇵🇰', name: 'Pakistan' },
-  { flag: '🇦🇫', name: 'Afghanistan' },
-  { flag: '🇸🇦', name: 'Saudi Arabia' },
-  { flag: '🇦🇪', name: 'UAE' },
-  { flag: '🇶🇦', name: 'Qatar' },
-  { flag: '🇴🇲', name: 'Oman' },
-  { flag: '🇧🇭', name: 'Bahrain' },
-  { flag: '🇬🇧', name: 'United Kingdom' },
-  { flag: '🇺🇸', name: 'United States' },
-  { flag: '🇨🇦', name: 'Canada' },
-  { flag: '🇲🇾', name: 'Malaysia' },
-  { flag: '🇦🇺', name: 'Australia' },
-];
-
-/* ── Countries where the Orakzai community lives — demo pins, replace with verified locations ── */
-const globalNodes = [
-  { city: 'Ghaljo', country: 'Pakistan', flag: '🇵🇰', x: 63, y: 40, tag: 'Primary Homeland' },
-  { city: 'Kabul', country: 'Afghanistan', flag: '🇦🇫', x: 60, y: 37, tag: 'Historical Homeland' },
-  { city: 'Riyadh', country: 'Saudi Arabia', flag: '🇸🇦', x: 59, y: 44, tag: 'Community' },
-  { city: 'Dubai', country: 'UAE', flag: '🇦🇪', x: 61, y: 46, tag: 'Community' },
-  { city: 'Doha', country: 'Qatar', flag: '🇶🇦', x: 60, y: 47, tag: 'Community' },
-  { city: 'Muscat', country: 'Oman', flag: '🇴🇲', x: 62, y: 48, tag: 'Community' },
-  { city: 'Manama', country: 'Bahrain', flag: '🇧🇭', x: 59, y: 45, tag: 'Community' },
-  { city: 'London', country: 'UK', flag: '🇬🇧', x: 47, y: 27, tag: 'Community' },
-  { city: 'New York', country: 'USA', flag: '🇺🇸', x: 22, y: 33, tag: 'Community' },
-  { city: 'Toronto', country: 'Canada', flag: '🇨🇦', x: 20, y: 26, tag: 'Community' },
-  { city: 'Kuala Lumpur', country: 'Malaysia', flag: '🇲🇾', x: 78, y: 58, tag: 'Community' },
-  { city: 'Sydney', country: 'Australia', flag: '🇦🇺', x: 85, y: 74, tag: 'Community' },
-];
-
-/* ── Partner / featured logos — placeholder names until real partner list is confirmed ── */
-const partnerLogos = [
-  'Global Diaspora Council', 'KP Welfare Trust', 'Crescent Relief Network', 'UnityEd Foundation', 'Frontier Health Alliance', 'Orakzai Chamber of Commerce',
-];
-
-/* ── Diaspora voices — placeholder testimonials, to be replaced with real member quotes ── */
-const testimonials = [
-  { quote: 'Orakzai.org gave our community in the Gulf a real voice — from scholarships to staying connected with home.', name: 'Sample Member', place: 'Dubai, UAE', flag: '🇦🇪' },
-  { quote: 'Even from London, I feel part of every initiative back home. The diaspora network is the reason I stay involved.', name: 'Sample Member', place: 'London, UK', flag: '🇬🇧' },
-  { quote: 'The scholarship program changed my daughter’s future. This is what a global homeland should feel like.', name: 'Sample Member', place: 'Toronto, Canada', flag: '🇨🇦' },
-];
-
-/* ── SVG Icons ── */
-function PeopleIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+/* ── Clean hero background — stable, no flickering ── */
+function HeroBg() {
   return (
-    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
-      <circle cx="18" cy="16" r="6" stroke="currentColor" strokeWidth="2.5" />
-      <circle cx="30" cy="16" r="6" stroke="currentColor" strokeWidth="2.5" />
-      <path d="M6 40c0-8 5.4-13 12-13h12c6.6 0 12 5 12 13" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-function CapIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
-      <path d="M24 10L46 20 24 30 2 20 24 10Z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
-      <path d="M12 25v10c0 4 5.4 7 12 7s12-3 12-7V25" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="46" y1="20" x2="46" y2="30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-function StethoscopeIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
-      <path d="M10 8h4a2 2 0 012 2v14a10 10 0 0020 0V16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="36" cy="14" r="4" stroke="currentColor" strokeWidth="2.5" />
-      <circle cx="36" cy="14" r="1.5" fill="currentColor" />
-      <line x1="10" y1="8" x2="10" y2="16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-function GlobeIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
-      <circle cx="24" cy="24" r="18" stroke="currentColor" strokeWidth="2.5" />
-      <ellipse cx="24" cy="24" rx="8" ry="18" stroke="currentColor" strokeWidth="2.5" />
-      <line x1="6" y1="24" x2="42" y2="24" stroke="currentColor" strokeWidth="2.5" />
-    </svg>
-  );
-}
-function HandsIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
-      <path d="M8 26l6-10a3 3 0 015 3l-4 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M40 26l-6-10a3 3 0 00-5 3l4 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M14 26h20l-2 10a4 4 0 01-4 3h-8a4 4 0 01-4-3l-2-10z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
-    </svg>
-  );
-}
-function HandshakeIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
-      <path d="M4 22l8-8 8 6 6-6 8 4-6 10-8-4-8 6-8-8z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
-      <path d="M14 30l4 6M34 30l-4 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
+    <div className="absolute inset-0 overflow-hidden">
+      {/* Base gradient */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(140deg, #000c06 0%, #001009 45%, #00140c 75%, #000a05 100%)' }} />
+      {/* Left depth glow — static */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 68% 62% at 8% 45%, rgba(4,58,38,0.42) 0%, transparent 62%)' }} />
+      {/* Subtle top-right tint */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 42% 35% at 82% 12%, rgba(8,120,75,0.055) 0%, transparent 55%)' }} />
+      {/* Fine gold lattice — left area only */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: [
+          'linear-gradient(rgba(212,175,55,0.038) 1px, transparent 1px)',
+          'linear-gradient(90deg, rgba(212,175,55,0.038) 1px, transparent 1px)',
+        ].join(', '),
+        backgroundSize: '72px 72px',
+        maskImage: 'radial-gradient(ellipse 52% 60% at 16% 50%, black 0%, transparent 70%)',
+        WebkitMaskImage: 'radial-gradient(ellipse 52% 60% at 16% 50%, black 0%, transparent 70%)',
+      }} />
+      {/* Text legibility — left-to-right fade */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, rgba(0,7,3,0.90) 0%, rgba(0,11,6,0.70) 36%, rgba(0,18,11,0.28) 64%, transparent 100%)' }} />
+      {/* Bottom vignette */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,6,3,0.95) 0%, rgba(0,10,6,0.50) 16%, transparent 38%)' }} />
+    </div>
   );
 }
 
-/* ── Animated counter hook ── */
-function useCounter(end: number, inView: boolean, duration = 2200) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    const start = 0;
-    const step = (end / duration) * 16;
-    let current = start;
-    const timer = setInterval(() => {
-      current = Math.min(current + step, end);
-      setCount(Math.floor(current));
-      if (current >= end) clearInterval(timer);
-    }, 16);
-    return () => clearInterval(timer);
-  }, [inView, end, duration]);
-  return count;
-}
-
-/* ── Floating ambient orb ── */
-function AmbientOrb({ x, y, size, color, delay }: { x: string; y: string; size: number; color: string; delay: number }) {
-  return (
-    <motion.div
-      className="absolute rounded-full pointer-events-none"
-      style={{ left: x, top: y, width: size, height: size, background: color, filter: 'blur(60px)' }}
-      animate={{ scale: [1, 1.18, 1], opacity: [0.45, 0.75, 0.45] }}
-      transition={{ duration: 6 + delay, repeat: Infinity, ease: 'easeInOut', delay }}
-    />
-  );
-}
-
-/* ── Globe SVG emblem — slow-rotating gold wireframe ── */
+/* ── Globe emblem — single slow rotation, no blinking ── */
 function GlobeEmblem() {
   return (
     <motion.div
-      className="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block pointer-events-none"
-      style={{ width: 580, height: 580, right: '-55px' }}
-      initial={{ opacity: 0, scale: 0.85, x: 50 }}
-      animate={{ opacity: 1, scale: 1, x: 0 }}
-      transition={{ duration: 1.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      className="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block pointer-events-none select-none"
+      style={{ width: 520, height: 520, right: '-36px' }}
+      initial={{ opacity: 0, x: 60 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 2.2, delay: 0.9, ease: [0.22, 1, 0.36, 1] }}
     >
-      <svg viewBox="0 0 520 520" fill="none" className="w-full h-full" aria-hidden>
+      <motion.svg
+        viewBox="0 0 520 520"
+        fill="none"
+        className="w-full h-full"
+        aria-hidden
+        style={{ transformOrigin: '260px 260px' }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+      >
         <defs>
-          <radialGradient id="globeGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#053d2e" stopOpacity="0.65" />
-            <stop offset="55%" stopColor="#021f18" stopOpacity="0.30" />
-            <stop offset="100%" stopColor="#011208" stopOpacity="0" />
+          <radialGradient id="gGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stopColor="#053d2e" stopOpacity="0.48" />
+            <stop offset="58%"  stopColor="#021f18" stopOpacity="0.16" />
+            <stop offset="100%" stopColor="#011208" stopOpacity="0"    />
           </radialGradient>
-          <radialGradient id="globeSheen" cx="32%" cy="28%" r="52%">
-            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.14" />
-            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
+          <radialGradient id="gSheen" cx="32%" cy="28%" r="50%">
+            <stop offset="0%"   stopColor="#D4AF37" stopOpacity="0.09" />
+            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0"    />
           </radialGradient>
-          <radialGradient id="globeRim" cx="50%" cy="50%" r="50%">
-            <stop offset="80%" stopColor="transparent" stopOpacity="0" />
-            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.08" />
+          <radialGradient id="gEdge" cx="50%" cy="50%" r="50%">
+            <stop offset="82%"  stopColor="transparent"  stopOpacity="0"    />
+            <stop offset="100%" stopColor="#D4AF37"       stopOpacity="0.10" />
           </radialGradient>
-          <linearGradient id="arcGold" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0" />
-            <stop offset="45%" stopColor="#D4AF37" stopOpacity="0.85" />
-            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id="arcEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#064e3b" stopOpacity="0" />
-            <stop offset="50%" stopColor="#10b981" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#064e3b" stopOpacity="0" />
-          </linearGradient>
-          <linearGradient id="arcGold2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0" />
-            <stop offset="50%" stopColor="#f0d060" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
-          </linearGradient>
         </defs>
 
-        {/* Deep glow base */}
-        <circle cx="260" cy="260" r="245" fill="url(#globeGlow)" />
-        <circle cx="260" cy="260" r="245" fill="url(#globeSheen)" />
-        <circle cx="260" cy="260" r="245" fill="url(#globeRim)" />
+        {/* Atmospheric fill */}
+        <circle cx="260" cy="260" r="240" fill="url(#gGlow)"  />
+        <circle cx="260" cy="260" r="240" fill="url(#gSheen)" />
+        <circle cx="260" cy="260" r="240" fill="url(#gEdge)"  />
 
-        {/* Static outer rings */}
-        <circle cx="260" cy="260" r="242" stroke="rgba(212,175,55,0.22)" strokeWidth="1" />
-        <circle cx="260" cy="260" r="224" stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" />
-        <circle cx="260" cy="260" r="200" stroke="rgba(212,175,55,0.05)" strokeWidth="0.4" />
+        {/* Outer rim */}
+        <circle cx="260" cy="260" r="238" stroke="rgba(212,175,55,0.30)" strokeWidth="1.2" />
+        <circle cx="260" cy="260" r="220" stroke="rgba(212,175,55,0.05)" strokeWidth="0.5" />
 
-        {/* Slow-rotating wireframe group */}
-        <motion.g
-          style={{ transformOrigin: '260px 260px' }}
-          animate={{ rotate: 360 }}
-          transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
-        >
-          <ellipse cx="260" cy="260" rx="242" ry="40"  stroke="rgba(212,175,55,0.11)" strokeWidth="0.6" fill="none" />
-          <ellipse cx="260" cy="260" rx="242" ry="80"  stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" fill="none" />
-          <ellipse cx="260" cy="260" rx="242" ry="115" stroke="rgba(212,175,55,0.11)" strokeWidth="0.6" fill="none" />
-          <ellipse cx="260" cy="260" rx="242" ry="150" stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" fill="none" />
-          <ellipse cx="260" cy="260" rx="242" ry="185" stroke="rgba(212,175,55,0.11)" strokeWidth="0.6" fill="none" />
-          <ellipse cx="260" cy="260" rx="242" ry="215" stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" fill="none" />
-          <ellipse cx="260" cy="260" rx="242" ry="235" stroke="rgba(212,175,55,0.09)" strokeWidth="0.5" fill="none" />
-          <ellipse cx="260" cy="260" rx="22"  ry="242" stroke="rgba(212,175,55,0.10)" strokeWidth="0.7" fill="none" />
-          <ellipse cx="260" cy="260" rx="68"  ry="242" stroke="rgba(212,175,55,0.06)" strokeWidth="0.5" fill="none" />
-          <ellipse cx="260" cy="260" rx="112" ry="242" stroke="rgba(212,175,55,0.10)" strokeWidth="0.7" fill="none" />
-          <ellipse cx="260" cy="260" rx="155" ry="242" stroke="rgba(212,175,55,0.06)" strokeWidth="0.5" fill="none" />
-          <ellipse cx="260" cy="260" rx="195" ry="242" stroke="rgba(212,175,55,0.10)" strokeWidth="0.7" fill="none" />
-          <ellipse cx="260" cy="260" rx="228" ry="242" stroke="rgba(212,175,55,0.06)" strokeWidth="0.5" fill="none" />
-          <ellipse cx="260" cy="260" rx="50"  ry="242" stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" fill="none" transform="rotate(40 260 260)" />
-          <ellipse cx="260" cy="260" rx="130" ry="242" stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" fill="none" transform="rotate(70 260 260)" />
-          <ellipse cx="260" cy="260" rx="200" ry="242" stroke="rgba(212,175,55,0.06)" strokeWidth="0.4" fill="none" transform="rotate(110 260 260)" />
-        </motion.g>
+        {/* Latitude ellipses */}
+        <ellipse cx="260" cy="260" rx="238" ry="32"  stroke="rgba(212,175,55,0.13)" strokeWidth="0.65" fill="none" />
+        <ellipse cx="260" cy="260" rx="238" ry="82"  stroke="rgba(212,175,55,0.09)" strokeWidth="0.55" fill="none" />
+        <ellipse cx="260" cy="260" rx="238" ry="136" stroke="rgba(212,175,55,0.13)" strokeWidth="0.65" fill="none" />
+        <ellipse cx="260" cy="260" rx="238" ry="186" stroke="rgba(212,175,55,0.09)" strokeWidth="0.55" fill="none" />
+        <ellipse cx="260" cy="260" rx="238" ry="224" stroke="rgba(212,175,55,0.11)" strokeWidth="0.60" fill="none" />
 
-        {/* Counter-rotating accent */}
-        <motion.g
-          style={{ transformOrigin: '260px 260px' }}
-          animate={{ rotate: -360 }}
-          transition={{ duration: 140, repeat: Infinity, ease: 'linear' }}
-        >
-          <ellipse cx="260" cy="260" rx="180" ry="242" stroke="rgba(212,175,55,0.06)" strokeWidth="0.5" fill="none" />
-          <ellipse cx="260" cy="260" rx="80"  ry="242" stroke="rgba(16,185,129,0.05)" strokeWidth="0.4" fill="none" />
-        </motion.g>
+        {/* Longitude meridians */}
+        <ellipse cx="260" cy="260" rx="16"  ry="238" stroke="rgba(212,175,55,0.11)" strokeWidth="0.65" fill="none" />
+        <ellipse cx="260" cy="260" rx="70"  ry="238" stroke="rgba(212,175,55,0.08)" strokeWidth="0.55" fill="none" />
+        <ellipse cx="260" cy="260" rx="128" ry="238" stroke="rgba(212,175,55,0.13)" strokeWidth="0.65" fill="none" />
+        <ellipse cx="260" cy="260" rx="182" ry="238" stroke="rgba(212,175,55,0.08)" strokeWidth="0.55" fill="none" />
+        <ellipse cx="260" cy="260" rx="222" ry="238" stroke="rgba(212,175,55,0.11)" strokeWidth="0.60" fill="none" />
 
-        {/* Animated bright meridian arcs */}
-        <motion.ellipse cx="260" cy="260" rx="242" ry="242" stroke="url(#arcGold)" strokeWidth="1.8" fill="none"
-          strokeDasharray="200 600"
-          animate={{ strokeDashoffset: [0, -800] }}
-          transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
-        />
-        <motion.ellipse cx="260" cy="260" rx="165" ry="242" stroke="url(#arcEmerald)" strokeWidth="1.1" fill="none"
-          strokeDasharray="130 500"
-          animate={{ strokeDashoffset: [0, 640] }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-        />
-        <motion.ellipse cx="260" cy="260" rx="110" ry="242" stroke="url(#arcGold2)" strokeWidth="0.9" fill="none"
-          strokeDasharray="90 480"
-          animate={{ strokeDashoffset: [0, -560] }}
-          transition={{ duration: 18, delay: 4, repeat: Infinity, ease: 'linear' }}
-        />
+        {/* Diagonal accent meridians */}
+        <ellipse cx="260" cy="260" rx="108" ry="238" stroke="rgba(212,175,55,0.06)" strokeWidth="0.45" fill="none" transform="rotate(45 260 260)"  />
+        <ellipse cx="260" cy="260" rx="155" ry="238" stroke="rgba(212,175,55,0.05)" strokeWidth="0.40" fill="none" transform="rotate(90 260 260)"  />
+        <ellipse cx="260" cy="260" rx="108" ry="238" stroke="rgba(212,175,55,0.05)" strokeWidth="0.40" fill="none" transform="rotate(135 260 260)" />
 
-        {/* Pulsing network nodes */}
-        {[
-          { cx: 175, cy: 165 }, { cx: 295, cy: 138 }, { cx: 345, cy: 208 },
-          { cx: 198, cy: 282 }, { cx: 315, cy: 302 }, { cx: 242, cy: 345 },
-          { cx: 375, cy: 258 }, { cx: 148, cy: 322 }, { cx: 282, cy: 382 },
-          { cx: 322, cy: 180 }, { cx: 212, cy: 210 },
-        ].map((pt, i) => (
-          <g key={i}>
-            <motion.circle cx={pt.cx} cy={pt.cy} r="7" fill={GOLD} opacity="0.08"
-              animate={{ r: [5, 10, 5], opacity: [0.05, 0.15, 0.05] }}
-              transition={{ duration: 2.8, delay: i * 0.32, repeat: Infinity, ease: 'easeInOut' }}
-            />
-            <motion.circle cx={pt.cx} cy={pt.cy} r="3.5" fill={GOLD}
-              animate={{ opacity: [0.35, 1, 0.35], r: [2.5, 4.2, 2.5] }}
-              transition={{ duration: 2.5, delay: i * 0.35, repeat: Infinity, ease: 'easeInOut' }}
-            />
-          </g>
+        {/* Bright primary meridian — gold */}
+        <ellipse cx="260" cy="260" rx="0" ry="238" stroke="rgba(212,175,55,0.55)" strokeWidth="1.6" fill="none" />
+
+        {/* Static network nodes */}
+        {([
+          [175,165],[295,138],[345,208],[198,282],
+          [315,302],[375,258],[148,322],[322,180],[242,345],[282,195],
+        ] as [number,number][]).map(([cx,cy],i) => (
+          <circle key={i} cx={cx} cy={cy} r="3.2" fill="#D4AF37" opacity="0.55" />
         ))}
 
-        {/* Connection lines */}
-        {[
-          [175,165, 295,138], [295,138, 345,208], [345,208, 315,302],
-          [198,282, 242,345], [375,258, 345,208], [282,382, 315,302],
-          [175,165, 148,322], [322,180, 295,138], [212,210, 198,282], [212,210, 295,138],
-        ].map(([x1,y1,x2,y2], i) => (
-          <motion.line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-            stroke="rgba(212,175,55,0.28)" strokeWidth="0.9"
-            animate={{ opacity: [0.08, 0.55, 0.08] }}
-            transition={{ duration: 3.2, delay: i * 0.26, repeat: Infinity, ease: 'easeInOut' }}
-          />
+        {/* Static connection lines */}
+        {([
+          [175,165,295,138],[295,138,345,208],[345,208,315,302],
+          [375,258,345,208],[322,180,295,138],[282,195,295,138],[242,345,315,302],
+        ] as [number,number,number,number][]).map(([x1,y1,x2,y2],i) => (
+          <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(212,175,55,0.22)" strokeWidth="0.85" />
         ))}
 
-        {/* Crosshair at center */}
-        <line x1="244" y1="260" x2="276" y2="260" stroke={GOLD} strokeWidth="1.2" opacity="0.45" />
-        <line x1="260" y1="244" x2="260" y2="276" stroke={GOLD} strokeWidth="1.2" opacity="0.45" />
-        <circle cx="260" cy="260" r="6" stroke={GOLD} strokeWidth="1.4" fill="none" opacity="0.5" />
-        <circle cx="260" cy="260" r="2.5" fill={GOLD} opacity="0.55" />
-      </svg>
+        {/* Centre crosshair */}
+        <line x1="246" y1="260" x2="274" y2="260" stroke="#D4AF37" strokeWidth="1.0" opacity="0.32" />
+        <line x1="260" y1="246" x2="260" y2="274" stroke="#D4AF37" strokeWidth="1.0" opacity="0.32" />
+        <circle cx="260" cy="260" r="5.5" stroke="#D4AF37" strokeWidth="1.2" fill="none" opacity="0.38" />
+        <circle cx="260" cy="260" r="2.2" fill="#D4AF37" opacity="0.48" />
+      </motion.svg>
     </motion.div>
-  );
-}
-
-
-/* ── Cinematic Background — particle network + animated atmosphere ── */
-function CinematicBg() {
-  return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* Deep dark-emerald base */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(155deg, #000d06 0%, #001108 25%, #00120b 55%, #000b05 100%)' }} />
-
-      {/* Slow-pulsing atmosphere washes */}
-      <motion.div className="absolute inset-0 pointer-events-none"
-        animate={{ opacity: [0.55, 1, 0.55] }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'radial-gradient(ellipse 85% 65% at 18% 42%, rgba(6,78,59,0.30) 0%, transparent 65%)' }} />
-      <motion.div className="absolute inset-0 pointer-events-none"
-        animate={{ opacity: [0.25, 0.65, 0.25] }}
-        transition={{ duration: 20, delay: 6, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'radial-gradient(ellipse 55% 48% at 78% 62%, rgba(16,185,129,0.07) 0%, transparent 60%)' }} />
-      <motion.div className="absolute inset-0 pointer-events-none"
-        animate={{ opacity: [0.15, 0.40, 0.15] }}
-        transition={{ duration: 24, delay: 10, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'radial-gradient(ellipse 48% 38% at 52% 78%, rgba(212,175,55,0.05) 0%, transparent 68%)' }} />
-      <motion.div className="absolute inset-0 pointer-events-none"
-        animate={{ opacity: [0.2, 0.5, 0.2] }}
-        transition={{ duration: 18, delay: 3, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'radial-gradient(ellipse 35% 45% at 5% 80%, rgba(6,60,40,0.20) 0%, transparent 60%)' }} />
-
-      {/* Fine gold lattice grid */}
-      <div className="absolute inset-0 pointer-events-none" style={{
-        backgroundImage: [
-          'linear-gradient(rgba(212,175,55,0.045) 1px, transparent 1px)',
-          'linear-gradient(90deg, rgba(212,175,55,0.045) 1px, transparent 1px)',
-        ].join(', '),
-        backgroundSize: '68px 68px',
-        maskImage: 'radial-gradient(ellipse 68% 72% at 22% 50%, black 12%, transparent 72%)',
-        WebkitMaskImage: 'radial-gradient(ellipse 68% 72% at 22% 50%, black 12%, transparent 72%)',
-      }} />
-
-      {/* Ambient floating orbs */}
-      <AmbientOrb x="4%"  y="12%" size={320} color="rgba(6,78,59,0.38)"   delay={0} />
-      <AmbientOrb x="58%" y="58%" size={220} color="rgba(212,175,55,0.055)" delay={2.5} />
-      <AmbientOrb x="78%" y="8%"  size={170} color="rgba(16,185,129,0.07)" delay={1.2} />
-      <AmbientOrb x="15%" y="70%" size={180} color="rgba(4,50,30,0.25)"   delay={4} />
-
-      {/* Particle network SVG */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden
-        viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
-        {cinematicLinks.map(([a, b], i) => (
-          <motion.line key={i}
-            x1={cinematicNodes[a].x} y1={cinematicNodes[a].y}
-            x2={cinematicNodes[b].x} y2={cinematicNodes[b].y}
-            stroke="rgba(212,175,55,0.18)" strokeWidth="0.09"
-            animate={{ opacity: [0.04, 0.28, 0.04] }}
-            transition={{ duration: 4.5 + i * 0.35, delay: i * 0.28, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        ))}
-        {cinematicNodes.map((n, i) => (
-          <motion.circle key={i} cx={n.x} cy={n.y} r="0.38" fill={GOLD}
-            animate={{ opacity: [0.18, 0.95, 0.18], r: [0.22, 0.50, 0.22] }}
-            transition={{ duration: 2.8 + i * 0.28, delay: i * 0.22, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        ))}
-        {[[0,2],[4,6],[9,5],[13,7],[2,9],[6,10]].map(([a,b], i) => (
-          <motion.circle key={`pulse-${i}`} r="0.22" fill={GOLD}
-            animate={{
-              cx: [cinematicNodes[a].x, cinematicNodes[b].x, cinematicNodes[a].x],
-              cy: [cinematicNodes[a].y, cinematicNodes[b].y, cinematicNodes[a].y],
-              opacity: [0, 1, 0],
-            }}
-            transition={{ duration: 4.5 + i * 0.7, delay: i * 1.2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        ))}
-      </svg>
-
-      {/* Sweeping gold arc */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden style={{ opacity: 0.09 }}>
-        <defs>
-          <linearGradient id="sweepArc" x1="0%" y1="50%" x2="100%" y2="50%">
-            <stop offset="0%"   stopColor="#D4AF37" stopOpacity="0" />
-            <stop offset="28%"  stopColor="#D4AF37" stopOpacity="1" />
-            <stop offset="72%"  stopColor="#D4AF37" stopOpacity="1" />
-            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <motion.path d="M-100,420 Q450,80 1620,360" stroke="url(#sweepArc)" strokeWidth="1.5" fill="none"
-          animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] }}
-        />
-        <motion.path d="M-100,620 Q620,180 1720,470" stroke="url(#sweepArc)" strokeWidth="0.9" fill="none"
-          animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.55, 0.55, 0] }}
-          transition={{ duration: 11, delay: 4, repeat: Infinity, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] }}
-        />
-        <motion.path d="M200,-50 Q800,300 600,900" stroke="url(#sweepArc)" strokeWidth="0.7" fill="none"
-          animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.35, 0.35, 0] }}
-          transition={{ duration: 13, delay: 7, repeat: Infinity, ease: 'easeInOut', times: [0, 0.4, 0.7, 1] }}
-        />
-      </svg>
-
-      {/* Text legibility overlays — last */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(108deg, rgba(0,8,4,0.93) 0%, rgba(0,14,8,0.84) 32%, rgba(0,18,11,0.42) 62%, rgba(0,5,2,0.22) 100%)' }} />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,6,3,0.97) 0%, rgba(0,10,6,0.68) 20%, transparent 48%)' }} />
-    </div>
   );
 }
 
@@ -1198,7 +917,7 @@ export default function Home() {
           HERO SECTION
       ═══════════════════════════════ */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
-        <CinematicBg />
+        <HeroBg />
 
         {/* Decorative globe emblem — right side, desktop only */}
         <div className="absolute inset-0 z-[5] pointer-events-none">
