@@ -30,7 +30,7 @@ const partnerLogos = [
 const testimonials = [
   { quote: 'Orakzai.org gave our community in the Gulf a real voice — from scholarships to staying connected with home.', name: 'Sample Member', place: 'Dubai, UAE', flag: '🇦🇪' },
   { quote: 'Even from London, I feel part of every initiative back home. The diaspora network is the reason I stay involved.', name: 'Sample Member', place: 'London, UK', flag: '🇬🇧' },
-  { quote: 'The scholarship program changed my daughter's future. This is what a global homeland should feel like.', name: 'Sample Member', place: 'Toronto, Canada', flag: '🇨🇦' },
+  { quote: "The scholarship program changed my daughter's future. This is what a global homeland should feel like.", name: 'Sample Member', place: 'Toronto, Canada', flag: '🇨🇦' },
 ];
 
 /* ── SVG Icons ── */
