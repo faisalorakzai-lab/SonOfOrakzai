@@ -6,13 +6,17 @@ import { useRef, useState, useEffect } from 'react';
 
 const GOLD = '#D4AF37';
 
-/* ── Hero background slideshow — 3-second interval ── */
-const heroSlides = [
-  { src: '/hero-community.jpg', alt: 'Orakzai.org community outreach — education for children', label: 'Community Education' },
-  { src: '/hero-education.jpg', alt: 'Orakzai.org leadership and business strategy', label: 'Strategic Leadership' },
-  { src: '/hero-relief.jpg', alt: 'Orakzai.org humanitarian relief distribution', label: 'Humanitarian Relief' },
-  { src: '/hero-youth.jpg', alt: 'Orakzai.org digital youth empowerment', label: 'Digital Empowerment' },
+/* ── Cinematic background — particle network nodes ── */
+const cinematicNodes = [
+  { x: 8,  y: 18 }, { x: 22, y: 62 }, { x: 38, y: 28 }, { x: 52, y: 75 },
+  { x: 65, y: 15 }, { x: 70, y: 52 }, { x: 82, y: 32 }, { x: 88, y: 68 },
+  { x: 18, y: 82 }, { x: 34, y: 46 }, { x: 58, y: 40 }, { x: 14, y: 44 },
+  { x: 48, y: 10 }, { x: 76, y: 80 }, { x: 30, y: 20 }, { x: 60, y: 90 },
 ];
+const cinematicLinks = [
+  [0,2],[2,4],[4,6],[6,7],[7,5],[5,3],[3,8],[8,1],[1,11],[11,0],
+  [9,2],[9,5],[9,10],[10,4],[10,6],[12,4],[12,2],[13,7],[13,5],[14,0],[14,2],
+];];
 
 /* ── Impact counters ── */
 const counters = [
@@ -154,105 +158,152 @@ function AmbientOrb({ x, y, size, color, delay }: { x: string; y: string; size: 
   );
 }
 
-/* ── Globe SVG emblem — right-side decorative ── */
+/* ── Globe SVG emblem — slow-rotating gold wireframe ── */
 function GlobeEmblem() {
   return (
     <motion.div
       className="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block pointer-events-none"
-      style={{ width: 520, height: 520, right: '-80px' }}
-      initial={{ opacity: 0, scale: 0.88, x: 40 }}
+      style={{ width: 580, height: 580, right: '-55px' }}
+      initial={{ opacity: 0, scale: 0.85, x: 50 }}
       animate={{ opacity: 1, scale: 1, x: 0 }}
-      transition={{ duration: 1.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 1.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
     >
       <svg viewBox="0 0 520 520" fill="none" className="w-full h-full" aria-hidden>
         <defs>
           <radialGradient id="globeGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#064e3b" stopOpacity="0.55" />
-            <stop offset="60%" stopColor="#022c22" stopOpacity="0.28" />
-            <stop offset="100%" stopColor="#011a10" stopOpacity="0" />
+            <stop offset="0%" stopColor="#053d2e" stopOpacity="0.65" />
+            <stop offset="55%" stopColor="#021f18" stopOpacity="0.30" />
+            <stop offset="100%" stopColor="#011208" stopOpacity="0" />
           </radialGradient>
-          <radialGradient id="globeSheen" cx="35%" cy="30%" r="55%">
-            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.12" />
+          <radialGradient id="globeSheen" cx="32%" cy="28%" r="52%">
+            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.14" />
             <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="globeRim" cx="50%" cy="50%" r="50%">
+            <stop offset="80%" stopColor="transparent" stopOpacity="0" />
+            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.08" />
           </radialGradient>
           <linearGradient id="arcGold" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#D4AF37" stopOpacity="0" />
-            <stop offset="50%" stopColor="#D4AF37" stopOpacity="0.7" />
+            <stop offset="45%" stopColor="#D4AF37" stopOpacity="0.85" />
             <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
           </linearGradient>
           <linearGradient id="arcEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#064e3b" stopOpacity="0" />
-            <stop offset="50%" stopColor="#10b981" stopOpacity="0.5" />
+            <stop offset="50%" stopColor="#10b981" stopOpacity="0.55" />
             <stop offset="100%" stopColor="#064e3b" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="arcGold2" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0" />
+            <stop offset="50%" stopColor="#f0d060" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
           </linearGradient>
         </defs>
 
-        {/* Glow base */}
-        <circle cx="260" cy="260" r="240" fill="url(#globeGlow)" />
-        <circle cx="260" cy="260" r="240" fill="url(#globeSheen)" />
+        {/* Deep glow base */}
+        <circle cx="260" cy="260" r="245" fill="url(#globeGlow)" />
+        <circle cx="260" cy="260" r="245" fill="url(#globeSheen)" />
+        <circle cx="260" cy="260" r="245" fill="url(#globeRim)" />
 
-        {/* Outer ring */}
-        <circle cx="260" cy="260" r="238" stroke="rgba(212,175,55,0.18)" strokeWidth="1" />
-        <circle cx="260" cy="260" r="220" stroke="rgba(212,175,55,0.08)" strokeWidth="0.6" />
+        {/* Static outer rings */}
+        <circle cx="260" cy="260" r="242" stroke="rgba(212,175,55,0.22)" strokeWidth="1" />
+        <circle cx="260" cy="260" r="224" stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" />
+        <circle cx="260" cy="260" r="200" stroke="rgba(212,175,55,0.05)" strokeWidth="0.4" />
 
-        {/* Latitude lines */}
-        {[50, 80, 110, 150, 190, 220].map((ry, i) => (
-          <ellipse key={i} cx="260" cy="260" rx={Math.sqrt(238*238 - (260 - (260 - ry + 20))*(260 - (260 - ry + 20))) || 180} ry={ry} stroke="rgba(212,175,55,0.09)" strokeWidth="0.7" fill="none" />
-        ))}
+        {/* Slow-rotating wireframe group */}
+        <motion.g
+          style={{ transformOrigin: '260px 260px' }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
+        >
+          <ellipse cx="260" cy="260" rx="242" ry="40"  stroke="rgba(212,175,55,0.11)" strokeWidth="0.6" fill="none" />
+          <ellipse cx="260" cy="260" rx="242" ry="80"  stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" fill="none" />
+          <ellipse cx="260" cy="260" rx="242" ry="115" stroke="rgba(212,175,55,0.11)" strokeWidth="0.6" fill="none" />
+          <ellipse cx="260" cy="260" rx="242" ry="150" stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" fill="none" />
+          <ellipse cx="260" cy="260" rx="242" ry="185" stroke="rgba(212,175,55,0.11)" strokeWidth="0.6" fill="none" />
+          <ellipse cx="260" cy="260" rx="242" ry="215" stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" fill="none" />
+          <ellipse cx="260" cy="260" rx="242" ry="235" stroke="rgba(212,175,55,0.09)" strokeWidth="0.5" fill="none" />
+          <ellipse cx="260" cy="260" rx="22"  ry="242" stroke="rgba(212,175,55,0.10)" strokeWidth="0.7" fill="none" />
+          <ellipse cx="260" cy="260" rx="68"  ry="242" stroke="rgba(212,175,55,0.06)" strokeWidth="0.5" fill="none" />
+          <ellipse cx="260" cy="260" rx="112" ry="242" stroke="rgba(212,175,55,0.10)" strokeWidth="0.7" fill="none" />
+          <ellipse cx="260" cy="260" rx="155" ry="242" stroke="rgba(212,175,55,0.06)" strokeWidth="0.5" fill="none" />
+          <ellipse cx="260" cy="260" rx="195" ry="242" stroke="rgba(212,175,55,0.10)" strokeWidth="0.7" fill="none" />
+          <ellipse cx="260" cy="260" rx="228" ry="242" stroke="rgba(212,175,55,0.06)" strokeWidth="0.5" fill="none" />
+          <ellipse cx="260" cy="260" rx="50"  ry="242" stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" fill="none" transform="rotate(40 260 260)" />
+          <ellipse cx="260" cy="260" rx="130" ry="242" stroke="rgba(212,175,55,0.07)" strokeWidth="0.5" fill="none" transform="rotate(70 260 260)" />
+          <ellipse cx="260" cy="260" rx="200" ry="242" stroke="rgba(212,175,55,0.06)" strokeWidth="0.4" fill="none" transform="rotate(110 260 260)" />
+        </motion.g>
 
-        {/* Longitude arcs */}
-        {[0, 30, 60, 90, 120, 150].map((angle, i) => (
-          <ellipse key={i} cx="260" cy="260" rx={30 + i * 28} ry="238" stroke="rgba(212,175,55,0.07)" strokeWidth="0.6" fill="none"
-            transform={`rotate(${angle} 260 260)`} />
-        ))}
+        {/* Counter-rotating accent */}
+        <motion.g
+          style={{ transformOrigin: '260px 260px' }}
+          animate={{ rotate: -360 }}
+          transition={{ duration: 140, repeat: Infinity, ease: 'linear' }}
+        >
+          <ellipse cx="260" cy="260" rx="180" ry="242" stroke="rgba(212,175,55,0.06)" strokeWidth="0.5" fill="none" />
+          <ellipse cx="260" cy="260" rx="80"  ry="242" stroke="rgba(16,185,129,0.05)" strokeWidth="0.4" fill="none" />
+        </motion.g>
 
-        {/* Bright meridian arcs — animated */}
-        <motion.ellipse cx="260" cy="260" rx="238" ry="238" stroke="url(#arcGold)" strokeWidth="1.5" fill="none"
-          strokeDasharray="180 600"
-          animate={{ strokeDashoffset: [0, -780] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+        {/* Animated bright meridian arcs */}
+        <motion.ellipse cx="260" cy="260" rx="242" ry="242" stroke="url(#arcGold)" strokeWidth="1.8" fill="none"
+          strokeDasharray="200 600"
+          animate={{ strokeDashoffset: [0, -800] }}
+          transition={{ duration: 14, repeat: Infinity, ease: 'linear' }}
         />
-        <motion.ellipse cx="260" cy="260" rx="160" ry="238" stroke="url(#arcEmerald)" strokeWidth="1" fill="none"
-          strokeDasharray="120 500"
-          animate={{ strokeDashoffset: [0, 620] }}
-          transition={{ duration: 16, repeat: Infinity, ease: 'linear' }}
+        <motion.ellipse cx="260" cy="260" rx="165" ry="242" stroke="url(#arcEmerald)" strokeWidth="1.1" fill="none"
+          strokeDasharray="130 500"
+          animate={{ strokeDashoffset: [0, 640] }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+        />
+        <motion.ellipse cx="260" cy="260" rx="110" ry="242" stroke="url(#arcGold2)" strokeWidth="0.9" fill="none"
+          strokeDasharray="90 480"
+          animate={{ strokeDashoffset: [0, -560] }}
+          transition={{ duration: 18, delay: 4, repeat: Infinity, ease: 'linear' }}
         />
 
-        {/* Global node dots */}
+        {/* Pulsing network nodes */}
         {[
-          { cx: 180, cy: 170 }, { cx: 290, cy: 140 }, { cx: 340, cy: 210 },
-          { cx: 200, cy: 280 }, { cx: 310, cy: 300 }, { cx: 240, cy: 340 },
-          { cx: 370, cy: 260 }, { cx: 150, cy: 320 }, { cx: 280, cy: 380 },
+          { cx: 175, cy: 165 }, { cx: 295, cy: 138 }, { cx: 345, cy: 208 },
+          { cx: 198, cy: 282 }, { cx: 315, cy: 302 }, { cx: 242, cy: 345 },
+          { cx: 375, cy: 258 }, { cx: 148, cy: 322 }, { cx: 282, cy: 382 },
+          { cx: 322, cy: 180 }, { cx: 212, cy: 210 },
         ].map((pt, i) => (
-          <motion.circle key={i} cx={pt.cx} cy={pt.cy} r="3.5" fill={GOLD}
-            animate={{ opacity: [0.3, 1, 0.3], r: [2.5, 4, 2.5] }}
-            transition={{ duration: 2.5, delay: i * 0.35, repeat: Infinity, ease: 'easeInOut' }}
-          />
+          <g key={i}>
+            <motion.circle cx={pt.cx} cy={pt.cy} r="7" fill={GOLD} opacity="0.08"
+              animate={{ r: [5, 10, 5], opacity: [0.05, 0.15, 0.05] }}
+              transition={{ duration: 2.8, delay: i * 0.32, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <motion.circle cx={pt.cx} cy={pt.cy} r="3.5" fill={GOLD}
+              animate={{ opacity: [0.35, 1, 0.35], r: [2.5, 4.2, 2.5] }}
+              transition={{ duration: 2.5, delay: i * 0.35, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          </g>
         ))}
 
-        {/* Connection lines between nodes */}
+        {/* Connection lines */}
         {[
-          [180,170, 290,140], [290,140, 340,210], [340,210, 310,300],
-          [310,300, 280,380], [200,280, 240,340], [150,320, 200,280],
-          [370,260, 340,210], [290,140, 200,280], [180,170, 150,320],
+          [175,165, 295,138], [295,138, 345,208], [345,208, 315,302],
+          [198,282, 242,345], [375,258, 345,208], [282,382, 315,302],
+          [175,165, 148,322], [322,180, 295,138], [212,210, 198,282], [212,210, 295,138],
         ].map(([x1,y1,x2,y2], i) => (
           <motion.line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-            stroke="rgba(212,175,55,0.22)" strokeWidth="0.8"
-            animate={{ opacity: [0.1, 0.5, 0.1] }}
-            transition={{ duration: 3, delay: i * 0.28, repeat: Infinity, ease: 'easeInOut' }}
+            stroke="rgba(212,175,55,0.28)" strokeWidth="0.9"
+            animate={{ opacity: [0.08, 0.55, 0.08] }}
+            transition={{ duration: 3.2, delay: i * 0.26, repeat: Infinity, ease: 'easeInOut' }}
           />
         ))}
 
-        {/* Gold cross-hairs at center */}
-        <line x1="245" y1="260" x2="275" y2="260" stroke={GOLD} strokeWidth="1" opacity="0.4" />
-        <line x1="260" y1="245" x2="260" y2="275" stroke={GOLD} strokeWidth="1" opacity="0.4" />
-        <circle cx="260" cy="260" r="5" stroke={GOLD} strokeWidth="1.2" fill="none" opacity="0.5" />
+        {/* Crosshair at center */}
+        <line x1="244" y1="260" x2="276" y2="260" stroke={GOLD} strokeWidth="1.2" opacity="0.45" />
+        <line x1="260" y1="244" x2="260" y2="276" stroke={GOLD} strokeWidth="1.2" opacity="0.45" />
+        <circle cx="260" cy="260" r="6" stroke={GOLD} strokeWidth="1.4" fill="none" opacity="0.5" />
+        <circle cx="260" cy="260" r="2.5" fill={GOLD} opacity="0.55" />
       </svg>
     </motion.div>
   );
 }
 
-/* ── Hero Slideshow ── */
+
 function HeroSlideshow() {
   const [index, setIndex] = useState(0);
 
@@ -1154,7 +1205,7 @@ export default function Home() {
           HERO SECTION
       ═══════════════════════════════ */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
-        <HeroSlideshow />
+        <CinematicBg />
 
         {/* Decorative globe emblem — right side, desktop only */}
         <div className="absolute inset-0 z-[5] pointer-events-none">
@@ -1170,7 +1221,7 @@ export default function Home() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="inline-flex items-center gap-3 mb-7"
+              className="inline-flex items-center gap-3 mb-10"
             >
               <div className="h-px w-8 flex-shrink-0" style={{ background: `linear-gradient(90deg, transparent, ${GOLD})` }} />
               <span
@@ -1187,7 +1238,7 @@ export default function Home() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.35 }}
-              className="flex flex-wrap items-center gap-3 mb-8"
+              className="flex flex-wrap items-center gap-3 mb-12"
             >
               <div
                 className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full"
@@ -1223,7 +1274,7 @@ export default function Home() {
               transition={{ duration: 1.1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
               <h1
-                className="font-black text-white leading-[1.05] mb-5"
+                className="font-black text-white leading-[1.05] mb-8"
                 style={{
                   fontFamily: "'Playfair Display', serif",
                   fontSize: 'clamp(2.6rem, 7vw, 5rem)',
@@ -1254,7 +1305,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.75 }}
             >
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 mb-10">
                 <div className="h-px flex-1 max-w-[60px]" style={{ background: `linear-gradient(90deg, ${GOLD}, transparent)` }} />
                 <h2
                   className="text-xs md:text-sm font-black tracking-[0.45em] uppercase"
@@ -1266,7 +1317,7 @@ export default function Home() {
               </div>
 
               <p
-                className="leading-[1.8] mb-10"
+                className="leading-[1.8] mb-14"
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
                   fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
@@ -1286,72 +1337,75 @@ export default function Home() {
               transition={{ duration: 0.9, delay: 1 }}
               className="flex flex-col sm:flex-row gap-4"
             >
-              {/* Primary CTA — glassmorphism + gold gradient hover */}
+              {/* Primary CTA — gold gradient glassmorphism with shimmer */}
               <Link
                 href="/join"
-                className="relative overflow-hidden px-9 py-4 rounded-full font-bold text-base active:scale-95 group inline-block text-center"
+                className="relative overflow-hidden px-10 py-4 rounded-full font-bold text-base inline-block text-center"
                 style={{
-                  background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
+                  background: `linear-gradient(135deg, #a0740a 0%, ${GOLD} 40%, #f5e07a 72%, ${GOLD} 100%)`,
                   backgroundSize: '200% auto',
-                  color: '#011a10',
-                  boxShadow: `0 8px 40px rgba(212,175,55,0.50), 0 2px 8px rgba(212,175,55,0.3), inset 0 1px 0 rgba(255,255,255,0.25)`,
-                  fontFamily: "'Playfair Display', serif",
-                  letterSpacing: '0.05em',
-                  transition: 'background-position 0.6s ease, transform 0.25s ease, box-shadow 0.35s ease',
+                  color: '#021a0c',
+                  boxShadow: `0 6px 32px rgba(212,175,55,0.45), 0 2px 8px rgba(212,175,55,0.25), inset 0 1px 0 rgba(255,255,255,0.22)`,
+                  transition: 'transform 0.28s ease, box-shadow 0.28s ease, background-position 0.5s ease',
+                  letterSpacing: '0.04em',
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.backgroundPosition = 'right center';
-                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-3px)';
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 14px 50px rgba(212,175,55,0.65), 0 4px 12px rgba(212,175,55,0.4), inset 0 1px 0 rgba(255,255,255,0.35)`;
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.transform = 'translateY(-4px) scale(1.02)';
+                  el.style.boxShadow = `0 14px 48px rgba(212,175,55,0.60), 0 4px 16px rgba(212,175,55,0.35), inset 0 1px 0 rgba(255,255,255,0.25)`;
+                  el.style.backgroundPosition = 'right center';
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.backgroundPosition = 'left center';
-                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 8px 40px rgba(212,175,55,0.50), 0 2px 8px rgba(212,175,55,0.3), inset 0 1px 0 rgba(255,255,255,0.25)`;
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.transform = 'translateY(0) scale(1)';
+                  el.style.boxShadow = `0 6px 32px rgba(212,175,55,0.45), 0 2px 8px rgba(212,175,55,0.25), inset 0 1px 0 rgba(255,255,255,0.22)`;
+                  el.style.backgroundPosition = 'left center';
                 }}
               >
-                {/* Glassmorphism sheen */}
-                <span
+                <motion.span
                   className="absolute inset-0 rounded-full pointer-events-none"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.0) 60%)',
-                    backdropFilter: 'blur(2px)',
-                  }}
+                  style={{ background: 'linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.22) 50%, transparent 65%)' }}
+                  animate={{ x: ['-100%', '160%'] }}
+                  transition={{ duration: 2.8, repeat: Infinity, repeatDelay: 3.5, ease: 'easeInOut' }}
                 />
-                <span className="relative z-10">Join the Movement</span>
+                <span className="relative z-10 flex items-center justify-center gap-2.5">
+                  <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="8" cy="8" r="6.5" /><path d="M8 5v3l2 1.2" />
+                  </svg>
+                  Become a Member
+                </span>
               </Link>
 
-              {/* Secondary CTA — glass border with smooth gold hover blend */}
+              {/* Secondary CTA — glass border */}
               <Link
                 href="/about"
-                className="relative overflow-hidden px-9 py-4 rounded-full font-semibold text-base text-white active:scale-95 inline-block text-center group"
+                className="relative overflow-hidden px-9 py-4 rounded-full font-semibold text-base inline-block text-center"
                 style={{
-                  border: `1.5px solid rgba(212,175,55,0.55)`,
-                  backdropFilter: 'blur(14px)',
-                  WebkitBackdropFilter: 'blur(14px)',
-                  background: 'rgba(212,175,55,0.06)',
-                  fontFamily: "'Playfair Display', serif",
-                  letterSpacing: '0.05em',
-                  transition: 'background 0.45s ease, border-color 0.35s ease, transform 0.25s ease, box-shadow 0.35s ease',
+                  background: 'rgba(212,175,55,0.07)',
+                  border: '1.5px solid rgba(212,175,55,0.50)',
+                  color: 'rgba(255,255,255,0.88)',
+                  backdropFilter: 'blur(12px)',
+                  boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06)',
+                  transition: 'background 0.32s ease, border-color 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease',
+                  letterSpacing: '0.04em',
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(212,175,55,0.14)';
-                  (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(212,175,55,0.85)';
-                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-3px)';
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 8px 30px rgba(212,175,55,0.22)';
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.background = 'rgba(212,175,55,0.16)';
+                  el.style.borderColor = 'rgba(212,175,55,0.90)';
+                  el.style.transform = 'translateY(-4px)';
+                  el.style.boxShadow = '0 10px 32px rgba(212,175,55,0.22), inset 0 1px 0 rgba(255,255,255,0.10)';
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(212,175,55,0.06)';
-                  (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(212,175,55,0.55)';
-                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)';
-                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = 'none';
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.background = 'rgba(212,175,55,0.07)';
+                  el.style.borderColor = 'rgba(212,175,55,0.50)';
+                  el.style.transform = 'translateY(0)';
+                  el.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.06)';
                 }}
               >
-                {/* Inner glass sheen */}
-                <span
-                  className="absolute inset-0 rounded-full pointer-events-none"
-                  style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)' }}
-                />
+                <span className="absolute inset-0 rounded-full pointer-events-none"
+                  style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 60%)' }} />
                 <span className="relative z-10">Our Story</span>
               </Link>
             </motion.div>
@@ -1361,7 +1415,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1.3 }}
-              className="mt-16 flex gap-8 md:gap-12"
+              className="mt-20 flex gap-8 md:gap-12"
             >
               {[
                 { val: '2.85K+', label: 'Members' },
