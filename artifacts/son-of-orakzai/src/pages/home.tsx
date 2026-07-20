@@ -5,6 +5,117 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 
 const GOLD = '#D4AF37';
+/* ── SVG Icons ── */
+function PeopleIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
+      <circle cx="18" cy="16" r="6" stroke="currentColor" strokeWidth="2.5" />
+      <circle cx="30" cy="16" r="6" stroke="currentColor" strokeWidth="2.5" />
+      <path d="M6 40c0-8 5.4-13 12-13h12c6.6 0 12 5 12 13" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+function CapIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
+      <path d="M24 10L46 20 24 30 2 20 24 10Z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M12 25v10c0 4 5.4 7 12 7s12-3 12-7V25" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <line x1="46" y1="20" x2="46" y2="30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+function StethoscopeIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
+      <path d="M10 8h4a2 2 0 012 2v14a10 10 0 0020 0V16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="36" cy="14" r="4" stroke="currentColor" strokeWidth="2.5" />
+      <circle cx="36" cy="14" r="1.5" fill="currentColor" />
+      <line x1="10" y1="8" x2="10" y2="16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+function GlobeIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
+      <circle cx="24" cy="24" r="18" stroke="currentColor" strokeWidth="2.5" />
+      <ellipse cx="24" cy="24" rx="8" ry="18" stroke="currentColor" strokeWidth="2.5" />
+      <line x1="6" y1="24" x2="42" y2="24" stroke="currentColor" strokeWidth="2.5" />
+    </svg>
+  );
+}
+function HandsIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
+      <path d="M8 26l6-10a3 3 0 015 3l-4 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M40 26l-6-10a3 3 0 00-5 3l4 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M14 26h20l-2 10a4 4 0 01-4 3h-8a4 4 0 01-4-3l-2-10z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
+    </svg>
+  );
+}
+function HandshakeIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
+      <path d="M4 22l8-8 8 6 6-6 8 4-6 10-8-4-8 6-8-8z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+      <path d="M14 30l4 6M34 30l-4 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/* ── Floating ambient orb ── */
+function AmbientOrb({ x, y, size, color, delay }: { x: string; y: string; size: number; color: string; delay: number }) {
+  return (
+    <motion.div
+      className="absolute rounded-full pointer-events-none"
+      style={{ left: x, top: y, width: size, height: size, background: color, filter: 'blur(60px)' }}
+      animate={{ scale: [1, 1.18, 1], opacity: [0.45, 0.75, 0.45] }}
+      transition={{ duration: 6 + delay, repeat: Infinity, ease: 'easeInOut', delay }}
+    />
+  );
+}
+
+/* ── Animated counter hook ── */
+function useCounter(end: number, inView: boolean, duration = 2200) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const step = (end / duration) * 16;
+    let current = 0;
+    const timer = setInterval(() => {
+      current = Math.min(current + step, end);
+      setCount(Math.floor(current));
+      if (current >= end) clearInterval(timer);
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, end, duration]);
+  return count;
+}
+
+/* ── Impact counters ── */
+const counters = [
+  { end: 2850, label: 'Registered Members', suffix: '+', icon: PeopleIcon, desc: 'Across Pakistan & diaspora' },
+  { end: 360, label: 'Students Trained', suffix: '+', icon: CapIcon, desc: 'Education & skills programs' },
+  { end: 120, label: 'Health Cases Resolved', suffix: '+', icon: StethoscopeIcon, desc: 'Free medical assistance' },
+  { end: 8, label: 'Districts Reached', suffix: '+', icon: GlobeIcon, desc: 'Across Khyber Pakhtunkhwa & beyond' },
+  { end: 860, label: 'Active Volunteers', suffix: '+', icon: HandsIcon, desc: 'Serving communities on the ground' },
+  { end: 18, label: 'Projects Completed', suffix: '+', icon: HandshakeIcon, desc: 'Welfare, education & infrastructure initiatives' },
+];
+
+/* ── Diaspora flag strip ── */
+const diasporaFlags = [
+  { flag: '🇵🇰', name: 'Pakistan' },
+  { flag: '🇦🇫', name: 'Afghanistan' },
+  { flag: '🇸🇦', name: 'Saudi Arabia' },
+  { flag: '🇦🇪', name: 'UAE' },
+  { flag: '🇶🇦', name: 'Qatar' },
+  { flag: '🇴🇲', name: 'Oman' },
+  { flag: '🇧🇭', name: 'Bahrain' },
+  { flag: '🇬🇧', name: 'United Kingdom' },
+  { flag: '🇺🇸', name: 'United States' },
+  { flag: '🇨🇦', name: 'Canada' },
+  { flag: '🇲🇾', name: 'Malaysia' },
+  { flag: '🇦🇺', name: 'Australia' },
+];
+
 /* ── Global Orakzai community nodes ── */
 const globalNodes = [
   { city: 'Ghaljo', country: 'Pakistan', flag: '🇵🇰', x: 63, y: 40, tag: 'Primary Homeland' },
@@ -33,34 +144,6 @@ const testimonials = [
   { quote: "The scholarship program changed my daughter's future. This is what a global homeland should feel like.", name: 'Sample Member', place: 'Toronto, Canada', flag: '🇨🇦' },
 ];
 
-/* ── SVG Icons ── */
-function GlobeIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <svg viewBox="0 0 48 48" className={className} style={style} fill="none">
-      <circle cx="24" cy="24" r="18" stroke="currentColor" strokeWidth="2.5" />
-      <ellipse cx="24" cy="24" rx="8" ry="18" stroke="currentColor" strokeWidth="2.5" />
-      <line x1="6" y1="24" x2="42" y2="24" stroke="currentColor" strokeWidth="2.5" />
-    </svg>
-  );
-}
-
-/* ── Animated counter hook ── */
-function useCounter(end: number, inView: boolean, duration = 2200) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    const start = 0;
-    const step = (end / duration) * 16;
-    let current = start;
-    const timer = setInterval(() => {
-      current = Math.min(current + step, end);
-      setCount(Math.floor(current));
-      if (current >= end) clearInterval(timer);
-    }, 16);
-    return () => clearInterval(timer);
-  }, [inView, end, duration]);
-  return count;
-}
 
 
 /* ── Clean hero background — stable, no flickering ── */
