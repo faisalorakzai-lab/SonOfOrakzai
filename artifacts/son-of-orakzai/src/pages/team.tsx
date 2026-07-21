@@ -621,7 +621,7 @@ export const GLOBAL_LEADERSHIP: TeamMember[] = [
 ];
 
 /* ── The 19 Orakzai Qoums (sub-tribes) ── */
-export const QOUMS: string[] = [
+const QOUMS: string[] = [
   "Ali Khel", "Mula Khel", "Mamozai", "Ali Sherzai", "Eisa Khel",
   "Akhund Khel", "Shikhan", "Sepoy", "Bar Muhammad Khel", "Mani Khel",
   "Feroz Khel", "Utman Khel", "Bezoti", "Stori Khel", "Alizai",
@@ -658,7 +658,7 @@ function buildQoumMaliks(qoum: string, qoumIndex: number): TeamMember[] {
   });
 }
 
-export const QOUM_MALIKS: Record<string, TeamMember[]> = Object.fromEntries(
+const QOUM_MALIKS: Record<string, TeamMember[]> = Object.fromEntries(
   QOUMS.map((q, i) => [q, buildQoumMaliks(q, i)])
 );
 const ALL_QOUM_MEMBERS: TeamMember[] = Object.values(QOUM_MALIKS).flat();
