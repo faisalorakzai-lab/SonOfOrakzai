@@ -146,16 +146,38 @@ const testimonials = [
 
 
 
-/* ── Clean hero background — stable, no flickering ── */
+/* ── Hero background with cinematic video loop ── */
 function HeroBg() {
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* Base gradient */}
+    <div className="absolute inset-0 overflow-hidden" style={{ background: 'linear-gradient(140deg, #02180e 0%, #011409 45%, #02180e 75%, #010d06 100%)' }}>
+      {/* Fallback base gradient (shown while video loads) */}
       <div className="absolute inset-0" style={{ background: 'linear-gradient(140deg, #000c06 0%, #001009 45%, #00140c 75%, #000a05 100%)' }} />
+
+      {/* Cinematic background video loop */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+        src="https://assets.mixkit.co/videos/preview/mixkit-global-network-connection-lines-41528-large.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        aria-hidden
+        style={{ opacity: 0.55 }}
+      />
+
+      {/* Dark overlay — black tint for base contrast */}
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.65)' }} />
+
+      {/* Dark emerald gradient overlay — top-to-bottom for text readability */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(2,24,14,0.80) 0%, transparent 45%, rgba(2,24,14,1) 100%)',
+        }}
+      />
+
       {/* Left depth glow — static */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 68% 62% at 8% 45%, rgba(4,58,38,0.42) 0%, transparent 62%)' }} />
-      {/* Subtle top-right tint */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 42% 35% at 82% 12%, rgba(8,120,75,0.055) 0%, transparent 55%)' }} />
       {/* Fine gold lattice — left area only */}
       <div className="absolute inset-0 pointer-events-none" style={{
         backgroundImage: [
@@ -167,9 +189,9 @@ function HeroBg() {
         WebkitMaskImage: 'radial-gradient(ellipse 52% 60% at 16% 50%, black 0%, transparent 70%)',
       }} />
       {/* Text legibility — left-to-right fade */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, rgba(0,7,3,0.90) 0%, rgba(0,11,6,0.70) 36%, rgba(0,18,11,0.28) 64%, transparent 100%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(105deg, rgba(0,7,3,0.92) 0%, rgba(0,11,6,0.72) 36%, rgba(0,18,11,0.30) 64%, transparent 100%)' }} />
       {/* Bottom vignette */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,6,3,0.95) 0%, rgba(0,10,6,0.50) 16%, transparent 38%)' }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,6,3,0.98) 0%, rgba(0,10,6,0.55) 16%, transparent 38%)' }} />
     </div>
   );
 }
