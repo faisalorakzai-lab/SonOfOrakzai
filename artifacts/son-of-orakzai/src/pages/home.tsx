@@ -156,7 +156,7 @@ function HeroBg() {
       {/* Cinematic background video loop */}
       <video
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-        src="https://assets.mixkit.co/videos/preview/mixkit-global-network-connection-lines-41528-large.mp4"
+        src="/hero-bg.mp4"
         autoPlay
         loop
         muted
