@@ -273,16 +273,16 @@ export function Footer() {
                 <span>Orakzai District, Khyber Pakhtunkhwa, Pakistan</span>
               </li>
               <li>
-                <a href="tel:+923367970004" className="flex items-center gap-3 text-white/50 hover:text-white text-sm transition-colors group">
+                <a href="tel:+923360854603" className="flex items-center gap-3 text-white/50 hover:text-white text-sm transition-colors group">
                   <Phone className="w-4 h-4 flex-shrink-0" style={{ color: GOLD }} />
-                  <span>+92 336 7970004</span>
+                  <span>+92 336 0854603</span>
                   <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: GOLD }} />
                 </a>
               </li>
               <li>
-                <a href="mailto:sonoforakzai@gmail.com" className="flex items-center gap-3 text-white/50 hover:text-white text-sm transition-colors group">
+                <a href="mailto:info@orakzai.org" className="flex items-center gap-3 text-white/50 hover:text-white text-sm transition-colors group">
                   <Mail className="w-4 h-4 flex-shrink-0" style={{ color: GOLD }} />
-                  <span>sonoforakzai@gmail.com</span>
+                  <span>info@orakzai.org</span>
                   <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: GOLD }} />
                 </a>
               </li>
