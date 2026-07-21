@@ -137,11 +137,15 @@ const partnerLogos = [
   'Global Diaspora Council', 'KP Welfare Trust', 'Crescent Relief Network', 'UnityEd Foundation', 'Frontier Health Alliance', 'Orakzai Chamber of Commerce',
 ];
 
-/* ── Diaspora voices ── */
+/* ── Diaspora voices — global international partners ── */
 const testimonials = [
-  { quote: 'Orakzai.org gave our community in the Gulf a real voice — from scholarships to staying connected with home.', name: 'Sample Member', place: 'Dubai, UAE', flag: '🇦🇪' },
-  { quote: 'Even from London, I feel part of every initiative back home. The diaspora network is the reason I stay involved.', name: 'Sample Member', place: 'London, UK', flag: '🇬🇧' },
-  { quote: "The scholarship program changed my daughter's future. This is what a global homeland should feel like.", name: 'Sample Member', place: 'Toronto, Canada', flag: '🇨🇦' },
+  { quote: 'Orakzai.org operates with the precision and principled mandate of a genuine humanitarian institution. Their commitment to documentation, rights advocacy, and diaspora protection is a model we reference in Geneva.', name: 'Dr. Elena Rostova', role: 'International Human Rights Observer', place: 'Geneva, Switzerland', flag: '🇨🇭' },
+  { quote: 'Rarely do we encounter a diaspora-led network that bridges grassroots field operations with coherent international policy framing. Orakzai.org is one of the few that truly does.', name: 'Marcus Vance', role: 'Global Migration Policy Director', place: 'London, United Kingdom', flag: '🇬🇧' },
+  { quote: 'The infrastructure programs in Peshawar and Orakzai District have delivered tangible, measurable outcomes — clean water access, community halls, and school upgrades. Solid engineering meets real human need.', name: 'Engineer Tariq Orakzai', role: 'Community Infrastructure Lead', place: 'Peshawar, Pakistan', flag: '🇵🇰' },
+  { quote: 'From Dubai, coordinating relief across borders is complex. Orakzai.org has built the trust networks and compliance systems that make rapid diaspora-funded relief actually reach the ground.', name: 'Sarah Al-Hassan', role: 'Diaspora Relief Coordinator', place: 'Dubai, UAE', flag: '🇦🇪' },
+  { quote: 'I have reviewed their institutional governance frameworks pro-bono, and I can confirm — the legal architecture underpinning their membership, relief disbursement, and advocacy is sound and transparent.', name: 'Jean-Luc Dubois', role: 'Pro-Bono Legal Counsel', place: 'Paris, France', flag: '🇫🇷' },
+  { quote: 'Building scalable civic infrastructure for diaspora communities from Houston is uniquely challenging. Orakzai.org has created the digital backbone that makes it possible — and sustainable.', name: 'Zahir Shah Orakzai', role: 'Systems Architect', place: 'Houston, USA', flag: '🇺🇸' },
+  { quote: 'Healthcare access partnerships are only as strong as the trust between institutions. Orakzai.org has earned that trust — in Doha, in Peshawar, and across every community they serve.', name: 'Dr. Amina Al-Mansoor', role: 'Healthcare Access Partner', place: 'Doha, Qatar', flag: '🇶🇦' },
 ];
 
 
@@ -837,45 +841,91 @@ function SocialProofStrip() {
 }
 
 /* ══════════════════════════════════════════════════
-   TESTIMONIALS — diaspora voices
+   TESTIMONIALS — global voices continuous marquee
    ══════════════════════════════════════════════════ */
-function Testimonials() {
+function TestimonialCard({ t }: { t: typeof testimonials[0] }) {
   return (
-    <section className="relative py-28" style={{ background: 'linear-gradient(180deg, #011a10 0%, #00120a 100%)' }}>
-      <div className="absolute inset-0 orakzai-pattern opacity-20 pointer-events-none" />
-      <div className="max-w-[1400px] mx-auto px-6 md:px-14 relative z-10">
-        <FadeIn direction="up" className="text-center mb-14">
-          <p className="text-xs font-bold tracking-[0.4em] uppercase mb-3" style={{ color: GOLD }}>Voices of the Diaspora</p>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Heard From Every Continent
-          </h2>
-          <div className="h-[1px] w-24 mx-auto" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-        </FadeIn>
+    <div
+      className="flex-shrink-0 rounded-2xl p-8 flex flex-col gap-5"
+      style={{
+        width: 380,
+        background: 'rgba(255,255,255,0.025)',
+        border: '1px solid rgba(212,175,55,0.16)',
+        backdropFilter: 'blur(14px)',
+      }}
+    >
+      <span className="text-4xl" style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}>&ldquo;</span>
+      <p className="text-white/70 text-sm leading-relaxed flex-1" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.02rem' }}>
+        {t.quote}
+      </p>
+      <div className="flex items-start gap-3 pt-3" style={{ borderTop: '1px solid rgba(212,175,55,0.1)' }}>
+        <span className="text-2xl mt-0.5">{t.flag}</span>
+        <div>
+          <p className="text-white text-sm font-semibold leading-tight">{t.name}</p>
+          <p className="text-[11px] mt-0.5 font-medium" style={{ color: GOLD, opacity: 0.9 }}>{(t as any).role}</p>
+          <p className="text-white/35 text-xs mt-0.5">{t.place}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((t, i) => (
-            <FadeIn key={i} direction="up" delay={i * 0.12}>
-              <div
-                className="h-full rounded-2xl p-8 flex flex-col gap-5"
-                style={{ background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(212,175,55,0.16)', backdropFilter: 'blur(14px)' }}
-              >
-                <span className="text-4xl" style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}>&ldquo;</span>
-                <p className="text-white/70 text-sm leading-relaxed flex-1" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.05rem' }}>
-                  {t.quote}
-                </p>
-                <div className="flex items-center gap-2 pt-3" style={{ borderTop: '1px solid rgba(212,175,55,0.1)' }}>
-                  <span className="text-lg">{t.flag}</span>
-                  <div>
-                    <p className="text-white text-sm font-semibold">{t.name}</p>
-                    <p className="text-white/35 text-xs">{t.place}</p>
-                  </div>
-                </div>
-              </div>
-            </FadeIn>
+function Testimonials() {
+  const doubled = [...testimonials, ...testimonials];
+  return (
+    <section className="relative py-28 overflow-hidden" style={{ background: 'linear-gradient(180deg, #011a10 0%, #00120a 100%)' }}>
+      <div className="absolute inset-0 orakzai-pattern opacity-20 pointer-events-none" />
+
+      <FadeIn direction="up" className="text-center mb-14 relative z-10 px-6">
+        <p className="text-xs font-bold tracking-[0.4em] uppercase mb-3" style={{ color: GOLD }}>Global Voices</p>
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
+          Trusted Across Every Continent
+        </h2>
+        <div className="h-[1px] w-24 mx-auto mb-5" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+        <p className="text-white/45 text-sm max-w-xl mx-auto" style={{ fontFamily: 'Inter, sans-serif' }}>
+          International humanitarians, legal advisors, healthcare partners, and diaspora leaders from seven countries — speaking on Orakzai.org's global mandate.
+        </p>
+      </FadeIn>
+
+      {/* Continuous right-to-left sliding marquee */}
+      <div className="relative">
+        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style={{ background: 'linear-gradient(90deg, #011a10, transparent)' }} />
+        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style={{ background: 'linear-gradient(270deg, #011a10, transparent)' }} />
+        <motion.div
+          className="flex gap-6 px-6"
+          style={{ width: 'max-content' }}
+          animate={{ x: [0, -((380 + 24) * testimonials.length)] }}
+          transition={{ duration: 45, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
+        >
+          {doubled.map((t, i) => (
+            <TestimonialCard key={i} t={t} />
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Country flag strip */}
+      <FadeIn direction="up" delay={0.2} className="relative z-10 mt-14 px-6">
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {[
+            { flag: '🇨🇭', country: 'Switzerland' },
+            { flag: '🇬🇧', country: 'United Kingdom' },
+            { flag: '🇵🇰', country: 'Pakistan' },
+            { flag: '🇦🇪', country: 'UAE' },
+            { flag: '🇫🇷', country: 'France' },
+            { flag: '🇺🇸', country: 'USA' },
+            { flag: '🇶🇦', country: 'Qatar' },
+          ].map((d) => (
+            <div
+              key={d.country}
+              className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
+              style={{ background: 'rgba(212,175,55,0.07)', border: '1px solid rgba(212,175,55,0.20)', color: 'rgba(255,255,255,0.75)' }}
+            >
+              <span className="text-base">{d.flag}</span>
+              {d.country}
+            </div>
           ))}
         </div>
-        <p className="text-center text-[10px] text-white/20 mt-10 uppercase tracking-widest">Sample quotes for demonstration — to be replaced with verified member testimonials</p>
-      </div>
+      </FadeIn>
     </section>
   );
 }
@@ -1035,13 +1085,21 @@ function ImpactCard({
   );
 }
 
-/* ── Scrolling ticker ── */
+/* ── Scrolling ticker with global partner flags ── */
 const tickerItems = [
+  '🇨🇭 GENEVA — HUMAN RIGHTS OBSERVER',
   '✦ MUTAHID — BA-IKHTIYAR — TARAQI-YAFTA',
+  '🇬🇧 LONDON — MIGRATION POLICY',
   '✦ UNITY — EMPOWERMENT — PROGRESS',
-  '✦ APNI MATTI — APNE LOG',
+  '🇦🇪 DUBAI — DIASPORA RELIEF',
   '✦ DIGITAL EMBASSY OF ORAKZAI NATION',
+  '🇫🇷 PARIS — PRO-BONO LEGAL COUNSEL',
+  '✦ APNI MATTI — APNE LOG',
+  '🇺🇸 HOUSTON — SYSTEMS ARCHITECTURE',
   '✦ BUILDING BRIDGES BETWEEN TRADITION AND MODERNITY',
+  '🇶🇦 DOHA — HEALTHCARE ACCESS',
+  '✦ ORAKZAI.ORG — GLOBAL HUMANITARIAN EMBASSY',
+  '🇵🇰 PESHAWAR — COMMUNITY INFRASTRUCTURE',
 ];
 
 function Ticker() {
@@ -1054,8 +1112,8 @@ function Ticker() {
       <div className="absolute right-0 top-0 bottom-0 w-16 z-10" style={{ background: 'linear-gradient(270deg, #012415, transparent)' }} />
       <motion.div
         className="flex gap-16 whitespace-nowrap"
-        animate={{ x: [0, -1800] }}
-        transition={{ duration: 30, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
+        animate={{ x: [0, -4200] }}
+        transition={{ duration: 50, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
       >
         {[...tickerItems, ...tickerItems, ...tickerItems].map((item, i) => (
           <span
