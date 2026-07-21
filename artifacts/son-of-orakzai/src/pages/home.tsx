@@ -317,6 +317,7 @@ const pillars = [
     title: 'Rights & Representation',
     desc: 'Legal advocacy and institutional representation dedicated to protecting the rights, interests, and collective voice of Orakzai communities worldwide.',
     stat: '120+ cases represented',
+    href: '/rights-representation',
     icon: (
       <img
         src="/rights-representation.jpg"
@@ -331,6 +332,7 @@ const pillars = [
     title: 'Education & Global Scholarships',
     desc: 'Scholarships, mentorship, leadership development, and international educational pathways that empower the next generation of Orakzai students.',
     stat: '360+ students in 12 cities',
+    href: '/education-scholarships',
     icon: (
       <img
         src="/education-scholarships.jpg"
@@ -345,6 +347,7 @@ const pillars = [
     title: 'Social Welfare & Crisis Relief',
     desc: 'Humanitarian assistance, poverty alleviation, emergency response initiatives, and sustainable support systems for vulnerable families.',
     stat: '3,100+ families supported',
+    href: '/social-welfare-relief',
     icon: (
       <img
         src="/social-welfare.jpg"
@@ -359,6 +362,7 @@ const pillars = [
     title: 'Economic Innovation & Grants',
     desc: 'Interest-free business grants, entrepreneurship support, digital innovation, and local economic development designed to strengthen community prosperity.',
     stat: '340+ grants disbursed',
+    href: '/economic-innovation-grants',
     icon: (
       <img
         src="/economic-innovation.jpg"
@@ -373,6 +377,7 @@ const pillars = [
     title: 'Global Diaspora Network',
     desc: 'Connecting Orakzai professionals, families, entrepreneurs, and organizations across Pakistan, the Gulf, Europe, North America, and beyond.',
     stat: '14+ countries, 8 active chapters',
+    href: '/global-diaspora-network',
     icon: (
       <img
         src="/global-diaspora.jpg"
@@ -387,6 +392,7 @@ const pillars = [
     title: 'Healthcare Infrastructure & Access',
     desc: 'Supporting modern healthcare initiatives through mobile clinics, clean water projects, preventive care, and improved medical accessibility in underserved regions.',
     stat: '120+ health cases resolved',
+    href: '/healthcare-infrastructure',
     icon: (
       <img
         src="/healthcare-infrastructure.jpg"
@@ -401,6 +407,7 @@ const pillars = [
     title: 'Women Empowerment & Skilled Artisans Support',
     desc: 'Launching dedicated vocational training centers, healthcare programs, and marketplace infrastructure to empower women and support local small-scale artisans.',
     stat: '450+ beneficiaries enrolled',
+    href: '/women-empowerment-artisans',
     icon: (
       <img
         src="/women-empowerment.jpg"
@@ -415,6 +422,7 @@ const pillars = [
     title: 'Youth Development & Sports Infrastructure',
     desc: 'Establishing local sports academies, youth mentorship programs, and constructive recreational facilities to engage the younger generation and promote healthy community development.',
     stat: '15+ sports facilities supported',
+    href: '/youth-sports-development',
     icon: (
       <img
         src="/youth-sports.jpg"

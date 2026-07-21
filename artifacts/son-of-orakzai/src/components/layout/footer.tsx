@@ -46,11 +46,11 @@ function YouTubeIcon() {
 }
 
 const socialLinks = [
-  { Icon: FacebookIcon, href: "https://facebook.com/orakzai", label: "Facebook" },
-  { Icon: TwitterIcon, href: "https://twitter.com/orakzai", label: "Twitter" },
-  { Icon: InstagramIcon, href: "https://instagram.com/orakzai", label: "Instagram" },
+  { Icon: FacebookIcon, href: "https://facebook.com/orakzaiorg", label: "Facebook" },
+  { Icon: TwitterIcon, href: "https://twitter.com/orakzaiorg", label: "Twitter" },
+  { Icon: InstagramIcon, href: "https://instagram.com/orakzaiorg", label: "Instagram" },
   { Icon: LinkedInIcon, href: "https://linkedin.com/company/orakzai", label: "LinkedIn" },
-  { Icon: YouTubeIcon, href: "https://youtube.com/@orakzai", label: "YouTube" },
+  { Icon: YouTubeIcon, href: "https://youtube.com/@orakzaiorg", label: "YouTube" },
 ];
 
 const quickLinks = [
@@ -70,11 +70,16 @@ const impactLinks = [
 ];
 
 const serviceLinks = [
-  { href: "/services", label: "Migrant Welfare & Diaspora Protection Fund" },
-  { href: "/services", label: "Education & Skills" },
-  { href: "/services", label: "Healthcare Access" },
-  { href: "/services", label: "Legal Aid" },
-  { href: "/services", label: "Youth Programs" },
+  { href: "/migrant-welfare", label: "Migrant Welfare & Diaspora Protection" },
+  { href: "/rights-representation", label: "Rights & Representation" },
+  { href: "/education-scholarships", label: "Education & Global Scholarships" },
+  { href: "/social-welfare-relief", label: "Social Welfare & Crisis Relief" },
+  { href: "/economic-innovation-grants", label: "Economic Innovation & Grants" },
+  { href: "/global-diaspora-network", label: "Global Diaspora Network" },
+  { href: "/healthcare-infrastructure", label: "Healthcare Infrastructure" },
+  { href: "/women-empowerment-artisans", label: "Women Empowerment & Artisans" },
+  { href: "/youth-sports-development", label: "Youth & Sports Development" },
+  { href: "/clean-water-sanitation", label: "Clean Water & Sanitation (WASH)" },
 ];
 
 const newsLinks = [
