@@ -14,6 +14,7 @@ import Blog from "@/pages/blog";
 import Contact from "@/pages/contact";
 import Dashboard from "@/pages/dashboard";
 import Team from "@/pages/team";
+import MissionVision from "@/pages/mission-vision";
 import TeamProfile from "@/pages/team-profile";
 import BoardAdvisor from "@/pages/board-advisor";
 import OrakzaiRepresentative from "@/pages/orakzai-representative";
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/services" component={Services} />
       <Route path="/community" component={Community} />
       <Route path="/team" component={Team} />
+      <Route path="/mission-vision" component={MissionVision} />
       <Route path="/board-advisor" component={BoardAdvisor} />
       <Route path="/orakzai-representative" component={OrakzaiRepresentative} />
       <Route path="/beneficiary-member" component={BeneficiaryMember} />

@@ -14,7 +14,7 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
   "About Us": [
     { href: "/about", label: "Our Story", icon: Info, desc: "The legacy of Orakzai" },
     { href: "/team", label: "Leadership", icon: UserCheck, desc: "Meet our visionaries" },
-    { href: "/impact", label: "Mission & Vision", icon: TrendingUp, desc: "What drives us forward" },
+    { href: "/mission-vision", label: "Mission & Vision", icon: TrendingUp, desc: "What drives us forward" },
   ],
   "Our Impact": [
     { href: "/impact", label: "Impact Reports", icon: BarChart2, desc: "Annual transparency reports" },
