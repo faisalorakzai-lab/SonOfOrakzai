@@ -30,6 +30,10 @@ import WomenEmpowermentArtisans from "@/pages/women-empowerment-artisans";
 import YouthSportsDevelopment from "@/pages/youth-sports-development";
 import CleanWaterSanitation from "@/pages/clean-water-sanitation";
 import SocialWelfareRelief from "@/pages/social-welfare-relief";
+import LatestNews from "@/pages/latest-news";
+import PressRoom from "@/pages/press-room";
+import Events from "@/pages/events";
+import Announcements from "@/pages/announcements";
 import ImpactReports from "@/pages/impact-reports";
 import FieldOperations from "@/pages/field-operations";
 import CommunityStories from "@/pages/community-stories";
@@ -73,6 +77,10 @@ function Router() {
       <Route path="/financial-transparency" component={FinancialTransparency} />
       <Route path="/donate" component={Donate} />
       <Route path="/blog" component={Blog} />
+      <Route path="/latest-news" component={LatestNews} />
+      <Route path="/press-room" component={PressRoom} />
+      <Route path="/events" component={Events} />
+      <Route path="/announcements" component={Announcements} />
       <Route path="/contact" component={Contact} />
       <Route path="/dashboard" component={Dashboard} />
       <Route component={NotFound} />

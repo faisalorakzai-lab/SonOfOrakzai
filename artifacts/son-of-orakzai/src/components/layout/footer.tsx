@@ -78,10 +78,10 @@ const serviceLinks = [
 ];
 
 const newsLinks = [
-  { href: "/blog", label: "Latest News" },
-  { href: "/blog", label: "Press Releases" },
-  { href: "/blog", label: "Media Gallery" },
-  { href: "/blog", label: "Upcoming Events" },
+  { href: "/latest-news", label: "Latest News & Articles" },
+  { href: "/press-room", label: "Press Room & Media Kit" },
+  { href: "/events", label: "Global Events & Summits" },
+  { href: "/announcements", label: "Official Announcements" },
 ];
 
 function FooterLinkList({ title, links }: { title: string; links: { href: string; label: string }[] }) {

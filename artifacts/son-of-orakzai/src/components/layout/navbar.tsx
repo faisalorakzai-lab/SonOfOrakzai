@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, Globe, ChevronDown, MapPin, TrendingUp, Newspaper, Users, GraduationCap, Heart, Briefcase, BarChart2, BookOpen, Phone, Info, UserCheck, ShieldCheck, Scale, HandHeart, HeartPulse, Sparkles, Dumbbell, Droplet } from "lucide-react";
+import { Menu, X, Globe, ChevronDown, MapPin, TrendingUp, Newspaper, Users, GraduationCap, Heart, Briefcase, BarChart2, BookOpen, Phone, Info, UserCheck, ShieldCheck, Scale, HandHeart, HeartPulse, Sparkles, Dumbbell, Droplet, Calendar, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -35,9 +35,10 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
     { href: "/clean-water-sanitation", label: "Clean Water & Sanitation", icon: Droplet, desc: "WASH infrastructure projects" },
   ],
   "News & Updates": [
-    { href: "/blog", label: "Latest News", icon: Newspaper, desc: "Breaking updates" },
-    { href: "/blog", label: "Press Room", icon: BookOpen, desc: "Media & publications" },
-    { href: "/blog", label: "Events", icon: Users, desc: "Upcoming gatherings" },
+    { href: "/latest-news", label: "Latest News & Articles", icon: Newspaper, desc: "Breaking updates & in-depth articles" },
+    { href: "/press-room", label: "Press Room & Media Kit", icon: BookOpen, desc: "Media assets & official statements" },
+    { href: "/events", label: "Global Events & Summits", icon: Calendar, desc: "Upcoming gatherings worldwide" },
+    { href: "/announcements", label: "Official Announcements", icon: Bell, desc: "Verified news from leadership" },
   ],
 };
 
