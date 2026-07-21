@@ -30,6 +30,10 @@ import WomenEmpowermentArtisans from "@/pages/women-empowerment-artisans";
 import YouthSportsDevelopment from "@/pages/youth-sports-development";
 import CleanWaterSanitation from "@/pages/clean-water-sanitation";
 import SocialWelfareRelief from "@/pages/social-welfare-relief";
+import ImpactReports from "@/pages/impact-reports";
+import FieldOperations from "@/pages/field-operations";
+import CommunityStories from "@/pages/community-stories";
+import FinancialTransparency from "@/pages/financial-transparency";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +67,10 @@ function Router() {
       <Route path="/global-leadership/:slug" component={TeamProfile} />
       <Route path="/join" component={Join} />
       <Route path="/impact" component={Impact} />
+      <Route path="/impact-reports" component={ImpactReports} />
+      <Route path="/field-operations" component={FieldOperations} />
+      <Route path="/community-stories" component={CommunityStories} />
+      <Route path="/financial-transparency" component={FinancialTransparency} />
       <Route path="/donate" component={Donate} />
       <Route path="/blog" component={Blog} />
       <Route path="/contact" component={Contact} />

@@ -63,10 +63,10 @@ const quickLinks = [
 ];
 
 const impactLinks = [
-  { href: "/impact", label: "Impact Reports" },
-  { href: "/impact", label: "Annual Statistics" },
-  { href: "/blog", label: "Success Stories" },
-  { href: "/blog", label: "Field Updates" },
+  { href: "/impact-reports", label: "Impact Reports & Metrics" },
+  { href: "/field-operations", label: "Field Operations & Projects" },
+  { href: "/community-stories", label: "Community & Success Stories" },
+  { href: "/financial-transparency", label: "Financial Transparency" },
 ];
 
 const serviceLinks = [

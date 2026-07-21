@@ -17,10 +17,10 @@ const dropdownMenus: Record<string, { href: string; label: string; icon: NavIcon
     { href: "/mission-vision", label: "Mission & Vision", icon: TrendingUp, desc: "What drives us forward" },
   ],
   "Our Impact": [
-    { href: "/impact", label: "Impact Reports", icon: BarChart2, desc: "Annual transparency reports" },
-    { href: "/impact", label: "Education Programs", icon: GraduationCap, desc: "Students trained & placed" },
-    { href: "/impact", label: "Health Outreach", icon: Heart, desc: "Medical cases resolved" },
-    { href: "/community", label: "Community Stories", icon: Users, desc: "Real change, real people" },
+    { href: "/impact-reports", label: "Impact Reports & Metrics", icon: BarChart2, desc: "Annual transparency & data reports" },
+    { href: "/field-operations", label: "Field Operations & Projects", icon: MapPin, desc: "On-the-ground projects & programs" },
+    { href: "/community-stories", label: "Community & Success Stories", icon: Users, desc: "Real change, real people" },
+    { href: "/financial-transparency", label: "Financial Transparency", icon: Scale, desc: "Finances, audits & accountability" },
   ],
   "Services": [
     { href: "/migrant-welfare", label: "Migrant Welfare & Diaspora Protection Fund", icon: ShieldCheck, desc: "Premium member protection & repatriation" },
