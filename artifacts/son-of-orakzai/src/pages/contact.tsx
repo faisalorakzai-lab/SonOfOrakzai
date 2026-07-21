@@ -43,7 +43,7 @@ const gateways = [
     title: "Institutional Secretariat",
     desc: "General inquiries, partnerships, and institutional communications.",
     details: [
-      { icon: Mail,  text: "info@orakzaibond.com" },
+      { icon: Mail,  text: "info@orakzai.org" },
       { icon: Clock, text: "Response within 24 hours" },
     ],
   },
@@ -54,7 +54,7 @@ const gateways = [
     title: "Emergency & Crisis Response",
     desc: "Urgent legal defense, migrant protection, and humanitarian crisis reports.",
     details: [
-      { icon: Phone,     text: "+92 336 7970004" },
+      { icon: Phone,     text: "+92 336 0854603" },
       { icon: ShieldCheck, text: "24/7 Priority Support Protocols" },
     ],
   },
@@ -65,7 +65,7 @@ const gateways = [
     title: "Global Chapter Coordination",
     desc: "Regional chapters across Gulf, Middle East, Europe, and North America.",
     details: [
-      { icon: Mail,  text: "chapters@orakzaibond.com" },
+      { icon: Mail,  text: "info@orakzai.org" },
       { icon: Globe, text: "Gulf · MENA · Europe · North America" },
     ],
   },
@@ -613,18 +613,18 @@ export default function Contact() {
           <p className="text-white/30 text-xs uppercase tracking-[0.2em] mb-3">Direct Headquarters</p>
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
             <a
-              href="mailto:info@orakzaibond.com"
+              href="mailto:info@orakzai.org"
               className="flex items-center gap-2 font-medium transition-colors hover:opacity-80"
               style={{ color: GOLD }}
             >
-              <Mail className="w-4 h-4" /> info@orakzaibond.com
+              <Mail className="w-4 h-4" /> info@orakzai.org
             </a>
             <div className="w-px h-4 opacity-20" style={{ background: GOLD }} />
             <a
-              href="tel:+923367970004"
+              href="tel:+923360854603"
               className="flex items-center gap-2 font-medium text-white/50 transition-colors hover:text-white/80"
             >
-              <Phone className="w-4 h-4" /> +92 336 7970004
+              <Phone className="w-4 h-4" /> +92 336 0854603
             </a>
             <div className="w-px h-4 opacity-20" style={{ background: GOLD }} />
             <span className="flex items-center gap-2 text-white/35">
