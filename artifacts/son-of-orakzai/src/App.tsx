@@ -14,6 +14,7 @@ import Blog from "@/pages/blog";
 import Contact from "@/pages/contact";
 import Dashboard from "@/pages/dashboard";
 import Team from "@/pages/team";
+import Leadership from "@/pages/leadership";
 import TeamProfile from "@/pages/team-profile";
 import BoardAdvisor from "@/pages/board-advisor";
 import OrakzaiRepresentative from "@/pages/orakzai-representative";
@@ -39,7 +40,10 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/services" component={Services} />
       <Route path="/community" component={Community} />
-      <Route path="/team" component={Team} />
+      {/* /leadership — upgraded single-page Leadership hub */}
+      <Route path="/leadership" component={Leadership} />
+      {/* /team — legacy route, now served by the same Leadership component */}
+      <Route path="/team" component={Leadership} />
       <Route path="/board-advisor" component={BoardAdvisor} />
       <Route path="/orakzai-representative" component={OrakzaiRepresentative} />
       <Route path="/beneficiary-member" component={BeneficiaryMember} />
