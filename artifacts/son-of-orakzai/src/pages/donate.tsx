@@ -376,7 +376,7 @@ const WALLETS = [
     symbol: "USDT",
     network: "Polygon",
     color: "#8247e5",
-    address: "0x742d35Cc6634C0532925a3b8D4C9A3E2f3d1b6A7",
+    address: "0x9b02e2Edd6F58D626aAa91889708dbF39dfa8Cd7",
     icon: "🟣",
   },
   {
