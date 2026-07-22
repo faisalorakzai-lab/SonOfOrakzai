@@ -1,10 +1,11 @@
 import { MainLayout } from "@/components/layout/main-layout";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import {
   Copy, CheckCheck, Upload, Wallet, CreditCard, Building2,
   Bitcoin, ShieldCheck, Zap, Globe, ChevronDown, Star, Lock,
-  RefreshCw, ArrowRight, FileText
+  RefreshCw, ArrowRight, FileText, X, ExternalLink, BadgeCheck,
+  AlertTriangle, Loader2, Send
 } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -368,6 +369,20 @@ function BankTab() {
   );
 }
 
+// ─── Web3 Types ──────────────────────────────────────────────────────────────
+declare global {
+  interface Window {
+    ethereum?: {
+      isMetaMask?: boolean;
+      isTrust?: boolean;
+      isCoinbaseWallet?: boolean;
+      request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+      on: (event: string, handler: (...args: unknown[]) => void) => void;
+      removeListener: (event: string, handler: (...args: unknown[]) => void) => void;
+    };
+  }
+}
+
 // ─── Tab C: Crypto ────────────────────────────────────────────────────────────
 const WALLETS = [
   {
@@ -375,57 +390,343 @@ const WALLETS = [
     label: "USDT (Polygon EVM)",
     symbol: "USDT",
     network: "Polygon",
+    chainId: "0x89",
     color: "#8247e5",
     address: "0x9b02e2Edd6F58D626aAa91889708dbF39dfa8Cd7",
     icon: "🟣",
+    evm: true,
+    tokenContract: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F", // USDT on Polygon
   },
   {
     id: "usdt-trc20",
     label: "USDT (TRC20 / Tron)",
     symbol: "USDT",
     network: "TRC20",
+    chainId: null,
     color: "#ef0027",
     address: "TZAczoo7d2iHKCxdt4KAQ7eGpQEm7FDVKM",
     icon: "🔴",
+    evm: false,
+    tokenContract: null,
   },
   {
     id: "usdc",
     label: "USDC (Ethereum)",
     symbol: "USDC",
     network: "ERC20",
+    chainId: "0x1",
     color: "#2775ca",
     address: "0x9b02e2edd6f58d626aaa91889708dbf39dfa8cd7",
     icon: "🔵",
+    evm: true,
+    tokenContract: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", // USDC on Ethereum
   },
   {
     id: "eth",
     label: "Ethereum (ETH)",
     symbol: "ETH",
     network: "Mainnet",
+    chainId: "0x1",
     color: "#627eea",
     address: "0x9b02e2edd6f58d626aaa91889708dbf39dfa8cd7",
     icon: "⬡",
+    evm: true,
+    tokenContract: null,
   },
   {
     id: "matic",
     label: "MATIC / POL",
     symbol: "MATIC",
     network: "Polygon",
+    chainId: "0x89",
     color: "#8247e5",
     address: "0x9b02e2edd6f58d626aaa91889708dbf39dfa8cd7",
     icon: "💜",
+    evm: true,
+    tokenContract: null,
   },
 ];
+
+// ERC-20 transfer ABI encoded: transfer(address,uint256)
+function encodeERC20Transfer(to: string, amount: bigint): string {
+  const selector = "0xa9059cbb";
+  const paddedTo = to.replace("0x", "").padStart(64, "0");
+  const paddedAmount = amount.toString(16).padStart(64, "0");
+  return selector + paddedTo + paddedAmount;
+}
+
+type WalletStatus = "idle" | "connecting" | "connected" | "error";
+
+const WALLET_OPTIONS = [
+  { id: "metamask", name: "MetaMask", icon: "🦊", deeplink: "https://metamask.app.link/dapp/sonoforakzai.vercel.app/donate" },
+  { id: "trust", name: "Trust Wallet", icon: "🛡️", deeplink: "https://link.trustwallet.com/open_url?coin_id=60&url=https://sonoforakzai.vercel.app/donate" },
+  { id: "coinbase", name: "Coinbase Wallet", icon: "🔵", deeplink: "https://go.cb-w.com/dapp?cb_url=https://sonoforakzai.vercel.app/donate" },
+  { id: "injected", name: "Browser Wallet", icon: "🌐", deeplink: null },
+];
+
+function WalletModal({ onClose, onConnect }: { onClose: () => void; onConnect: (addr: string) => void }) {
+  const [status, setStatus] = useState<"pick" | "connecting" | "error">("pick");
+  const [errMsg, setErrMsg] = useState("");
+
+  const tryConnect = useCallback(async () => {
+    if (!window.ethereum) return false;
+    try {
+      setStatus("connecting");
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" }) as string[];
+      if (accounts?.[0]) {
+        onConnect(accounts[0]);
+        return true;
+      }
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Connection rejected";
+      setErrMsg(msg.includes("rejected") ? "Connection cancelled by user." : msg);
+      setStatus("error");
+    }
+    return false;
+  }, [onConnect]);
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4"
+        style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)" }}
+        onClick={onClose}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 40 }}
+          transition={{ type: "spring", stiffness: 320, damping: 28 }}
+          className="w-full max-w-sm rounded-3xl overflow-hidden"
+          style={{
+            background: "#031a0e",
+            border: "1px solid rgba(212,175,55,0.28)",
+            boxShadow: "0 40px 80px rgba(0,0,0,0.7), inset 0 1px 0 rgba(212,175,55,0.12)",
+          }}
+          onClick={e => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="px-6 pt-6 pb-4 flex items-start justify-between">
+            <div className="flex items-center gap-3">
+              {/* Orakzai.Org Verified Badge */}
+              <div
+                className="w-12 h-12 rounded-2xl flex items-center justify-center"
+                style={{ background: "rgba(212,175,55,0.10)", border: "1px solid rgba(212,175,55,0.28)" }}
+              >
+                <img src="/orakzai-org-logo.png" alt="Orakzai.Org" className="w-8 h-8 rounded-full object-cover" />
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-white font-bold text-base" style={{ fontFamily: "'Playfair Display', serif" }}>Orakzai.Org</p>
+                  <BadgeCheck className="w-4 h-4" style={{ color: "#3b82f6" }} />
+                </div>
+                <p className="text-[10px] tracking-widest uppercase" style={{ color: "rgba(212,175,55,0.55)" }}>Verified Humanitarian dApp</p>
+              </div>
+            </div>
+            <button onClick={onClose} className="p-1.5 rounded-lg transition-colors hover:bg-white/5" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Gold separator */}
+          <div className="h-px mx-6" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent)" }} />
+
+          <div className="p-6 space-y-3">
+            {status === "error" && (
+              <motion.div
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm"
+                style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.22)", color: "#f87171" }}
+              >
+                <AlertTriangle className="w-4 h-4 shrink-0" />
+                <span>{errMsg}</span>
+              </motion.div>
+            )}
+
+            {status === "connecting" && (
+              <div className="flex flex-col items-center py-6 gap-3">
+                <Loader2 className="w-8 h-8 animate-spin" style={{ color: GOLD }} />
+                <p className="text-white/60 text-sm">Waiting for wallet approval…</p>
+                <p className="text-xs" style={{ color: "rgba(212,175,55,0.5)" }}>Check your wallet app</p>
+              </div>
+            )}
+
+            {status !== "connecting" && WALLET_OPTIONS.map(opt => {
+              const isInstalled = opt.id === "metamask" ? !!window.ethereum?.isMetaMask
+                : opt.id === "trust" ? !!window.ethereum?.isTrust
+                : opt.id === "coinbase" ? !!window.ethereum?.isCoinbaseWallet
+                : !!window.ethereum;
+
+              return (
+                <button
+                  key={opt.id}
+                  onClick={async () => {
+                    if (isInstalled) {
+                      await tryConnect();
+                    } else if (opt.deeplink) {
+                      window.open(opt.deeplink, "_blank");
+                    } else {
+                      setErrMsg("No wallet detected. Install MetaMask or Trust Wallet.");
+                      setStatus("error");
+                    }
+                  }}
+                  className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all hover:scale-[1.01]"
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <span className="text-2xl w-10 h-10 flex items-center justify-center rounded-xl" style={{ background: "rgba(255,255,255,0.05)" }}>
+                    {opt.icon}
+                  </span>
+                  <div className="flex-1 text-left">
+                    <p className="text-white font-semibold text-sm">{opt.name}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>
+                      {isInstalled ? "Detected — click to connect" : "Tap to install / open app"}
+                    </p>
+                  </div>
+                  {isInstalled
+                    ? <div className="w-2 h-2 rounded-full bg-green-400" />
+                    : <ExternalLink className="w-3.5 h-3.5" style={{ color: "rgba(255,255,255,0.25)" }} />
+                  }
+                </button>
+              );
+            })}
+
+            <p className="text-center text-[10px] pt-2" style={{ color: "rgba(255,255,255,0.25)" }}>
+              By connecting you agree to our terms. Your keys stay in your wallet — we never access them.
+            </p>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
 
 function CryptoTab() {
   const [selected, setSelected] = useState(WALLETS[0].id);
   const [cause, setCause] = useState(CAUSES[0].value);
   const [causeOpen, setCauseOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [walletStatus, setWalletStatus] = useState<WalletStatus>("idle");
+  const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
+  const [txHash, setTxHash] = useState<string | null>(null);
+  const [txStatus, setTxStatus] = useState<"idle" | "pending" | "sent" | "error">("idle");
+  const [amount, setAmount] = useState("50");
+
   const wallet = WALLETS.find(w => w.id === selected)!;
   const causeLabel = CAUSES.find(c => c.value === cause)?.label ?? "";
 
+  // Listen for account changes
+  useEffect(() => {
+    if (!window.ethereum) return;
+    const handleAccChange = (accounts: unknown) => {
+      const accs = accounts as string[];
+      if (accs.length === 0) {
+        setConnectedAddress(null);
+        setWalletStatus("idle");
+      } else {
+        setConnectedAddress(accs[0]);
+      }
+    };
+    window.ethereum.on("accountsChanged", handleAccChange);
+    return () => window.ethereum?.removeListener("accountsChanged", handleAccChange);
+  }, []);
+
+  const handleConnected = useCallback((addr: string) => {
+    setConnectedAddress(addr);
+    setWalletStatus("connected");
+    setShowModal(false);
+  }, []);
+
+  const sendDonation = useCallback(async () => {
+    if (!window.ethereum || !connectedAddress || !wallet.evm) return;
+    setTxStatus("pending");
+    try {
+      // Switch to correct network first
+      if (wallet.chainId) {
+        try {
+          await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: wallet.chainId }] });
+        } catch {
+          // Add Polygon if not present
+          if (wallet.chainId === "0x89") {
+            await window.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [{
+                chainId: "0x89",
+                chainName: "Polygon Mainnet",
+                nativeCurrency: { name: "MATIC", symbol: "MATIC", decimals: 18 },
+                rpcUrls: ["https://polygon-rpc.com/"],
+                blockExplorerUrls: ["https://polygonscan.com/"],
+              }],
+            });
+          }
+        }
+      }
+
+      const amtNum = parseFloat(amount) || 50;
+      let txParams: Record<string, string>;
+
+      if (wallet.tokenContract) {
+        // ERC-20 token transfer
+        const amtWei = BigInt(Math.floor(amtNum * 1_000_000)); // USDT/USDC = 6 decimals
+        const data = encodeERC20Transfer(wallet.address, amtWei);
+        txParams = { from: connectedAddress, to: wallet.tokenContract, data, value: "0x0" };
+      } else {
+        // Native token (ETH / MATIC)
+        const amtWei = BigInt(Math.floor(amtNum * 1e18));
+        txParams = { from: connectedAddress, to: wallet.address, value: "0x" + amtWei.toString(16) };
+      }
+
+      const hash = await window.ethereum.request({ method: "eth_sendTransaction", params: [txParams] }) as string;
+      setTxHash(hash);
+      setTxStatus("sent");
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "";
+      if (!msg.includes("rejected") && !msg.includes("denied")) setTxStatus("error");
+      else setTxStatus("idle");
+    }
+  }, [connectedAddress, wallet, amount]);
+
+  const shortAddr = connectedAddress ? `${connectedAddress.slice(0, 6)}…${connectedAddress.slice(-4)}` : "";
+
   return (
     <div className="space-y-6">
+      {/* Wallet Modal */}
+      {showModal && <WalletModal onClose={() => setShowModal(false)} onConnect={handleConnected} />}
+
+      {/* Connected Badge */}
+      {connectedAddress && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-3 px-4 py-3 rounded-2xl"
+          style={{ background: "rgba(59,130,246,0.08)", border: "1px solid rgba(59,130,246,0.30)" }}
+        >
+          <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: "rgba(59,130,246,0.15)" }}>
+            <BadgeCheck className="w-4 h-4" style={{ color: "#3b82f6" }} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5">
+              <p className="text-white font-bold text-sm">Connected to Orakzai.Org</p>
+              <BadgeCheck className="w-3.5 h-3.5 shrink-0" style={{ color: "#3b82f6" }} />
+            </div>
+            <p className="text-xs font-mono mt-0.5" style={{ color: "rgba(255,255,255,0.45)" }}>{shortAddr}</p>
+          </div>
+          <button
+            onClick={() => { setConnectedAddress(null); setWalletStatus("idle"); setTxStatus("idle"); setTxHash(null); }}
+            className="text-xs px-2.5 py-1 rounded-lg transition-colors hover:bg-white/10"
+            style={{ color: "rgba(255,255,255,0.35)", border: "1px solid rgba(255,255,255,0.10)" }}
+          >
+            Disconnect
+          </button>
+        </motion.div>
+      )}
+
       {/* Network Selector */}
       <div>
         <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: "rgba(212,175,55,0.55)" }}>Select Network & Currency</p>
@@ -433,10 +734,10 @@ function CryptoTab() {
           {WALLETS.map(w => (
             <button
               key={w.id}
-              onClick={() => setSelected(w.id)}
+              onClick={() => { setSelected(w.id); setTxStatus("idle"); setTxHash(null); }}
               className="flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all"
               style={{
-                background: selected === w.id ? `rgba(${w.color.replace('#','').match(/../g)?.map(x=>parseInt(x,16)).join(',')}, 0.12)` : "rgba(212,175,55,0.04)",
+                background: selected === w.id ? `rgba(${w.color.replace('#','').match(/../g)?.map((x: string)=>parseInt(x,16)).join(',')}, 0.12)` : "rgba(212,175,55,0.04)",
                 border: `1px solid ${selected === w.id ? w.color + "66" : "rgba(212,175,55,0.14)"}`,
               }}
             >
@@ -445,10 +746,7 @@ function CryptoTab() {
                 <p className="text-white text-sm font-semibold">{w.label}</p>
                 <p className="text-xs truncate font-mono" style={{ color: "rgba(255,255,255,0.35)" }}>{w.address.slice(0, 20)}…</p>
               </div>
-              <div
-                className="w-4 h-4 rounded-full flex items-center justify-center"
-                style={{ border: `2px solid ${selected === w.id ? GOLD : "rgba(255,255,255,0.2)"}` }}
-              >
+              <div className="w-4 h-4 rounded-full flex items-center justify-center" style={{ border: `2px solid ${selected === w.id ? GOLD : "rgba(255,255,255,0.2)"}` }}>
                 {selected === w.id && <div className="w-2 h-2 rounded-full" style={{ background: GOLD }} />}
               </div>
             </button>
@@ -459,59 +757,65 @@ function CryptoTab() {
       {/* QR Code + Address */}
       <div
         className="rounded-2xl p-5 flex flex-col items-center gap-4"
-        style={{
-          background: "rgba(212,175,55,0.04)",
-          border: "1px solid rgba(212,175,55,0.22)",
-          boxShadow: "inset 0 1px 0 rgba(212,175,55,0.08)",
-        }}
+        style={{ background: "rgba(212,175,55,0.04)", border: "1px solid rgba(212,175,55,0.22)", boxShadow: "inset 0 1px 0 rgba(212,175,55,0.08)" }}
       >
-        <div>
-          <p className="text-center text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "rgba(212,175,55,0.55)" }}>
-            {wallet.symbol} — {wallet.network}
-          </p>
-        </div>
+        <p className="text-center text-xs font-semibold tracking-widest uppercase" style={{ color: "rgba(212,175,55,0.55)" }}>
+          {wallet.symbol} — {wallet.network}
+        </p>
         <div className="p-3 rounded-2xl" style={{ background: "white" }}>
           <QRCodeSVG value={wallet.address} size={160} level="H" />
         </div>
         <div className="w-full">
           <CopyField label="Wallet Address" value={wallet.address} />
         </div>
-        <div
-          className="w-full px-4 py-3 rounded-xl text-xs text-center"
-          style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.18)", color: "rgba(255,255,255,0.5)" }}
-        >
+        <div className="w-full px-4 py-3 rounded-xl text-xs text-center"
+          style={{ background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.18)", color: "rgba(255,255,255,0.5)" }}>
           ⚠️ Send only <strong className="text-white">{wallet.symbol}</strong> on the <strong className="text-white">{wallet.network}</strong> network. Wrong network = permanent loss.
         </div>
       </div>
+
+      {/* Amount (for connected wallet send) */}
+      {connectedAddress && wallet.evm && (
+        <div>
+          <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: "rgba(212,175,55,0.55)" }}>Donation Amount ({wallet.symbol})</p>
+          <div className="flex gap-2">
+            {[10, 25, 50, 100].map(a => (
+              <button key={a} onClick={() => setAmount(String(a))}
+                className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all"
+                style={{
+                  background: amount === String(a) ? `linear-gradient(135deg, #b8860b, ${GOLD})` : "rgba(212,175,55,0.07)",
+                  border: `1px solid ${amount === String(a) ? GOLD : "rgba(212,175,55,0.18)"}`,
+                  color: amount === String(a) ? "#011a10" : "rgba(255,255,255,0.7)",
+                }}>
+                {a}
+              </button>
+            ))}
+          </div>
+          <input type="number" placeholder="Custom amount" value={amount} onChange={e => setAmount(e.target.value)}
+            className="w-full mt-2 px-4 py-3 rounded-xl text-white text-sm font-mono outline-none"
+            style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.18)" }} />
+        </div>
+      )}
 
       {/* Cause Selector */}
       <div>
         <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: "rgba(212,175,55,0.55)" }}>Assign Funds To</p>
         <div className="relative">
-          <button
-            onClick={() => setCauseOpen(!causeOpen)}
+          <button onClick={() => setCauseOpen(!causeOpen)}
             className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold text-white transition-all"
-            style={{ background: "rgba(212,175,55,0.06)", border: `1px solid ${causeOpen ? GOLD : "rgba(212,175,55,0.20)"}` }}
-          >
+            style={{ background: "rgba(212,175,55,0.06)", border: `1px solid ${causeOpen ? GOLD : "rgba(212,175,55,0.20)"}` }}>
             <span>{causeLabel}</span>
             <ChevronDown className="w-4 h-4 transition-transform" style={{ color: GOLD, transform: causeOpen ? "rotate(180deg)" : "rotate(0deg)" }} />
           </button>
           <AnimatePresence>
             {causeOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
+              <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }}
                 className="absolute left-0 right-0 top-full mt-1 rounded-xl z-20 overflow-hidden"
-                style={{ background: EMERALD_DARK, border: "1px solid rgba(212,175,55,0.25)", boxShadow: "0 20px 50px rgba(0,0,0,0.6)" }}
-              >
+                style={{ background: EMERALD_DARK, border: "1px solid rgba(212,175,55,0.25)", boxShadow: "0 20px 50px rgba(0,0,0,0.6)" }}>
                 {CAUSES.map(c => (
-                  <button
-                    key={c.value}
-                    onClick={() => { setCause(c.value); setCauseOpen(false); }}
+                  <button key={c.value} onClick={() => { setCause(c.value); setCauseOpen(false); }}
                     className="w-full text-left px-4 py-3 text-sm font-medium text-white/80 hover:bg-[rgba(212,175,55,0.07)] hover:text-white transition-colors"
-                    style={{ borderBottom: "1px solid rgba(212,175,55,0.06)" }}
-                  >
+                    style={{ borderBottom: "1px solid rgba(212,175,55,0.06)" }}>
                     {c.label}
                   </button>
                 ))}
@@ -521,19 +825,65 @@ function CryptoTab() {
         </div>
       </div>
 
-      {/* Connect Wallet CTA */}
-      <button
-        className="w-full py-4 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2.5"
-        style={{
-          background: "linear-gradient(135deg, #3b1e9a, #6c3fe8)",
-          color: "white",
-          boxShadow: "0 8px 32px rgba(108,63,232,0.4)",
-          fontFamily: "'Playfair Display', serif",
-        }}
-      >
-        <Wallet className="w-5 h-5" />
-        Connect Wallet & Donate
-      </button>
+      {/* Tx Success */}
+      {txStatus === "sent" && txHash && (
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+          className="flex items-start gap-3 px-4 py-4 rounded-2xl"
+          style={{ background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.28)" }}>
+          <BadgeCheck className="w-5 h-5 text-green-400 shrink-0 mt-0.5" />
+          <div>
+            <p className="text-green-400 font-bold text-sm">Transaction Submitted!</p>
+            <p className="text-xs text-white/50 mt-0.5 break-all font-mono">{txHash.slice(0, 20)}…</p>
+            <a href={`https://${wallet.network === "Polygon" ? "polygonscan.com" : "etherscan.io"}/tx/${txHash}`}
+              target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs mt-1.5 text-green-400/80 hover:text-green-300">
+              View on Explorer <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
+        </motion.div>
+      )}
+
+      {/* CTA */}
+      {!connectedAddress ? (
+        <button
+          onClick={() => setShowModal(true)}
+          className="w-full py-4 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2.5"
+          style={{
+            background: "linear-gradient(135deg, #1e3a8a, #2563eb, #3b82f6)",
+            color: "white",
+            boxShadow: "0 8px 32px rgba(37,99,235,0.45)",
+            fontFamily: "'Playfair Display', serif",
+          }}
+        >
+          <Wallet className="w-5 h-5" />
+          Connect Wallet & Donate
+          <BadgeCheck className="w-4 h-4 opacity-80" />
+        </button>
+      ) : wallet.evm ? (
+        <button
+          onClick={sendDonation}
+          disabled={txStatus === "pending"}
+          className="w-full py-4 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2.5 disabled:opacity-60"
+          style={{
+            background: txStatus === "pending"
+              ? "rgba(212,175,55,0.15)"
+              : `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, ${GOLD_LIGHT} 70%, ${GOLD} 100%)`,
+            color: txStatus === "pending" ? GOLD : "#011a10",
+            boxShadow: txStatus === "pending" ? "none" : `0 8px 32px rgba(212,175,55,0.45)`,
+            fontFamily: "'Playfair Display', serif",
+          }}
+        >
+          {txStatus === "pending" ? (
+            <><Loader2 className="w-5 h-5 animate-spin" /> Confirm in Wallet…</>
+          ) : (
+            <><Send className="w-4 h-4" /> Send {amount} {wallet.symbol} Now</>
+          )}
+        </button>
+      ) : (
+        <div className="px-4 py-3 rounded-xl text-sm text-center" style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.18)", color: "rgba(255,255,255,0.55)" }}>
+          TRC20 (Tron) network — scan QR or copy address above to send from your Tron-compatible wallet.
+        </div>
+      )}
     </div>
   );
 }
