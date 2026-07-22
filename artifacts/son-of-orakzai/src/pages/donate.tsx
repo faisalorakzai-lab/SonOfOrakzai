@@ -6,7 +6,7 @@ import {
   Bitcoin, ShieldCheck, Zap, Globe, ChevronDown, Star, Lock,
   RefreshCw, ArrowRight, FileText
 } from "lucide-react";
-import { QRCode } from "qrcode.react";
+import { QRCodeSVG } from "qrcode.react";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 const GOLD = "#D4AF37";
@@ -471,7 +471,7 @@ function CryptoTab() {
           </p>
         </div>
         <div className="p-3 rounded-2xl" style={{ background: "white" }}>
-          <QRCode value={wallet.address} size={160} level="H" />
+          <QRCodeSVG value={wallet.address} size={160} level="H" />
         </div>
         <div className="w-full">
           <CopyField label="Wallet Address" value={wallet.address} />
