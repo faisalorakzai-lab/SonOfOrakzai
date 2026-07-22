@@ -339,10 +339,12 @@ function MemberCard({ data }: { data: MemberData }) {
       /* ── Data fields ── */
       const fx = 218, fy0 = 70;
       const rows: [string, string, boolean][] = [
-        ["MEMBER NAME",      data.name,                         true  ],
-        ["CNIC  (HASH)",     hashCnic(data.cnic),               false ],
-        ["LOCATION",         `${data.city}, ${data.country}`,   false ],
-        ["AREA OF INTEREST", data.interest,                     false ],
+        ["MEMBER NAME",        data.name,                        true  ],
+        ["DESIGNATION",        data.profession,                  false ],
+        ["CNIC / NATIONAL ID", hashCnic(data.cnic),             false ],
+        ["NATIONALITY",        data.nationality,                 false ],
+        ["LOCATION",           `${data.city}, ${data.country}`, false ],
+        ["AREA OF INTEREST",   data.interest,                   false ],
       ];
 
       const makeGoldText = (ctx: CanvasRenderingContext2D) => {
@@ -354,7 +356,7 @@ function MemberCard({ data }: { data: MemberData }) {
       };
 
       rows.forEach(([key, val, bold], i) => {
-        const y = fy0 + i * 82;
+        const y = fy0 + i * 62;
         /* label */
         ctx.font      = "bold 8.5px 'Courier New', monospace";
         ctx.fillStyle = makeGoldText(ctx);
@@ -363,18 +365,18 @@ function MemberCard({ data }: { data: MemberData }) {
         /* value */
         ctx.font      = bold ? "bold 20px serif" : "600 16px sans-serif";
         ctx.fillStyle = bold ? "#ffffff" : "#e8e8e8";
-        ctx.fillText(val || "—", fx, y + 24);
+        ctx.fillText(val || "—", fx, y + 18);
         /* separator line */
         const sep = ctx.createLinearGradient(fx, 0, W - 40, 0);
         sep.addColorStop(0,   `${GOLD}55`);
         sep.addColorStop(0.5, `${GOLD}22`);
         sep.addColorStop(1,   "transparent");
         ctx.strokeStyle = sep; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(fx, y + 38); ctx.lineTo(W - 40, y + 38); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(fx, y + 29); ctx.lineTo(W - 40, y + 29); ctx.stroke();
       });
 
       /* ── Bottom-left: Membership ID + QR block ── */
-      const bidX = fx, bidY = fy0 + rows.length * 82 + 8;
+      const bidX = fx, bidY = fy0 + rows.length * 62 + 8;
       ctx.font      = "bold 8px 'Courier New', monospace";
       ctx.fillStyle = makeGoldText(ctx); ctx.textAlign = "left";
       ctx.fillText("MEMBERSHIP  ID", bidX, bidY);
@@ -387,7 +389,14 @@ function MemberCard({ data }: { data: MemberData }) {
       ctx.fillStyle = makeGoldText(ctx);
       ctx.fillText("ISSUE DATE", bidX, bidY + 46);
       ctx.font = "600 13px sans-serif"; ctx.fillStyle = "#cccccc";
-      ctx.fillText(data.issueDate, bidX, bidY + 62);
+      ctx.fillText(data.issueDate, bidX, bidY + 60);
+
+      /* Expiry date */
+      ctx.font      = "bold 8px 'Courier New', monospace";
+      ctx.fillStyle = makeGoldText(ctx);
+      ctx.fillText("EXPIRY DATE", bidX + 160, bidY + 46);
+      ctx.font = "600 12px sans-serif"; ctx.fillStyle = "#cccccc";
+      ctx.fillText(data.expiryDate, bidX + 160, bidY + 60);
 
       /* QR under membership ID */
       const qrSvg = document.querySelector<SVGSVGElement>("#elite-card-qr svg");
@@ -407,6 +416,27 @@ function MemberCard({ data }: { data: MemberData }) {
       ctx.font = "bold 7px 'Courier New', monospace";
       ctx.fillStyle = `${GOLD}88`; ctx.textAlign = "left";
       ctx.fillText("SCAN TO VERIFY", qrX, qrY + qrSize + 14);
+
+      /* ── Founder Signature ── */
+      try {
+        const sigEl = document.createElement("img");
+        sigEl.crossOrigin = "anonymous";
+        sigEl.src = "/faisal-signature-transparent.png";
+        await new Promise<void>((res) => { sigEl.onload = () => res(); sigEl.onerror = () => res(); });
+        if (sigEl.naturalWidth > 0) {
+          ctx.save();
+          ctx.globalAlpha = 0.85;
+          ctx.drawImage(sigEl, W / 2 - 20, H - 110, 140, 72);
+          ctx.restore();
+        }
+      } catch (_) {}
+      const sigGrad = ctx.createLinearGradient(0, H - 44, 0, H - 30);
+      sigGrad.addColorStop(0, "#f0d060"); sigGrad.addColorStop(1, "#b8860b");
+      ctx.font = "bold 7.5px 'Courier New', monospace"; ctx.fillStyle = sigGrad;
+      ctx.textAlign = "center";
+      ctx.fillText("FAISAL ORAKZAI", W / 2 + 50, H - 44);
+      ctx.font = "6px sans-serif"; ctx.fillStyle = "rgba(255,255,255,0.45)";
+      ctx.fillText("Founder & Chairman, Orakzai Group", W / 2 + 50, H - 32);
 
       /* ── Holographic pattern right panel ── */
       ctx.save(); ctx.globalAlpha = 0.06;
@@ -476,7 +506,7 @@ function MemberCard({ data }: { data: MemberData }) {
     setTimeout(() => { win.print(); win.close(); }, 500);
   };
 
-  const qrValue = `https://orakzai.org/verify/${data.memberId}`;
+  const qrValue = `https://sonoforakzai.vercel.app/verify/${data.memberId}`;
 
   return (
     <div className="flex flex-col items-center gap-6 w-full">
@@ -684,12 +714,13 @@ function MemberCard({ data }: { data: MemberData }) {
             {/* ── Data Fields (right column) ── */}
             <div className="flex-1 min-w-0 flex flex-col gap-0 pt-1">
               {[
-                { label: "Member Name",      val: data.name,                     serif: true },
-                { label: "CNIC  (Hash)",     val: hashCnic(data.cnic),           mono:  true },
-                { label: "Location",         val: `${data.city}, ${data.country}` },
-                { label: "Area of Interest", val: data.interest },
-                { label: "Issue Date",       val: data.issueDate },
-              ].map(({ label, val, serif, mono }, idx, arr) => (
+                { label: "Member Name",        val: data.name,                       serif: true },
+                { label: "Designation",        val: data.profession                              },
+                { label: "CNIC / National ID", val: hashCnic(data.cnic),             mono:  true },
+                { label: "Nationality",        val: data.nationality                             },
+                { label: "Location",           val: `${data.city}, ${data.country}`             },
+                { label: "Area of Interest",   val: data.interest                               },
+                              ].map(({ label, val, serif, mono }, idx, arr) => (
                 <div
                   key={label}
                   className="py-2.5 sm:py-3"
@@ -711,6 +742,24 @@ function MemberCard({ data }: { data: MemberData }) {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* ── DATES ROW ── */}
+          <div className="relative z-10 flex items-center gap-8 px-8 pb-2 mt-0" style={{ borderTop: '1px solid rgba(212,175,55,0.1)' }}>
+            <div className="flex flex-col gap-0.5">
+              <GoldLabel>Issue Date</GoldLabel>
+              <span className="text-[11px] text-white/70 font-medium">{data.issueDate}</span>
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <GoldLabel>Expiry Date</GoldLabel>
+              <span className="text-[11px] text-white/70 font-medium">{data.expiryDate}</span>
+            </div>
+            <div className="flex-1" />
+            <div className="flex flex-col items-center">
+              <img src="/faisal-signature-transparent.png" alt="Signature" className="h-10 object-contain" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.1))' }} />
+              <GoldLabel>Faisal Orakzai</GoldLabel>
+              <span className="text-[9px] text-white/35">Founder &amp; Chairman</span>
             </div>
           </div>
 
@@ -792,8 +841,8 @@ function MemberCard({ data }: { data: MemberData }) {
 interface MemberData {
   name: string; fatherName: string; cnic: string; photo: string;
   countryCode: string; phone: string; email: string; city: string; country: string;
-  profession: string; skills: string[]; interest: string;
-  statement: string; memberId: string; issueDate: string;
+  nationality: string; profession: string; skills: string[]; interest: string;
+  statement: string; memberId: string; issueDate: string; expiryDate: string;
 }
 
 /* ─── Validation helpers ────────────────────────── */
@@ -825,11 +874,11 @@ export default function Join() {
   const [f, setF] = useState<{
     name: string; fatherName: string; cnic: string; photo: string;
     countryCode: string; phone: string; email: string; city: string; country: string;
-    profession: string; skills: string[]; interest: string; statement: string;
+    nationality: string; profession: string; skills: string[]; interest: string; statement: string;
   }>({
     name: "", fatherName: "", cnic: "", photo: "",
     countryCode: "+92", phone: "", email: "", city: "", country: "",
-    profession: "", skills: [], interest: "", statement: "",
+    nationality: "", profession: "", skills: [], interest: "", statement: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -877,6 +926,7 @@ export default function Join() {
       const em = validEmail(f.email); if (em) e.email = em;
       const ci = required(f.city, "City"); if (ci) e.city = ci;
       const co = required(f.country, "Country"); if (co) e.country = co;
+      const na = required(f.nationality, "Nationality"); if (na) e.nationality = na;
     }
     if (s === 3) {
       const pr = required(f.profession, "Profession"); if (pr) e.profession = pr;
@@ -900,10 +950,13 @@ export default function Join() {
     setLoad(true);
     await new Promise((r) => setTimeout(r, 1500));
     const now = new Date();
+    const expiry = new Date(now);
+    expiry.setFullYear(expiry.getFullYear() + 5);
     setMember({
       ...f,
       memberId: genMemberId(),
       issueDate: now.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" }),
+      expiryDate: expiry.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" }),
     });
     setDone(true);
     setLoad(false);
@@ -1173,6 +1226,18 @@ export default function Join() {
                           </Field>
                         </div>
 
+                        <Field label="Nationality" required error={errors.nationality}>
+                          <input
+                            value={f.nationality}
+                            onChange={(e) => setF((p) => ({ ...p, nationality: e.target.value }))}
+                            placeholder="e.g. Pakistani, British, American…"
+                            className={inputBase}
+                            style={fs('nationality')}
+                            onFocus={() => setFocus('nationality')}
+                            onBlur={() => setFocus(null)}
+                          />
+                        </Field>
+
                       </motion.div>
                     )}
 
@@ -1366,7 +1431,7 @@ export default function Join() {
                 {/* New application */}
                 <div className="text-center mt-8">
                   <button
-                    onClick={() => { setDone(false); setStep(1); setMember(null); setF({ name: "", fatherName: "", cnic: "", photo: "", countryCode: "+92", phone: "", email: "", city: "", country: "", profession: "", skills: [], interest: "", statement: "" }); }}
+                    onClick={() => { setDone(false); setStep(1); setMember(null); setF({ name: "", fatherName: "", cnic: "", photo: "", countryCode: "+92", phone: "", email: "", city: "", country: "", nationality: "", profession: "", skills: [], interest: "", statement: "" }); }}
                     className="text-xs font-semibold transition-colors hover:opacity-80"
                     style={{ color: `${GOLD}88` }}
                   >
