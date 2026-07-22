@@ -394,7 +394,7 @@ const WALLETS = [
     symbol: "USDC",
     network: "ERC20",
     color: "#2775ca",
-    address: "0x3f5CE5FBFe3E9af3971dD833D26bA9b5C936f0bE",
+    address: "0x9b02e2edd6f58d626aaa91889708dbf39dfa8cd7",
     icon: "🔵",
   },
   {
@@ -403,7 +403,7 @@ const WALLETS = [
     symbol: "ETH",
     network: "Mainnet",
     color: "#627eea",
-    address: "0x742d35Cc6634C0532925a3b8D4C9A3E2f3d1b6A7",
+    address: "0x9b02e2edd6f58d626aaa91889708dbf39dfa8cd7",
     icon: "⬡",
   },
   {
