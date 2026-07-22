@@ -385,7 +385,7 @@ const WALLETS = [
     symbol: "USDT",
     network: "TRC20",
     color: "#ef0027",
-    address: "TQkd1NqJouMkMDrXdDZZnRmH3xVTvX1234",
+    address: "TZAczoo7d2iHKCxdt4KAQ7eGpQEm7FDVKM",
     icon: "🔴",
   },
   {
