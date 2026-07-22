@@ -842,7 +842,12 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
       </div>
 
       <h3 className="text-[26px] leading-tight font-bold text-white mb-2 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
-      <p className="text-[13px] font-bold mb-6" style={{ color: GOLD, fontFamily: "'Inter', sans-serif", letterSpacing: "0.16em" }}>{member.title.toUpperCase()}</p>
+      <p className="text-[13px] font-bold mb-3" style={{ color: GOLD, fontFamily: "'Inter', sans-serif", letterSpacing: "0.16em" }}>{member.title.toUpperCase()}</p>
+      {member.focus && (
+        <p className="text-[12px] text-white/55 mb-6 px-2 leading-snug" style={{ fontFamily: "'Inter', sans-serif" }}>
+          {member.focus}
+        </p>
+      )}
 
       <span
         className="relative flex items-center gap-2 rounded-full px-7 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] transition-all duration-300"
@@ -1349,12 +1354,12 @@ export default function Team({
             {view.screen === "home" && (
               <motion.div key="home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
                 <SectionHeading
-                  eyebrow="Five Institutional Pillars"
+                  eyebrow="Our People"
                   title="Who Builds Orakzai.org"
                   description="Each pillar operates as its own institution — its own people, its own mandate, all accountable to one shared mission. Select a pillar to meet the people behind it."
                 />
-                <div className="flex flex-wrap justify-center gap-6 md:gap-7 max-w-6xl mx-auto">
-                  {(["executive", "board", "representatives", "beneficiaries", "global"] as const).map((id, i) => (
+                <div className="flex flex-wrap justify-center gap-6 md:gap-7 max-w-4xl mx-auto">
+                  {(["executive", "board", "global"] as const).map((id, i) => (
                     <div key={id} className="w-full md:w-[calc(50%-14px)] lg:w-[calc(33.333%-19px)]">
                       <CategoryCard id={id} index={i} onClick={() => goCategory(id)} />
                     </div>
