@@ -2,6 +2,7 @@ import { useState, useRef, useCallback } from "react";
 import { MainLayout } from "@/components/layout/main-layout";
 import { motion, AnimatePresence } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
+import html2canvas from "html2canvas";
 import {
   ShieldCheck, GraduationCap, CreditCard, Globe,
   ChevronRight, ChevronLeft, Upload, User, Check,
@@ -222,310 +223,70 @@ function MemberCard({ data }: { data: MemberData }) {
   const qrValue = `https://sonoforakzai.vercel.app/verify/${data.memberId}`;
 
   /* ────────────────────────────────────────────────
-     Canvas PNG download — pixel-perfect reference
+     PNG download — captures the real rendered card
   ──────────────────────────────────────────────── */
   const handleDownload = useCallback(async () => {
+    if (!cardRef.current) return;
     setDl(true);
     try {
-      const W = 1200, H = 560;
-      const cv = document.createElement("canvas");
-      cv.width = W; cv.height = H;
-      const ctx = cv.getContext("2d")!;
-
-      /* helpers */
-      const goldGrad = () => {
-        const g = ctx.createLinearGradient(0, 0, 0, 16);
-        g.addColorStop(0, "#f5e070"); g.addColorStop(0.5, "#D4AF37"); g.addColorStop(1, "#b8860b");
-        return g;
-      };
-      const loadImg = (src: string): Promise<HTMLImageElement> =>
-        new Promise((res) => {
-          const im = new Image(); im.crossOrigin = "anonymous";
-          im.onload = () => res(im); im.onerror = () => res(im);
-          im.src = src;
-        });
-
-      /* 1 ── Background */
-      const bg = ctx.createLinearGradient(0, 0, W, H);
-      bg.addColorStop(0, "#051c0f"); bg.addColorStop(0.4, "#0a2d16"); bg.addColorStop(1, "#030e07");
-      ctx.fillStyle = bg; ctx.roundRect(0, 0, W, H, 20); ctx.fill();
-
-      /* brushed texture */
-      ctx.save(); ctx.globalAlpha = 0.022;
-      for (let y = 0; y < H; y += 2) {
-        ctx.strokeStyle = y % 4 === 0 ? "#ffffff" : "#80ff80"; ctx.lineWidth = 0.5;
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-      }
-      ctx.restore();
-
-      /* 2 ── Gold borders */
-      ctx.strokeStyle = "#D4AF37cc"; ctx.lineWidth = 3.5;
-      ctx.roundRect(2, 2, W - 4, H - 4, 18); ctx.stroke();
-      ctx.strokeStyle = "rgba(212,175,55,0.28)"; ctx.lineWidth = 1;
-      ctx.roundRect(8, 8, W - 16, H - 16, 13); ctx.stroke();
-
-      /* 3 ── Corner screws */
-      [[20,20],[W-20,20],[20,H-20],[W-20,H-20]].forEach(([sx,sy]) => {
-        const sg = ctx.createRadialGradient(sx-2,sy-2,1,sx,sy,7);
-        sg.addColorStop(0,"#f0d060"); sg.addColorStop(0.5,"#b8860b"); sg.addColorStop(1,"#3d2e04");
-        ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(sx,sy,7,0,Math.PI*2); ctx.fill();
-        ctx.strokeStyle="#D4AF3799"; ctx.lineWidth=1;
-        ctx.beginPath(); ctx.arc(sx,sy,7,0,Math.PI*2); ctx.stroke();
-        ctx.strokeStyle="rgba(0,0,0,0.55)"; ctx.lineWidth=0.9;
-        ctx.beginPath(); ctx.moveTo(sx-4,sy); ctx.lineTo(sx+4,sy); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(sx,sy-4); ctx.lineTo(sx,sy+4); ctx.stroke();
+      const canvas = await html2canvas(cardRef.current, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: null,
+        logging: false,
+        imageTimeout: 15000,
+        onclone: (_doc, el) => {
+          // Freeze ticker animation so it doesn't appear mid-scroll in capture
+          const ticker = el.querySelector<HTMLElement>(".ticker-scroll");
+          if (ticker) ticker.style.animation = "none";
+        },
       });
-
-      /* 4 ── Header bar (0–76) */
-      const hbg = ctx.createLinearGradient(0,0,0,76);
-      hbg.addColorStop(0,"rgba(212,175,55,0.18)"); hbg.addColorStop(1,"rgba(212,175,55,0.04)");
-      ctx.fillStyle=hbg; ctx.roundRect(4,4,W-8,72,[13,13,0,0]); ctx.fill();
-      ctx.strokeStyle="rgba(212,175,55,0.22)"; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.moveTo(14,76); ctx.lineTo(W-14,76); ctx.stroke();
-
-      /* Title */
-      ctx.textAlign="center"; ctx.textBaseline="alphabetic";
-      const tg=ctx.createLinearGradient(0,16,0,56);
-      tg.addColorStop(0,"#f5e070"); tg.addColorStop(0.5,"#D4AF37"); tg.addColorStop(1,"#b8860b");
-      ctx.fillStyle=tg;
-      ctx.font="bold 14px Georgia,serif"; ctx.fillText("→",W/2-185,46); ctx.fillText("←",W/2+185,46);
-      ctx.font="bold 36px Georgia,serif"; ctx.fillText("ORAKZAI.ORG",W/2,50);
-      ctx.font="bold 10px 'Courier New',monospace"; ctx.fillStyle="rgba(212,175,55,0.8)";
-      ctx.fillText("GLOBAL DIGITAL CITIZENSHIP CARD",W/2,67);
-
-      /* Verified badge */
-      ctx.strokeStyle="rgba(212,175,55,0.65)"; ctx.lineWidth=1;
-      ctx.roundRect(W-178,18,158,28,5); ctx.stroke();
-      ctx.fillStyle="rgba(212,175,55,0.06)"; ctx.roundRect(W-178,18,158,28,5); ctx.fill();
-      ctx.font="10px sans-serif"; ctx.fillStyle="#D4AF37cc"; ctx.textAlign="left";
-      ctx.fillText("✦",W-168,37);
-      ctx.font="bold 9px 'Courier New',monospace"; ctx.fillStyle="#D4AF37dd";
-      ctx.fillText("VERIFIED MEMBER",W-152,37);
-
-      /* 5 ── Left column (x:14–178) */
-      /* Logo */
-      const logo = await loadImg("/orakzai-org-logo.png");
-      const lcX=96, logoY=100;
-      if(logo.naturalWidth>0){
-        ctx.save(); ctx.beginPath(); ctx.arc(lcX,logoY,34,0,Math.PI*2); ctx.clip();
-        ctx.drawImage(logo,lcX-34,logoY-34,68,68); ctx.restore();
-        ctx.strokeStyle="#D4AF37bb"; ctx.lineWidth=2;
-        ctx.beginPath(); ctx.arc(lcX,logoY,35,0,Math.PI*2); ctx.stroke();
-      } else {
-        ctx.fillStyle="rgba(212,175,55,0.15)";
-        ctx.beginPath(); ctx.arc(lcX,logoY,35,0,Math.PI*2); ctx.fill();
-        ctx.font="22px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
-        ctx.fillStyle="#D4AF37"; ctx.fillText("🦅",lcX,logoY);
-      }
-      ctx.font="bold 8px 'Courier New',monospace"; ctx.fillStyle="#D4AF37cc";
-      ctx.textAlign="center"; ctx.textBaseline="alphabetic";
-      ctx.fillText("Orakzai.Org",lcX,147);
-
-      /* Photo */
-      const pcx=96, pcy=310, pr=78;
-      ctx.strokeStyle="rgba(212,175,55,0.22)"; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.arc(pcx,pcy,pr+18,0,Math.PI*2); ctx.stroke();
-      ctx.strokeStyle="#D4AF37ee"; ctx.lineWidth=3.5;
-      ctx.beginPath(); ctx.arc(pcx,pcy,pr+10,0,Math.PI*2); ctx.stroke();
-      ctx.save(); ctx.beginPath(); ctx.arc(pcx,pcy,pr,0,Math.PI*2); ctx.clip();
-      if(data.photo){
-        const pi = await loadImg(data.photo);
-        ctx.drawImage(pi,pcx-pr,pcy-pr,pr*2,pr*2);
-      } else {
-        ctx.fillStyle="rgba(212,175,55,0.1)"; ctx.fillRect(pcx-pr,pcy-pr,pr*2,pr*2);
-        ctx.font="64px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
-        ctx.fillStyle="#D4AF3788"; ctx.fillText((data.name[0]||"?").toUpperCase(),pcx,pcy);
-      }
-      ctx.restore();
-      /* checkmark badge */
-      const cbx=pcx+pr*0.68, cby=pcy+pr*0.68;
-      ctx.fillStyle="#D4AF37"; ctx.beginPath(); ctx.arc(cbx,cby,12,0,Math.PI*2); ctx.fill();
-      ctx.strokeStyle="#051c0f"; ctx.lineWidth=1.5;
-      ctx.beginPath(); ctx.arc(cbx,cby,12,0,Math.PI*2); ctx.stroke();
-      ctx.fillStyle="#051c0f"; ctx.font="bold 11px sans-serif";
-      ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("✓",cbx,cby);
-
-      /* Chip */
-      const chX=28, chY=418;
-      const cg=ctx.createLinearGradient(chX,chY,chX+42,chY+30);
-      cg.addColorStop(0,"#f0d060"); cg.addColorStop(0.5,"#D4AF37"); cg.addColorStop(1,"#b8860b");
-      ctx.fillStyle=cg; ctx.roundRect(chX,chY,42,30,3); ctx.fill();
-      ctx.strokeStyle="rgba(0,0,0,0.2)"; ctx.lineWidth=0.6;
-      [8,15,22].forEach(dy=>{ctx.beginPath();ctx.moveTo(chX,chY+dy);ctx.lineTo(chX+42,chY+dy);ctx.stroke();});
-      [13,29].forEach(dx=>{ctx.beginPath();ctx.moveTo(chX+dx,chY);ctx.lineTo(chX+dx,chY+30);ctx.stroke();});
-
-      /* NFC arcs */
-      const nX=82, nY=433;
-      [12,20,29].forEach((r,i)=>{
-        ctx.strokeStyle=`rgba(212,175,55,${0.3+i*0.2})`; ctx.lineWidth=1.8;
-        ctx.beginPath(); ctx.arc(nX,nY,r,-Math.PI*0.65,Math.PI*0.65); ctx.stroke();
-      });
-
-      /* 6 ── World-map dots (right panel x:800..) */
-      ctx.save(); ctx.globalAlpha=0.1;
-      const wmS=800;
-      for(let col=wmS;col<W-22;col+=12){
-        for(let row=82;row<448;row+=12){
-          const nc=(col-wmS)/(W-22-wmS), nr=(row-82)/(448-82);
-          const land=
-            (nc<0.32&&nr>0.1&&nr<0.74)||
-            (nc>=0.32&&nc<0.58&&nr>0.04&&nr<0.58)||
-            (nc>=0.58&&nr>0.08&&nr<0.64)||
-            (nc>0.12&&nc<0.48&&nr>0.62&&nr<0.9);
-          if(land){ctx.fillStyle="#D4AF37"; ctx.fillRect(col,row,6,6);}
-        }
-      }
-      ctx.restore();
-
-      /* 7 ── Data fields (x:200..795) */
-      const rows:[string,string,boolean][]=[
-        ["MEMBER NAME",        data.name,                        true ],
-        ["DESIGNATION",        data.profession,                  false],
-        ["CNIC / NATIONAL ID", hashCnic(data.cnic),             false],
-        ["NATIONALITY",        data.nationality,                 false],
-        ["LOCATION",           `${data.city}, ${data.country}`, false],
-        ["AREA OF INTEREST",   data.interest,                   false],
-      ];
-      const fx=210, fy0=84, rowH=60, colonX=fx+148;
-      rows.forEach(([lbl,val,large],i)=>{
-        const y=fy0+i*rowH;
-        ctx.font="bold 8.5px 'Courier New',monospace";
-        ctx.fillStyle=goldGrad(); ctx.textAlign="left"; ctx.textBaseline="alphabetic";
-        ctx.fillText(lbl,fx,y);
-        ctx.fillText(":",colonX,y+(large?20:14));
-        ctx.font=large?"bold 22px Georgia,serif":"500 15px sans-serif";
-        ctx.fillStyle=large?"#ffffff":"#e0e0e0";
-        ctx.fillText(val||"—",colonX+14,y+(large?23:16));
-        const sep=ctx.createLinearGradient(fx,0,795,0);
-        sep.addColorStop(0,"rgba(212,175,55,0.38)"); sep.addColorStop(1,"transparent");
-        ctx.strokeStyle=sep; ctx.lineWidth=0.7;
-        ctx.beginPath(); ctx.moveTo(fx,y+(large?34:26)); ctx.lineTo(795,y+(large?34:26)); ctx.stroke();
-      });
-
-      /* 8 ── Bottom strip (y:452) */
-      const bsY=452;
-      ctx.strokeStyle="rgba(212,175,55,0.22)"; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.moveTo(14,bsY); ctx.lineTo(W-14,bsY); ctx.stroke();
-      const bsBg=ctx.createLinearGradient(0,bsY,0,H);
-      bsBg.addColorStop(0,"rgba(0,0,0,0.28)"); bsBg.addColorStop(1,"rgba(0,0,0,0.12)");
-      ctx.fillStyle=bsBg; ctx.fillRect(14,bsY,W-28,H-bsY-4);
-
-      /* Bottom LEFT: Member ID + Dates */
-      const bLx=24;
-      ctx.font="bold 7.5px 'Courier New',monospace"; ctx.fillStyle=goldGrad(); ctx.textAlign="left";
-      ctx.fillText("MEMBER ID",bLx,bsY+17);
-      ctx.font="bold 18px 'Courier New',monospace"; ctx.fillStyle="#D4AF37";
-      ctx.fillText(data.memberId,bLx,bsY+37);
-      ctx.font="bold 7px 'Courier New',monospace"; ctx.fillStyle=goldGrad();
-      ctx.fillText("ISSUE DATE",bLx,bsY+54);
-      ctx.font="500 11px sans-serif"; ctx.fillStyle="#cccccc";
-      ctx.fillText(data.issueDate,bLx,bsY+68);
-      ctx.font="bold 7px 'Courier New',monospace"; ctx.fillStyle=goldGrad();
-      ctx.fillText("EXPIRY DATE",bLx+170,bsY+54);
-      ctx.font="500 11px sans-serif"; ctx.fillStyle="#cccccc";
-      ctx.fillText(data.expiryDate,bLx+170,bsY+68);
-
-      /* QR code bottom-left */
-      const qrEl=document.querySelector<SVGSVGElement>("#elite-card-qr svg");
-      if(qrEl){
-        const xml=new XMLSerializer().serializeToString(qrEl);
-        const blob=new Blob([xml],{type:"image/svg+xml;charset=utf-8"});
-        const url=URL.createObjectURL(blob);
-        const qi=new Image();
-        await new Promise<void>((res)=>{qi.onload=()=>res();qi.onerror=()=>res();qi.src=url;});
-        ctx.fillStyle="#ffffff"; ctx.roundRect(bLx-2,bsY+78,68,68,4); ctx.fill();
-        ctx.drawImage(qi,bLx,bsY+80,64,64);
-        URL.revokeObjectURL(url);
-        ctx.font="bold 6px 'Courier New',monospace"; ctx.fillStyle="rgba(212,175,55,0.6)";
-        ctx.fillText("SCAN TO VERIFY",bLx,bsY+152);
-      }
-
-      /* Bottom CENTER: Lock shield + SVT + Divider + Signature */
-      const bcX=420;
-      /* lock shield */
-      ctx.strokeStyle="rgba(212,175,55,0.6)"; ctx.lineWidth=1.5; ctx.fillStyle="rgba(212,175,55,0.06)";
-      ctx.roundRect(bcX,bsY+8,34,44,6); ctx.fill(); ctx.stroke();
-      ctx.strokeStyle="rgba(212,175,55,0.75)"; ctx.lineWidth=1.8;
-      ctx.beginPath(); ctx.arc(bcX+17,bsY+24,10,Math.PI,0); ctx.stroke();
-      ctx.fillStyle="rgba(212,175,55,0.8)"; ctx.roundRect(bcX+7,bsY+24,20,18,2); ctx.fill();
-      ctx.fillStyle="#051c0f"; ctx.font="bold 10px sans-serif";
-      ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("🔒",bcX+17,bsY+35);
-      /* SVT */
-      ctx.font="bold 9px 'Courier New',monospace"; ctx.fillStyle="#D4AF37ee"; ctx.textAlign="left";
-      ctx.fillText("SECURE",bcX+40,bsY+22);
-      ctx.fillText("VERIFIED",bcX+40,bsY+33);
-      ctx.fillText("TRUSTED",bcX+40,bsY+44);
-      ctx.font="6px sans-serif"; ctx.fillStyle="rgba(255,255,255,0.36)";
-      ctx.fillText("BUILDING A BETTER",bcX+40,bsY+57);
-      ctx.fillText("DIGITAL FUTURE",bcX+40,bsY+66);
-      ctx.fillText("FOR HUMANITY",bcX+40,bsY+75);
-      /* vertical divider */
-      ctx.strokeStyle="rgba(212,175,55,0.22)"; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.moveTo(bcX+128,bsY+5); ctx.lineTo(bcX+128,H-14); ctx.stroke();
-      /* signature */
-      const sig=await loadImg("/faisal-signature-transparent.png");
-      if(sig.naturalWidth>0){
-        ctx.save(); ctx.globalAlpha=0.88;
-        ctx.drawImage(sig,bcX+134,bsY+2,155,74); ctx.restore();
-      }
-      ctx.font="bold 8.5px 'Courier New',monospace"; ctx.fillStyle=goldGrad(); ctx.textAlign="center";
-      ctx.fillText("FAISAL ORAKZAI",bcX+210,H-30);
-      ctx.font="7px sans-serif"; ctx.fillStyle="rgba(255,255,255,0.4)";
-      ctx.fillText("Founder & Chairman, Orakzai Group",bcX+210,H-18);
-
-      /* Bottom RIGHT: Gold circular stamp */
-      const sX=W-90, sY=H-78, sR=62;
-      const sg2=ctx.createRadialGradient(sX-14,sY-14,4,sX,sY,sR);
-      sg2.addColorStop(0,"#f5e070"); sg2.addColorStop(0.35,"#d4af37");
-      sg2.addColorStop(0.75,"#8a6a10"); sg2.addColorStop(1,"#4a3408");
-      ctx.fillStyle=sg2; ctx.beginPath(); ctx.arc(sX,sY,sR,0,Math.PI*2); ctx.fill();
-      ctx.strokeStyle="#f0d060"; ctx.lineWidth=2.2;
-      ctx.beginPath(); ctx.arc(sX,sY,sR,0,Math.PI*2); ctx.stroke();
-      ctx.strokeStyle="rgba(0,0,0,0.22)"; ctx.lineWidth=1;
-      ctx.beginPath(); ctx.arc(sX,sY,sR-8,0,Math.PI*2); ctx.stroke();
-      /* circular arc text top */
-      ctx.save(); ctx.translate(sX,sY);
-      const topT="★ ORAKZAI.ORG ★";
-      topT.split("").forEach((ch,ci)=>{
-        const a=-Math.PI/2-(topT.length/2*0.185)+ci*0.185;
-        ctx.save(); ctx.rotate(a); ctx.translate(0,-(sR-13)); ctx.rotate(Math.PI/2);
-        ctx.font="bold 6.5px 'Courier New',monospace"; ctx.fillStyle="#051c0f";
-        ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(ch,0,0); ctx.restore();
-      });
-      const botT="VERIFIED MEMBER";
-      botT.split("").forEach((ch,ci)=>{
-        const a=Math.PI/2-(botT.length/2*0.155)+ci*0.155;
-        ctx.save(); ctx.rotate(a); ctx.translate(0,-(sR-13)); ctx.rotate(Math.PI/2);
-        ctx.font="bold 6px 'Courier New',monospace"; ctx.fillStyle="#051c0f";
-        ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(ch,0,0); ctx.restore();
-      });
-      /* eagle */
-      ctx.font="28px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
-      ctx.fillText("🦅",0,-2); ctx.restore();
-
-      /* download */
-      const lnk=document.createElement("a");
-      lnk.download=`${data.memberId}-orakzai-card.png`;
-      lnk.href=cv.toDataURL("image/png",1.0); lnk.click();
-    } finally { setDl(false); }
+      const link = document.createElement("a");
+      link.download = `${data.memberId}-orakzai-card.png`;
+      link.href = canvas.toDataURL("image/png", 1.0);
+      link.click();
+    } finally {
+      setDl(false);
+    }
   }, [data]);
 
-  const handlePrint = () => {
-    const win = window.open("", "_blank", "width=1040,height=640");
+  const handlePrint = useCallback(async () => {
+    if (!cardRef.current) return;
+    const canvas = await html2canvas(cardRef.current, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: null,
+      logging: false,
+      imageTimeout: 15000,
+    });
+    const img = canvas.toDataURL("image/png", 1.0);
+    const win = window.open("", "_blank");
     if (!win) return;
-    const cardHtml = cardRef.current?.outerHTML ?? "";
-    win.document.write(`<html><head><title>Orakzai Member Card</title>
-      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-      <style>* { -webkit-print-color-adjust:exact; print-color-adjust:exact; box-sizing:border-box; }
-      body { margin:0; background:#051c0f; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:32px; }
-      </style></head><body>${cardHtml}</body></html>`);
-    win.document.close(); win.focus();
-    setTimeout(() => { win.print(); win.close(); }, 500);
-  };
+    win.document.write(`<!DOCTYPE html><html><head>
+      <title>Orakzai Member Card</title>
+      <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+        body { background:#051c0f; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:16px; }
+        img { max-width:100%; height:auto; display:block; }
+        @media print { body { padding:0; background:#051c0f; } @page { margin:0.4cm; size:landscape; } }
+      </style>
+    </head><body>
+      <img src="${img}" />
+      <script>window.onload=function(){setTimeout(function(){window.print();},600);}<\/script>
+    </body></html>`);
+    win.document.close();
+    win.focus();
+  }, [data]);
 
   /* ─── Visual HTML Card ──────────────────────────── */
   return (
     <div className="flex flex-col items-center gap-6 w-full">
+
+      {/* Mobile scroll wrapper — card stays full quality, scrollable on small screens */}
+      <div style={{ width: "100%", overflowX: "auto", WebkitOverflowScrolling: "touch" as React.CSSProperties["WebkitOverflowScrolling"] }}>
+        <div style={{ minWidth: 360, display: "flex", justifyContent: "center", padding: "0 4px" }}>
 
       {/* ══ GOLD OUTER FRAME ══ */}
       <div
@@ -862,7 +623,7 @@ function MemberCard({ data }: { data: MemberData }) {
             }}
           >
             <div
-              className="absolute flex items-center h-full whitespace-nowrap"
+              className="ticker-scroll absolute flex items-center h-full whitespace-nowrap"
               style={{
                 animation:"tickerScroll 22s linear infinite",
                 fontSize:"5.5px",
@@ -880,6 +641,8 @@ function MemberCard({ data }: { data: MemberData }) {
 
         </div>{/* /inner card */}
       </div>{/* /gold frame */}
+        </div>{/* /min-width wrapper */}
+      </div>{/* /mobile scroll */}
 
       {/* Action buttons */}
       <div className="flex flex-wrap gap-3 justify-center">

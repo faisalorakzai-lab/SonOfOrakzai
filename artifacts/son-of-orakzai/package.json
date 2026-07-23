@@ -73,7 +73,8 @@
     "vaul": "^1.1.2",
     "vite": "catalog:",
     "wouter": "^3.3.5",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "html2canvas": "1.4.1"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.105.3",
