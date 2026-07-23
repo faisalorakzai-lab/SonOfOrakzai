@@ -166,11 +166,11 @@ function HeroBg() {
         muted
         playsInline
         aria-hidden
-        style={{ opacity: 0.55 }}
+        style={{ opacity: 0.88 }}
       />
 
       {/* Dark overlay — black tint for base contrast */}
-      <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.65)' }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'rgba(0,0,0,0.28)' }} />
 
       {/* Dark emerald gradient overlay — top-to-bottom for text readability */}
       <div
