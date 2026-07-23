@@ -223,25 +223,70 @@ function MemberCard({ data }: { data: MemberData }) {
   const qrValue = `https://sonoforakzai.vercel.app/verify/${data.memberId}`;
 
   /* ────────────────────────────────────────────────
-     PNG download — captures the real rendered card
+     Shared capture helper — renders card at full
+     960 px width off-screen, fixes webkit gradient
+     text (unsupported by html2canvas), then returns
+     a high-res canvas.
   ──────────────────────────────────────────────── */
-  const handleDownload = useCallback(async () => {
-    if (!cardRef.current) return;
-    setDl(true);
+  const captureCard = useCallback(async (): Promise<HTMLCanvasElement> => {
+    const original = cardRef.current!;
+
+    // 1. Clone into a fixed-width off-screen shell so mobile viewport
+    //    doesn't crop the right side of the card.
+    const shell = document.createElement("div");
+    shell.style.cssText =
+      "position:fixed;top:-20000px;left:-20000px;width:960px;z-index:-1;pointer-events:none;";
+    const clone = original.cloneNode(true) as HTMLElement;
+    clone.style.width = "960px";
+    clone.style.maxWidth = "960px";
+    // Force all clamp()-driven font sizes to their desktop maximum by
+    // temporarily widening the clone's context to 960 px.
+    shell.appendChild(clone);
+    document.body.appendChild(shell);
+
     try {
-      const canvas = await html2canvas(cardRef.current, {
+      const canvas = await html2canvas(clone, {
         scale: 2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: null,
         logging: false,
         imageTimeout: 15000,
+        width: 960,
         onclone: (_doc, el) => {
-          // Freeze ticker animation so it doesn't appear mid-scroll in capture
+          // html2canvas cannot render -webkit-background-clip:text.
+          // Replace every gradient-text element with solid gold so nothing
+          // renders as a yellow rectangle.
+          el.querySelectorAll<HTMLElement>("*").forEach((node) => {
+            const s = node.style;
+            if (
+              s.webkitTextFillColor === "transparent" ||
+              s.getPropertyValue("-webkit-text-fill-color") === "transparent"
+            ) {
+              s.removeProperty("-webkit-text-fill-color");
+              s.removeProperty("-webkit-background-clip");
+              s.removeProperty("background-clip");
+              s.background = "none";
+              s.color = "#D4AF37";
+            }
+          });
+          // Freeze ticker so it doesn't appear mid-scroll.
           const ticker = el.querySelector<HTMLElement>(".ticker-scroll");
           if (ticker) ticker.style.animation = "none";
         },
       });
+      return canvas;
+    } finally {
+      document.body.removeChild(shell);
+    }
+  }, []);
+
+  /* PNG download */
+  const handleDownload = useCallback(async () => {
+    if (!cardRef.current) return;
+    setDl(true);
+    try {
+      const canvas = await captureCard();
       const link = document.createElement("a");
       link.download = `${data.memberId}-orakzai-card.png`;
       link.href = canvas.toDataURL("image/png", 1.0);
@@ -249,36 +294,35 @@ function MemberCard({ data }: { data: MemberData }) {
     } finally {
       setDl(false);
     }
-  }, [data]);
+  }, [captureCard, data.memberId]);
 
+  /* Print */
   const handlePrint = useCallback(async () => {
     if (!cardRef.current) return;
-    const canvas = await html2canvas(cardRef.current, {
-      scale: 2,
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: null,
-      logging: false,
-      imageTimeout: 15000,
-    });
-    const img = canvas.toDataURL("image/png", 1.0);
-    const win = window.open("", "_blank");
-    if (!win) return;
-    win.document.write(`<!DOCTYPE html><html><head>
-      <title>Orakzai Member Card</title>
-      <style>
-        * { margin:0; padding:0; box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-        body { background:#051c0f; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:16px; }
-        img { max-width:100%; height:auto; display:block; }
-        @media print { body { padding:0; background:#051c0f; } @page { margin:0.4cm; size:landscape; } }
-      </style>
-    </head><body>
-      <img src="${img}" />
-      <script>window.onload=function(){setTimeout(function(){window.print();},600);}<\/script>
-    </body></html>`);
-    win.document.close();
-    win.focus();
-  }, [data]);
+    setDl(true);
+    try {
+      const canvas = await captureCard();
+      const img = canvas.toDataURL("image/png", 1.0);
+      const win = window.open("", "_blank");
+      if (!win) return;
+      win.document.write(`<!DOCTYPE html><html><head>
+        <title>Orakzai Member Card</title>
+        <style>
+          *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+          body{background:#051c0f;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:12px;}
+          img{max-width:100%;height:auto;display:block;}
+          @media print{body{padding:0;}@page{margin:0.3cm;size:landscape;}}
+        </style>
+      </head><body>
+        <img src="${img}"/>
+        <script>window.onload=function(){setTimeout(function(){window.print();},700);}<\/script>
+      </body></html>`);
+      win.document.close();
+      win.focus();
+    } finally {
+      setDl(false);
+    }
+  }, [captureCard]);
 
   /* ─── Visual HTML Card ──────────────────────────── */
   return (
