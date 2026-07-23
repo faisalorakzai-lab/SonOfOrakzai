@@ -527,112 +527,207 @@ function MemberCard({ data }: { data: MemberData }) {
   return (
     <div className="flex flex-col items-center gap-6 w-full">
 
-      {/* Gold outer frame */}
+      {/* ══ GOLD OUTER FRAME ══ */}
       <div
         ref={cardRef}
         className="relative w-full select-none"
         style={{
-          maxWidth: 900,
-          padding: 4,
-          background: "linear-gradient(135deg,#f0d060 0%,#8a6a10 25%,#D4AF37cc 50%,#5a4208 75%,#e8c84a 100%)",
-          borderRadius: 20,
-          boxShadow: "0 40px 100px rgba(0,0,0,0.75),0 12px 40px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.08)",
+          maxWidth: 960,
+          padding: 3,
+          background: "linear-gradient(135deg,#f5e070 0%,#8a6a10 20%,#D4AF37 50%,#5a4208 78%,#e8c84a 100%)",
+          borderRadius: 18,
+          boxShadow: "0 48px 120px rgba(0,0,0,0.80),0 16px 48px rgba(0,0,0,0.65),inset 0 1px 0 rgba(255,255,255,0.10)",
         }}
       >
-        {/* Inner dark card */}
+        {/* ══ INNER DARK CARD ══ */}
         <div
-          className="relative rounded-[16px] overflow-hidden"
-          style={{ background: "linear-gradient(160deg,#071e12 0%,#0c3020 18%,#082818 38%,#0a2d1c 52%,#061b11 70%,#04100a 100%)" }}
+          className="relative rounded-[15px] overflow-hidden"
+          style={{ background: "linear-gradient(155deg,#061a0e 0%,#0b2e18 22%,#082214 42%,#092919 58%,#051608 78%,#030d06 100%)" }}
         >
-          {/* diagonal micro-texture */}
-          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage:"repeating-linear-gradient(135deg,transparent 0,transparent 5px,rgba(255,255,255,0.006) 5px,rgba(255,255,255,0.006) 6px)", zIndex:1 }} />
-          {/* inner gold inset */}
-          <div className="absolute inset-[5px] rounded-[12px] pointer-events-none" style={{ border:"1px solid rgba(212,175,55,0.22)", zIndex:2 }} />
-          {/* screws */}
+
+          {/* Micro-texture */}
+          <div className="absolute inset-0 pointer-events-none" style={{
+            backgroundImage:"repeating-linear-gradient(135deg,transparent 0,transparent 4px,rgba(255,255,255,0.005) 4px,rgba(255,255,255,0.005) 5px)",
+            zIndex:0
+          }}/>
+
+          {/* Inner gold inset border */}
+          <div className="absolute inset-[6px] rounded-[10px] pointer-events-none" style={{ border:"1px solid rgba(212,175,55,0.20)", zIndex:3 }}/>
+
+          {/* Corner screws */}
           <Screw pos="tl"/><Screw pos="tr"/><Screw pos="bl"/><Screw pos="br"/>
+
+          {/* Corner ornaments (SVG flourishes) */}
+          {/* Top-left */}
+          <svg className="absolute top-3 left-3 pointer-events-none" style={{ zIndex:4, opacity:0.55 }} width="48" height="48" viewBox="0 0 48 48">
+            <path d="M4 44 Q4 4 44 4" stroke="#D4AF37" strokeWidth="1" fill="none"/>
+            <path d="M4 36 Q4 4 36 4" stroke="#D4AF37" strokeWidth="0.6" fill="none"/>
+            <circle cx="4" cy="4" r="2.5" fill="#D4AF37"/>
+            <path d="M4 12 L4 4 L12 4" stroke="#D4AF37" strokeWidth="1.2" fill="none"/>
+          </svg>
+          {/* Top-right */}
+          <svg className="absolute top-3 right-3 pointer-events-none" style={{ zIndex:4, opacity:0.55, transform:"scaleX(-1)" }} width="48" height="48" viewBox="0 0 48 48">
+            <path d="M4 44 Q4 4 44 4" stroke="#D4AF37" strokeWidth="1" fill="none"/>
+            <path d="M4 36 Q4 4 36 4" stroke="#D4AF37" strokeWidth="0.6" fill="none"/>
+            <circle cx="4" cy="4" r="2.5" fill="#D4AF37"/>
+            <path d="M4 12 L4 4 L12 4" stroke="#D4AF37" strokeWidth="1.2" fill="none"/>
+          </svg>
+          {/* Bottom-left */}
+          <svg className="absolute bottom-3 left-3 pointer-events-none" style={{ zIndex:4, opacity:0.55, transform:"scaleY(-1)" }} width="48" height="48" viewBox="0 0 48 48">
+            <path d="M4 44 Q4 4 44 4" stroke="#D4AF37" strokeWidth="1" fill="none"/>
+            <path d="M4 36 Q4 4 36 4" stroke="#D4AF37" strokeWidth="0.6" fill="none"/>
+            <circle cx="4" cy="4" r="2.5" fill="#D4AF37"/>
+            <path d="M4 12 L4 4 L12 4" stroke="#D4AF37" strokeWidth="1.2" fill="none"/>
+          </svg>
+          {/* Bottom-right */}
+          <svg className="absolute bottom-3 right-3 pointer-events-none" style={{ zIndex:4, opacity:0.55, transform:"scale(-1,-1)" }} width="48" height="48" viewBox="0 0 48 48">
+            <path d="M4 44 Q4 4 44 4" stroke="#D4AF37" strokeWidth="1" fill="none"/>
+            <path d="M4 36 Q4 4 36 4" stroke="#D4AF37" strokeWidth="0.6" fill="none"/>
+            <circle cx="4" cy="4" r="2.5" fill="#D4AF37"/>
+            <path d="M4 12 L4 4 L12 4" stroke="#D4AF37" strokeWidth="1.2" fill="none"/>
+          </svg>
 
           {/* ── HEADER ── */}
           <div
-            className="relative z-10 py-2.5 text-center"
-            style={{ background:"linear-gradient(180deg,rgba(212,175,55,0.17) 0%,rgba(212,175,55,0.04) 100%)", borderBottom:"1px solid rgba(212,175,55,0.2)" }}
+            className="relative flex items-center justify-between px-5 py-2"
+            style={{ background:"linear-gradient(180deg,rgba(212,175,55,0.18) 0%,rgba(212,175,55,0.04) 100%)", borderBottom:"1px solid rgba(212,175,55,0.22)", zIndex:5 }}
           >
-            {/* Verified badge – top-right */}
+            {/* Logo (top-left of header) */}
+            <div className="flex flex-col items-center flex-shrink-0" style={{ width: 56 }}>
+              <div className="rounded-full overflow-hidden" style={{ width:40, height:40, border:"1.5px solid rgba(212,175,55,0.75)" }}>
+                <img src="/orakzai-org-logo.png" alt="Logo" className="w-full h-full object-cover" onError={(e)=>{(e.target as HTMLImageElement).style.display="none";}}/>
+              </div>
+              <span className="text-[6px] font-bold mt-0.5 tracking-widest" style={{ color:"rgba(212,175,55,0.8)" }}>Orakzai.Org</span>
+            </div>
+
+            {/* Center title */}
+            <div className="flex flex-col items-center flex-1 mx-2">
+              <div className="flex items-center gap-2">
+                <span style={{ color:"rgba(212,175,55,0.7)", fontSize:12, lineHeight:1 }}>→</span>
+                <span
+                  className="font-bold tracking-[0.20em]"
+                  style={{
+                    fontSize:"clamp(18px,3.2vw,32px)",
+                    fontFamily:"'Playfair Display',Georgia,serif",
+                    background:"linear-gradient(135deg,#f5e070 0%,#D4AF37 45%,#b8860b 100%)",
+                    WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text",
+                    lineHeight:1.15,
+                  }}
+                >ORAKZAI.ORG</span>
+                <span style={{ color:"rgba(212,175,55,0.7)", fontSize:12, lineHeight:1 }}>←</span>
+              </div>
+              <div className="text-[7.5px] font-black tracking-[0.26em] mt-0.5" style={{ color:"rgba(212,175,55,0.72)" }}>
+                GLOBAL DIGITAL CITIZENSHIP CARD
+              </div>
+            </div>
+
+            {/* Verified badge */}
             <div
-              className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center gap-1.5 px-3 py-1 rounded"
-              style={{ border:"1px solid rgba(212,175,55,0.55)", background:"rgba(212,175,55,0.05)" }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded flex-shrink-0"
+              style={{ border:"1px solid rgba(212,175,55,0.60)", background:"rgba(212,175,55,0.06)" }}
             >
-              <span style={{ color:"#D4AF37cc", fontSize:10 }}>✦</span>
-              <span className="text-[8px] font-black tracking-[0.18em]" style={{ color:"#D4AF37dd" }}>VERIFIED MEMBER</span>
-            </div>
-            <div className="flex items-center justify-center gap-2 mb-0.5">
-              <span style={{ color:"#D4AF37cc", fontSize:13 }}>→</span>
-              <span
-                className="text-[20px] sm:text-[24px] font-bold tracking-[0.18em]"
-                style={{ fontFamily:"'Playfair Display',Georgia,serif", background:"linear-gradient(135deg,#f5e070 0%,#D4AF37 50%,#b8860b 100%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}
-              >ORAKZAI.ORG</span>
-              <span style={{ color:"#D4AF37cc", fontSize:13 }}>←</span>
-            </div>
-            <div className="text-[7px] font-black tracking-[0.24em]" style={{ color:"rgba(212,175,55,0.75)" }}>
-              GLOBAL DIGITAL CITIZENSHIP CARD
+              <span style={{ color:"rgba(212,175,55,0.9)", fontSize:9 }}>✦</span>
+              <span className="text-[7.5px] font-black tracking-[0.16em] whitespace-nowrap" style={{ color:"rgba(212,175,55,0.95)" }}>VERIFIED MEMBER</span>
             </div>
           </div>
 
-          {/* ── MAIN BODY: 3 columns ── */}
-          <div className="relative z-10 flex min-h-0">
+          {/* ── MAIN BODY ── */}
+          <div className="relative flex" style={{ zIndex:5, minHeight:240 }}>
 
-            {/* LEFT COLUMN: Logo → Photo → Chip */}
-            <div className="flex flex-col items-center px-3 py-3 flex-shrink-0" style={{ width:148 }}>
-              {/* Logo */}
-              <div className="flex flex-col items-center mb-2">
-                <div className="rounded-full overflow-hidden" style={{ width:46, height:46, border:"2px solid rgba(212,175,55,0.7)" }}>
-                  <img src="/orakzai-org-logo.png" alt="Logo" className="w-full h-full object-cover"
-                    onError={(e)=>{(e.target as HTMLImageElement).style.display="none";}} />
-                </div>
-                <span className="text-[6px] font-bold mt-1 tracking-widest" style={{ color:"rgba(212,175,55,0.8)" }}>Orakzai.Org</span>
-              </div>
+            {/* Vertical left security strip */}
+            <div
+              className="absolute left-0 top-0 bottom-0 flex items-center justify-center pointer-events-none overflow-hidden"
+              style={{ width:14, background:"rgba(0,0,0,0.18)", borderRight:"1px solid rgba(212,175,55,0.10)", zIndex:6 }}
+            >
+              <div
+                className="text-[4.5px] font-black tracking-[0.22em] whitespace-nowrap"
+                style={{ color:"rgba(212,175,55,0.35)", writingMode:"vertical-rl", transform:"rotate(180deg)", letterSpacing:"0.28em" }}
+              >VERIFIED • SECURE • GLOBAL MEMBER • DIGITAL CITIZEN • ORAKZAI.ORG •</div>
+            </div>
 
-              {/* Photo with rings */}
-              <div className="relative flex items-center justify-center mt-1">
-                <div className="absolute rounded-full" style={{ inset:-18, border:"1px solid rgba(212,175,55,0.18)" }}/>
-                <div className="absolute rounded-full" style={{ inset:-10, border:"3px solid rgba(212,175,55,0.9)", boxShadow:"0 0 16px rgba(212,175,55,0.22)" }}/>
+            {/* LEFT COLUMN: photo + chip */}
+            <div className="flex flex-col items-center pt-4 pb-3 flex-shrink-0" style={{ width:"clamp(150px,22%,210px)", paddingLeft:20, paddingRight:8 }}>
+
+              {/* Photo with dual rings */}
+              <div className="relative flex items-center justify-center mt-2" style={{ width:156, height:156 }}>
+                {/* Outer faint ring */}
+                <div className="absolute inset-0 rounded-full" style={{ border:"1px solid rgba(212,175,55,0.22)" }}/>
+                {/* Gold ring */}
+                <div className="absolute rounded-full" style={{
+                  inset:10, border:"3.5px solid #D4AF37",
+                  boxShadow:"0 0 18px rgba(212,175,55,0.30), inset 0 0 8px rgba(0,0,0,0.3)"
+                }}/>
+                {/* Photo circle */}
                 <div
-                  className="w-[84px] h-[84px] sm:w-[92px] sm:h-[92px] rounded-full overflow-hidden flex items-center justify-center"
-                  style={{ background:"rgba(212,175,55,0.06)", boxShadow:"inset 0 2px 8px rgba(0,0,0,0.5)" }}
+                  className="absolute rounded-full overflow-hidden flex items-center justify-center"
+                  style={{ inset:18, background:"rgba(212,175,55,0.08)", boxShadow:"inset 0 3px 12px rgba(0,0,0,0.6)" }}
                 >
                   {data.photo
-                    ? <img src={data.photo} alt="" className="w-full h-full object-cover object-center"/>
-                    : <User className="w-8 h-8" style={{ color:"rgba(212,175,55,0.5)" }}/>
+                    ? <img src={data.photo} alt="" className="w-full h-full object-cover object-top"/>
+                    : <User className="w-10 h-10" style={{ color:"rgba(212,175,55,0.45)" }}/>
                   }
                 </div>
-                {/* Checkmark badge */}
+                {/* Gold shield checkmark */}
                 <div
-                  className="absolute bottom-[-2px] right-[-2px] w-5 h-5 rounded-full flex items-center justify-center z-10"
-                  style={{ background:"radial-gradient(circle at 35% 35%,#f0d060,#8a6a10)", border:"1.5px solid #051c0f", boxShadow:"0 2px 6px rgba(0,0,0,0.7)" }}
+                  className="absolute flex items-center justify-center rounded-full z-10"
+                  style={{
+                    width:28, height:28, bottom:18, right:18,
+                    background:"radial-gradient(circle at 35% 30%,#f5e070,#c9a227,#7a5a0a)",
+                    border:"2px solid #051c0f",
+                    boxShadow:"0 3px 10px rgba(0,0,0,0.7)",
+                  }}
                 >
-                  <Check className="w-2 h-2" style={{ color:"#051c0f" }}/>
+                  <Check className="w-3.5 h-3.5" style={{ color:"#051c0f", strokeWidth:3 }}/>
                 </div>
               </div>
 
               {/* Chip + NFC */}
-              <div className="flex items-center gap-2 mt-5">
+              <div className="flex items-center gap-3 mt-5">
+                {/* EMV Chip */}
                 <div
-                  className="rounded-sm flex-shrink-0"
-                  style={{ width:36, height:26, background:"linear-gradient(135deg,#f0d060,#b8860b)", border:"1px solid rgba(0,0,0,0.2)" }}
+                  className="rounded flex-shrink-0 relative overflow-hidden"
+                  style={{
+                    width:44, height:32,
+                    background:"linear-gradient(145deg,#f5e070 0%,#D4AF37 35%,#b8860b 65%,#d4a017 100%)",
+                    border:"1px solid rgba(0,0,0,0.18)",
+                    boxShadow:"0 2px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3)",
+                  }}
                 >
-                  {[0,1,2].map(i=>(
-                    <div key={i} className="w-full" style={{ height:"1px", background:"rgba(0,0,0,0.22)", marginTop:i===0?7:6 }}/>
+                  {/* Horizontal lines */}
+                  {[8,15,22].map(t=>(
+                    <div key={t} className="absolute w-full" style={{ height:"0.8px", background:"rgba(0,0,0,0.20)", top:t }}/>
+                  ))}
+                  {/* Vertical lines */}
+                  {[14,29].map(l=>(
+                    <div key={l} className="absolute h-full" style={{ width:"0.8px", background:"rgba(0,0,0,0.20)", left:l }}/>
                   ))}
                 </div>
-                <div className="relative flex items-center justify-center" style={{ width:28, height:28 }}>
-                  {[10,17,24].map(r=>(
-                    <div key={r} className="absolute rounded-full border" style={{ width:r, height:r, borderColor:"rgba(212,175,55,0.5)", borderWidth:1.5 }}/>
+                {/* NFC arcs */}
+                <div className="relative" style={{ width:32, height:32 }}>
+                  {[12,19,27].map((r,i)=>(
+                    <div key={r} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                      style={{
+                        width:r, height:r,
+                        border:`1.5px solid rgba(212,175,55,${0.25+i*0.2})`,
+                        clipPath:"polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%)",
+                      }}
+                    />
                   ))}
                 </div>
               </div>
             </div>
 
-            {/* CENTER COLUMN: 6 data rows */}
-            <div className="flex-1 py-3 pl-1 pr-2 flex flex-col justify-center gap-0 min-w-0">
+            {/* CENTER COLUMN: data rows */}
+            <div className="flex-1 py-3 pl-3 pr-2 flex flex-col justify-center min-w-0 relative">
+              {/* World-map dot pattern (right-aligned behind data) */}
+              <div className="absolute top-0 right-0 bottom-0 pointer-events-none" style={{
+                width:"38%",
+                backgroundImage:"radial-gradient(circle, rgba(212,175,55,0.18) 1.5px, transparent 1.5px)",
+                backgroundSize:"11px 11px",
+                maskImage:"radial-gradient(ellipse 80% 90% at 70% 50%, black 30%, transparent 100%)",
+                WebkitMaskImage:"radial-gradient(ellipse 80% 90% at 70% 50%, black 30%, transparent 100%)",
+              }}/>
+
               {([
                 ["MEMBER NAME",        data.name,                        true ],
                 ["DESIGNATION",        data.profession,                  false],
@@ -643,112 +738,145 @@ function MemberCard({ data }: { data: MemberData }) {
               ] as [string,string,boolean][]).map(([lbl,val,large],idx,arr)=>(
                 <div
                   key={lbl}
-                  className="flex items-baseline gap-1 py-[5px] min-w-0"
-                  style={idx<arr.length-1?{borderBottom:"1px solid rgba(212,175,55,0.11)"}:{}}
+                  className="flex items-center gap-2 min-w-0"
+                  style={{
+                    paddingTop: large ? 6 : 5,
+                    paddingBottom: large ? 6 : 5,
+                    borderBottom: idx<arr.length-1 ? "1px solid rgba(212,175,55,0.12)" : "none",
+                  }}
                 >
                   <span
-                    className="text-[6px] sm:text-[6.5px] font-black uppercase tracking-[0.15em] flex-shrink-0"
-                    style={{ color:"rgba(212,175,55,0.82)", minWidth:90 }}
+                    className="font-black uppercase flex-shrink-0"
+                    style={{
+                      fontSize:"clamp(5.5px,0.9vw,8px)",
+                      letterSpacing:"0.14em",
+                      color:"rgba(212,175,55,0.85)",
+                      minWidth:"clamp(72px,13%,108px)",
+                    }}
                   >{lbl}</span>
-                  <span className="flex-shrink-0 text-[8px]" style={{ color:"rgba(212,175,55,0.82)" }}>:</span>
+                  <span className="flex-shrink-0 font-black" style={{ color:"rgba(212,175,55,0.85)", fontSize:"clamp(7px,1.1vw,9px)" }}>:</span>
                   <span
-                    className={`truncate ${large ? "font-bold text-sm sm:text-[15px]" : "font-medium text-[10px] sm:text-[11px]"}`}
-                    style={{ color:large?"#ffffff":"#ddd", fontFamily:large?"'Playfair Display',Georgia,serif":undefined }}
+                    className="truncate"
+                    style={{
+                      fontSize: large ? "clamp(13px,2.2vw,20px)" : "clamp(9px,1.5vw,13px)",
+                      fontWeight: large ? 700 : 500,
+                      color: large ? "#ffffff" : "#e0e0e0",
+                      fontFamily: large ? "'Playfair Display',Georgia,serif" : undefined,
+                      letterSpacing: large ? "0.01em" : 0,
+                    }}
                   >{val||"—"}</span>
                 </div>
               ))}
             </div>
-
-            {/* RIGHT COLUMN: World-map dots */}
-            <div
-              className="flex-shrink-0 self-stretch"
-              style={{
-                width:82,
-                backgroundImage:"radial-gradient(circle, rgba(212,175,55,0.2) 1.5px, transparent 1.5px)",
-                backgroundSize:"10px 10px",
-              }}
-            />
           </div>
 
           {/* ── BOTTOM STRIP ── */}
           <div
-            className="relative z-10 flex items-center px-3 py-2 gap-1 flex-wrap sm:flex-nowrap"
-            style={{ borderTop:"1px solid rgba(212,175,55,0.18)", background:"rgba(0,0,0,0.22)" }}
+            className="relative flex items-stretch px-4 py-2.5 gap-0"
+            style={{ borderTop:"1px solid rgba(212,175,55,0.22)", background:"rgba(0,0,0,0.28)", zIndex:5 }}
           >
-            {/* LEFT: Member ID + QR + Dates */}
-            <div className="flex gap-2 flex-shrink-0 items-start" style={{ minWidth:220 }}>
+            {/* LEFT: QR + Member ID + Dates */}
+            <div className="flex gap-3 items-start flex-shrink-0" style={{ paddingLeft:10, minWidth:"clamp(190px,30%,250px)" }}>
               {/* QR */}
-              <div id="elite-card-qr" className="flex-shrink-0">
-                <div className="p-1 rounded" style={{ background:"#fff", boxShadow:"0 2px 8px rgba(0,0,0,0.5)" }}>
-                  <QRCodeSVG value={qrValue} size={52} bgColor="#ffffff" fgColor="#04100a"/>
+              <div id="elite-card-qr" className="flex-shrink-0 flex flex-col items-center">
+                <div className="p-1 rounded" style={{ background:"#fff", boxShadow:"0 2px 10px rgba(0,0,0,0.55)" }}>
+                  <QRCodeSVG value={qrValue} size={56} bgColor="#ffffff" fgColor="#031006"/>
                 </div>
-                <div className="mt-0.5">
-                  <span className="text-[5px] font-black uppercase tracking-wider" style={{ color:"rgba(212,175,55,0.55)" }}>Scan to Verify</span>
-                </div>
+                <span className="text-[5.5px] font-black uppercase tracking-wider mt-1" style={{ color:"rgba(212,175,55,0.55)" }}>Scan to Verify</span>
               </div>
-              <div className="flex flex-col gap-0.5">
-                <GoldLabel>Member ID</GoldLabel>
-                <div className="font-mono font-black text-[11px]" style={{ color:"#D4AF37" }}>{data.memberId}</div>
-                <div className="mt-1">
+              {/* ID + Dates */}
+              <div className="flex flex-col gap-1">
+                <div>
+                  <GoldLabel>Member ID</GoldLabel>
+                  <div className="font-mono font-black" style={{ fontSize:"clamp(9px,1.6vw,13px)", color:"#D4AF37", letterSpacing:"0.06em" }}>{data.memberId}</div>
+                </div>
+                <div>
                   <GoldLabel>Issue Date</GoldLabel>
-                  <div className="text-[9px] font-medium" style={{ color:"rgba(255,255,255,0.62)" }}>{data.issueDate}</div>
+                  <div className="font-medium" style={{ fontSize:"clamp(8px,1.2vw,10px)", color:"rgba(255,255,255,0.65)" }}>{data.issueDate}</div>
                 </div>
                 {data.expiryDate && (
-                  <div className="mt-0.5">
+                  <div>
                     <GoldLabel>Expiry Date</GoldLabel>
-                    <div className="text-[9px] font-medium" style={{ color:"rgba(255,255,255,0.62)" }}>{data.expiryDate}</div>
+                    <div className="font-medium" style={{ fontSize:"clamp(8px,1.2vw,10px)", color:"rgba(255,255,255,0.65)" }}>{data.expiryDate}</div>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Divider */}
-            <div className="hidden sm:block self-stretch w-[1px] mx-1 flex-shrink-0" style={{ background:"rgba(212,175,55,0.18)" }}/>
+            <div className="self-stretch mx-3 flex-shrink-0" style={{ width:1, background:"rgba(212,175,55,0.20)" }}/>
 
-            {/* CENTER: Lock + SVT + Signature */}
-            <div className="flex items-center gap-2 flex-1 justify-center flex-wrap sm:flex-nowrap">
-              {/* Lock shield */}
-              <div
-                className="flex-shrink-0 flex flex-col items-center justify-center rounded"
-                style={{ width:26, height:34, border:"1.5px solid rgba(212,175,55,0.6)", background:"rgba(212,175,55,0.06)" }}
-              >
-                <div className="rounded-full border" style={{ width:11, height:11, borderColor:"rgba(212,175,55,0.8)", borderWidth:"1.5px", marginBottom:-4 }}/>
-                <div className="rounded-sm mt-1" style={{ width:16, height:12, background:"rgba(212,175,55,0.8)" }}/>
-              </div>
-              <div className="flex flex-col flex-shrink-0">
+            {/* CENTER: Shield lock + SVT + motto */}
+            <div className="flex items-center gap-3 flex-shrink-0">
+              {/* Shield SVG */}
+              <svg width="30" height="38" viewBox="0 0 30 38" fill="none" style={{ flexShrink:0 }}>
+                <path d="M15 2 L28 7 L28 20 Q28 33 15 37 Q2 33 2 20 L2 7 Z" stroke="rgba(212,175,55,0.7)" strokeWidth="1.2" fill="rgba(212,175,55,0.06)"/>
+                <path d="M15 10 Q20 10 20 15 L20 16 L10 16 Q10 10 15 10Z" stroke="rgba(212,175,55,0.75)" strokeWidth="1" fill="none"/>
+                <rect x="9" y="16" width="12" height="10" rx="1.5" fill="rgba(212,175,55,0.15)" stroke="rgba(212,175,55,0.65)" strokeWidth="1"/>
+                <circle cx="15" cy="21" r="1.8" fill="rgba(212,175,55,0.8)"/>
+              </svg>
+              <div className="flex flex-col">
                 {["SECURE","VERIFIED","TRUSTED"].map(t=>(
-                  <span key={t} className="text-[6.5px] font-black tracking-widest leading-tight" style={{ color:"rgba(212,175,55,0.9)" }}>{t}</span>
+                  <span key={t} className="font-black tracking-[0.18em] leading-tight" style={{ fontSize:"clamp(6px,0.9vw,8px)", color:"rgba(212,175,55,0.95)" }}>{t}</span>
                 ))}
-                <span className="text-[5px] leading-tight mt-0.5" style={{ color:"rgba(255,255,255,0.32)" }}>
+                <span className="leading-tight mt-1" style={{ fontSize:"clamp(4.5px,0.7vw,6px)", color:"rgba(255,255,255,0.32)", letterSpacing:"0.08em" }}>
                   BUILDING A BETTER<br/>DIGITAL FUTURE<br/>FOR HUMANITY
                 </span>
-              </div>
-              {/* vertical divider */}
-              <div className="hidden sm:block self-stretch w-[1px] mx-1 flex-shrink-0" style={{ background:"rgba(212,175,55,0.18)" }}/>
-              {/* Signature block */}
-              <div className="flex flex-col items-center flex-shrink-0">
-                <img src="/faisal-signature-transparent.png" alt="Signature" className="h-8 object-contain" style={{ filter:"drop-shadow(0 0 3px rgba(255,255,255,0.07))", maxWidth:120 }}/>
-                <GoldLabel>FAISAL ORAKZAI</GoldLabel>
-                <span className="text-[5.5px]" style={{ color:"rgba(255,255,255,0.35)" }}>Founder &amp; Chairman, Orakzai Group</span>
               </div>
             </div>
 
             {/* Divider */}
-            <div className="hidden sm:block self-stretch w-[1px] mx-1 flex-shrink-0" style={{ background:"rgba(212,175,55,0.18)" }}/>
+            <div className="self-stretch mx-3 flex-shrink-0" style={{ width:1, background:"rgba(212,175,55,0.20)" }}/>
 
-            {/* RIGHT: Gold seal */}
-            <div
-              className="flex-shrink-0 w-[68px] h-[68px] rounded-full flex flex-col items-center justify-center relative overflow-hidden"
-              style={{ background:"radial-gradient(circle at 38% 32%,#f5e070 0%,#c9a227 36%,#8a6a10 70%,#4a3408 100%)", border:"2.5px solid #f0d060", boxShadow:"0 4px 20px rgba(212,175,55,0.5)" }}
-            >
-              <span className="text-[4px] font-black tracking-widest text-center leading-tight" style={{ color:"#051c0f", letterSpacing:"0.12em" }}>ORAKZAI.ORG</span>
-              <span className="text-[18px] leading-none my-0.5">🦅</span>
-              <span className="text-[4px] font-black tracking-wider text-center" style={{ color:"#051c0f" }}>VERIFIED MEMBER</span>
+            {/* RIGHT: Signature + name */}
+            <div className="flex flex-col items-start justify-center flex-1">
+              <img
+                src="/faisal-signature-transparent.png"
+                alt="Signature"
+                className="object-contain mb-1"
+                style={{ height:38, maxWidth:130, filter:"drop-shadow(0 0 4px rgba(100,150,255,0.18))" }}
+              />
+              <GoldLabel>FAISAL ORAKZAI</GoldLabel>
+              <span style={{ fontSize:"clamp(5px,0.75vw,7px)", color:"rgba(255,255,255,0.38)", letterSpacing:"0.06em" }}>
+                Founder &amp; Chairman, Orakzai.org
+              </span>
+            </div>
+
+            {/* ORZ ref number bottom-right */}
+            <div className="flex flex-col justify-end items-end flex-shrink-0 pl-2">
+              <span
+                className="font-mono font-bold self-end"
+                style={{ fontSize:"clamp(5px,0.75vw,7px)", color:"rgba(212,175,55,0.40)", letterSpacing:"0.12em" }}
+              >ORZ-2026-{data.memberId.slice(-5)}</span>
             </div>
           </div>
 
-          {/* Bottom gold rule */}
-          <div className="h-[2px]" style={{ background:"linear-gradient(90deg,transparent,#D4AF37cc 30%,#D4AF37 50%,#D4AF37cc 70%,transparent)" }}/>
+          {/* ── BOTTOM TICKER ── */}
+          <div
+            className="relative overflow-hidden flex-shrink-0"
+            style={{
+              height:18,
+              background:"linear-gradient(90deg,rgba(212,175,55,0.14) 0%,rgba(212,175,55,0.08) 50%,rgba(212,175,55,0.14) 100%)",
+              borderTop:"1px solid rgba(212,175,55,0.22)",
+              zIndex:5,
+            }}
+          >
+            <div
+              className="absolute flex items-center h-full whitespace-nowrap"
+              style={{
+                animation:"tickerScroll 22s linear infinite",
+                fontSize:"5.5px",
+                fontWeight:900,
+                letterSpacing:"0.28em",
+                color:"rgba(212,175,55,0.55)",
+              }}
+            >
+              {Array(3).fill("GLOBAL MEMBER • DIGITAL CITIZEN • SECURE • VERIFIED • TRUSTED • ORAKZAI.ORG • ").map((t,i)=>(
+                <span key={i}>{t}</span>
+              ))}
+            </div>
+            <style>{`@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-33.33%)}}`}</style>
+          </div>
 
         </div>{/* /inner card */}
       </div>{/* /gold frame */}
