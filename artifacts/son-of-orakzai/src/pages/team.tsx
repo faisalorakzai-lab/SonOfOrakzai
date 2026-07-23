@@ -841,26 +841,28 @@ function SupremeCard({ member, index, onOpenBio }: { member: TeamMember; index: 
         <MemberAvatar src={member.photo} name={member.name} size={148} dualRing verified />
       </div>
 
-      <h3 className="text-[26px] leading-tight font-bold text-white mb-2 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
-      <p className="text-[13px] font-bold mb-3" style={{ color: GOLD, fontFamily: "'Inter', sans-serif", letterSpacing: "0.16em" }}>{member.title.toUpperCase()}</p>
-      {member.focus && (
-        <p className="text-[12px] text-white/55 mb-6 px-2 leading-snug" style={{ fontFamily: "'Inter', sans-serif" }}>
-          {member.focus}
-        </p>
-      )}
+      <div className="relative z-10 flex flex-col items-center w-full">
+        <h3 className="text-[26px] leading-tight font-bold text-white mb-2 tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{member.name}</h3>
+        <p className="text-[13px] font-bold mb-3" style={{ color: GOLD, fontFamily: "'Inter', sans-serif", letterSpacing: "0.16em" }}>{member.title.toUpperCase()}</p>
+        {member.focus && (
+          <p className="text-[12px] text-white/55 mb-6 px-2 leading-snug" style={{ fontFamily: "'Inter', sans-serif" }}>
+            {member.focus}
+          </p>
+        )}
 
-      <span
-        className="relative flex items-center gap-2 rounded-full px-7 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] transition-all duration-300"
-        style={{
-          background: hovered ? GOLD : "rgba(212,175,55,0.08)",
-          border: `1px solid ${GOLD}`,
-          color: hovered ? "#04140e" : GOLD,
-          boxShadow: hovered ? "0 6px 20px rgba(212,175,55,0.35)" : "none",
-        }}
-      >
-        View Full Profile
-        <ChevronRight className="w-3.5 h-3.5" style={{ transform: hovered ? "translateX(3px)" : "translateX(0)", transition: "transform 0.3s" }} />
-      </span>
+        <span
+          className="relative flex items-center gap-2 rounded-full px-7 py-2.5 text-[11px] font-bold uppercase tracking-[0.14em] transition-all duration-300"
+          style={{
+            background: hovered ? GOLD : "rgba(212,175,55,0.08)",
+            border: `1px solid ${GOLD}`,
+            color: hovered ? "#04140e" : GOLD,
+            boxShadow: hovered ? "0 6px 20px rgba(212,175,55,0.35)" : "none",
+          }}
+        >
+          View Full Profile
+          <ChevronRight className="w-3.5 h-3.5" style={{ transform: hovered ? "translateX(3px)" : "translateX(0)", transition: "transform 0.3s" }} />
+        </span>
+      </div>
     </motion.div>
   );
 }
