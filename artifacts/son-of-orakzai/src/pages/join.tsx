@@ -214,625 +214,565 @@ function GoldLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
+
 /* ─── Membership card (visual + download) ───────── */
 function MemberCard({ data }: { data: MemberData }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [dl, setDl] = useState(false);
+  const qrValue = `https://sonoforakzai.vercel.app/verify/${data.memberId}`;
 
+  /* ────────────────────────────────────────────────
+     Canvas PNG download — pixel-perfect reference
+  ──────────────────────────────────────────────── */
   const handleDownload = useCallback(async () => {
-    if (!cardRef.current) return;
     setDl(true);
     try {
-      const W = 920, H = 540;
-      const canvas = document.createElement("canvas");
-      canvas.width  = W; canvas.height = H;
-      const ctx = canvas.getContext("2d")!;
+      const W = 1200, H = 560;
+      const cv = document.createElement("canvas");
+      cv.width = W; cv.height = H;
+      const ctx = cv.getContext("2d")!;
 
-      /* ── Background: dark emerald brushed metal ── */
+      /* helpers */
+      const goldGrad = () => {
+        const g = ctx.createLinearGradient(0, 0, 0, 16);
+        g.addColorStop(0, "#f5e070"); g.addColorStop(0.5, "#D4AF37"); g.addColorStop(1, "#b8860b");
+        return g;
+      };
+      const loadImg = (src: string): Promise<HTMLImageElement> =>
+        new Promise((res) => {
+          const im = new Image(); im.crossOrigin = "anonymous";
+          im.onload = () => res(im); im.onerror = () => res(im);
+          im.src = src;
+        });
+
+      /* 1 ── Background */
       const bg = ctx.createLinearGradient(0, 0, W, H);
-      bg.addColorStop(0,    "#071e12");
-      bg.addColorStop(0.25, "#0b2f1c");
-      bg.addColorStop(0.5,  "#08261a");
-      bg.addColorStop(0.75, "#061c11");
-      bg.addColorStop(1,    "#040f09");
-      ctx.fillStyle = bg;
-      ctx.roundRect(0, 0, W, H, 20);
-      ctx.fill();
+      bg.addColorStop(0, "#051c0f"); bg.addColorStop(0.4, "#0a2d16"); bg.addColorStop(1, "#030e07");
+      ctx.fillStyle = bg; ctx.roundRect(0, 0, W, H, 20); ctx.fill();
 
-      /* Brushed horizontal lines */
-      ctx.save();
-      ctx.globalAlpha = 0.028;
+      /* brushed texture */
+      ctx.save(); ctx.globalAlpha = 0.022;
       for (let y = 0; y < H; y += 2) {
-        ctx.strokeStyle = y % 4 === 0 ? "#ffffff" : "#90ff90";
-        ctx.lineWidth   = 0.5;
+        ctx.strokeStyle = y % 4 === 0 ? "#ffffff" : "#80ff80"; ctx.lineWidth = 0.5;
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
       }
       ctx.restore();
 
-      /* ── Outer gold frame ── */
-      ctx.strokeStyle = `${GOLD}cc`;
-      ctx.lineWidth   = 3;
-      ctx.roundRect(2, 2, W - 4, H - 4, 18);
-      ctx.stroke();
+      /* 2 ── Gold borders */
+      ctx.strokeStyle = "#D4AF37cc"; ctx.lineWidth = 3.5;
+      ctx.roundRect(2, 2, W - 4, H - 4, 18); ctx.stroke();
+      ctx.strokeStyle = "rgba(212,175,55,0.28)"; ctx.lineWidth = 1;
+      ctx.roundRect(8, 8, W - 16, H - 16, 13); ctx.stroke();
 
-      /* ── Inner thin gold inset ── */
-      ctx.strokeStyle = "rgba(212,175,55,0.35)";
-      ctx.lineWidth   = 1;
-      ctx.roundRect(8, 8, W - 16, H - 16, 14);
-      ctx.stroke();
+      /* 3 ── Corner screws */
+      [[20,20],[W-20,20],[20,H-20],[W-20,H-20]].forEach(([sx,sy]) => {
+        const sg = ctx.createRadialGradient(sx-2,sy-2,1,sx,sy,7);
+        sg.addColorStop(0,"#f0d060"); sg.addColorStop(0.5,"#b8860b"); sg.addColorStop(1,"#3d2e04");
+        ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(sx,sy,7,0,Math.PI*2); ctx.fill();
+        ctx.strokeStyle="#D4AF3799"; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.arc(sx,sy,7,0,Math.PI*2); ctx.stroke();
+        ctx.strokeStyle="rgba(0,0,0,0.55)"; ctx.lineWidth=0.9;
+        ctx.beginPath(); ctx.moveTo(sx-4,sy); ctx.lineTo(sx+4,sy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(sx,sy-4); ctx.lineTo(sx,sy+4); ctx.stroke();
+      });
 
-      /* ── Top gold rule ── */
-      const topRule = ctx.createLinearGradient(0, 0, W, 0);
-      topRule.addColorStop(0,   "transparent");
-      topRule.addColorStop(0.5, GOLD);
-      topRule.addColorStop(1,   "transparent");
-      ctx.fillStyle = topRule;
-      ctx.fillRect(0, 2, W, 2);
+      /* 4 ── Header bar (0–76) */
+      const hbg = ctx.createLinearGradient(0,0,0,76);
+      hbg.addColorStop(0,"rgba(212,175,55,0.18)"); hbg.addColorStop(1,"rgba(212,175,55,0.04)");
+      ctx.fillStyle=hbg; ctx.roundRect(4,4,W-8,72,[13,13,0,0]); ctx.fill();
+      ctx.strokeStyle="rgba(212,175,55,0.22)"; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(14,76); ctx.lineTo(W-14,76); ctx.stroke();
 
-      /* ── Header bar ── */
-      const hgrad = ctx.createLinearGradient(0, 0, 0, 52);
-      hgrad.addColorStop(0, "rgba(212,175,55,0.18)");
-      hgrad.addColorStop(1, "rgba(212,175,55,0.04)");
-      ctx.fillStyle = hgrad;
-      ctx.roundRect(4, 4, W - 8, 52, [14, 14, 0, 0]);
-      ctx.fill();
-      ctx.strokeStyle = "rgba(212,175,55,0.25)";
-      ctx.lineWidth   = 1;
-      ctx.beginPath(); ctx.moveTo(12, 56); ctx.lineTo(W - 12, 56); ctx.stroke();
+      /* Title */
+      ctx.textAlign="center"; ctx.textBaseline="alphabetic";
+      const tg=ctx.createLinearGradient(0,16,0,56);
+      tg.addColorStop(0,"#f5e070"); tg.addColorStop(0.5,"#D4AF37"); tg.addColorStop(1,"#b8860b");
+      ctx.fillStyle=tg;
+      ctx.font="bold 14px Georgia,serif"; ctx.fillText("→",W/2-185,46); ctx.fillText("←",W/2+185,46);
+      ctx.font="bold 36px Georgia,serif"; ctx.fillText("ORAKZAI.ORG",W/2,50);
+      ctx.font="bold 10px 'Courier New',monospace"; ctx.fillStyle="rgba(212,175,55,0.8)";
+      ctx.fillText("GLOBAL DIGITAL CITIZENSHIP CARD",W/2,67);
 
-      /* Header text */
-      ctx.font = "bold 10px 'Courier New', monospace";
-      const hGrad2 = ctx.createLinearGradient(0, 20, 0, 44);
-      hGrad2.addColorStop(0,   "#f0d060");
-      hGrad2.addColorStop(0.5, "#D4AF37");
-      hGrad2.addColorStop(1,   "#b8860b");
-      ctx.fillStyle   = hGrad2;
-      ctx.textAlign   = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("ORAKZAI.ORG  —  GLOBAL DIGITAL CITIZENSHIP CARD", W / 2, 32);
+      /* Verified badge */
+      ctx.strokeStyle="rgba(212,175,55,0.65)"; ctx.lineWidth=1;
+      ctx.roundRect(W-178,18,158,28,5); ctx.stroke();
+      ctx.fillStyle="rgba(212,175,55,0.06)"; ctx.roundRect(W-178,18,158,28,5); ctx.fill();
+      ctx.font="10px sans-serif"; ctx.fillStyle="#D4AF37cc"; ctx.textAlign="left";
+      ctx.fillText("✦",W-168,37);
+      ctx.font="bold 9px 'Courier New',monospace"; ctx.fillStyle="#D4AF37dd";
+      ctx.fillText("VERIFIED MEMBER",W-152,37);
 
-      /* ── Profile circle ── */
-      const cx = 115, cy = 280, r = 76;
-      /* Outer glass ring */
-      const glassGrad = ctx.createRadialGradient(cx - 20, cy - 20, 5, cx, cy, r + 18);
-      glassGrad.addColorStop(0,   "rgba(180,255,200,0.06)");
-      glassGrad.addColorStop(0.6, "rgba(0,60,30,0.18)");
-      glassGrad.addColorStop(1,   "rgba(0,0,0,0.12)");
-      ctx.fillStyle = glassGrad;
-      ctx.beginPath(); ctx.arc(cx, cy, r + 16, 0, Math.PI * 2); ctx.fill();
-
-      /* Dual gold ring */
-      ctx.strokeStyle = `${GOLD}dd`;
-      ctx.lineWidth   = 3.5;
-      ctx.beginPath(); ctx.arc(cx, cy, r + 10, 0, Math.PI * 2); ctx.stroke();
-      ctx.strokeStyle = "rgba(212,175,55,0.35)";
-      ctx.lineWidth   = 1;
-      ctx.beginPath(); ctx.arc(cx, cy, r + 16, 0, Math.PI * 2); ctx.stroke();
-
-      /* Photo clip */
-      ctx.save();
-      ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.clip();
-      if (data.photo) {
-        const img = new Image();
-        img.src = data.photo;
-        await new Promise((res) => { img.onload = res; img.onerror = res; });
-        ctx.drawImage(img, cx - r, cy - r, r * 2, r * 2);
+      /* 5 ── Left column (x:14–178) */
+      /* Logo */
+      const logo = await loadImg("/orakzai-org-logo.png");
+      const lcX=96, logoY=100;
+      if(logo.naturalWidth>0){
+        ctx.save(); ctx.beginPath(); ctx.arc(lcX,logoY,34,0,Math.PI*2); ctx.clip();
+        ctx.drawImage(logo,lcX-34,logoY-34,68,68); ctx.restore();
+        ctx.strokeStyle="#D4AF37bb"; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.arc(lcX,logoY,35,0,Math.PI*2); ctx.stroke();
       } else {
-        ctx.fillStyle = "rgba(212,175,55,0.1)";
-        ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
-        ctx.fillStyle = `${GOLD}88`;
-        ctx.font = "60px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-        ctx.fillText(data.name?.[0]?.toUpperCase() ?? "?", cx, cy);
+        ctx.fillStyle="rgba(212,175,55,0.15)";
+        ctx.beginPath(); ctx.arc(lcX,logoY,35,0,Math.PI*2); ctx.fill();
+        ctx.font="22px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+        ctx.fillStyle="#D4AF37"; ctx.fillText("🦅",lcX,logoY);
+      }
+      ctx.font="bold 8px 'Courier New',monospace"; ctx.fillStyle="#D4AF37cc";
+      ctx.textAlign="center"; ctx.textBaseline="alphabetic";
+      ctx.fillText("Orakzai.Org",lcX,147);
+
+      /* Photo */
+      const pcx=96, pcy=310, pr=78;
+      ctx.strokeStyle="rgba(212,175,55,0.22)"; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(pcx,pcy,pr+18,0,Math.PI*2); ctx.stroke();
+      ctx.strokeStyle="#D4AF37ee"; ctx.lineWidth=3.5;
+      ctx.beginPath(); ctx.arc(pcx,pcy,pr+10,0,Math.PI*2); ctx.stroke();
+      ctx.save(); ctx.beginPath(); ctx.arc(pcx,pcy,pr,0,Math.PI*2); ctx.clip();
+      if(data.photo){
+        const pi = await loadImg(data.photo);
+        ctx.drawImage(pi,pcx-pr,pcy-pr,pr*2,pr*2);
+      } else {
+        ctx.fillStyle="rgba(212,175,55,0.1)"; ctx.fillRect(pcx-pr,pcy-pr,pr*2,pr*2);
+        ctx.font="64px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+        ctx.fillStyle="#D4AF3788"; ctx.fillText((data.name[0]||"?").toUpperCase(),pcx,pcy);
+      }
+      ctx.restore();
+      /* checkmark badge */
+      const cbx=pcx+pr*0.68, cby=pcy+pr*0.68;
+      ctx.fillStyle="#D4AF37"; ctx.beginPath(); ctx.arc(cbx,cby,12,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle="#051c0f"; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.arc(cbx,cby,12,0,Math.PI*2); ctx.stroke();
+      ctx.fillStyle="#051c0f"; ctx.font="bold 11px sans-serif";
+      ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("✓",cbx,cby);
+
+      /* Chip */
+      const chX=28, chY=418;
+      const cg=ctx.createLinearGradient(chX,chY,chX+42,chY+30);
+      cg.addColorStop(0,"#f0d060"); cg.addColorStop(0.5,"#D4AF37"); cg.addColorStop(1,"#b8860b");
+      ctx.fillStyle=cg; ctx.roundRect(chX,chY,42,30,3); ctx.fill();
+      ctx.strokeStyle="rgba(0,0,0,0.2)"; ctx.lineWidth=0.6;
+      [8,15,22].forEach(dy=>{ctx.beginPath();ctx.moveTo(chX,chY+dy);ctx.lineTo(chX+42,chY+dy);ctx.stroke();});
+      [13,29].forEach(dx=>{ctx.beginPath();ctx.moveTo(chX+dx,chY);ctx.lineTo(chX+dx,chY+30);ctx.stroke();});
+
+      /* NFC arcs */
+      const nX=82, nY=433;
+      [12,20,29].forEach((r,i)=>{
+        ctx.strokeStyle=`rgba(212,175,55,${0.3+i*0.2})`; ctx.lineWidth=1.8;
+        ctx.beginPath(); ctx.arc(nX,nY,r,-Math.PI*0.65,Math.PI*0.65); ctx.stroke();
+      });
+
+      /* 6 ── World-map dots (right panel x:800..) */
+      ctx.save(); ctx.globalAlpha=0.1;
+      const wmS=800;
+      for(let col=wmS;col<W-22;col+=12){
+        for(let row=82;row<448;row+=12){
+          const nc=(col-wmS)/(W-22-wmS), nr=(row-82)/(448-82);
+          const land=
+            (nc<0.32&&nr>0.1&&nr<0.74)||
+            (nc>=0.32&&nc<0.58&&nr>0.04&&nr<0.58)||
+            (nc>=0.58&&nr>0.08&&nr<0.64)||
+            (nc>0.12&&nc<0.48&&nr>0.62&&nr<0.9);
+          if(land){ctx.fillStyle="#D4AF37"; ctx.fillRect(col,row,6,6);}
+        }
       }
       ctx.restore();
 
-      /* Small emblem badge at bottom-right of ring */
-      const ex = cx + r * 0.68, ey = cy + r * 0.68;
-      ctx.fillStyle = GOLD;
-      ctx.beginPath(); ctx.arc(ex, ey, 10, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = "#011a10"; ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.arc(ex, ey, 10, 0, Math.PI * 2); ctx.stroke();
-      ctx.fillStyle = "#011a10"; ctx.font = "bold 9px sans-serif";
-      ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.fillText("✓", ex, ey);
-
-      /* ── Data fields ── */
-      const fx = 218, fy0 = 70;
-      const rows: [string, string, boolean][] = [
-        ["MEMBER NAME",        data.name,                        true  ],
-        ["DESIGNATION",        data.profession,                  false ],
-        ["CNIC / NATIONAL ID", hashCnic(data.cnic),             false ],
-        ["NATIONALITY",        data.nationality,                 false ],
-        ["LOCATION",           `${data.city}, ${data.country}`, false ],
-        ["AREA OF INTEREST",   data.interest,                   false ],
+      /* 7 ── Data fields (x:200..795) */
+      const rows:[string,string,boolean][]=[
+        ["MEMBER NAME",        data.name,                        true ],
+        ["DESIGNATION",        data.profession,                  false],
+        ["CNIC / NATIONAL ID", hashCnic(data.cnic),             false],
+        ["NATIONALITY",        data.nationality,                 false],
+        ["LOCATION",           `${data.city}, ${data.country}`, false],
+        ["AREA OF INTEREST",   data.interest,                   false],
       ];
-
-      const makeGoldText = (ctx: CanvasRenderingContext2D) => {
-        const g = ctx.createLinearGradient(0, 0, 0, 14);
-        g.addColorStop(0,   "#f0d060");
-        g.addColorStop(0.5, "#D4AF37");
-        g.addColorStop(1,   "#b8860b");
-        return g;
-      };
-
-      rows.forEach(([key, val, bold], i) => {
-        const y = fy0 + i * 62;
-        /* label */
-        ctx.font      = "bold 8.5px 'Courier New', monospace";
-        ctx.fillStyle = makeGoldText(ctx);
-        ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
-        ctx.fillText(key, fx, y);
-        /* value */
-        ctx.font      = bold ? "bold 20px serif" : "600 16px sans-serif";
-        ctx.fillStyle = bold ? "#ffffff" : "#e8e8e8";
-        ctx.fillText(val || "—", fx, y + 18);
-        /* separator line */
-        const sep = ctx.createLinearGradient(fx, 0, W - 40, 0);
-        sep.addColorStop(0,   `${GOLD}55`);
-        sep.addColorStop(0.5, `${GOLD}22`);
-        sep.addColorStop(1,   "transparent");
-        ctx.strokeStyle = sep; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(fx, y + 29); ctx.lineTo(W - 40, y + 29); ctx.stroke();
+      const fx=210, fy0=84, rowH=60, colonX=fx+148;
+      rows.forEach(([lbl,val,large],i)=>{
+        const y=fy0+i*rowH;
+        ctx.font="bold 8.5px 'Courier New',monospace";
+        ctx.fillStyle=goldGrad(); ctx.textAlign="left"; ctx.textBaseline="alphabetic";
+        ctx.fillText(lbl,fx,y);
+        ctx.fillText(":",colonX,y+(large?20:14));
+        ctx.font=large?"bold 22px Georgia,serif":"500 15px sans-serif";
+        ctx.fillStyle=large?"#ffffff":"#e0e0e0";
+        ctx.fillText(val||"—",colonX+14,y+(large?23:16));
+        const sep=ctx.createLinearGradient(fx,0,795,0);
+        sep.addColorStop(0,"rgba(212,175,55,0.38)"); sep.addColorStop(1,"transparent");
+        ctx.strokeStyle=sep; ctx.lineWidth=0.7;
+        ctx.beginPath(); ctx.moveTo(fx,y+(large?34:26)); ctx.lineTo(795,y+(large?34:26)); ctx.stroke();
       });
 
-      /* ── Bottom-left: Membership ID + QR block ── */
-      const bidX = fx, bidY = fy0 + rows.length * 62 + 8;
-      ctx.font      = "bold 8px 'Courier New', monospace";
-      ctx.fillStyle = makeGoldText(ctx); ctx.textAlign = "left";
-      ctx.fillText("MEMBERSHIP  ID", bidX, bidY);
-      ctx.font      = "bold 20px 'Courier New', monospace";
-      ctx.fillStyle = GOLD;
-      ctx.fillText(data.memberId, bidX, bidY + 24);
+      /* 8 ── Bottom strip (y:452) */
+      const bsY=452;
+      ctx.strokeStyle="rgba(212,175,55,0.22)"; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(14,bsY); ctx.lineTo(W-14,bsY); ctx.stroke();
+      const bsBg=ctx.createLinearGradient(0,bsY,0,H);
+      bsBg.addColorStop(0,"rgba(0,0,0,0.28)"); bsBg.addColorStop(1,"rgba(0,0,0,0.12)");
+      ctx.fillStyle=bsBg; ctx.fillRect(14,bsY,W-28,H-bsY-4);
 
-      /* Issue date */
-      ctx.font      = "bold 8px 'Courier New', monospace";
-      ctx.fillStyle = makeGoldText(ctx);
-      ctx.fillText("ISSUE DATE", bidX, bidY + 46);
-      ctx.font = "600 13px sans-serif"; ctx.fillStyle = "#cccccc";
-      ctx.fillText(data.issueDate, bidX, bidY + 60);
+      /* Bottom LEFT: Member ID + Dates */
+      const bLx=24;
+      ctx.font="bold 7.5px 'Courier New',monospace"; ctx.fillStyle=goldGrad(); ctx.textAlign="left";
+      ctx.fillText("MEMBER ID",bLx,bsY+17);
+      ctx.font="bold 18px 'Courier New',monospace"; ctx.fillStyle="#D4AF37";
+      ctx.fillText(data.memberId,bLx,bsY+37);
+      ctx.font="bold 7px 'Courier New',monospace"; ctx.fillStyle=goldGrad();
+      ctx.fillText("ISSUE DATE",bLx,bsY+54);
+      ctx.font="500 11px sans-serif"; ctx.fillStyle="#cccccc";
+      ctx.fillText(data.issueDate,bLx,bsY+68);
+      ctx.font="bold 7px 'Courier New',monospace"; ctx.fillStyle=goldGrad();
+      ctx.fillText("EXPIRY DATE",bLx+170,bsY+54);
+      ctx.font="500 11px sans-serif"; ctx.fillStyle="#cccccc";
+      ctx.fillText(data.expiryDate,bLx+170,bsY+68);
 
-      /* Expiry date */
-      ctx.font      = "bold 8px 'Courier New', monospace";
-      ctx.fillStyle = makeGoldText(ctx);
-      ctx.fillText("EXPIRY DATE", bidX + 160, bidY + 46);
-      ctx.font = "600 12px sans-serif"; ctx.fillStyle = "#cccccc";
-      ctx.fillText(data.expiryDate, bidX + 160, bidY + 60);
-
-      /* QR under membership ID */
-      const qrSvg = document.querySelector<SVGSVGElement>("#elite-card-qr svg");
-      const qrX = bidX, qrY = bidY + 74, qrSize = 100;
-      if (qrSvg) {
-        const xml  = new XMLSerializer().serializeToString(qrSvg);
-        const blob = new Blob([xml], { type: "image/svg+xml;charset=utf-8" });
-        const url  = URL.createObjectURL(blob);
-        const qi   = new Image();
-        await new Promise<void>((res) => { qi.onload = () => res(); qi.onerror = () => res(); qi.src = url; });
-        /* white bg */
-        ctx.fillStyle = "#ffffff";
-        ctx.roundRect(qrX - 4, qrY - 4, qrSize + 8, qrSize + 8, 6); ctx.fill();
-        ctx.drawImage(qi, qrX, qrY, qrSize, qrSize);
+      /* QR code bottom-left */
+      const qrEl=document.querySelector<SVGSVGElement>("#elite-card-qr svg");
+      if(qrEl){
+        const xml=new XMLSerializer().serializeToString(qrEl);
+        const blob=new Blob([xml],{type:"image/svg+xml;charset=utf-8"});
+        const url=URL.createObjectURL(blob);
+        const qi=new Image();
+        await new Promise<void>((res)=>{qi.onload=()=>res();qi.onerror=()=>res();qi.src=url;});
+        ctx.fillStyle="#ffffff"; ctx.roundRect(bLx-2,bsY+78,68,68,4); ctx.fill();
+        ctx.drawImage(qi,bLx,bsY+80,64,64);
         URL.revokeObjectURL(url);
+        ctx.font="bold 6px 'Courier New',monospace"; ctx.fillStyle="rgba(212,175,55,0.6)";
+        ctx.fillText("SCAN TO VERIFY",bLx,bsY+152);
       }
-      ctx.font = "bold 7px 'Courier New', monospace";
-      ctx.fillStyle = `${GOLD}88`; ctx.textAlign = "left";
-      ctx.fillText("SCAN TO VERIFY", qrX, qrY + qrSize + 14);
 
-      /* ── Founder Signature ── */
-      try {
-        const sigEl = document.createElement("img");
-        sigEl.crossOrigin = "anonymous";
-        sigEl.src = "/faisal-signature-transparent.png";
-        await new Promise<void>((res) => { sigEl.onload = () => res(); sigEl.onerror = () => res(); });
-        if (sigEl.naturalWidth > 0) {
-          ctx.save();
-          ctx.globalAlpha = 0.85;
-          ctx.drawImage(sigEl, W / 2 - 20, H - 110, 140, 72);
-          ctx.restore();
-        }
-      } catch (_) {}
-      const sigGrad = ctx.createLinearGradient(0, H - 44, 0, H - 30);
-      sigGrad.addColorStop(0, "#f0d060"); sigGrad.addColorStop(1, "#b8860b");
-      ctx.font = "bold 7.5px 'Courier New', monospace"; ctx.fillStyle = sigGrad;
-      ctx.textAlign = "center";
-      ctx.fillText("FAISAL ORAKZAI", W / 2 + 50, H - 44);
-      ctx.font = "6px sans-serif"; ctx.fillStyle = "rgba(255,255,255,0.45)";
-      ctx.fillText("Founder & Chairman, Orakzai Group", W / 2 + 50, H - 32);
-
-      /* ── Holographic pattern right panel ── */
-      ctx.save(); ctx.globalAlpha = 0.06;
-      for (let col = W - 180; col < W - 30; col += 14) {
-        for (let row = 60; row < H - 60; row += 14) {
-          ctx.fillStyle = (col + row) % 28 === 0 ? GOLD : "#22c55e";
-          ctx.fillRect(col, row, 6, 6);
-        }
+      /* Bottom CENTER: Lock shield + SVT + Divider + Signature */
+      const bcX=420;
+      /* lock shield */
+      ctx.strokeStyle="rgba(212,175,55,0.6)"; ctx.lineWidth=1.5; ctx.fillStyle="rgba(212,175,55,0.06)";
+      ctx.roundRect(bcX,bsY+8,34,44,6); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle="rgba(212,175,55,0.75)"; ctx.lineWidth=1.8;
+      ctx.beginPath(); ctx.arc(bcX+17,bsY+24,10,Math.PI,0); ctx.stroke();
+      ctx.fillStyle="rgba(212,175,55,0.8)"; ctx.roundRect(bcX+7,bsY+24,20,18,2); ctx.fill();
+      ctx.fillStyle="#051c0f"; ctx.font="bold 10px sans-serif";
+      ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText("🔒",bcX+17,bsY+35);
+      /* SVT */
+      ctx.font="bold 9px 'Courier New',monospace"; ctx.fillStyle="#D4AF37ee"; ctx.textAlign="left";
+      ctx.fillText("SECURE",bcX+40,bsY+22);
+      ctx.fillText("VERIFIED",bcX+40,bsY+33);
+      ctx.fillText("TRUSTED",bcX+40,bsY+44);
+      ctx.font="6px sans-serif"; ctx.fillStyle="rgba(255,255,255,0.36)";
+      ctx.fillText("BUILDING A BETTER",bcX+40,bsY+57);
+      ctx.fillText("DIGITAL FUTURE",bcX+40,bsY+66);
+      ctx.fillText("FOR HUMANITY",bcX+40,bsY+75);
+      /* vertical divider */
+      ctx.strokeStyle="rgba(212,175,55,0.22)"; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(bcX+128,bsY+5); ctx.lineTo(bcX+128,H-14); ctx.stroke();
+      /* signature */
+      const sig=await loadImg("/faisal-signature-transparent.png");
+      if(sig.naturalWidth>0){
+        ctx.save(); ctx.globalAlpha=0.88;
+        ctx.drawImage(sig,bcX+134,bsY+2,155,74); ctx.restore();
       }
-      ctx.restore();
+      ctx.font="bold 8.5px 'Courier New',monospace"; ctx.fillStyle=goldGrad(); ctx.textAlign="center";
+      ctx.fillText("FAISAL ORAKZAI",bcX+210,H-30);
+      ctx.font="7px sans-serif"; ctx.fillStyle="rgba(255,255,255,0.4)";
+      ctx.fillText("Founder & Chairman, Orakzai Group",bcX+210,H-18);
 
-      /* ── Status badge centered at bottom ── */
-      const badgeW = 220, badgeCX = W / 2;
-      const badgeY = H - 38;
-      ctx.fillStyle = "rgba(34,197,94,0.15)";
-      ctx.strokeStyle = "rgba(34,197,94,0.45)"; ctx.lineWidth = 1;
-      ctx.roundRect(badgeCX - badgeW / 2, badgeY - 13, badgeW, 26, 13);
-      ctx.fill(); ctx.stroke();
-      ctx.font = "bold 9px sans-serif"; ctx.fillStyle = "#4ade80";
-      ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.fillText("●  ACTIVE / VERIFIED MEMBER", badgeCX, badgeY);
-
-      /* accent dots */
-      [badgeCX - badgeW / 2 - 14, badgeCX + badgeW / 2 + 14].forEach((dx) => {
-        ctx.fillStyle = GOLD; ctx.beginPath();
-        ctx.arc(dx, badgeY, 3.5, 0, Math.PI * 2); ctx.fill();
+      /* Bottom RIGHT: Gold circular stamp */
+      const sX=W-90, sY=H-78, sR=62;
+      const sg2=ctx.createRadialGradient(sX-14,sY-14,4,sX,sY,sR);
+      sg2.addColorStop(0,"#f5e070"); sg2.addColorStop(0.35,"#d4af37");
+      sg2.addColorStop(0.75,"#8a6a10"); sg2.addColorStop(1,"#4a3408");
+      ctx.fillStyle=sg2; ctx.beginPath(); ctx.arc(sX,sY,sR,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle="#f0d060"; ctx.lineWidth=2.2;
+      ctx.beginPath(); ctx.arc(sX,sY,sR,0,Math.PI*2); ctx.stroke();
+      ctx.strokeStyle="rgba(0,0,0,0.22)"; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.arc(sX,sY,sR-8,0,Math.PI*2); ctx.stroke();
+      /* circular arc text top */
+      ctx.save(); ctx.translate(sX,sY);
+      const topT="★ ORAKZAI.ORG ★";
+      topT.split("").forEach((ch,ci)=>{
+        const a=-Math.PI/2-(topT.length/2*0.185)+ci*0.185;
+        ctx.save(); ctx.rotate(a); ctx.translate(0,-(sR-13)); ctx.rotate(Math.PI/2);
+        ctx.font="bold 6.5px 'Courier New',monospace"; ctx.fillStyle="#051c0f";
+        ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(ch,0,0); ctx.restore();
       });
-
-      /* ── Corner screws ── */
-      [[20, 20], [W - 20, 20], [20, H - 20], [W - 20, H - 20]].forEach(([sx, sy]) => {
-        const sg = ctx.createRadialGradient(sx - 2, sy - 2, 1, sx, sy, 7);
-        sg.addColorStop(0,   "#f0d060");
-        sg.addColorStop(0.5, "#b8860b");
-        sg.addColorStop(1,   "#3d2e04");
-        ctx.fillStyle = sg;
-        ctx.beginPath(); ctx.arc(sx, sy, 7, 0, Math.PI * 2); ctx.fill();
-        ctx.strokeStyle = `${GOLD}99`; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.arc(sx, sy, 7, 0, Math.PI * 2); ctx.stroke();
-        /* cross */
-        ctx.strokeStyle = "rgba(0,0,0,0.5)"; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(sx - 4, sy); ctx.lineTo(sx + 4, sy); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(sx, sy - 4); ctx.lineTo(sx, sy + 4); ctx.stroke();
+      const botT="VERIFIED MEMBER";
+      botT.split("").forEach((ch,ci)=>{
+        const a=Math.PI/2-(botT.length/2*0.155)+ci*0.155;
+        ctx.save(); ctx.rotate(a); ctx.translate(0,-(sR-13)); ctx.rotate(Math.PI/2);
+        ctx.font="bold 6px 'Courier New',monospace"; ctx.fillStyle="#051c0f";
+        ctx.textAlign="center"; ctx.textBaseline="middle"; ctx.fillText(ch,0,0); ctx.restore();
       });
+      /* eagle */
+      ctx.font="28px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+      ctx.fillText("🦅",0,-2); ctx.restore();
 
-      const link    = document.createElement("a");
-      link.download = `${data.memberId}-orakzai-elite-card.png`;
-      link.href     = canvas.toDataURL("image/png", 1.0);
-      link.click();
-    } finally {
-      setDl(false);
-    }
+      /* download */
+      const lnk=document.createElement("a");
+      lnk.download=`${data.memberId}-orakzai-card.png`;
+      lnk.href=cv.toDataURL("image/png",1.0); lnk.click();
+    } finally { setDl(false); }
   }, [data]);
 
   const handlePrint = () => {
-    const win = window.open("", "_blank", "width=1000,height=640");
+    const win = window.open("", "_blank", "width=1040,height=640");
     if (!win) return;
     const cardHtml = cardRef.current?.outerHTML ?? "";
     win.document.write(`<html><head><title>Orakzai Member Card</title>
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
-      <style>
-        * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-sizing: border-box; }
-        body { margin: 0; background: #011a10; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 32px; }
+      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+      <style>* { -webkit-print-color-adjust:exact; print-color-adjust:exact; box-sizing:border-box; }
+      body { margin:0; background:#051c0f; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:32px; }
       </style></head><body>${cardHtml}</body></html>`);
-    win.document.close();
-    win.focus();
+    win.document.close(); win.focus();
     setTimeout(() => { win.print(); win.close(); }, 500);
   };
 
-  const qrValue = `https://sonoforakzai.vercel.app/verify/${data.memberId}`;
-
+  /* ─── Visual HTML Card ──────────────────────────── */
   return (
     <div className="flex flex-col items-center gap-6 w-full">
 
-      {/* ══ ELITE CARD ══ */}
+      {/* Gold outer frame */}
       <div
         ref={cardRef}
         className="relative w-full select-none"
         style={{
-          maxWidth: 720,
-          /* Outer gold frame */
+          maxWidth: 900,
           padding: 4,
-          background: `linear-gradient(135deg, ${GOLD}ee 0%, #8a6a10 25%, ${GOLD}cc 50%, #5a4208 75%, ${GOLD}dd 100%)`,
-          borderRadius: 22,
-          boxShadow:
-            "0 40px 100px rgba(0,0,0,0.75), 0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,55,0.4), inset 0 1px 0 rgba(255,255,255,0.08)",
+          background: "linear-gradient(135deg,#f0d060 0%,#8a6a10 25%,#D4AF37cc 50%,#5a4208 75%,#e8c84a 100%)",
+          borderRadius: 20,
+          boxShadow: "0 40px 100px rgba(0,0,0,0.75),0 12px 40px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.08)",
         }}
       >
-        {/* Inner card surface */}
+        {/* Inner dark card */}
         <div
-          className="relative rounded-[18px] overflow-hidden"
-          style={{
-            /* Brushed dark emerald matte metal */
-            background: `
-              repeating-linear-gradient(
-                90deg,
-                transparent 0px,
-                transparent 1.5px,
-                rgba(255,255,255,0.011) 1.5px,
-                rgba(255,255,255,0.011) 3px
-              ),
-              linear-gradient(
-                160deg,
-                #071e12 0%,
-                #0c3020 18%,
-                #082818 38%,
-                #0a2d1c 52%,
-                #061b11 70%,
-                #04100a 100%
-              )
-            `,
-          }}
+          className="relative rounded-[16px] overflow-hidden"
+          style={{ background: "linear-gradient(160deg,#071e12 0%,#0c3020 18%,#082818 38%,#0a2d1c 52%,#061b11 70%,#04100a 100%)" }}
         >
-          {/* Diagonal micro-texture overlay */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(135deg, transparent 0px, transparent 5px, rgba(255,255,255,0.007) 5px, rgba(255,255,255,0.007) 6px)",
-              zIndex: 1,
-            }}
-          />
-
-          {/* Inner thin gold inset line */}
-          <div
-            className="absolute inset-[5px] rounded-[14px] pointer-events-none"
-            style={{ border: "1px solid rgba(212,175,55,0.22)", zIndex: 2 }}
-          />
-
-          {/* Holographic shimmer panel (right side) */}
-          <div
-            className="absolute right-0 top-0 bottom-0 w-36 pointer-events-none"
-            style={{
-              background:
-                "repeating-linear-gradient(120deg, transparent 0px, transparent 8px, rgba(212,175,55,0.035) 8px, rgba(212,175,55,0.035) 9px, transparent 9px, transparent 17px, rgba(34,197,94,0.025) 17px, rgba(34,197,94,0.025) 18px)",
-              zIndex: 1,
-              borderRadius: "0 18px 18px 0",
-            }}
-          />
-
-          {/* ── Corner Screws ── */}
-          <Screw pos="tl" /> <Screw pos="tr" /> <Screw pos="bl" /> <Screw pos="br" />
+          {/* diagonal micro-texture */}
+          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage:"repeating-linear-gradient(135deg,transparent 0,transparent 5px,rgba(255,255,255,0.006) 5px,rgba(255,255,255,0.006) 6px)", zIndex:1 }} />
+          {/* inner gold inset */}
+          <div className="absolute inset-[5px] rounded-[12px] pointer-events-none" style={{ border:"1px solid rgba(212,175,55,0.22)", zIndex:2 }} />
+          {/* screws */}
+          <Screw pos="tl"/><Screw pos="tr"/><Screw pos="bl"/><Screw pos="br"/>
 
           {/* ── HEADER ── */}
           <div
-            className="relative z-10 flex items-center justify-center py-3 px-10"
-            style={{
-              background: "linear-gradient(180deg, rgba(212,175,55,0.16) 0%, rgba(212,175,55,0.04) 100%)",
-              borderBottom: "1px solid rgba(212,175,55,0.2)",
-            }}
+            className="relative z-10 py-2.5 text-center"
+            style={{ background:"linear-gradient(180deg,rgba(212,175,55,0.17) 0%,rgba(212,175,55,0.04) 100%)", borderBottom:"1px solid rgba(212,175,55,0.2)" }}
           >
-            {/* left gold accent */}
-            <div className="absolute left-8 top-1/2 -translate-y-1/2 flex gap-1">
-              {[8, 5, 3].map((s, i) => <div key={i} className="rounded-full" style={{ width: s, height: s, background: `${GOLD}${i === 0 ? "cc" : i === 1 ? "77" : "44"}` }} />)}
-            </div>
-            <span
-              className="text-[9px] font-black tracking-[0.28em] uppercase text-center"
-              style={{
-                background: `linear-gradient(135deg, #f0d060 0%, ${GOLD} 40%, #c9a227 70%, #f0d060 100%)`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
+            {/* Verified badge – top-right */}
+            <div
+              className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center gap-1.5 px-3 py-1 rounded"
+              style={{ border:"1px solid rgba(212,175,55,0.55)", background:"rgba(212,175,55,0.05)" }}
             >
-              ORAKZAI.ORG &nbsp;—&nbsp; GLOBAL DIGITAL CITIZENSHIP CARD
-            </span>
-            {/* right gold accent */}
-            <div className="absolute right-8 top-1/2 -translate-y-1/2 flex gap-1">
-              {[3, 5, 8].map((s, i) => <div key={i} className="rounded-full" style={{ width: s, height: s, background: `${GOLD}${i === 2 ? "cc" : i === 1 ? "77" : "44"}` }} />)}
+              <span style={{ color:"#D4AF37cc", fontSize:10 }}>✦</span>
+              <span className="text-[8px] font-black tracking-[0.18em]" style={{ color:"#D4AF37dd" }}>VERIFIED MEMBER</span>
+            </div>
+            <div className="flex items-center justify-center gap-2 mb-0.5">
+              <span style={{ color:"#D4AF37cc", fontSize:13 }}>→</span>
+              <span
+                className="text-[20px] sm:text-[24px] font-bold tracking-[0.18em]"
+                style={{ fontFamily:"'Playfair Display',Georgia,serif", background:"linear-gradient(135deg,#f5e070 0%,#D4AF37 50%,#b8860b 100%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text" }}
+              >ORAKZAI.ORG</span>
+              <span style={{ color:"#D4AF37cc", fontSize:13 }}>←</span>
+            </div>
+            <div className="text-[7px] font-black tracking-[0.24em]" style={{ color:"rgba(212,175,55,0.75)" }}>
+              GLOBAL DIGITAL CITIZENSHIP CARD
             </div>
           </div>
 
-          {/* ── CARD BODY ── */}
-          <div className="relative z-10 flex gap-5 px-6 sm:px-8 pt-6 pb-4">
+          {/* ── MAIN BODY: 3 columns ── */}
+          <div className="relative z-10 flex min-h-0">
 
-            {/* ── Profile Node ── */}
-            <div className="flex-shrink-0 flex flex-col items-center">
-              <div className="relative">
-                {/* Outer glassmorphism ring */}
-                <div
-                  className="absolute rounded-full"
-                  style={{
-                    inset: -14,
-                    background: "radial-gradient(circle at 30% 30%, rgba(180,255,200,0.07) 0%, rgba(0,50,25,0.18) 60%, rgba(0,0,0,0.1) 100%)",
-                    border: "1px solid rgba(212,175,55,0.28)",
-                    backdropFilter: "blur(4px)",
-                  }}
-                />
-                {/* Inner dual gold ring */}
-                <div
-                  className="absolute rounded-full"
-                  style={{
-                    inset: -8,
-                    border: `3px solid ${GOLD}ee`,
-                    boxShadow: `0 0 18px rgba(212,175,55,0.35), inset 0 0 8px rgba(212,175,55,0.1)`,
-                  }}
-                />
-                <div
-                  className="absolute rounded-full"
-                  style={{ inset: -5, border: "1px solid rgba(212,175,55,0.35)" }}
-                />
-                {/* Photo */}
-                <div
-                  className="relative w-[96px] h-[96px] sm:w-[108px] sm:h-[108px] rounded-full overflow-hidden flex items-center justify-center"
-                  style={{
-                    background: "rgba(212,175,55,0.06)",
-                    boxShadow: "inset 0 2px 8px rgba(0,0,0,0.5)",
-                  }}
-                >
-                  {data.photo ? (
-                    <img src={data.photo} alt="" className="w-full h-full object-cover object-center" />
-                  ) : (
-                    <User className="w-10 h-10" style={{ color: `${GOLD}66` }} />
-                  )}
-                  {/* Inner glass highlight */}
-                  <div
-                    className="absolute inset-0 rounded-full pointer-events-none"
-                    style={{
-                      background: "linear-gradient(145deg, rgba(255,255,255,0.07) 0%, transparent 55%)",
-                    }}
-                  />
+            {/* LEFT COLUMN: Logo → Photo → Chip */}
+            <div className="flex flex-col items-center px-3 py-3 flex-shrink-0" style={{ width:148 }}>
+              {/* Logo */}
+              <div className="flex flex-col items-center mb-2">
+                <div className="rounded-full overflow-hidden" style={{ width:46, height:46, border:"2px solid rgba(212,175,55,0.7)" }}>
+                  <img src="/orakzai-org-logo.png" alt="Logo" className="w-full h-full object-cover"
+                    onError={(e)=>{(e.target as HTMLImageElement).style.display="none";}} />
                 </div>
-                {/* Emblem badge at bottom-right of ring */}
+                <span className="text-[6px] font-bold mt-1 tracking-widest" style={{ color:"rgba(212,175,55,0.8)" }}>Orakzai.Org</span>
+              </div>
+
+              {/* Photo with rings */}
+              <div className="relative flex items-center justify-center mt-1">
+                <div className="absolute rounded-full" style={{ inset:-18, border:"1px solid rgba(212,175,55,0.18)" }}/>
+                <div className="absolute rounded-full" style={{ inset:-10, border:"3px solid rgba(212,175,55,0.9)", boxShadow:"0 0 16px rgba(212,175,55,0.22)" }}/>
                 <div
-                  className="absolute bottom-[-2px] right-[-2px] w-[22px] h-[22px] rounded-full flex items-center justify-center z-10"
-                  style={{
-                    background: "radial-gradient(circle at 35% 35%, #f0d060, #8a6a10, #3d2e04)",
-                    border: "1.5px solid #011a10",
-                    boxShadow: `0 2px 6px rgba(0,0,0,0.7), 0 0 8px rgba(212,175,55,0.4)`,
-                  }}
+                  className="w-[84px] h-[84px] sm:w-[92px] sm:h-[92px] rounded-full overflow-hidden flex items-center justify-center"
+                  style={{ background:"rgba(212,175,55,0.06)", boxShadow:"inset 0 2px 8px rgba(0,0,0,0.5)" }}
                 >
-                  <ShieldCheck className="w-2.5 h-2.5" style={{ color: "#011a10" }} />
+                  {data.photo
+                    ? <img src={data.photo} alt="" className="w-full h-full object-cover object-center"/>
+                    : <User className="w-8 h-8" style={{ color:"rgba(212,175,55,0.5)" }}/>
+                  }
+                </div>
+                {/* Checkmark badge */}
+                <div
+                  className="absolute bottom-[-2px] right-[-2px] w-5 h-5 rounded-full flex items-center justify-center z-10"
+                  style={{ background:"radial-gradient(circle at 35% 35%,#f0d060,#8a6a10)", border:"1.5px solid #051c0f", boxShadow:"0 2px 6px rgba(0,0,0,0.7)" }}
+                >
+                  <Check className="w-2 h-2" style={{ color:"#051c0f" }}/>
                 </div>
               </div>
 
-              {/* Gap below photo before QR block */}
-              <div className="mt-[60px] flex flex-col items-start w-full">
-                {/* Membership ID */}
-                <GoldLabel>Membership ID</GoldLabel>
+              {/* Chip + NFC */}
+              <div className="flex items-center gap-2 mt-5">
                 <div
-                  className="mt-1 font-mono font-black tracking-wider text-sm sm:text-base"
-                  style={{
-                    background: `linear-gradient(135deg, #f0d060 0%, ${GOLD} 50%, #e8c84a 100%)`,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
+                  className="rounded-sm flex-shrink-0"
+                  style={{ width:36, height:26, background:"linear-gradient(135deg,#f0d060,#b8860b)", border:"1px solid rgba(0,0,0,0.2)" }}
                 >
-                  {data.memberId}
+                  {[0,1,2].map(i=>(
+                    <div key={i} className="w-full" style={{ height:"1px", background:"rgba(0,0,0,0.22)", marginTop:i===0?7:6 }}/>
+                  ))}
                 </div>
-
-                {/* QR directly underneath */}
-                <div className="mt-2.5" id="elite-card-qr">
-                  <div
-                    className="p-1.5 rounded-lg inline-block"
-                    style={{
-                      background: "#ffffff",
-                      boxShadow: `0 4px 14px rgba(0,0,0,0.5), 0 0 0 1px ${GOLD}44`,
-                    }}
-                  >
-                    <QRCodeSVG
-                      value={qrValue}
-                      size={72}
-                      bgColor="#ffffff"
-                      fgColor="#04100a"
-                    />
-                  </div>
-                  <div className="mt-1">
-                    <GoldLabel>Scan to Verify</GoldLabel>
-                  </div>
+                <div className="relative flex items-center justify-center" style={{ width:28, height:28 }}>
+                  {[10,17,24].map(r=>(
+                    <div key={r} className="absolute rounded-full border" style={{ width:r, height:r, borderColor:"rgba(212,175,55,0.5)", borderWidth:1.5 }}/>
+                  ))}
                 </div>
               </div>
             </div>
 
-            {/* ── Data Fields (right column) ── */}
-            <div className="flex-1 min-w-0 flex flex-col gap-0 pt-1">
-              {[
-                { label: "Member Name",        val: data.name,                       serif: true },
-                { label: "Designation",        val: data.profession                              },
-                { label: "CNIC / National ID", val: hashCnic(data.cnic),             mono:  true },
-                { label: "Nationality",        val: data.nationality                             },
-                { label: "Location",           val: `${data.city}, ${data.country}`             },
-                { label: "Area of Interest",   val: data.interest                               },
-                              ].map(({ label, val, serif, mono }, idx, arr) => (
+            {/* CENTER COLUMN: 6 data rows */}
+            <div className="flex-1 py-3 pl-1 pr-2 flex flex-col justify-center gap-0 min-w-0">
+              {([
+                ["MEMBER NAME",        data.name,                        true ],
+                ["DESIGNATION",        data.profession,                  false],
+                ["CNIC / NATIONAL ID", hashCnic(data.cnic),             false],
+                ["NATIONALITY",        data.nationality,                 false],
+                ["LOCATION",           `${data.city}, ${data.country}`, false],
+                ["AREA OF INTEREST",   data.interest,                   false],
+              ] as [string,string,boolean][]).map(([lbl,val,large],idx,arr)=>(
                 <div
-                  key={label}
-                  className="py-2.5 sm:py-3"
-                  style={idx < arr.length - 1 ? {
-                    borderBottom: "1px solid",
-                    borderImage: `linear-gradient(90deg, ${GOLD}44 0%, ${GOLD}18 70%, transparent 100%) 1`,
-                  } : {}}
+                  key={lbl}
+                  className="flex items-baseline gap-1 py-[5px] min-w-0"
+                  style={idx<arr.length-1?{borderBottom:"1px solid rgba(212,175,55,0.11)"}:{}}
                 >
-                  <GoldLabel>{label}</GoldLabel>
-                  <div
-                    className={`mt-1 leading-tight ${serif ? "font-bold text-base sm:text-lg" : mono ? "font-mono font-semibold text-sm" : "font-medium text-sm"}`}
-                    style={{
-                      color: serif ? "#f5f5f5" : "#d0d0d0",
-                      fontFamily: serif ? "'Playfair Display', Georgia, serif" : undefined,
-                      textShadow: serif ? "0 1px 3px rgba(0,0,0,0.5)" : undefined,
-                    }}
-                  >
-                    {val || "—"}
-                  </div>
+                  <span
+                    className="text-[6px] sm:text-[6.5px] font-black uppercase tracking-[0.15em] flex-shrink-0"
+                    style={{ color:"rgba(212,175,55,0.82)", minWidth:90 }}
+                  >{lbl}</span>
+                  <span className="flex-shrink-0 text-[8px]" style={{ color:"rgba(212,175,55,0.82)" }}>:</span>
+                  <span
+                    className={`truncate ${large ? "font-bold text-sm sm:text-[15px]" : "font-medium text-[10px] sm:text-[11px]"}`}
+                    style={{ color:large?"#ffffff":"#ddd", fontFamily:large?"'Playfair Display',Georgia,serif":undefined }}
+                  >{val||"—"}</span>
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* ── DATES ROW ── */}
-          <div className="relative z-10 flex items-center gap-8 px-8 pb-2 mt-0" style={{ borderTop: '1px solid rgba(212,175,55,0.1)' }}>
-            <div className="flex flex-col gap-0.5">
-              <GoldLabel>Issue Date</GoldLabel>
-              <span className="text-[11px] text-white/70 font-medium">{data.issueDate}</span>
-            </div>
-            <div className="flex flex-col gap-0.5">
-              <GoldLabel>Expiry Date</GoldLabel>
-              <span className="text-[11px] text-white/70 font-medium">{data.expiryDate}</span>
-            </div>
-            <div className="flex-1" />
-            <div className="flex flex-col items-center">
-              <img src="/faisal-signature-transparent.png" alt="Signature" className="h-10 object-contain" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.1))' }} />
-              <GoldLabel>Faisal Orakzai</GoldLabel>
-              <span className="text-[9px] text-white/35">Founder &amp; Chairman</span>
-            </div>
-          </div>
-
-          {/* ── FOOTER — centered status badge ── */}
-          <div
-            className="relative z-10 flex items-center justify-center py-3 px-8 mt-1"
-            style={{ borderTop: "1px solid rgba(212,175,55,0.14)", background: "rgba(0,0,0,0.18)" }}
-          >
-            {/* Left accent dots */}
-            <div className="flex items-center gap-1.5 mr-4">
-              <div className="w-1 h-1 rounded-full" style={{ background: `${GOLD}55` }} />
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: `${GOLD}88` }} />
-              <div className="w-2 h-2 rounded-full" style={{ background: GOLD, boxShadow: `0 0 6px ${GOLD}` }} />
-            </div>
-
-            {/* Badge */}
+            {/* RIGHT COLUMN: World-map dots */}
             <div
-              className="flex items-center gap-2 px-5 py-1.5 rounded-full"
+              className="flex-shrink-0 self-stretch"
               style={{
-                background: "rgba(34,197,94,0.1)",
-                border: "1px solid rgba(34,197,94,0.35)",
-                boxShadow: "0 0 12px rgba(34,197,94,0.12), inset 0 1px 0 rgba(255,255,255,0.06)",
+                width:82,
+                backgroundImage:"radial-gradient(circle, rgba(212,175,55,0.2) 1.5px, transparent 1.5px)",
+                backgroundSize:"10px 10px",
               }}
-            >
-              <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#4ade80" }} />
-              <span
-                className="text-[9px] font-black uppercase tracking-[0.2em]"
-                style={{ color: "#4ade80" }}
-              >
-                Active / Verified Member
-              </span>
+            />
+          </div>
+
+          {/* ── BOTTOM STRIP ── */}
+          <div
+            className="relative z-10 flex items-center px-3 py-2 gap-1 flex-wrap sm:flex-nowrap"
+            style={{ borderTop:"1px solid rgba(212,175,55,0.18)", background:"rgba(0,0,0,0.22)" }}
+          >
+            {/* LEFT: Member ID + QR + Dates */}
+            <div className="flex gap-2 flex-shrink-0 items-start" style={{ minWidth:220 }}>
+              {/* QR */}
+              <div id="elite-card-qr" className="flex-shrink-0">
+                <div className="p-1 rounded" style={{ background:"#fff", boxShadow:"0 2px 8px rgba(0,0,0,0.5)" }}>
+                  <QRCodeSVG value={qrValue} size={52} bgColor="#ffffff" fgColor="#04100a"/>
+                </div>
+                <div className="mt-0.5">
+                  <span className="text-[5px] font-black uppercase tracking-wider" style={{ color:"rgba(212,175,55,0.55)" }}>Scan to Verify</span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <GoldLabel>Member ID</GoldLabel>
+                <div className="font-mono font-black text-[11px]" style={{ color:"#D4AF37" }}>{data.memberId}</div>
+                <div className="mt-1">
+                  <GoldLabel>Issue Date</GoldLabel>
+                  <div className="text-[9px] font-medium" style={{ color:"rgba(255,255,255,0.62)" }}>{data.issueDate}</div>
+                </div>
+                {data.expiryDate && (
+                  <div className="mt-0.5">
+                    <GoldLabel>Expiry Date</GoldLabel>
+                    <div className="text-[9px] font-medium" style={{ color:"rgba(255,255,255,0.62)" }}>{data.expiryDate}</div>
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Right accent dots */}
-            <div className="flex items-center gap-1.5 ml-4">
-              <div className="w-2 h-2 rounded-full" style={{ background: GOLD, boxShadow: `0 0 6px ${GOLD}` }} />
-              <div className="w-1.5 h-1.5 rounded-full" style={{ background: `${GOLD}88` }} />
-              <div className="w-1 h-1 rounded-full" style={{ background: `${GOLD}55` }} />
+            {/* Divider */}
+            <div className="hidden sm:block self-stretch w-[1px] mx-1 flex-shrink-0" style={{ background:"rgba(212,175,55,0.18)" }}/>
+
+            {/* CENTER: Lock + SVT + Signature */}
+            <div className="flex items-center gap-2 flex-1 justify-center flex-wrap sm:flex-nowrap">
+              {/* Lock shield */}
+              <div
+                className="flex-shrink-0 flex flex-col items-center justify-center rounded"
+                style={{ width:26, height:34, border:"1.5px solid rgba(212,175,55,0.6)", background:"rgba(212,175,55,0.06)" }}
+              >
+                <div className="rounded-full border" style={{ width:11, height:11, borderColor:"rgba(212,175,55,0.8)", borderWidth:"1.5px", marginBottom:-4 }}/>
+                <div className="rounded-sm mt-1" style={{ width:16, height:12, background:"rgba(212,175,55,0.8)" }}/>
+              </div>
+              <div className="flex flex-col flex-shrink-0">
+                {["SECURE","VERIFIED","TRUSTED"].map(t=>(
+                  <span key={t} className="text-[6.5px] font-black tracking-widest leading-tight" style={{ color:"rgba(212,175,55,0.9)" }}>{t}</span>
+                ))}
+                <span className="text-[5px] leading-tight mt-0.5" style={{ color:"rgba(255,255,255,0.32)" }}>
+                  BUILDING A BETTER<br/>DIGITAL FUTURE<br/>FOR HUMANITY
+                </span>
+              </div>
+              {/* vertical divider */}
+              <div className="hidden sm:block self-stretch w-[1px] mx-1 flex-shrink-0" style={{ background:"rgba(212,175,55,0.18)" }}/>
+              {/* Signature block */}
+              <div className="flex flex-col items-center flex-shrink-0">
+                <img src="/faisal-signature-transparent.png" alt="Signature" className="h-8 object-contain" style={{ filter:"drop-shadow(0 0 3px rgba(255,255,255,0.07))", maxWidth:120 }}/>
+                <GoldLabel>FAISAL ORAKZAI</GoldLabel>
+                <span className="text-[5.5px]" style={{ color:"rgba(255,255,255,0.35)" }}>Founder &amp; Chairman, Orakzai Group</span>
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="hidden sm:block self-stretch w-[1px] mx-1 flex-shrink-0" style={{ background:"rgba(212,175,55,0.18)" }}/>
+
+            {/* RIGHT: Gold seal */}
+            <div
+              className="flex-shrink-0 w-[68px] h-[68px] rounded-full flex flex-col items-center justify-center relative overflow-hidden"
+              style={{ background:"radial-gradient(circle at 38% 32%,#f5e070 0%,#c9a227 36%,#8a6a10 70%,#4a3408 100%)", border:"2.5px solid #f0d060", boxShadow:"0 4px 20px rgba(212,175,55,0.5)" }}
+            >
+              <span className="text-[4px] font-black tracking-widest text-center leading-tight" style={{ color:"#051c0f", letterSpacing:"0.12em" }}>ORAKZAI.ORG</span>
+              <span className="text-[18px] leading-none my-0.5">🦅</span>
+              <span className="text-[4px] font-black tracking-wider text-center" style={{ color:"#051c0f" }}>VERIFIED MEMBER</span>
             </div>
           </div>
 
           {/* Bottom gold rule */}
-          <div
-            className="h-[2px]"
-            style={{ background: `linear-gradient(90deg, transparent, ${GOLD}cc 30%, ${GOLD} 50%, ${GOLD}cc 70%, transparent)` }}
-          />
-        </div>
-      </div>
+          <div className="h-[2px]" style={{ background:"linear-gradient(90deg,transparent,#D4AF37cc 30%,#D4AF37 50%,#D4AF37cc 70%,transparent)" }}/>
+
+        </div>{/* /inner card */}
+      </div>{/* /gold frame */}
 
       {/* Action buttons */}
       <div className="flex flex-wrap gap-3 justify-center">
         <button
-          onClick={handleDownload}
-          disabled={dl}
+          onClick={handleDownload} disabled={dl}
           className="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold transition-all hover:brightness-110 active:scale-95 disabled:opacity-60"
-          style={{
-            background: `linear-gradient(135deg, #b8860b, ${GOLD}, #e8c84a)`,
-            color: "#011a10",
-            boxShadow: `0 4px 20px rgba(212,175,55,0.35)`,
-          }}
+          style={{ background:"linear-gradient(135deg,#b8860b,#D4AF37,#e8c84a)", color:"#011a10", boxShadow:"0 4px 20px rgba(212,175,55,0.35)" }}
         >
-          {dl ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+          {dl ? <Loader2 className="w-4 h-4 animate-spin"/> : <Download className="w-4 h-4"/>}
           Download Card (PNG)
         </button>
         <button
           onClick={handlePrint}
           className="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all hover:bg-white/5"
-          style={{ border: `1px solid ${GOLD}55`, color: GOLD }}
+          style={{ border:"1px solid rgba(212,175,55,0.35)", color:"#D4AF37" }}
         >
-          <Printer className="w-4 h-4" />
+          <Printer className="w-4 h-4"/>
           Print Identity Badge
         </button>
       </div>
+
     </div>
   );
 }
