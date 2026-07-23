@@ -1,5 +1,5 @@
 import { Router, type IRouter } from "express";
-import { eq, ilike, or } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db, membersTable } from "@workspace/db";
 import {
   CreateMemberBody,
@@ -7,6 +7,7 @@ import {
   UpdateMemberParams,
   GetMemberParams,
   ListMembersQueryParams,
+  VerifyMemberParams,
 } from "@workspace/api-zod";
 
 const router: IRouter = Router();
@@ -18,9 +19,7 @@ router.get("/members", async (req, res): Promise<void> => {
     return;
   }
 
-  let members = db.select().from(membersTable).orderBy(membersTable.createdAt);
-
-  const rows = await members;
+  const rows = await db.select().from(membersTable).orderBy(membersTable.createdAt);
 
   let filtered = rows;
   if (query.data.status) {
@@ -40,16 +39,23 @@ router.get("/members", async (req, res): Promise<void> => {
   res.json(
     filtered.map((m) => ({
       id: m.id,
+      memberId: m.memberId,
       name: m.name,
       fatherName: m.fatherName,
       cnic: m.cnic,
       phone: m.phone,
       email: m.email,
+      city: m.city,
+      country: m.country,
+      nationality: m.nationality,
       location: m.location,
       profession: m.profession,
       skills: m.skills,
       interest: m.interest,
       message: m.message,
+      photo: m.photo,
+      issueDate: m.issueDate,
+      expiryDate: m.expiryDate,
       status: m.status,
       createdAt: m.createdAt.toISOString(),
     }))
@@ -66,38 +72,52 @@ router.post("/members", async (req, res): Promise<void> => {
   const [member] = await db
     .insert(membersTable)
     .values({
+      memberId: parsed.data.memberId ?? null,
       name: parsed.data.name,
       fatherName: parsed.data.fatherName,
       cnic: parsed.data.cnic,
       phone: parsed.data.phone,
       email: parsed.data.email,
+      city: parsed.data.city ?? null,
+      country: parsed.data.country ?? null,
+      nationality: parsed.data.nationality ?? null,
       location: parsed.data.location,
       profession: parsed.data.profession,
       skills: parsed.data.skills,
       interest: parsed.data.interest,
       message: parsed.data.message ?? null,
+      photo: parsed.data.photo ?? null,
+      issueDate: parsed.data.issueDate ?? null,
+      expiryDate: parsed.data.expiryDate ?? null,
       status: "pending",
     })
     .returning();
 
   res.status(201).json({
     id: member.id,
+    memberId: member.memberId,
     name: member.name,
     fatherName: member.fatherName,
     cnic: member.cnic,
     phone: member.phone,
     email: member.email,
+    city: member.city,
+    country: member.country,
+    nationality: member.nationality,
     location: member.location,
     profession: member.profession,
     skills: member.skills,
     interest: member.interest,
     message: member.message,
+    photo: member.photo,
+    issueDate: member.issueDate,
+    expiryDate: member.expiryDate,
     status: member.status,
     createdAt: member.createdAt.toISOString(),
   });
 });
 
-router.get("/members/stats/overview", async (req, res): Promise<void> => {
+router.get("/members/stats/overview", async (_req, res): Promise<void> => {
   const all = await db.select().from(membersTable);
   const total = all.length;
   const approved = all.filter((m) => m.status === "approved").length;
@@ -105,6 +125,48 @@ router.get("/members/stats/overview", async (req, res): Promise<void> => {
   const rejected = all.filter((m) => m.status === "rejected").length;
 
   res.json({ total, approved, pending, rejected });
+});
+
+// Verify by formatted memberId (e.g. O-MBR-2026-T2WM) — MUST be before /:id
+router.get("/members/verify/:memberId", async (req, res): Promise<void> => {
+  const params = VerifyMemberParams.safeParse(req.params);
+  if (!params.success) {
+    res.status(400).json({ error: params.error.message });
+    return;
+  }
+
+  const [member] = await db
+    .select()
+    .from(membersTable)
+    .where(eq(membersTable.memberId, params.data.memberId));
+
+  if (!member) {
+    res.status(404).json({ error: "Member not found" });
+    return;
+  }
+
+  res.json({
+    id: member.id,
+    memberId: member.memberId,
+    name: member.name,
+    fatherName: member.fatherName,
+    cnic: member.cnic,
+    phone: member.phone,
+    email: member.email,
+    city: member.city,
+    country: member.country,
+    nationality: member.nationality,
+    location: member.location,
+    profession: member.profession,
+    skills: member.skills,
+    interest: member.interest,
+    message: member.message,
+    photo: member.photo,
+    issueDate: member.issueDate,
+    expiryDate: member.expiryDate,
+    status: member.status,
+    createdAt: member.createdAt.toISOString(),
+  });
 });
 
 router.get("/members/:id", async (req, res): Promise<void> => {
@@ -126,16 +188,23 @@ router.get("/members/:id", async (req, res): Promise<void> => {
 
   res.json({
     id: member.id,
+    memberId: member.memberId,
     name: member.name,
     fatherName: member.fatherName,
     cnic: member.cnic,
     phone: member.phone,
     email: member.email,
+    city: member.city,
+    country: member.country,
+    nationality: member.nationality,
     location: member.location,
     profession: member.profession,
     skills: member.skills,
     interest: member.interest,
     message: member.message,
+    photo: member.photo,
+    issueDate: member.issueDate,
+    expiryDate: member.expiryDate,
     status: member.status,
     createdAt: member.createdAt.toISOString(),
   });
@@ -173,16 +242,23 @@ router.patch("/members/:id", async (req, res): Promise<void> => {
 
   res.json({
     id: member.id,
+    memberId: member.memberId,
     name: member.name,
     fatherName: member.fatherName,
     cnic: member.cnic,
     phone: member.phone,
     email: member.email,
+    city: member.city,
+    country: member.country,
+    nationality: member.nationality,
     location: member.location,
     profession: member.profession,
     skills: member.skills,
     interest: member.interest,
     message: member.message,
+    photo: member.photo,
+    issueDate: member.issueDate,
+    expiryDate: member.expiryDate,
     status: member.status,
     createdAt: member.createdAt.toISOString(),
   });

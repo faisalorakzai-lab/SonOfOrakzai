@@ -362,34 +362,62 @@ function MemberCard({ data }: { data: MemberData }) {
           {/* Corner screws */}
           <Screw pos="tl"/><Screw pos="tr"/><Screw pos="bl"/><Screw pos="br"/>
 
-          {/* Corner ornaments (SVG flourishes) */}
+          {/* Corner ornaments (baroque SVG flourishes) */}
           {/* Top-left */}
-          <svg className="absolute top-3 left-3 pointer-events-none" style={{ zIndex:4, opacity:0.55 }} width="48" height="48" viewBox="0 0 48 48">
-            <path d="M4 44 Q4 4 44 4" stroke="#D4AF37" strokeWidth="1" fill="none"/>
-            <path d="M4 36 Q4 4 36 4" stroke="#D4AF37" strokeWidth="0.6" fill="none"/>
-            <circle cx="4" cy="4" r="2.5" fill="#D4AF37"/>
-            <path d="M4 12 L4 4 L12 4" stroke="#D4AF37" strokeWidth="1.2" fill="none"/>
+          <svg className="absolute top-3 left-3 pointer-events-none" style={{ zIndex:4, opacity:0.72 }} width="64" height="64" viewBox="0 0 64 64">
+            <path d="M5 59 Q5 5 59 5" stroke="#D4AF37" strokeWidth="1.1" fill="none" opacity="0.65"/>
+            <path d="M5 47 Q5 5 47 5" stroke="#D4AF37" strokeWidth="0.8" fill="none" opacity="0.50"/>
+            <path d="M5 35 Q5 5 35 5" stroke="#D4AF37" strokeWidth="0.5" fill="none" opacity="0.35"/>
+            <path d="M5 22 L5 5 L22 5" stroke="#D4AF37" strokeWidth="1.6" fill="none" opacity="0.9"/>
+            <circle cx="5" cy="5" r="3.5" fill="#D4AF37" opacity="0.9"/>
+            <circle cx="5" cy="32" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="9" cy="21" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="21" cy="9" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="32" cy="5" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <line x1="5" y1="28" x2="10" y2="28" stroke="#D4AF37" strokeWidth="0.8" opacity="0.38"/>
+            <line x1="28" y1="5" x2="28" y2="10" stroke="#D4AF37" strokeWidth="0.8" opacity="0.38"/>
           </svg>
           {/* Top-right */}
-          <svg className="absolute top-3 right-3 pointer-events-none" style={{ zIndex:4, opacity:0.55, transform:"scaleX(-1)" }} width="48" height="48" viewBox="0 0 48 48">
-            <path d="M4 44 Q4 4 44 4" stroke="#D4AF37" strokeWidth="1" fill="none"/>
-            <path d="M4 36 Q4 4 36 4" stroke="#D4AF37" strokeWidth="0.6" fill="none"/>
-            <circle cx="4" cy="4" r="2.5" fill="#D4AF37"/>
-            <path d="M4 12 L4 4 L12 4" stroke="#D4AF37" strokeWidth="1.2" fill="none"/>
+          <svg className="absolute top-3 right-3 pointer-events-none" style={{ zIndex:4, opacity:0.72, transform:"scaleX(-1)" }} width="64" height="64" viewBox="0 0 64 64">
+            <path d="M5 59 Q5 5 59 5" stroke="#D4AF37" strokeWidth="1.1" fill="none" opacity="0.65"/>
+            <path d="M5 47 Q5 5 47 5" stroke="#D4AF37" strokeWidth="0.8" fill="none" opacity="0.50"/>
+            <path d="M5 35 Q5 5 35 5" stroke="#D4AF37" strokeWidth="0.5" fill="none" opacity="0.35"/>
+            <path d="M5 22 L5 5 L22 5" stroke="#D4AF37" strokeWidth="1.6" fill="none" opacity="0.9"/>
+            <circle cx="5" cy="5" r="3.5" fill="#D4AF37" opacity="0.9"/>
+            <circle cx="5" cy="32" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="9" cy="21" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="21" cy="9" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="32" cy="5" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <line x1="5" y1="28" x2="10" y2="28" stroke="#D4AF37" strokeWidth="0.8" opacity="0.38"/>
+            <line x1="28" y1="5" x2="28" y2="10" stroke="#D4AF37" strokeWidth="0.8" opacity="0.38"/>
           </svg>
           {/* Bottom-left */}
-          <svg className="absolute bottom-3 left-3 pointer-events-none" style={{ zIndex:4, opacity:0.55, transform:"scaleY(-1)" }} width="48" height="48" viewBox="0 0 48 48">
-            <path d="M4 44 Q4 4 44 4" stroke="#D4AF37" strokeWidth="1" fill="none"/>
-            <path d="M4 36 Q4 4 36 4" stroke="#D4AF37" strokeWidth="0.6" fill="none"/>
-            <circle cx="4" cy="4" r="2.5" fill="#D4AF37"/>
-            <path d="M4 12 L4 4 L12 4" stroke="#D4AF37" strokeWidth="1.2" fill="none"/>
+          <svg className="absolute bottom-3 left-3 pointer-events-none" style={{ zIndex:4, opacity:0.72, transform:"scaleY(-1)" }} width="64" height="64" viewBox="0 0 64 64">
+            <path d="M5 59 Q5 5 59 5" stroke="#D4AF37" strokeWidth="1.1" fill="none" opacity="0.65"/>
+            <path d="M5 47 Q5 5 47 5" stroke="#D4AF37" strokeWidth="0.8" fill="none" opacity="0.50"/>
+            <path d="M5 35 Q5 5 35 5" stroke="#D4AF37" strokeWidth="0.5" fill="none" opacity="0.35"/>
+            <path d="M5 22 L5 5 L22 5" stroke="#D4AF37" strokeWidth="1.6" fill="none" opacity="0.9"/>
+            <circle cx="5" cy="5" r="3.5" fill="#D4AF37" opacity="0.9"/>
+            <circle cx="5" cy="32" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="9" cy="21" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="21" cy="9" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="32" cy="5" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <line x1="5" y1="28" x2="10" y2="28" stroke="#D4AF37" strokeWidth="0.8" opacity="0.38"/>
+            <line x1="28" y1="5" x2="28" y2="10" stroke="#D4AF37" strokeWidth="0.8" opacity="0.38"/>
           </svg>
           {/* Bottom-right */}
-          <svg className="absolute bottom-3 right-3 pointer-events-none" style={{ zIndex:4, opacity:0.55, transform:"scale(-1,-1)" }} width="48" height="48" viewBox="0 0 48 48">
-            <path d="M4 44 Q4 4 44 4" stroke="#D4AF37" strokeWidth="1" fill="none"/>
-            <path d="M4 36 Q4 4 36 4" stroke="#D4AF37" strokeWidth="0.6" fill="none"/>
-            <circle cx="4" cy="4" r="2.5" fill="#D4AF37"/>
-            <path d="M4 12 L4 4 L12 4" stroke="#D4AF37" strokeWidth="1.2" fill="none"/>
+          <svg className="absolute bottom-3 right-3 pointer-events-none" style={{ zIndex:4, opacity:0.72, transform:"scale(-1,-1)" }} width="64" height="64" viewBox="0 0 64 64">
+            <path d="M5 59 Q5 5 59 5" stroke="#D4AF37" strokeWidth="1.1" fill="none" opacity="0.65"/>
+            <path d="M5 47 Q5 5 47 5" stroke="#D4AF37" strokeWidth="0.8" fill="none" opacity="0.50"/>
+            <path d="M5 35 Q5 5 35 5" stroke="#D4AF37" strokeWidth="0.5" fill="none" opacity="0.35"/>
+            <path d="M5 22 L5 5 L22 5" stroke="#D4AF37" strokeWidth="1.6" fill="none" opacity="0.9"/>
+            <circle cx="5" cy="5" r="3.5" fill="#D4AF37" opacity="0.9"/>
+            <circle cx="5" cy="32" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="9" cy="21" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="21" cy="9" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <circle cx="32" cy="5" r="1.3" fill="#D4AF37" opacity="0.55"/>
+            <line x1="5" y1="28" x2="10" y2="28" stroke="#D4AF37" strokeWidth="0.8" opacity="0.38"/>
+            <line x1="28" y1="5" x2="28" y2="10" stroke="#D4AF37" strokeWidth="0.8" opacity="0.38"/>
           </svg>
 
           {/* ── HEADER ── */}
@@ -585,7 +613,7 @@ function MemberCard({ data }: { data: MemberData }) {
               {/* QR */}
               <div id="elite-card-qr" className="flex-shrink-0 flex flex-col items-center">
                 <div className="p-1 rounded" style={{ background:"#fff", boxShadow:"0 2px 10px rgba(0,0,0,0.55)" }}>
-                  <QRCodeSVG value={qrValue} size={56} bgColor="#ffffff" fgColor="#031006"/>
+                  <QRCodeSVG value={qrValue} size={72} bgColor="#ffffff" fgColor="#031006"/>
                 </div>
                 <span className="text-[5.5px] font-black uppercase tracking-wider mt-1" style={{ color:"rgba(212,175,55,0.55)" }}>Scan to Verify</span>
               </div>
@@ -823,16 +851,43 @@ export default function Join() {
   const submit = async () => {
     if (!validate(4)) return;
     setLoad(true);
-    await new Promise((r) => setTimeout(r, 1500));
     const now = new Date();
     const expiry = new Date(now);
     expiry.setFullYear(expiry.getFullYear() + 5);
-    setMember({
-      ...f,
-      memberId: genMemberId(),
-      issueDate: now.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" }),
-      expiryDate: expiry.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" }),
-    });
+    const memberId  = genMemberId();
+    const issueDate  = now.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
+    const expiryDate = expiry.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
+
+    /* Save to database (fire-and-forget; card still shows even if API fails) */
+    try {
+      await fetch("/api/members", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          memberId,
+          name:       f.name,
+          fatherName: f.fatherName,
+          cnic:       f.cnic,
+          phone:      `${f.countryCode}${f.phone}`,
+          email:      f.email,
+          city:       f.city,
+          country:    f.country,
+          nationality:f.nationality,
+          location:   `${f.city}, ${f.country}`,
+          profession: f.profession,
+          skills:     f.skills.join(", "),
+          interest:   f.interest,
+          message:    f.statement || null,
+          photo:      f.photo || null,
+          issueDate,
+          expiryDate,
+        }),
+      });
+    } catch {
+      /* Continue even if API is unreachable */
+    }
+
+    setMember({ ...f, memberId, issueDate, expiryDate });
     setDone(true);
     setLoad(false);
   };

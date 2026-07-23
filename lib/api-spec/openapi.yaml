@@ -64,7 +64,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateMemberBody"
+              $ref: "#/components/schemas/MemberInput"
       responses:
         "201":
           description: Member created
@@ -75,11 +75,45 @@ paths:
         "400":
           description: Validation error
 
+  /members/stats/overview:
+    get:
+      operationId: getMembersStats
+      tags: [stats]
+      summary: Get member statistics overview
+      responses:
+        "200":
+          description: Stats overview
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MembersStats"
+
+  /members/verify/{memberId}:
+    get:
+      operationId: verifyMember
+      tags: [members]
+      summary: Verify a member by formatted member ID
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Member verified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Member"
+        "404":
+          description: Not found
+
   /members/{id}:
     get:
       operationId: getMember
       tags: [members]
-      summary: Get a single member
+      summary: Get a single member by integer ID
       parameters:
         - name: id
           in: path
@@ -110,7 +144,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateMemberBody"
+              $ref: "#/components/schemas/MemberUpdate"
       responses:
         "200":
           description: Member updated
@@ -120,19 +154,6 @@ paths:
                 $ref: "#/components/schemas/Member"
         "404":
           description: Not found
-
-  /members/stats/overview:
-    get:
-      operationId: getMembersStats
-      tags: [stats]
-      summary: Get member statistics overview
-      responses:
-        "200":
-          description: Stats overview
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MembersStats"
 
   /blog:
     get:
@@ -167,7 +188,7 @@ paths:
             type: integer
       responses:
         "200":
-          description: Blog post
+          description: Blog post found
           content:
             application/json:
               schema:
@@ -185,14 +206,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateContactBody"
+              $ref: "#/components/schemas/ContactInput"
       responses:
         "201":
-          description: Message sent
+          description: Message received
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ContactMessage"
+        "400":
+          description: Validation error
 
   /stats:
     get:
@@ -222,6 +245,8 @@ components:
       properties:
         id:
           type: integer
+        memberId:
+          type: ["string", "null"]
         name:
           type: string
         fatherName:
@@ -232,6 +257,12 @@ components:
           type: string
         email:
           type: string
+        city:
+          type: ["string", "null"]
+        country:
+          type: ["string", "null"]
+        nationality:
+          type: ["string", "null"]
         location:
           type: string
         profession:
@@ -241,6 +272,12 @@ components:
         interest:
           type: string
         message:
+          type: ["string", "null"]
+        photo:
+          type: ["string", "null"]
+        issueDate:
+          type: ["string", "null"]
+        expiryDate:
           type: ["string", "null"]
         status:
           type: string
@@ -260,9 +297,11 @@ components:
         - status
         - createdAt
 
-    CreateMemberBody:
+    MemberInput:
       type: object
       properties:
+        memberId:
+          type: string
         name:
           type: string
         fatherName:
@@ -273,6 +312,12 @@ components:
           type: string
         email:
           type: string
+        city:
+          type: string
+        country:
+          type: string
+        nationality:
+          type: string
         location:
           type: string
         profession:
@@ -282,6 +327,12 @@ components:
         interest:
           type: string
         message:
+          type: ["string", "null"]
+        photo:
+          type: ["string", "null"]
+        issueDate:
+          type: ["string", "null"]
+        expiryDate:
           type: ["string", "null"]
       required:
         - name
@@ -294,7 +345,7 @@ components:
         - skills
         - interest
 
-    UpdateMemberBody:
+    MemberUpdate:
       type: object
       properties:
         status:
@@ -303,7 +354,6 @@ components:
           type: string
         profession:
           type: string
-      required: []
 
     MembersStats:
       type: object
@@ -353,7 +403,7 @@ components:
         - publishedAt
         - createdAt
 
-    CreateContactBody:
+    ContactInput:
       type: object
       properties:
         name:
