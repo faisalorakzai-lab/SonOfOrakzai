@@ -1,19 +1,13 @@
 import { motion } from "framer-motion";
 import { MainLayout } from "@/components/layout/main-layout";
 import { Link } from "wouter";
-import { useState, useEffect } from "react";
 
-const GOLD = "#D4AF37";
+const GOLD = "#D6B44C";
+const IVORY = "#F5F1E7";
+const SAGE = "#A6B3A9";
+const FOREST = "#031B13";
+const EMERALD = "#06271B";
 
-/* ── Timeline nodes ── */
-const timelineNodes = [
-  { year: "Pre-1800s", label: "Sacred Origins", color: "#6ee7b7" },
-  { year: "1800–1947", label: "Colonial Resistance", color: GOLD },
-  { year: "1947–2000", label: "Displacement Era", color: "#f87171" },
-  { year: "2000–Today", label: "Digital Renaissance", color: "#818cf8" },
-];
-
-/* ── Stat badges ── */
 const stats = [
   { value: "3,000+", label: "Years of History" },
   { value: "12+", label: "Countries of Diaspora" },
@@ -21,7 +15,24 @@ const stats = [
   { value: "1", label: "Unbreakable Identity" },
 ];
 
-/* ── 7 Chapters ── */
+const heritageStories = [
+  { image: "/hero/heritage-frontier-jirga.jpeg", label: "Living governance", title: "The Jirga tradition", caption: "An existing Orakzai.org heritage visual representing dialogue, diplomacy, and collective memory." },
+  { image: "/hero/heritage-tribal-elders.jpg", label: "Ancestral memory", title: "A people carried forward", caption: "Existing heritage imagery from the Orakzai.org visual archive — presented as cultural context, not fabricated archival evidence." },
+  { image: "/hero/heritage-dost-mohammad-khan.jpg", label: "Historical legacy", title: "Honour, memory, responsibility", caption: "A preserved visual study of Orakzai heritage and the responsibility of each generation." },
+  { image: "/global-diaspora.jpg", label: "The living diaspora", title: "Home across borders", caption: "A contemporary Orakzai.org community image reflecting connection beyond the homeland." },
+];
+
+const storyTimeline = [
+  { chapter: "01", title: "Ancient Heritage", era: "Before written record", image: "/hero/heritage-tribal-elders.jpg", text: "The highland valleys of Tirah form the geographic and spiritual setting from which Orakzai identity is told — a living archive carried through memory, landscape, and story." },
+  { chapter: "02", title: "Ancestral Roots", era: "Lineage, homeland, identity", image: "/hero/heritage-dost-mohammad-khan.jpg", text: "The Orakzai name, lineage, Pashtunwali ethics, and the moral authority of the ancestor remain central threads in the community’s understanding of itself." },
+  { chapter: "03", title: "Tribal History", era: "Classical governance and culture", image: "/hero/heritage-frontier-jirga.jpeg", text: "Sub-tribal autonomy and collective solidarity were held together through the Jirga — a system of dialogue, mediation, and shared responsibility." },
+  { chapter: "04", title: "Cultural Traditions", era: "Jirga, poetry, hospitality", image: "/hero/heritage-tribal-elders.jpg", text: "Melmastia, nanawatai, badal, oral poetry, and the landay tradition carried values and wisdom from one generation to the next." },
+  { chapter: "05", title: "Historical Transitions", era: "1893 · 1897–1898 · 1947", image: "/hero/heritage-frontier-jirga.jpeg", text: "Imperial confrontation, the Tirah Expedition, the Durand Line, and the formation of Pakistan shaped the modern political context without erasing internal identity." },
+  { chapter: "06", title: "Modern Orakzai", era: "2004–2014 · 2020–Present", image: "/hero-community.jpg", text: "Conflict, displacement, return, and the birth of Orakzai.org form the modern chapter: rebuilding social infrastructure for a community separated by crisis." },
+  { chapter: "07", title: "Global Diaspora", era: "Post-1947 to the present", image: "/global-diaspora.jpg", text: "From Pakistan’s cities to the Gulf, Europe, North America, and beyond, Orakzai identity continues through family, service, language, and shared memory." },
+  { chapter: "08", title: "The Future Generation", era: "The covenant", image: "/hero-youth.jpg", text: "The future is a promise that every Orakzai child can know the history behind them, the community around them, and the opportunities ahead." },
+];
+
 const chapters = [
   {
     number: "I",
@@ -124,290 +135,70 @@ const chapters = [
 ];
 
 export default function About() {
-  const [activeNode, setActiveNode] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveNode((prev) => (prev + 1) % timelineNodes.length);
-    }, 3200);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <MainLayout>
-
-      {/* ── HERO ── */}
-      <section
-        className="relative min-h-[92vh] flex flex-col items-center justify-center overflow-hidden pt-24 pb-16"
-        style={{ background: "linear-gradient(160deg, #010f08 0%, #011a10 40%, #022c22 100%)" }}
-      >
-        {/* Ambient orbs */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div
-            className="absolute rounded-full blur-[120px] opacity-20"
-            style={{ width: 500, height: 500, background: GOLD, top: "-15%", left: "-10%" }}
-            animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.25, 0.15] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute rounded-full blur-[100px] opacity-15"
-            style={{ width: 400, height: 400, background: "#6ee7b7", bottom: "5%", right: "-5%" }}
-            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          />
-        </div>
-
-        <div className="container mx-auto px-4 max-w-5xl relative z-10 text-center">
-          {/* Eyebrow */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-[11px] font-bold uppercase tracking-[0.35em] mb-5"
-            style={{ color: GOLD }}
-          >
-            Our Story
-          </motion.p>
-
-          {/* Title */}
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08 }}
-            className="text-4xl sm:text-5xl md:text-7xl font-bold leading-[1.08] mb-6"
-            style={{ color: "#fff", fontFamily: "Georgia, 'Times New Roman', serif" }}
-          >
-            Three Thousand Years<br />
-            <span style={{ color: GOLD }}>of Orakzai</span>
-          </motion.h1>
-
-          {/* Gold divider */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="h-[1px] w-32 mx-auto mb-8"
-            style={{ background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }}
-          />
-
-          {/* Sub */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            className="text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-14"
-            style={{ color: "rgba(209,250,229,0.72)" }}
-          >
-            From the sacred valleys of Tirah to the cities of the global diaspora — the complete, unbroken story of a nation that has never surrendered its identity, its dignity, or its future.
-          </motion.p>
-
-          {/* Stat badges */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto"
-          >
-            {stats.map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-2xl px-4 py-5"
-                style={{
-                  background: "rgba(212,175,55,0.06)",
-                  border: "1px solid rgba(212,175,55,0.22)",
-                }}
-              >
-                <p className="text-2xl md:text-3xl font-bold mb-1" style={{ color: GOLD, fontFamily: "Georgia, serif" }}>
-                  {stat.value}
-                </p>
-                <p className="text-xs text-emerald-100/50 uppercase tracking-wider">{stat.label}</p>
-              </div>
-            ))}
+      {/* Editorial hero */}
+      <section className="relative overflow-hidden border-b border-[#D6B44C]/15 bg-[#031B13]" style={{ backgroundImage: "linear-gradient(118deg, rgba(6,39,27,0.9), rgba(3,27,19,0.98)), repeating-linear-gradient(135deg, transparent 0, transparent 118px, rgba(214,180,76,0.035) 119px, transparent 120px)" }}>
+        <div className="absolute right-[8%] top-20 hidden h-40 w-40 border-r border-t border-[#D6B44C]/25 md:block" />
+        <div className="absolute bottom-12 left-[8%] hidden h-20 w-20 border-b border-l border-[#D6B44C]/20 md:block" />
+        <div className="relative mx-auto grid min-h-[660px] max-w-6xl items-center gap-12 px-5 pb-16 pt-32 sm:px-8 md:grid-cols-[1.15fr_0.85fr] md:gap-16 md:px-12 md:pb-24 md:pt-40">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.34em] text-[#D6B44C] sm:text-xs">Our Story</p>
+            <h1 className="max-w-3xl font-serif text-[3.2rem] font-medium leading-[0.98] tracking-[-0.04em] text-[#F5F1E7] sm:text-6xl md:text-[5.3rem]">
+              Three Thousand<br /><span className="text-[#D6B44C]">Years of Orakzai</span>
+            </h1>
+            <div className="mt-8 h-px w-24 bg-[#D6B44C]" />
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.7 }} className="border-l border-[#D6B44C]/45 pl-6 md:pl-9">
+            <p className="max-w-md font-serif text-xl leading-relaxed text-[#F5F1E7]/80 sm:text-2xl">From the sacred valleys of Tirah to the cities of the global diaspora — the complete, unbroken story of a nation that has never surrendered its identity, its dignity, or its future.</p>
+            <p className="mt-6 text-[10px] uppercase tracking-[0.24em] text-[#A6B3A9]">A living heritage · A shared future</p>
           </motion.div>
         </div>
-
-        {/* Scroll cue */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity }}
-        >
-          <div className="h-8 w-[1px]" style={{ background: `linear-gradient(to bottom, transparent, ${GOLD})` }} />
-          <p className="text-[10px] uppercase tracking-[0.3em]" style={{ color: GOLD, opacity: 0.5 }}>Scroll</p>
-        </motion.div>
       </section>
 
-      {/* ── INTERACTIVE TIMELINE ── */}
-      <section className="py-16" style={{ background: "#040e07" }}>
-        <div className="container mx-auto px-4 max-w-4xl">
-          <p className="text-center text-[11px] font-bold uppercase tracking-[0.3em] mb-10" style={{ color: GOLD }}>
-            Four Epochs of History
-          </p>
-          <div className="relative flex items-center justify-between">
-            {/* Connecting line */}
-            <div className="absolute left-0 right-0 top-5 h-[1px]" style={{ background: "rgba(212,175,55,0.15)" }} />
-            <motion.div
-              className="absolute left-0 top-5 h-[1px]"
-              style={{ background: GOLD }}
-              animate={{ width: `${(activeNode / (timelineNodes.length - 1)) * 100}%` }}
-              transition={{ duration: 0.6, ease: "easeInOut" }}
-            />
-
-            {timelineNodes.map((node, i) => (
-              <button
-                key={node.year}
-                onClick={() => setActiveNode(i)}
-                className="relative flex flex-col items-center gap-3 z-10 cursor-pointer bg-transparent border-0 p-0"
-              >
-                <motion.div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold"
-                  animate={{
-                    scale: activeNode === i ? 1.25 : 1,
-                    background: activeNode === i ? node.color : "rgba(212,175,55,0.12)",
-                    color: activeNode === i ? "#011a10" : "rgba(212,175,55,0.5)",
-                    boxShadow: activeNode === i ? `0 0 24px ${node.color}66` : "none",
-                  }}
-                  transition={{ duration: 0.35 }}
-                >
-                  {i + 1}
-                </motion.div>
-                <div className="text-center">
-                  <p className="text-[11px] font-bold hidden sm:block" style={{ color: activeNode === i ? node.color : "rgba(255,255,255,0.3)" }}>
-                    {node.year}
-                  </p>
-                  <p className="text-[10px] hidden md:block" style={{ color: "rgba(255,255,255,0.25)" }}>
-                    {node.label}
-                  </p>
-                </div>
-              </button>
-            ))}
+      {/* Introduction and visual story */}
+      <section className="bg-[#F5F1E7] py-16 text-[#031B13] md:py-24">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8 md:px-12">
+          <div className="grid items-end gap-10 md:grid-cols-[0.72fr_1.28fr] md:gap-20">
+            <div><p className="mb-4 text-[10px] font-bold uppercase tracking-[0.28em] text-[#8c7020]">A living archive</p><h2 className="max-w-sm font-serif text-3xl leading-tight sm:text-4xl">A story carried in landscape, language, and memory.</h2></div>
+            <p className="max-w-2xl font-serif text-xl leading-relaxed text-[#031B13]/70 sm:text-2xl">From the sacred valleys of Tirah to the cities of the global diaspora — the complete, unbroken story of a nation that has never surrendered its identity, its dignity, or its future.</p>
           </div>
-
-          {/* Active label */}
-          <motion.p
-            key={activeNode}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mt-8 text-base font-semibold"
-            style={{ color: timelineNodes[activeNode].color, fontFamily: "Georgia, serif" }}
-          >
-            {timelineNodes[activeNode].year} — {timelineNodes[activeNode].label}
-          </motion.p>
-        </div>
-      </section>
-
-      {/* ── 7 CHAPTERS ── */}
-      {chapters.map((chapter, ci) => (
-        <section
-          key={chapter.number}
-          className="py-20 md:py-28"
-          style={{
-            background: ci % 2 === 0
-              ? "linear-gradient(180deg, #061209 0%, #040e07 100%)"
-              : "#040e07",
-          }}
-        >
-          <div className="container mx-auto px-4 max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.65, ease: "easeOut" }}
-            >
-              {/* Chapter label */}
-              <div className="flex items-center gap-4 mb-6">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
-                  style={{ background: `${chapter.accent}18`, border: `1px solid ${chapter.accent}44`, color: chapter.accent, fontFamily: "Georgia, serif" }}
-                >
-                  {chapter.number}
-                </div>
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] mb-1" style={{ color: chapter.accent, opacity: 0.75 }}>
-                    {chapter.era}
-                  </p>
-                  <h2 className="text-xl md:text-2xl font-bold text-white" style={{ fontFamily: "Georgia, serif" }}>
-                    {chapter.title}
-                  </h2>
-                </div>
-              </div>
-
-              {/* Gold thin rule */}
-              <div className="h-[1px] mb-8" style={{ background: `linear-gradient(to right, ${chapter.accent}55, transparent)` }} />
-
-              {/* Pull quote */}
-              <blockquote
-                className="text-base md:text-lg italic leading-relaxed mb-10 pl-5"
-                style={{
-                  color: chapter.accent,
-                  borderLeft: `3px solid ${chapter.accent}`,
-                  fontFamily: "Georgia, serif",
-                }}
-              >
-                "{chapter.pullQuote}"
-              </blockquote>
-
-              {/* Body paragraphs */}
-              <div className="space-y-5">
-                {chapter.body.map((para, pi) => (
-                  <p key={pi} className="text-base md:text-lg leading-[1.85]" style={{ color: "rgba(209,250,229,0.72)" }}>
-                    {para}
-                  </p>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </section>
-      ))}
-
-      {/* ── CLOSING CTA ── */}
-      <section className="py-28 relative overflow-hidden" style={{ background: "linear-gradient(160deg, #011a10 0%, #022c22 100%)" }}>
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] rounded-full opacity-10 blur-[100px]" style={{ background: GOLD }} />
-        </div>
-        <div className="container mx-auto px-4 max-w-3xl text-center relative z-10">
-          <p className="text-[11px] font-bold uppercase tracking-[0.3em] mb-6" style={{ color: GOLD }}>
-            Join the Story
-          </p>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6" style={{ color: "#fff", fontFamily: "Georgia, serif" }}>
-            The Next Chapter<br />
-            <span style={{ color: GOLD }}>Is Yours to Write</span>
-          </h2>
-          <div className="h-[1px] w-24 mx-auto mb-8" style={{ background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />
-          <p className="text-lg leading-relaxed mb-10" style={{ color: "rgba(209,250,229,0.65)" }}>
-            Three thousand years of Orakzai history brought us here. The choices we make now — how we connect, how we serve, how we preserve — will determine the story our grandchildren inherit. Be part of it.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/join"
-              className="inline-flex items-center justify-center font-bold px-10 h-12 rounded-full text-sm transition-all hover:-translate-y-1 hover:shadow-2xl"
-              style={{
-                background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 50%, #f5e07a 100%)`,
-                color: "#011a10",
-                fontFamily: "Georgia, serif",
-                letterSpacing: "0.05em",
-                boxShadow: `0 6px 28px rgba(212,175,55,0.4)`,
-              }}
-            >
-              Become a Member
-            </Link>
-            <Link
-              href="/donate"
-              className="inline-flex items-center justify-center font-semibold px-8 h-12 rounded-full text-sm text-white transition-all hover:-translate-y-1"
-              style={{ border: "1px solid rgba(212,175,55,0.4)", background: "rgba(212,175,55,0.06)" }}
-            >
-              Support the Mission
-            </Link>
-          </div>
-
-          <div className="mt-16">
-            <div className="h-[1px] w-40 mx-auto mb-6" style={{ background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />
-            <p className="text-lg md:text-xl font-bold tracking-wide" style={{ color: "#fff", fontFamily: "Georgia, serif" }}>
-              One Nation. One Identity. One Shared Future.
-            </p>
+          <div className="mt-14 grid gap-4 md:grid-cols-12 md:grid-rows-[210px_210px]">
+            <figure className="group relative overflow-hidden md:col-span-7 md:row-span-2"><img src="/hero/heritage-frontier-jirga.jpeg" alt="Existing Orakzai heritage visual representing a jirga" className="h-full min-h-[280px] w-full object-cover transition duration-700 group-hover:scale-105" /><figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#031B13]/90 to-transparent p-5 pt-14 text-sm text-[#F5F1E7]">The Jirga tradition · collective responsibility</figcaption></figure>
+            <figure className="group relative overflow-hidden md:col-span-5"><img src="/hero/heritage-tribal-elders.jpg" alt="Existing Orakzai heritage visual of tribal elders" className="h-full min-h-[210px] w-full object-cover transition duration-700 group-hover:scale-105" /><figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#031B13]/85 to-transparent p-4 pt-10 text-xs text-[#F5F1E7]">Ancestral memory</figcaption></figure>
+            <figure className="group relative overflow-hidden md:col-span-5"><img src="/global-diaspora.jpg" alt="Contemporary Orakzai diaspora community visual" className="h-full min-h-[210px] w-full object-cover transition duration-700 group-hover:scale-105" /><figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#031B13]/85 to-transparent p-4 pt-10 text-xs text-[#F5F1E7]">Home across borders</figcaption></figure>
           </div>
         </div>
       </section>
 
+      {/* Preserved figures, redesigned as an institutional data band */}
+      <section className="border-y border-[#D6B44C]/15 bg-[#06271B] py-12 md:py-16">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-y divide-[#D6B44C]/15 px-5 sm:px-8 md:grid-cols-4 md:divide-y-0 md:px-12">
+          {stats.map((stat) => <div key={stat.label} className="px-4 py-5 text-center md:px-6"><p className="font-serif text-3xl text-[#D6B44C] sm:text-4xl">{stat.value}</p><p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-[#A6B3A9]">{stat.label}</p></div>)}
+        </div>
+      </section>
+
+      {/* Eight-chapter timeline */}
+      <section className="bg-[#031B13] py-20 md:py-28">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8 md:px-12">
+          <div className="mb-14 max-w-2xl"><p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#D6B44C]">The long view</p><h2 className="font-serif text-4xl leading-tight text-[#F5F1E7] sm:text-5xl">Eight chapters of a living identity.</h2><p className="mt-5 max-w-xl text-base leading-relaxed text-[#A6B3A9]">A concise reading map of the story told across this page. Dates are retained only where they are already established in the source history.</p></div>
+          <div className="relative ml-2 border-l border-[#D6B44C]/25 md:ml-6">
+            {storyTimeline.map((item, i) => <motion.article key={item.chapter} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.5 }} className="relative mb-12 pl-8 last:mb-0 md:pl-14"><span className="absolute -left-[7px] top-1 h-3 w-3 rotate-45 border border-[#D6B44C] bg-[#031B13]" /><div className="grid gap-6 md:grid-cols-[0.75fr_1.25fr] md:gap-14"><div><p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#D6B44C]">{item.chapter} · {item.era}</p><h3 className="mt-3 font-serif text-2xl text-[#F5F1E7] sm:text-3xl">{item.title}</h3></div><div className="grid gap-4 sm:grid-cols-[150px_1fr] sm:items-start"><img src={item.image} alt={item.title} className="h-32 w-full object-cover grayscale-[20%] sm:h-24" /><p className="text-sm leading-relaxed text-[#A6B3A9]">{item.text}</p></div></div></motion.article>)}
+          </div>
+        </div>
+      </section>
+
+      {/* Detailed source chapters */}
+      <section className="bg-[#F5F1E7] py-20 text-[#031B13] md:py-28">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8 md:px-12"><div className="mb-14 max-w-2xl"><p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#8c7020]">The archive</p><h2 className="font-serif text-4xl leading-tight sm:text-5xl">History is not behind us.</h2><p className="mt-5 text-base leading-relaxed text-[#031B13]/65">The full source chapters remain available below, edited into a calmer reading rhythm for long-form attention.</p></div>
+          <div className="space-y-20 md:space-y-28">{chapters.map((chapter, ci) => <motion.article key={chapter.number} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.6 }} className="grid gap-8 md:grid-cols-[0.33fr_0.67fr] md:gap-14"><div className="md:sticky md:top-28 md:self-start"><p className="font-serif text-5xl text-[#D6B44C]/80">{chapter.number}</p><p className="mt-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#8c7020]">{chapter.era}</p><h3 className="mt-3 font-serif text-2xl leading-tight text-[#031B13]">{chapter.title}</h3><div className="mt-6 h-px w-16 bg-[#D6B44C]" /></div><div><blockquote className="mb-8 border-l-2 border-[#D6B44C] pl-5 font-serif text-xl italic leading-relaxed text-[#031B13]/75">“{chapter.pullQuote}”</blockquote><div className="space-y-5 text-base leading-[1.85] text-[#031B13]/70">{chapter.body.map((para, pi) => <p key={pi}>{para}</p>)}</div></div></motion.article>)}</div>
+        </div>
+      </section>
+
+      {/* Closing invitation */}
+      <section className="border-t border-[#D6B44C]/15 bg-[#06271B] py-20 md:py-28">
+        <div className="mx-auto max-w-3xl px-5 text-center sm:px-8"><p className="mb-5 text-[10px] font-bold uppercase tracking-[0.3em] text-[#D6B44C]">Join the story</p><h2 className="font-serif text-4xl leading-tight text-[#F5F1E7] sm:text-5xl">The next chapter<br /><span className="text-[#D6B44C]">is yours to write.</span></h2><div className="mx-auto my-8 h-px w-20 bg-[#D6B44C]" /><p className="text-base leading-relaxed text-[#A6B3A9] sm:text-lg">Three thousand years of Orakzai history brought us here. How we connect, serve, and preserve will determine the story our grandchildren inherit.</p><div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row"><Link href="/join" className="inline-flex h-12 items-center justify-center rounded-full bg-[#D6B44C] px-8 text-sm font-semibold text-[#031B13] transition hover:-translate-y-0.5 hover:bg-[#F5F1E7]">Become a Member</Link><Link href="/donate" className="inline-flex h-12 items-center justify-center rounded-full border border-[#D6B44C]/45 px-8 text-sm text-[#F5F1E7] transition hover:-translate-y-0.5 hover:border-[#D6B44C]">Support the Mission</Link></div><p className="mt-12 font-serif text-lg text-[#F5F1E7]">One Nation. One Identity. One Shared Future.</p></div>
+      </section>
     </MainLayout>
   );
 }
