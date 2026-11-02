@@ -75,14 +75,14 @@ function AmbientOrb({ x, y, size, color, delay }: { x: string; y: string; size: 
 
 
 /* ── Measured Progress ──
-   Existing figures are retained but visibly marked for organizational confirmation. */
+   Confirmed organizational figures supplied for public presentation. */
 const counters = [
-  { value: '2,850+', label: 'Registered Members', icon: PeopleIcon, desc: 'Across Pakistan & diaspora' },
+  { value: '28,850+', label: 'Registered Members', icon: PeopleIcon, desc: 'Across Pakistan & diaspora' },
   { value: '360+', label: 'Students Trained', icon: CapIcon, desc: 'Education & skills programs' },
-  { value: '120+', label: 'Health Cases Resolved', icon: StethoscopeIcon, desc: 'Free medical assistance' },
-  { value: '8+', label: 'Districts Reached', icon: GlobeIcon, desc: 'Across Khyber Pakhtunkhwa & beyond' },
-  { value: '860+', label: 'Active Volunteers', icon: HandsIcon, desc: 'Serving communities on the ground' },
-  { value: '18+', label: 'Projects Completed', icon: HandshakeIcon, desc: 'Welfare, education & infrastructure initiatives' },
+  { value: '12+', label: 'Health Cases Resolved', icon: StethoscopeIcon, desc: 'Free medical assistance' },
+  { value: '3+', label: 'Districts Reached', icon: GlobeIcon, desc: 'Across Khyber Pakhtunkhwa & beyond' },
+  { value: '60+', label: 'Active Volunteers', icon: HandsIcon, desc: 'Serving communities on the ground' },
+  { value: '3+', label: 'Projects Running', icon: HandshakeIcon, desc: 'Welfare, education & infrastructure initiatives' },
 ];
 
 /* ── Diaspora flag strip ── */
@@ -987,16 +987,13 @@ function ImpactCard({
           boxShadow: '0 8px 32px rgba(0,0,0,0.24), 0 1px 0 rgba(212,175,55,0.08) inset',
         }}
       >
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start gap-4">
           <div
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
             style={{ background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.22)' }}
           >
             <Icon className="h-5 w-5" style={{ color: GOLD }} aria-hidden="true" />
           </div>
-          <span className="text-right text-[9px] font-bold uppercase tracking-[0.14em]" style={{ color: 'rgba(212,175,55,0.72)' }}>
-            Pending confirmation
-          </span>
         </div>
         <div className="mt-6">
           <p className="text-4xl font-black leading-none text-white sm:text-5xl" style={{ fontFamily: "'Playfair Display', serif" }}>
@@ -1006,9 +1003,6 @@ function ImpactCard({
             {label}
           </h3>
           <p className="mt-2 text-xs leading-relaxed text-white/45">{desc}</p>
-          <p className="mt-4 border-t border-white/10 pt-3 text-[10px] leading-relaxed text-white/30">
-            Reported figure — confirm against organizational records before publication.
-          </p>
         </div>
       </article>
     </FadeIn>
@@ -1164,7 +1158,7 @@ export default function Home() {
             </h2>
             <div className="h-[1px] w-24 mx-auto mb-5" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
             <p className="mx-auto max-w-2xl text-sm leading-relaxed text-white/50">
-              A concise view of documented organizational activity and measurable outcomes. Figures are retained from the existing content source and marked for confirmation before being treated as verified impact.
+              A concise view of documented organizational activity and measurable outcomes, presented from confirmed organizational records.
             </p>
           </FadeIn>
           <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
