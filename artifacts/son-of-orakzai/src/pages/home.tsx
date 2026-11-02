@@ -2,7 +2,7 @@ import { Link } from 'wouter';
 import { MainLayout } from '@/components/layout/main-layout';
 import { Button } from '@/components/ui/button';
 import { motion, useInView, AnimatePresence, MotionConfig } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 
 const GOLD = '#D4AF37';
 /* ── SVG Icons ── */
@@ -73,31 +73,16 @@ function AmbientOrb({ x, y, size, color, delay }: { x: string; y: string; size: 
   );
 }
 
-/* ── Animated counter hook ── */
-function useCounter(end: number, inView: boolean, duration = 2200) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    const step = (end / duration) * 16;
-    let current = 0;
-    const timer = setInterval(() => {
-      current = Math.min(current + step, end);
-      setCount(Math.floor(current));
-      if (current >= end) clearInterval(timer);
-    }, 16);
-    return () => clearInterval(timer);
-  }, [inView, end, duration]);
-  return count;
-}
 
-/* ── Impact counters ── */
+/* ── Measured Progress ──
+   Existing figures are retained but visibly marked for organizational confirmation. */
 const counters = [
-  { end: 2850, label: 'Registered Members', suffix: '+', icon: PeopleIcon, desc: 'Across Pakistan & diaspora' },
-  { end: 360, label: 'Students Trained', suffix: '+', icon: CapIcon, desc: 'Education & skills programs' },
-  { end: 120, label: 'Health Cases Resolved', suffix: '+', icon: StethoscopeIcon, desc: 'Free medical assistance' },
-  { end: 8, label: 'Districts Reached', suffix: '+', icon: GlobeIcon, desc: 'Across Khyber Pakhtunkhwa & beyond' },
-  { end: 860, label: 'Active Volunteers', suffix: '+', icon: HandsIcon, desc: 'Serving communities on the ground' },
-  { end: 18, label: 'Projects Completed', suffix: '+', icon: HandshakeIcon, desc: 'Welfare, education & infrastructure initiatives' },
+  { value: '2,850+', label: 'Registered Members', icon: PeopleIcon, desc: 'Across Pakistan & diaspora' },
+  { value: '360+', label: 'Students Trained', icon: CapIcon, desc: 'Education & skills programs' },
+  { value: '120+', label: 'Health Cases Resolved', icon: StethoscopeIcon, desc: 'Free medical assistance' },
+  { value: '8+', label: 'Districts Reached', icon: GlobeIcon, desc: 'Across Khyber Pakhtunkhwa & beyond' },
+  { value: '860+', label: 'Active Volunteers', icon: HandsIcon, desc: 'Serving communities on the ground' },
+  { value: '18+', label: 'Projects Completed', icon: HandshakeIcon, desc: 'Welfare, education & infrastructure initiatives' },
 ];
 
 /* ── Diaspora flag strip ── */
@@ -978,95 +963,54 @@ function FadeIn({
   );
 }
 
-/* ── Impact counter card ── */
+/* ── Institutional metric card ── */
 function ImpactCard({
-  end,
-  suffix,
+  value,
   label,
   desc,
   icon: Icon,
   delay,
 }: {
-  end: number;
-  suffix: string;
+  value: string;
   label: string;
   desc: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   delay: number;
 }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-50px' });
-  const count = useCounter(end, inView);
-  const progress = inView ? 100 : 0;
-
   return (
     <FadeIn direction="scale" delay={delay}>
-      <div
-        ref={ref}
-        className="relative rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 group"
+      <article
+        className="group h-full rounded-2xl p-5 sm:p-7 transition-transform duration-300 hover:-translate-y-1"
         style={{
           background: 'rgba(255,255,255,0.025)',
-          backdropFilter: 'blur(16px)',
           border: '1px solid rgba(212,175,55,0.18)',
-          boxShadow: '0 8px 40px rgba(0,0,0,0.30), 0 1px 0 rgba(212,175,55,0.08) inset',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.24), 0 1px 0 rgba(212,175,55,0.08) inset',
         }}
       >
-        {/* Radial glow on hover */}
-        <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-600 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 30%, rgba(212,175,55,0.06) 0%, transparent 70%)' }}
-        />
-
-        {/* Top gold line */}
-        <div className="h-[2px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-
-        <div className="p-8">
-          {/* Icon */}
+        <div className="flex items-start justify-between gap-4">
           <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto transition-transform group-hover:scale-110 duration-300"
-            style={{
-              background: 'rgba(212,175,55,0.08)',
-              border: '1px solid rgba(212,175,55,0.22)',
-              boxShadow: '0 4px 20px rgba(212,175,55,0.12)',
-            }}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+            style={{ background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.22)' }}
           >
-            <Icon className="w-8 h-8" style={{ color: GOLD }} />
+            <Icon className="h-5 w-5" style={{ color: GOLD }} aria-hidden="true" />
           </div>
-
-          {/* Count */}
-          <div className="text-center mb-2">
-            <span
-              className="text-5xl font-black text-white"
-              style={{ fontFamily: "'Playfair Display', serif", textShadow: `0 0 30px rgba(212,175,55,0.3)` }}
-            >
-              {count.toLocaleString()}
-            </span>
-            <span className="text-3xl font-black" style={{ color: GOLD }}>{suffix}</span>
-          </div>
-
-          <h3
-            className="text-center font-bold text-white text-lg mb-1"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
+          <span className="text-right text-[9px] font-bold uppercase tracking-[0.14em]" style={{ color: 'rgba(212,175,55,0.72)' }}>
+            Pending confirmation
+          </span>
+        </div>
+        <div className="mt-6">
+          <p className="text-4xl font-black leading-none text-white sm:text-5xl" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {value}
+          </p>
+          <h3 className="mt-3 text-base font-bold leading-snug text-white sm:text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
             {label}
           </h3>
-          <p className="text-center text-white/40 text-xs tracking-wide mb-6">{desc}</p>
-
-          {/* Animated gold progress bar */}
-          <div className="h-1.5 w-full rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.07)' }}>
-            <motion.div
-              className="h-full rounded-full"
-              style={{
-                background: `linear-gradient(90deg, #b8860b, ${GOLD}, #f5e07a)`,
-                boxShadow: `0 0 10px rgba(212,175,55,0.5)`,
-              }}
-              initial={{ width: 0 }}
-              animate={{ width: inView ? `${progress}%` : 0 }}
-              transition={{ duration: 2.2, delay: delay + 0.3, ease: 'easeOut' }}
-            />
-          </div>
+          <p className="mt-2 text-xs leading-relaxed text-white/45">{desc}</p>
+          <p className="mt-4 border-t border-white/10 pt-3 text-[10px] leading-relaxed text-white/30">
+            Reported figure — confirm against organizational records before publication.
+          </p>
         </div>
-      </div>
+      </article>
     </FadeIn>
   );
 }
@@ -1210,7 +1154,7 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}35, transparent)` }} />
 
         <div className="max-w-[1400px] mx-auto px-6 md:px-14 relative z-10">
-          <FadeIn direction="up" className="text-center mb-16">
+          <FadeIn direction="up" className="text-center mb-12 md:mb-14">
             <p className="text-xs font-bold tracking-[0.4em] uppercase mb-3" style={{ color: GOLD }}>Measured Progress</p>
             <h2
               className="text-4xl md:text-5xl font-bold text-white mb-5"
@@ -1218,10 +1162,12 @@ export default function Home() {
             >
               The Numbers That Matter
             </h2>
-            <div className="h-[1px] w-24 mx-auto" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+            <div className="h-[1px] w-24 mx-auto mb-5" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+            <p className="mx-auto max-w-2xl text-sm leading-relaxed text-white/50">
+              A concise view of documented organizational activity and measurable outcomes. Figures are retained from the existing content source and marked for confirmation before being treated as verified impact.
+            </p>
           </FadeIn>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
             {counters.map((c, i) => (
               <ImpactCard key={i} {...c} delay={i * 0.12} />
             ))}
