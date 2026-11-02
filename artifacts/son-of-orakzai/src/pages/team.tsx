@@ -1216,7 +1216,7 @@ export default function Team({
     setMeta("og:title", seo ? seo.title : "Orakzai.org Leadership Team | Executive Leadership & Governance", true);
     setMeta("og:description", description, true);
     setMeta("og:url", `https://orakzai.org${path}`, true);
-    setMeta("twitter:title", seo ? seo.title : "Our People | Orakzai.org");
+    setMeta("twitter:title", seo ? seo.title : "Orakzai.org Leadership Team | Executive Leadership & Governance");
     setMeta("twitter:description", description);
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
     if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
