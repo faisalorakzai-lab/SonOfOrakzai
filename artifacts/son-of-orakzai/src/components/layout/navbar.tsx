@@ -124,7 +124,7 @@ export function Navbar() {
         WebkitBackdropFilter: "blur(22px) saturate(160%)",
         borderBottom: isScrolled ? "1px solid rgba(212,175,55,0.20)" : "1px solid rgba(212,175,55,0.07)",
         boxShadow: isScrolled ? "0 6px 40px rgba(0,0,0,0.35), 0 1px 0 rgba(212,175,55,0.08) inset" : "none",
-        padding: isScrolled ? "8px 0" : "14px 0",
+        padding: isScrolled ? "12px 0" : "14px 0",
       }}
     >
       {/* Subtle top gold pinstripe */}
@@ -140,7 +140,7 @@ export function Navbar() {
               <img
                 src={logoPath}
                 alt="Orakzai.org Logo"
-                className="relative w-11 h-11 md:w-13 md:h-13 rounded-full object-cover"
+                className="relative w-12 h-12 md:w-14 md:h-14 rounded-full object-cover"
                 style={{ border: `2px solid ${GOLD}`, boxShadow: `0 0 16px rgba(212,175,55,0.35), 0 0 4px rgba(212,175,55,0.6) inset` }}
               />
             </div>
@@ -242,9 +242,9 @@ export function Navbar() {
 
           {/* ── MOBILE TOGGLE ── */}
           <button
-            className="xl:hidden text-white p-2 rounded-lg transition-colors"
+            className="xl:hidden min-h-11 min-w-11 inline-flex items-center justify-center text-white p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fff3b0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#082218]"
             style={{ background: "rgba(212,175,55,0.07)", border: "1px solid rgba(212,175,55,0.15)" }}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={() => setIsMobileMenuOpen((open) => !open)}
             aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-nav-menu"
