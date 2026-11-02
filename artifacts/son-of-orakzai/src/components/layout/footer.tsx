@@ -224,10 +224,10 @@ export function Footer() {
 
       {/* ── Main footer grid ── */}
       <div className="relative z-10 mx-auto max-w-[1320px] px-5 pb-8 pt-3 sm:px-6 md:px-10 md:pb-11 md:pt-5">
-        <div className="mb-8 grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-x-8 lg:mb-10 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-8">
+        <div className="mb-8 grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-x-8 lg:mb-10 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-8">
 
           {/* Brand column — 2 cols */}
-          <div className="col-span-2 space-y-4 rounded-2xl border border-white/10 bg-white/[0.022] p-5 sm:p-6 lg:col-span-2 lg:space-y-5 lg:border-0 lg:bg-transparent lg:p-0">
+          <div className="col-span-1 space-y-4 rounded-2xl border border-white/10 bg-white/[0.022] p-5 sm:p-6 md:col-span-2 lg:col-span-2 lg:space-y-5 lg:border-0 lg:bg-transparent lg:p-0">
             <Link href="/" className="group flex items-center gap-3">
               <div className="relative">
                 <div className="absolute inset-0 rounded-full" style={{ boxShadow: `0 0 20px rgba(212,175,55,0.2)`, transform: 'scale(1.4)' }} />
