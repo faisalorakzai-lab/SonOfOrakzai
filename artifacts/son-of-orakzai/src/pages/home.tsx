@@ -706,17 +706,17 @@ function WorldMapDots() {
 function GlobalPresence() {
   const [active, setActive] = useState<number | null>(null);
   return (
-    <section className="relative py-28 overflow-hidden" style={{ background: 'linear-gradient(180deg, #00120a 0%, #011a10 100%)' }}>
+    <section aria-labelledby="global-presence-title" className="relative overflow-hidden py-20 md:py-28" style={{ background: 'linear-gradient(180deg, #00120a 0%, #011a10 100%)' }}>
       <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}45, transparent)` }} />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse 70% 50% at 50% 30%, rgba(6,78,59,0.14) 0%, transparent 70%)' }}
       />
 
-      <div className="max-w-[1400px] mx-auto px-6 md:px-14 relative z-10">
-        <FadeIn direction="up" className="text-center mb-14">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-5 sm:px-6 md:px-14">
+        <FadeIn direction="up" className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
           <p className="text-xs font-bold tracking-[0.4em] uppercase mb-3" style={{ color: GOLD }}>Global Presence</p>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <h2 id="global-presence-title" className="mb-5 text-4xl font-bold leading-tight text-white md:text-5xl" style={{ fontFamily: "'Playfair Display', serif" }}>
             One Nation, Everywhere We Stand
           </h2>
           <div className="h-[1px] w-24 mx-auto mb-5" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
@@ -729,12 +729,12 @@ function GlobalPresence() {
 
         <FadeIn direction="scale" delay={0.15}>
           <div
-            className="relative rounded-3xl overflow-hidden mx-auto"
+            className="group relative mx-auto overflow-hidden rounded-[1.75rem]"
             style={{
-              aspectRatio: '16/8',
+              aspectRatio: '16/7',
               background: 'rgba(0,18,11,0.6)',
               border: '1px solid rgba(212,175,55,0.16)',
-              boxShadow: '0 8px 50px rgba(0,0,0,0.4)',
+              boxShadow: '0 18px 60px rgba(0,0,0,0.34), 0 1px 0 rgba(212,175,55,0.08) inset',
             }}
           >
             <WorldMapDots />
@@ -765,11 +765,11 @@ function GlobalPresence() {
 
         {/* Flag strip */}
         <FadeIn direction="up" delay={0.25}>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5 md:mt-10 md:gap-3">
             {diasporaFlags.map((d) => (
               <div
                 key={d.name}
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
+                className="flex items-center gap-2 rounded-full px-3.5 py-2 text-xs font-semibold transition-colors hover:border-[#d4af37]/40 hover:bg-[#d4af37]/10"
                 style={{ background: 'rgba(212,175,55,0.06)', border: '1px solid rgba(212,175,55,0.16)', color: 'rgba(255,255,255,0.7)' }}
               >
                 <span className="text-base">{d.flag}</span>
@@ -788,17 +788,17 @@ function GlobalPresence() {
    ══════════════════════════════════════════════════ */
 function SocialProofStrip() {
   return (
-    <section className="relative py-16" style={{ background: '#011a10' }}>
+    <section aria-labelledby="institutional-network-title" className="relative py-16 md:py-20" style={{ background: '#011a10' }}>
       <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}30, transparent)` }} />
-      <div className="max-w-[1400px] mx-auto px-6 md:px-14">
-        <p className="text-center text-[11px] font-bold tracking-[0.35em] uppercase mb-8" style={{ color: 'rgba(212,175,55,0.55)' }}>
-          Trusted alongside
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6 md:px-14">
+        <p id="institutional-network-title" className="mb-3 text-center text-[11px] font-bold uppercase tracking-[0.35em]" style={{ color: 'rgba(212,175,55,0.55)' }}>
+          Institutional network
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6">
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-5 md:gap-x-12">
           {partnerLogos.map((name) => (
             <span
               key={name}
-              className="text-sm md:text-base font-semibold tracking-wide text-white/30 hover:text-white/60 transition-colors"
+              className="text-center text-sm font-semibold tracking-wide text-white/35 transition-colors hover:text-white/70 md:text-base"
               style={{ fontFamily: "'Playfair Display', serif" }}
             >
               {name}
@@ -817,9 +817,8 @@ function SocialProofStrip() {
 function TestimonialCard({ t }: { t: typeof testimonials[0] }) {
   return (
     <div
-      className="flex-shrink-0 rounded-2xl p-8 flex flex-col gap-5"
+      className="flex w-[82vw] max-w-[380px] flex-shrink-0 flex-col gap-5 rounded-2xl p-6 md:w-[380px] md:p-8"
       style={{
-        width: 380,
         background: 'rgba(255,255,255,0.025)',
         border: '1px solid rgba(212,175,55,0.16)',
         backdropFilter: 'blur(14px)',
@@ -844,12 +843,12 @@ function TestimonialCard({ t }: { t: typeof testimonials[0] }) {
 function Testimonials() {
   const doubled = [...testimonials, ...testimonials];
   return (
-    <section className="relative py-28 overflow-hidden" style={{ background: 'linear-gradient(180deg, #011a10 0%, #00120a 100%)' }}>
+    <section aria-labelledby="global-voices-title" className="relative overflow-hidden py-20 md:py-28" style={{ background: 'linear-gradient(180deg, #011a10 0%, #00120a 100%)' }}>
       <div className="absolute inset-0 orakzai-pattern opacity-20 pointer-events-none" />
 
       <FadeIn direction="up" className="text-center mb-14 relative z-10 px-6">
         <p className="text-xs font-bold tracking-[0.4em] uppercase mb-3" style={{ color: GOLD }}>Global Voices</p>
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
+        <h2 id="global-voices-title" className="mb-5 text-4xl font-bold leading-tight text-white md:text-5xl" style={{ fontFamily: "'Playfair Display', serif" }}>
           Trusted Across Every Continent
         </h2>
         <div className="h-[1px] w-24 mx-auto mb-5" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
@@ -859,11 +858,11 @@ function Testimonials() {
       </FadeIn>
 
       {/* Continuous right-to-left sliding marquee */}
-      <div className="relative">
-        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style={{ background: 'linear-gradient(90deg, #011a10, transparent)' }} />
-        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style={{ background: 'linear-gradient(270deg, #011a10, transparent)' }} />
+      <div className="relative" aria-label="International voices">
+        <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-12 md:w-24" style={{ background: 'linear-gradient(90deg, #011a10, transparent)' }} />
+        <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-12 md:w-24" style={{ background: 'linear-gradient(270deg, #011a10, transparent)' }} />
         <motion.div
-          className="flex gap-6 px-6"
+          className="flex gap-4 px-5 md:gap-6 md:px-6"
           style={{ width: 'max-content' }}
           animate={{ x: [0, -((380 + 24) * testimonials.length)] }}
           transition={{ duration: 45, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
@@ -1187,25 +1186,25 @@ export default function Home() {
       {/* ═══════════════════════════════
           MISSION STATEMENT STRIP
       ═══════════════════════════════ */}
-      <section className="py-16 relative" style={{ background: '#011a10' }}>
+      <section aria-labelledby="mission-title" className="relative py-12 md:py-16" style={{ background: '#011a10' }}>
         <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}40, transparent)` }} />
-        <div className="max-w-[1400px] mx-auto px-6 md:px-14">
+        <div className="mx-auto max-w-[1400px] px-5 sm:px-6 md:px-14">
           <FadeIn direction="scale">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 py-4">
-              <div className="flex items-center gap-6">
+            <div className="flex flex-col items-start justify-between gap-7 rounded-3xl px-6 py-7 md:flex-row md:items-center md:px-9 md:py-8" style={{ background: 'rgba(0,18,11,0.72)', border: '1px solid rgba(212,175,55,0.16)', boxShadow: '0 12px 40px rgba(0,0,0,0.22)' }}>
+              <div className="flex items-center gap-4 md:gap-6">
                 <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0" style={{ border: `2px solid ${GOLD}`, boxShadow: `0 0 16px rgba(212,175,55,0.3)` }}>
                   <img src="/orakzai-org-logo.png" alt="Orakzai Logo" className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <p className="text-xs tracking-[0.3em] uppercase font-bold mb-1" style={{ color: GOLD }}>Our Mission</p>
-                  <p className="text-white text-lg font-semibold" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <p id="mission-title" className="mb-1 text-xs font-bold uppercase tracking-[0.3em]" style={{ color: GOLD }}>Our Mission</p>
+                  <p className="text-base font-semibold leading-relaxed text-white md:text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
                     To uplift every Orakzai family — through dignity, education, and unity.
                   </p>
                 </div>
               </div>
               <Link
                 href="/about"
-                className="flex-shrink-0 px-8 py-3 rounded-full text-sm font-bold tracking-wider uppercase transition-all hover:-translate-y-0.5 inline-block"
+                className="inline-flex min-h-11 w-full items-center justify-center rounded-full px-7 py-3 text-sm font-bold uppercase tracking-wider transition-all hover:-translate-y-0.5 md:w-auto"
                 style={{ border: `1.5px solid rgba(212,175,55,0.45)`, color: GOLD, background: 'rgba(212,175,55,0.05)' }}
               >
                 Learn More
@@ -1218,7 +1217,7 @@ export default function Home() {
       {/* ═══════════════════════════════
           CTA BANNER
       ═══════════════════════════════ */}
-      <section className="py-32 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #011a10 0%, #000d08 100%)' }}>
+      <section aria-labelledby="join-movement-title" className="relative overflow-hidden py-24 md:py-32" style={{ background: 'linear-gradient(180deg, #011a10 0%, #000d08 100%)' }}>
         <div className="absolute inset-0 orakzai-pattern opacity-40 pointer-events-none" />
         <div
           className="absolute inset-0"
@@ -1231,7 +1230,7 @@ export default function Home() {
           style={{ border: '1px solid rgba(212,175,55,0.06)' }}
         />
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] rounded-full pointer-events-none"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[390px] w-[390px] rounded-full pointer-events-none"
           style={{ border: '1px solid rgba(212,175,55,0.04)' }}
         />
 
@@ -1242,13 +1241,13 @@ export default function Home() {
             <div className="max-w-4xl mx-auto">
               <p className="text-xs font-bold uppercase tracking-[0.4em] mb-4" style={{ color: GOLD }}>Join the Movement</p>
               <h2
-                className="text-5xl md:text-7xl font-black text-white mb-4 leading-tight"
+                id="join-movement-title" className="mb-4 text-5xl font-black leading-tight text-white md:text-7xl"
                 style={{ fontFamily: "'Playfair Display', serif", textShadow: '0 4px 50px rgba(0,0,0,0.5)' }}
               >
                 Apni Matti,
               </h2>
               <h2
-                className="text-5xl md:text-7xl font-black mb-2 leading-tight"
+                className="mb-2 text-5xl font-black leading-tight md:text-7xl"
                 style={{
                   fontFamily: "'Playfair Display', serif",
                   background: `linear-gradient(135deg, #b8860b, ${GOLD}, #f5e07a, ${GOLD})`,
@@ -1258,7 +1257,7 @@ export default function Home() {
               >
                 Apne Log
               </h2>
-              <div className="text-xl text-white/30 mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>— Orakzai.org</div>
+              <div className="mb-8 text-lg text-white/30 md:text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>— Orakzai.org</div>
               <div className="h-[1px] w-32 mx-auto mb-8" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
               <p className="text-white/55 text-lg max-w-2xl mx-auto mb-12 leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.15rem' }}>
                 Join thousands of Orakzai members who have pledged to build a stronger, educated, and prosperous community for every generation that follows.
@@ -1273,7 +1272,7 @@ export default function Home() {
                 />
                 <Link
                   href="/join"
-                  className="relative overflow-hidden px-14 py-5 rounded-full font-black text-xl transition-all hover:-translate-y-1.5 hover:shadow-2xl active:scale-95 inline-block"
+                  className="relative inline-flex min-h-14 w-full items-center justify-center overflow-hidden rounded-full px-8 py-4 text-lg font-black transition-all hover:-translate-y-1.5 hover:shadow-2xl active:scale-95 sm:w-auto sm:px-14 sm:py-5 sm:text-xl"
                   style={{
                     background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
                     backgroundSize: '200% auto',
@@ -1287,7 +1286,7 @@ export default function Home() {
                 </Link>
               </div>
 
-              <p className="text-white/25 text-xs mt-6 tracking-widest uppercase">Free — Takes less than 2 minutes</p>
+              <p className="mt-6 text-center text-[10px] uppercase tracking-[0.22em] text-white/25">Free — Takes less than 2 minutes</p>
             </div>
           </FadeIn>
         </div>
