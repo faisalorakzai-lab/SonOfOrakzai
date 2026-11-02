@@ -1217,7 +1217,7 @@ export default function Home() {
       {/* ═══════════════════════════════
           CTA BANNER
       ═══════════════════════════════ */}
-      <section aria-labelledby="join-movement-title" className="relative overflow-hidden py-24 md:py-32" style={{ background: 'linear-gradient(180deg, #011a10 0%, #000d08 100%)' }}>
+      <section aria-labelledby="join-movement-title" className="relative overflow-hidden py-14 sm:py-16 md:py-28" style={{ background: 'linear-gradient(180deg, #011a10 0%, #000d08 100%)' }}>
         <div className="absolute inset-0 orakzai-pattern opacity-40 pointer-events-none" />
         <div
           className="absolute inset-0"
@@ -1226,28 +1226,28 @@ export default function Home() {
 
         {/* Decorative rings */}
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[440px] sm:w-[440px] md:h-[600px] md:w-[600px]"
           style={{ border: '1px solid rgba(212,175,55,0.06)' }}
         />
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[390px] w-[390px] rounded-full pointer-events-none"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[270px] w-[270px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[330px] sm:w-[330px] md:h-[390px] md:w-[390px]"
           style={{ border: '1px solid rgba(212,175,55,0.04)' }}
         />
 
         <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}45, transparent)` }} />
 
-        <div className="max-w-[1400px] mx-auto px-6 md:px-14 relative z-10 text-center">
+        <div className="relative z-10 mx-auto max-w-[1400px] px-5 text-center sm:px-6 md:px-14">
           <FadeIn direction="scale" delay={0}>
-            <div className="max-w-4xl mx-auto">
-              <p className="text-xs font-bold uppercase tracking-[0.4em] mb-4" style={{ color: GOLD }}>Join the Movement</p>
+            <div className="mx-auto max-w-3xl">
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.3em] sm:text-xs" style={{ color: GOLD }}>Join the Movement</p>
               <h2
-                id="join-movement-title" className="mb-4 text-5xl font-black leading-tight text-white md:text-7xl"
+                id="join-movement-title" className="mb-1 text-4xl font-black leading-[0.95] text-white sm:text-5xl md:mb-4 md:text-7xl"
                 style={{ fontFamily: "'Playfair Display', serif", textShadow: '0 4px 50px rgba(0,0,0,0.5)' }}
               >
                 Apni Matti,
               </h2>
               <h2
-                className="mb-2 text-5xl font-black leading-tight md:text-7xl"
+                className="mb-1 text-4xl font-black leading-[0.95] sm:text-5xl md:mb-2 md:text-7xl"
                 style={{
                   fontFamily: "'Playfair Display', serif",
                   background: `linear-gradient(135deg, #b8860b, ${GOLD}, #f5e07a, ${GOLD})`,
@@ -1257,22 +1257,21 @@ export default function Home() {
               >
                 Apne Log
               </h2>
-              <div className="mb-8 text-lg text-white/30 md:text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>— Orakzai.org</div>
-              <div className="h-[1px] w-32 mx-auto mb-8" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-              <p className="text-white/55 text-lg max-w-2xl mx-auto mb-12 leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.15rem' }}>
+              <div className="mb-5 text-base text-white/30 sm:text-lg md:mb-8 md:text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>— Orakzai.org</div>
+              <div className="mx-auto mb-5 h-[1px] w-24 md:mb-8 md:w-32" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+              <p className="mx-auto mb-7 max-w-xl text-base leading-relaxed text-white/55 sm:text-lg md:mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
                 Join thousands of Orakzai members who have pledged to build a stronger, educated, and prosperous community for every generation that follows.
               </p>
 
               {/* Glowing CTA button */}
               <div className="relative inline-block">
-                {/* Glow rings */}
                 <div
-                  className="absolute inset-0 rounded-full animate-pulse pointer-events-none"
-                  style={{ boxShadow: `0 0 60px rgba(212,175,55,0.35), 0 0 100px rgba(212,175,55,0.18)`, transform: 'scale(1.15)' }}
+                  className="pointer-events-none absolute inset-0 rounded-full"
+                  style={{ boxShadow: `0 0 34px rgba(212,175,55,0.22)`, transform: 'scale(1.08)' }}
                 />
                 <Link
                   href="/join"
-                  className="relative inline-flex min-h-14 w-full items-center justify-center overflow-hidden rounded-full px-8 py-4 text-lg font-black transition-all hover:-translate-y-1.5 hover:shadow-2xl active:scale-95 sm:w-auto sm:px-14 sm:py-5 sm:text-xl"
+                  className="relative inline-flex min-h-12 w-full items-center justify-center overflow-hidden rounded-full px-7 py-3 text-base font-black transition-all hover:-translate-y-1 hover:shadow-xl active:scale-95 sm:w-auto sm:px-10 sm:py-4 sm:text-lg"
                   style={{
                     background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
                     backgroundSize: '200% auto',
@@ -1286,7 +1285,7 @@ export default function Home() {
                 </Link>
               </div>
 
-              <p className="mt-6 text-center text-[10px] uppercase tracking-[0.22em] text-white/25">Free — Takes less than 2 minutes</p>
+              <p className="mt-4 text-center text-[9px] uppercase tracking-[0.2em] text-white/25 md:mt-6 md:text-[10px]">Free — Takes less than 2 minutes</p>
             </div>
           </FadeIn>
         </div>
