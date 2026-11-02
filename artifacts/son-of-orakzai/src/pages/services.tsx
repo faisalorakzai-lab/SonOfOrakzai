@@ -13,7 +13,6 @@ const services = [
     title: "Migrant Welfare & Diaspora Protection Fund",
     icon: ShieldCheck,
     description: "A dedicated premium community membership program for Orakzai migrants globally and domestically, providing complete healthcare coverage, repatriation services, and family security systems.",
-    metric: "100% Comprehensive Coverage",
     modalDetails: {
       about: "This pillar operates a sovereign community-backed protection fund tailored exclusively for Orakzai travelers, laborers, and diaspora members working away from home.",
       membershipTiers: [
@@ -42,70 +41,60 @@ const services = [
     title: "Rights & Representation",
     icon: Scale,
     description: "Legal advocacy and institutional representation dedicated to protecting the rights, interests, and collective voice of Orakzai communities worldwide.",
-    metric: "120+ Cases Represented"
   },
   {
     id: "education-global-scholarships",
     title: "Education & Global Scholarships",
     icon: GraduationCap,
     description: "Scholarships, mentorship, leadership development, and international educational pathways that empower the next generation of Orakzai students.",
-    metric: "360+ Students in 12 Cities"
   },
   {
     id: "social-welfare-crisis-relief",
     title: "Social Welfare & Crisis Relief",
     icon: HandHeart,
     description: "Humanitarian assistance, poverty alleviation, emergency response initiatives, and sustainable support systems for vulnerable families.",
-    metric: "3,100+ Families Supported"
   },
   {
     id: "economic-innovation-grants",
     title: "Economic Innovation & Grants",
     icon: TrendingUp,
     description: "Interest-free business grants, entrepreneurship support, digital innovation, and local economic development designed to strengthen community prosperity.",
-    metric: "340+ Grants Disbursed"
   },
   {
     id: "global-diaspora-network",
     title: "Global Diaspora Network",
     icon: Globe,
     description: "Connecting Orakzai professionals, families, entrepreneurs, and organizations across Pakistan, the Gulf, Europe, North America, and beyond.",
-    metric: "14+ Countries, 8 Active Chapters"
   },
   {
     id: "healthcare-infrastructure-access",
     title: "Healthcare Infrastructure & Access",
     icon: HeartPulse,
     description: "Supporting modern healthcare initiatives through mobile clinics, clean water projects, preventive care, and improved medical accessibility in underserved regions.",
-    metric: "120+ Health Cases Resolved"
   },
   {
     id: "women-empowerment-artisans",
     title: "Women Empowerment & Skilled Artisans Support",
     icon: Sparkles,
     description: "Launching dedicated vocational training centers, healthcare programs, and marketplace infrastructure to empower women and support local small-scale artisans.",
-    metric: "450+ Beneficiaries Enrolled"
   },
   {
     id: "youth-sports-development",
     title: "Youth Development & Sports Infrastructure",
     icon: Dumbbell,
     description: "Establishing local sports academies, youth mentorship programs, and constructive recreational facilities to engage the younger generation and promote healthy community development.",
-    metric: "15+ Sports Facilities Supported"
   },
   {
     id: "clean-water-sanitation",
     title: "Clean Water & Sanitation (WASH)",
     icon: Droplet,
     description: "Installing solar-powered water filtration plants and modern tube wells in remote areas to ensure access to safe, clean drinking water and hygienic sanitation systems.",
-    metric: "80+ Clean Water Points Installed"
   },
   {
     id: "emergency-ambulance-health",
     title: "Emergency Ambulance & Mobile Health",
     icon: Ambulance,
     description: "Deploying fully equipped free ambulance services and mobile healthcare vans to provide immediate emergency response and basic medical care to far-flung rural areas.",
-    metric: "2,400+ Emergency Dispatches"
   }
 ];
 
@@ -158,11 +147,6 @@ export default function Services() {
                     <p className="text-muted-foreground mb-6 line-clamp-3">
                       {service.description}
                     </p>
-                    {service.metric && (
-                      <div className="mb-8 inline-flex items-center rounded-full bg-accent/10 px-4 py-2 text-sm font-bold text-primary">
-                        {service.metric}
-                      </div>
-                    )}
                     {service.id === "migrant-welfare-protection" ? (
                       <Link href="/migrant-welfare">
                         <Button

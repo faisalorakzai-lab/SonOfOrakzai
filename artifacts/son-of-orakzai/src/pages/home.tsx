@@ -316,7 +316,6 @@ const pillars = [
     id: 1,
     title: 'Migrant Welfare & Diaspora Protection Fund',
     desc: 'A dedicated premium community membership program for Orakzai migrants globally and domestically, providing complete healthcare coverage, repatriation services, and family security systems.',
-    stat: '100% comprehensive coverage',
     href: '/migrant-welfare',
     icon: (
       <img
@@ -331,7 +330,6 @@ const pillars = [
     id: 2,
     title: 'Rights & Representation',
     desc: 'Legal advocacy and institutional representation dedicated to protecting the rights, interests, and collective voice of Orakzai communities worldwide.',
-    stat: '120+ cases represented',
     href: '/rights-representation',
     icon: (
       <img
@@ -346,7 +344,6 @@ const pillars = [
     id: 3,
     title: 'Education & Global Scholarships',
     desc: 'Scholarships, mentorship, leadership development, and international educational pathways that empower the next generation of Orakzai students.',
-    stat: '360+ students in 12 cities',
     href: '/education-scholarships',
     icon: (
       <img
@@ -361,7 +358,6 @@ const pillars = [
     id: 4,
     title: 'Social Welfare & Crisis Relief',
     desc: 'Humanitarian assistance, poverty alleviation, emergency response initiatives, and sustainable support systems for vulnerable families.',
-    stat: '3,100+ families supported',
     href: '/social-welfare-relief',
     icon: (
       <img
@@ -376,7 +372,6 @@ const pillars = [
     id: 5,
     title: 'Economic Innovation & Grants',
     desc: 'Interest-free business grants, entrepreneurship support, digital innovation, and local economic development designed to strengthen community prosperity.',
-    stat: '340+ grants disbursed',
     href: '/economic-innovation-grants',
     icon: (
       <img
@@ -391,7 +386,6 @@ const pillars = [
     id: 6,
     title: 'Global Diaspora Network',
     desc: 'Connecting Orakzai professionals, families, entrepreneurs, and organizations across Pakistan, the Gulf, Europe, North America, and beyond.',
-    stat: '14+ countries, 8 active chapters',
     href: '/global-diaspora-network',
     icon: (
       <img
@@ -406,7 +400,6 @@ const pillars = [
     id: 7,
     title: 'Healthcare Infrastructure & Access',
     desc: 'Supporting modern healthcare initiatives through mobile clinics, clean water projects, preventive care, and improved medical accessibility in underserved regions.',
-    stat: '120+ health cases resolved',
     href: '/healthcare-infrastructure',
     icon: (
       <img
@@ -421,7 +414,6 @@ const pillars = [
     id: 8,
     title: 'Women Empowerment & Skilled Artisans Support',
     desc: 'Launching dedicated vocational training centers, healthcare programs, and marketplace infrastructure to empower women and support local small-scale artisans.',
-    stat: '450+ beneficiaries enrolled',
     href: '/women-empowerment-artisans',
     icon: (
       <img
@@ -436,7 +428,6 @@ const pillars = [
     id: 9,
     title: 'Youth Development & Sports Infrastructure',
     desc: 'Establishing local sports academies, youth mentorship programs, and constructive recreational facilities to engage the younger generation and promote healthy community development.',
-    stat: '15+ sports facilities supported',
     href: '/youth-sports-development',
     icon: (
       <img
@@ -451,7 +442,6 @@ const pillars = [
     id: 10,
     title: 'Clean Water & Sanitation (WASH)',
     desc: 'Installing solar-powered water filtration plants and modern tube wells in remote areas to ensure access to safe, clean drinking water and hygienic sanitation systems.',
-    stat: '80+ clean water points installed',
     href: '/clean-water-sanitation',
     icon: (
       <img
@@ -461,12 +451,11 @@ const pillars = [
         style={{ borderRadius: '50%' }}
       />
     ),
-  },,
+  },
   {
     id: 11,
     title: 'Field Operations & Projects',
     desc: 'On-the-ground programmes spanning water infrastructure, emergency relief, education, and healthcare across the communities we serve.',
-    stat: '18+ projects completed',
     href: '/field-operations',
     icon: <FieldOperationsIcon className="w-9 h-9" style={{ color: GOLD }} />,
   },
@@ -474,7 +463,6 @@ const pillars = [
     id: 12,
     title: 'Financial Transparency & Accountability',
     desc: 'A public record of fund allocation, audit commitments, and reporting practices designed to keep community support accountable.',
-    stat: 'Annual audit records',
     href: '/financial-transparency',
     icon: <TransparencyIcon className="w-9 h-9" style={{ color: GOLD }} />,
   },
@@ -582,18 +570,6 @@ function PillarCard({ pillar, index }: { pillar: typeof pillars[0]; index: numbe
             {pillar.desc}
           </p>
 
-          {/* Stat line */}
-          {pillar.stat && (
-            <div className="flex items-center gap-2 pt-1">
-              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: GOLD }} />
-              <span
-                className="text-xs font-bold tracking-wide"
-                style={{ color: GOLD, fontFamily: 'Inter, sans-serif' }}
-              >
-                {pillar.stat}
-              </span>
-            </div>
-          )}
         </div>
 
         {/* Bottom accent */}
