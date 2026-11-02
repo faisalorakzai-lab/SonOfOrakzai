@@ -261,17 +261,17 @@ export default function ImpactReports() {
 
         <section
           aria-labelledby="annual-report-title"
-          style={{ backgroundColor: COLORS.ivory, color: COLORS.forest }}
+          style={{ backgroundColor: COLORS.emerald, color: COLORS.ivory }}
         >
           <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-16 lg:py-20">
             <div className="mx-auto max-w-4xl">
               <div
                 className="mb-8 border-b pb-6 sm:mb-10"
-                style={{ borderColor: "rgba(3, 27, 19, 0.18)" }}
+                style={{ borderColor: "rgba(214, 180, 76, 0.28)" }}
               >
                 <p
                   className="text-xs font-semibold uppercase tracking-[0.2em]"
-                  style={{ color: "#826818" }}
+                  style={{ color: COLORS.gold }}
                 >
                   Reporting &amp; accountability
                 </p>
@@ -287,9 +287,9 @@ export default function ImpactReports() {
               <article
                 className="flex flex-col gap-6 rounded-xl border p-5 sm:p-7 md:flex-row md:items-center md:justify-between md:gap-8"
                 style={{
-                  backgroundColor: "#FFFCF5",
-                  borderColor: "rgba(3, 27, 19, 0.18)",
-                  boxShadow: "0 12px 32px rgba(3, 27, 19, 0.06)",
+                  backgroundColor: COLORS.forest,
+                  borderColor: "rgba(214, 180, 76, 0.3)",
+                  boxShadow: "0 12px 32px rgba(0, 0, 0, 0.16)",
                 }}
               >
                 <div className="flex min-w-0 items-start gap-4 sm:gap-5">
@@ -306,7 +306,7 @@ export default function ImpactReports() {
                   <div className="min-w-0">
                     <p
                       className="text-xs font-semibold uppercase tracking-[0.16em]"
-                      style={{ color: "#826818" }}
+                      style={{ color: COLORS.gold }}
                     >
                       January–December 2025
                     </p>
@@ -318,7 +318,7 @@ export default function ImpactReports() {
                     >
                       Annual Impact Report 2025
                     </h3>
-                    <p className="mt-2 max-w-2xl text-sm leading-6 text-[#3F4C45] sm:text-base sm:leading-7">
+                    <p className="mt-2 max-w-2xl text-sm leading-6 text-white/75 sm:text-base sm:leading-7">
                       {REPORT_DESCRIPTION}
                     </p>
                   </div>

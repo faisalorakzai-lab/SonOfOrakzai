@@ -78,7 +78,7 @@ function AmbientOrb({ x, y, size, color, delay }: { x: string; y: string; size: 
    Confirmed organizational figures supplied for public presentation. */
 const counters = [
   { value: '28,850+', label: 'Registered Members', icon: PeopleIcon, desc: 'Across Pakistan & diaspora' },
-  { value: '360+', label: 'Students Trained', icon: CapIcon, desc: 'Education & skills programs' },
+  { value: '2,500+', label: 'Students Trained', icon: CapIcon, desc: 'Education & skills programs' },
   { value: '12+', label: 'Health Cases Resolved', icon: StethoscopeIcon, desc: 'Free medical assistance' },
   { value: '3+', label: 'Districts Reached', icon: GlobeIcon, desc: 'Across Khyber Pakhtunkhwa & beyond' },
   { value: '60+', label: 'Active Volunteers', icon: HandsIcon, desc: 'Serving communities on the ground' },
