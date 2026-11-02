@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { MainLayout } from "@/components/layout/main-layout";
 import { Link } from "wouter";
+import { useEffect } from "react";
 
 const GOLD = "#D6B44C";
 const IVORY = "#F5F1E7";
@@ -135,6 +136,81 @@ const chapters = [
 ];
 
 export default function About() {
+  useEffect(() => {
+    const previousTitle = document.title;
+    const previousValues = new Map<string, string | null>();
+    const description = "Explore the living story of the Orakzai people — from the sacred valleys of Tirah through ancestral memory, Jirga tradition, displacement, global diaspora, and the future generation.";
+    const title = "Our Story — Three Thousand Years of Orakzai | Orakzai.org";
+    const canonical = "https://orakzai.org/about";
+    const setMeta = (name: string, content: string, property = false) => {
+      const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
+      let element = document.querySelector(selector) as HTMLMetaElement | null;
+      if (!element) {
+        element = document.createElement("meta");
+        property ? element.setAttribute("property", name) : element.setAttribute("name", name);
+        document.head.appendChild(element);
+      }
+      const key = selector;
+      if (!previousValues.has(key)) previousValues.set(key, element.getAttribute("content"));
+      element.setAttribute("content", content);
+    };
+    const setCanonical = () => {
+      let element = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+      if (!element) {
+        element = document.createElement("link");
+        element.setAttribute("rel", "canonical");
+        document.head.appendChild(element);
+      }
+      if (!previousValues.has("canonical")) previousValues.set("canonical", element.getAttribute("href"));
+      element.setAttribute("href", canonical);
+    };
+    document.title = title;
+    setMeta("description", description);
+    setMeta("keywords", "Orakzai history, Orakzai heritage, Tirah Valley, Orakzai culture, Jirga tradition, Pashtun heritage, Orakzai diaspora, Orakzai.org");
+    setMeta("og:type", "article", true);
+    setMeta("og:url", canonical, true);
+    setMeta("og:title", title, true);
+    setMeta("og:description", description, true);
+    setMeta("og:image", "https://orakzai.org/hero/heritage-frontier-jirga.jpeg", true);
+    setMeta("twitter:url", canonical);
+    setMeta("twitter:title", title);
+    setMeta("twitter:description", description);
+    setMeta("twitter:image", "https://orakzai.org/hero/heritage-frontier-jirga.jpeg");
+    setCanonical();
+
+    const existingSchema = document.getElementById("story-page-jsonld");
+    const schema = document.createElement("script");
+    schema.id = "story-page-jsonld";
+    schema.type = "application/ld+json";
+    schema.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: "Three Thousand Years of Orakzai",
+      description,
+      url: canonical,
+      image: ["https://orakzai.org/hero/heritage-frontier-jirga.jpeg", "https://orakzai.org/hero/heritage-tribal-elders.jpg"],
+      author: { "@type": "Organization", name: "Orakzai.org", url: "https://orakzai.org" },
+      publisher: { "@type": "Organization", name: "Orakzai.org", logo: { "@type": "ImageObject", url: "https://orakzai.org/orakzai-org-logo.png" } },
+      isPartOf: { "@type": "WebSite", name: "Orakzai.org", url: "https://orakzai.org" },
+      about: ["Orakzai history", "Tirah Valley heritage", "Orakzai culture", "Global Orakzai diaspora"]
+    });
+    if (existingSchema) existingSchema.replaceWith(schema); else document.head.appendChild(schema);
+
+    return () => {
+      document.title = previousTitle;
+      previousValues.forEach((value, key) => {
+        if (key === "canonical") {
+          const link = document.querySelector('link[rel="canonical"]');
+          if (link && value) link.setAttribute("href", value);
+          return;
+        }
+        const element = document.querySelector(key) as HTMLMetaElement | null;
+        if (element && value !== null) element.setAttribute("content", value);
+      });
+      document.getElementById("story-page-jsonld")?.remove();
+    };
+  }, []);
+
   return (
     <MainLayout>
       {/* Editorial hero */}
@@ -157,11 +233,11 @@ export default function About() {
       </section>
 
       {/* Introduction and visual story */}
-      <section className="bg-[#F5F1E7] py-16 text-[#031B13] md:py-24">
+      <section className="bg-[#06271B] py-16 text-[#F5F1E7] md:py-24">
         <div className="mx-auto max-w-6xl px-5 sm:px-8 md:px-12">
           <div className="grid items-end gap-10 md:grid-cols-[0.72fr_1.28fr] md:gap-20">
-            <div><p className="mb-4 text-[10px] font-bold uppercase tracking-[0.28em] text-[#8c7020]">A living archive</p><h2 className="max-w-sm font-serif text-3xl leading-tight sm:text-4xl">A story carried in landscape, language, and memory.</h2></div>
-            <p className="max-w-2xl font-serif text-xl leading-relaxed text-[#031B13]/70 sm:text-2xl">From the sacred valleys of Tirah to the cities of the global diaspora — the complete, unbroken story of a nation that has never surrendered its identity, its dignity, or its future.</p>
+            <div><p className="mb-4 text-[10px] font-bold uppercase tracking-[0.28em] text-[#D6B44C]">A living archive</p><h2 className="max-w-sm font-serif text-3xl leading-tight text-[#F5F1E7] sm:text-4xl">A story carried in landscape, language, and memory.</h2></div>
+            <p className="max-w-2xl font-serif text-xl leading-relaxed text-[#A6B3A9] sm:text-2xl">From the sacred valleys of Tirah to the cities of the global diaspora — the complete, unbroken story of a nation that has never surrendered its identity, its dignity, or its future.</p>
           </div>
           <div className="mt-14 grid gap-4 md:grid-cols-12 md:grid-rows-[210px_210px]">
             <figure className="group relative overflow-hidden md:col-span-7 md:row-span-2"><img src="/hero/heritage-frontier-jirga.jpeg" alt="Existing Orakzai heritage visual representing a jirga" className="h-full min-h-[280px] w-full object-cover transition duration-700 group-hover:scale-105" /><figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#031B13]/90 to-transparent p-5 pt-14 text-sm text-[#F5F1E7]">The Jirga tradition · collective responsibility</figcaption></figure>
@@ -189,9 +265,9 @@ export default function About() {
       </section>
 
       {/* Detailed source chapters */}
-      <section className="bg-[#F5F1E7] py-20 text-[#031B13] md:py-28">
-        <div className="mx-auto max-w-6xl px-5 sm:px-8 md:px-12"><div className="mb-14 max-w-2xl"><p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#8c7020]">The archive</p><h2 className="font-serif text-4xl leading-tight sm:text-5xl">History is not behind us.</h2><p className="mt-5 text-base leading-relaxed text-[#031B13]/65">The full source chapters remain available below, edited into a calmer reading rhythm for long-form attention.</p></div>
-          <div className="space-y-20 md:space-y-28">{chapters.map((chapter, ci) => <motion.article key={chapter.number} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.6 }} className="grid gap-8 md:grid-cols-[0.33fr_0.67fr] md:gap-14"><div className="md:sticky md:top-28 md:self-start"><p className="font-serif text-5xl text-[#D6B44C]/80">{chapter.number}</p><p className="mt-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#8c7020]">{chapter.era}</p><h3 className="mt-3 font-serif text-2xl leading-tight text-[#031B13]">{chapter.title}</h3><div className="mt-6 h-px w-16 bg-[#D6B44C]" /></div><div><blockquote className="mb-8 border-l-2 border-[#D6B44C] pl-5 font-serif text-xl italic leading-relaxed text-[#031B13]/75">“{chapter.pullQuote}”</blockquote><div className="space-y-5 text-base leading-[1.85] text-[#031B13]/70">{chapter.body.map((para, pi) => <p key={pi}>{para}</p>)}</div></div></motion.article>)}</div>
+      <section className="bg-[#031B13] py-20 text-[#F5F1E7] md:py-28">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8 md:px-12"><div className="mb-14 max-w-2xl"><p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#D6B44C]">The archive</p><h2 className="font-serif text-4xl leading-tight text-[#F5F1E7] sm:text-5xl">History is not behind us.</h2><p className="mt-5 text-base leading-relaxed text-[#A6B3A9]">The full source chapters remain available below, edited into a calmer reading rhythm for long-form attention.</p></div>
+          <div className="space-y-20 md:space-y-28">{chapters.map((chapter, ci) => <motion.article key={chapter.number} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.6 }} className="grid gap-8 md:grid-cols-[0.33fr_0.67fr] md:gap-14"><div className="md:sticky md:top-28 md:self-start"><p className="font-serif text-5xl text-[#D6B44C]/80">{chapter.number}</p><p className="mt-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#D6B44C]">{chapter.era}</p><h3 className="mt-3 font-serif text-2xl leading-tight text-[#F5F1E7]">{chapter.title}</h3><div className="mt-6 h-px w-16 bg-[#D6B44C]" /></div><div><blockquote className="mb-8 border-l-2 border-[#D6B44C] pl-5 font-serif text-xl italic leading-relaxed text-[#F5F1E7]/80">“{chapter.pullQuote}”</blockquote><div className="space-y-5 text-base leading-[1.85] text-[#A6B3A9]">{chapter.body.map((para, pi) => <p key={pi}>{para}</p>)}</div></div></motion.article>)}</div>
         </div>
       </section>
 
