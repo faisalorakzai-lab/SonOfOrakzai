@@ -13,7 +13,7 @@ import {
   MapPin, Mail, Users, ArrowUpRight, HeartHandshake, Landmark, ScrollText,
 } from "lucide-react";
 
-const GOLD = "#D4AF37";
+const GOLD = "#D6B44C";
 
 const HERO_SLIDES = [
   { src: "/faisal-orakzai-unitar.jpg", caption: "Chairman Faisal Orakzai — UNITAR, United Nations" },
@@ -975,9 +975,12 @@ const CATEGORY_META: Record<Exclude<ScreenId, "home" | "qoum">, {
 };
 
 function CategoryCard({
-  id, index, onClick,
-}: { id: Exclude<ScreenId, "home" | "qoum">; index: number; onClick: () => void }) {
+  id, index, onClick, title, subtitle, count,
+}: { id: Exclude<ScreenId, "home" | "qoum">; index: number; onClick: () => void; title?: string; subtitle?: string; count?: string }) {
   const meta = CATEGORY_META[id];
+  const displayTitle = title ?? meta.title;
+  const displaySubtitle = subtitle ?? meta.subtitle;
+  const displayCount = count ?? meta.count;
   const Icon = meta.icon;
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
@@ -1038,8 +1041,8 @@ function CategoryCard({
         <Icon className="w-7 h-7" style={{ color: GOLD }} />
       </div>
 
-      <h3 className="text-2xl font-bold text-white mb-2.5 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>{meta.title}</h3>
-      <p className="text-sm text-emerald-100/55 leading-relaxed mb-7 flex-1">{meta.subtitle}</p>
+      <h3 className="text-2xl font-bold text-white mb-2.5 tracking-tight" style={{ fontFamily: "'Playfair Display', serif" }}>{displayTitle}</h3>
+      <p className="text-sm text-emerald-100/55 leading-relaxed mb-7 flex-1">{displaySubtitle}</p>
 
       <div className="relative flex items-center justify-between pt-5 border-t" style={{ borderColor: "rgba(212,175,55,0.14)" }}>
         <span
@@ -1050,7 +1053,7 @@ function CategoryCard({
             boxShadow: "0 2px 10px rgba(212,175,55,0.35)",
           }}
         >
-          {meta.count}
+          {displayCount}
         </span>
         <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.14em]" style={{ color: GOLD }}>
           Explore
@@ -1151,7 +1154,7 @@ const PILLAR_ROUTES: Record<Exclude<ScreenId, "home" | "qoum">, string> = {
 /* ── Per-pillar SEO metadata: exact document titles + descriptions per URL ── */
 const PILLAR_SEO: Record<Exclude<ScreenId, "home" | "qoum">, { title: string; description: string }> = {
   executive: {
-    title: "Executive Leadership Team | Orakzai",
+    title: "Orakzai.org Leadership Team | Executive Leadership & Governance",
     description: "Meet the Executive Team of Orakzai.org — Founder & Chairman Faisal Orakzai, Co-Founder Malak Speen Gul Orakzai (Former MNA), and the staff running Orakzai.org's programs on the ground.",
   },
   board: {
@@ -1196,7 +1199,7 @@ export default function Team({
     const activeScreen = view.screen === "qoum" ? "representatives" : view.screen;
     const seo = activeScreen !== "home" ? PILLAR_SEO[activeScreen as Exclude<ScreenId, "home" | "qoum">] : null;
 
-    document.title = seo ? seo.title : "Our People | Orakzai.org — Digital Embassy";
+    document.title = seo ? seo.title : "Orakzai.org Leadership Team | Executive Leadership & Governance";
 
     const setMeta = (name: string, content: string, prop = false) => {
       const sel = prop ? `meta[property="${name}"]` : `meta[name="${name}"]`;
@@ -1206,15 +1209,18 @@ export default function Team({
     };
 
     const path = activeScreen !== "home" ? PILLAR_ROUTES[activeScreen as Exclude<ScreenId, "home" | "qoum">] : "/team";
-    const description = seo ? seo.description : "Five institutional pillars of the people who build, guide, represent, and are uplifted by Orakzai.org.";
+    const description = seo ? seo.description : "Meet the leadership team of Orakzai.org, including executive leaders, board advisors, institutional representatives, and global community leadership.";
 
     setMeta("description", description);
     setMeta("keywords", "Faisal Orakzai, Malak Speen Gul Orakzai, Orakzai leadership, Orakzai team, Orakzai.org team, Orakzai chairman, Orakzai co-founder, MNA Hangu, Orakzai board, Maria Hussain Orakzai, Dr Asma Orakzai");
-    setMeta("og:title", seo ? seo.title : "Our People | Orakzai.org", true);
+    setMeta("og:title", seo ? seo.title : "Orakzai.org Leadership Team | Executive Leadership & Governance", true);
     setMeta("og:description", description, true);
-    setMeta("og:url", `https://sonoforakzai.vercel.app${path}`, true);
+    setMeta("og:url", `https://orakzai.org${path}`, true);
     setMeta("twitter:title", seo ? seo.title : "Our People | Orakzai.org");
     setMeta("twitter:description", description);
+    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
+    canonical.href = `https://orakzai.org${path}`;
 
     // Structured data: BreadcrumbList + CollectionPage for the active pillar,
     // plus the founding Person schema on the /team (executive) route.
@@ -1229,21 +1235,21 @@ export default function Team({
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Our People", "item": "https://sonoforakzai.vercel.app/team" },
-          { "@type": "ListItem", "position": 2, "name": seo ? seo.title.split(" | ")[0] : "Our People", "item": `https://sonoforakzai.vercel.app${path}` },
+          { "@type": "ListItem", "position": 1, "name": "Our People", "item": "https://orakzai.org/team" },
+          { "@type": "ListItem", "position": 2, "name": seo ? seo.title.split(" | ")[0] : "Our People", "item": `https://orakzai.org${path}` },
         ],
       },
       {
         "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        "name": seo ? seo.title : "Our People | Orakzai.org",
+        "@type": "WebPage",
+        "name": seo ? seo.title : "Orakzai.org Leadership Team | Executive Leadership & Governance",
         "description": description,
-        "url": `https://sonoforakzai.vercel.app${path}`,
+        "url": `https://orakzai.org${path}`,
         "isPartOf": { "@type": "Organization", "name": "Orakzai.org" },
       },
     ];
 
-    if (activeScreen === "executive") {
+    if (activeScreen === "executive" || activeScreen === "home") {
       structuredData.push(
         {
           "@context": "https://schema.org",
@@ -1252,8 +1258,8 @@ export default function Team({
           "jobTitle": "Founder & Chairman",
           "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
           "description": "Faisal Orakzai is the Founder and Chairman of Orakzai.org, the digital embassy of the Orakzai nation. A visionary leader dedicated to uniting 50,000+ Orakzai families across 12 countries through education, healthcare, and digital empowerment.",
-          "url": "https://sonoforakzai.vercel.app/team",
-          "image": "https://sonoforakzai.vercel.app/faisal-orakzai.png",
+          "url": "https://orakzai.org/team",
+          "image": "https://orakzai.org/faisal-orakzai-unitar.jpg",
           "sameAs": ["https://www.linkedin.com/in/faisalorakzaii"],
           "nationality": "Pakistani",
           "alumniOf": "Orakzai District, Khyber Pakhtunkhwa",
@@ -1265,8 +1271,8 @@ export default function Team({
           "jobTitle": "Co-Founder & Chairman of CSR",
           "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
           "description": "Malak Speen Gul Orakzai is the Co-Founder of Orakzai.org and Former Member of the National Assembly (MNA) for Hangu. A distinguished statesman anchoring national governance frameworks and CSR strategy for the Orakzai nation.",
-          "url": "https://sonoforakzai.vercel.app/team",
-          "image": "https://sonoforakzai.vercel.app/malak-speen-gul.jpg",
+          "url": "https://orakzai.org/team",
+          "image": "https://orakzai.org/malak-speen-gul.jpg",
           "nationality": "Pakistani",
           "alumniOf": "National Assembly of Pakistan",
         },
@@ -1277,7 +1283,7 @@ export default function Team({
           "jobTitle": "Director of Health Services",
           "worksFor": { "@type": "Organization", "name": "Orakzai.org" },
           "description": "Dr. Asma Orakzai is a Women Health Leader and clinical architect at Orakzai.org, with clinical associations at Aga Khan University Hospital. She leads telemedicine networks and maternal health systems for the Orakzai region.",
-          "url": "https://sonoforakzai.vercel.app/team",
+          "url": "https://orakzai.org/team",
           "nationality": "Pakistani",
         },
       );
@@ -1315,61 +1321,48 @@ export default function Team({
   return (
     <MainLayout>
       <div className="min-h-screen" style={{ background: "linear-gradient(135deg, #011a10 0%, #022c22 50%, #011a10 100%)" }}>
-        {/* Hero Header — cinematic auto-cycling background */}
-        <div className="relative min-h-[70vh] md:min-h-[78vh] flex items-center justify-center text-center overflow-hidden">
-          <HeroCarousel />
-
-          <div className="absolute inset-0 pointer-events-none z-[1]">
-            <div className="absolute top-20 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl" style={{ background: GOLD }} />
-            <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full opacity-10 blur-3xl" style={{ background: GOLD }} />
+        {/* Editorial leadership hero */}
+        <section className="relative overflow-hidden border-b border-[#D6B44C]/20 bg-[#031B13]" style={{ backgroundImage: "linear-gradient(118deg, rgba(6,39,27,0.96), rgba(3,27,19,0.98)), repeating-linear-gradient(135deg, transparent 0, transparent 118px, rgba(214,180,76,0.035) 119px, transparent 120px)" }}>
+          <div className="absolute right-[8%] top-20 hidden h-40 w-40 border-r border-t border-[#D6B44C]/25 md:block" />
+          <div className="absolute bottom-10 left-[8%] hidden h-20 w-20 border-b border-l border-[#D6B44C]/20 md:block" />
+          <div className="relative mx-auto grid min-h-[520px] max-w-6xl items-center gap-12 px-5 pb-16 pt-32 sm:px-8 md:grid-cols-[1.12fr_0.88fr] md:gap-16 md:px-12 md:pb-20 md:pt-40">
+            <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }}>
+              <nav aria-label="Breadcrumb" className="mb-8 flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-[#A6B3A9]"><a href="/" className="transition hover:text-[#D6B44C]">Home</a><span className="text-[#D6B44C]">/</span><span className="text-[#D6B44C]">Leadership & Governance</span></nav>
+              <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.34em] text-[#D6B44C] sm:text-xs">Leadership & Governance</p>
+              <h1 className="max-w-3xl font-serif text-[3rem] font-medium leading-[0.98] tracking-[-0.04em] text-[#F5F1E7] sm:text-6xl md:text-[5.2rem]">The People Behind<br /><span className="text-[#D6B44C]">Orakzai.org</span></h1>
+              <div className="mt-8 h-px w-24 bg-[#D6B44C]" />
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, duration: 0.65 }} className="border-l border-[#D6B44C]/45 pl-6 md:pl-9">
+              <p className="max-w-md font-serif text-xl leading-relaxed text-[#F5F1E7]/80 sm:text-2xl">Meet the leaders, advisors, representatives, and professionals contributing to the vision and development of Orakzai.org.</p>
+              <p className="mt-6 text-[10px] uppercase tracking-[0.24em] text-[#A6B3A9]">Five institutional pathways · One shared mission</p>
+            </motion.div>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="relative z-10 px-4"
-          >
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Shield className="w-5 h-5" style={{ color: GOLD }} />
-              <span className="text-sm font-semibold uppercase tracking-[0.3em]" style={{ color: GOLD }}>Orakzai</span>
-              <Shield className="w-5 h-5" style={{ color: GOLD }} />
-            </div>
-            <h1
-              className="text-5xl md:text-7xl font-bold text-white mb-5"
-              style={{ fontFamily: "'Playfair Display', serif", textShadow: "0 4px 40px rgba(0,0,0,0.6)" }}
-            >
-              Our People
-            </h1>
-            <div className="h-[1px] w-24 mx-auto mb-5" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-            <p className="text-white/75 max-w-2xl mx-auto text-lg leading-relaxed">
-              A living legacy of honour, heritage, and service — five institutional pillars of the people who build, guide, represent, and are uplifted by Orakzai.org.
-            </p>
-          </motion.div>
-
-          <div className="absolute bottom-0 left-0 right-0 h-32 z-[2] pointer-events-none" style={{ background: "linear-gradient(180deg, transparent, #011a10)" }} />
-        </div>
-
+        </section>
         <div className="container mx-auto px-4 md:px-8 pb-24">
           <AnimatePresence mode="wait">
-            {/* ═══ HOME: 5 category cards ═══ */}
+            {/* ═══ HOME: five institutional leadership sections ═══ */}
             {view.screen === "home" && (
               <motion.div key="home" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
-                <SectionHeading
-                  eyebrow="Our People"
-                  title="Who Builds Orakzai.org"
-                  description="Each pillar operates as its own institution — its own people, its own mandate, all accountable to one shared mission. Select a pillar to meet the people behind it."
-                />
-                <div className="flex flex-wrap justify-center gap-6 md:gap-7 max-w-4xl mx-auto">
-                  {(["executive", "board", "global"] as const).map((id, i) => (
-                    <div key={id} className="w-full md:w-[calc(50%-14px)] lg:w-[calc(33.333%-19px)]">
-                      <CategoryCard id={id} index={i} onClick={() => goCategory(id)} />
-                    </div>
-                  ))}
+                <div className="mx-auto mb-14 max-w-3xl text-center">
+                  <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#D6B44C]">The institution</p>
+                  <h2 className="font-serif text-4xl leading-tight text-[#F5F1E7] sm:text-5xl">Leadership with purpose.</h2>
+                  <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-[#A6B3A9]">Orakzai.org is structured around executive leadership, accountable governance, global representation, and departments that turn community priorities into service.</p>
                 </div>
+                <div className="mb-16 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                  <CategoryCard id="executive" index={0} onClick={() => goCategory("executive")} title="Executive Leadership" subtitle="Founder and co-founder leadership shaping the institution’s vision, public mandate, and strategic direction." count={`${SUPREME_LEADERS.length} Founding Leaders`} />
+                  <CategoryCard id="board" index={1} onClick={() => goCategory("board")} title="Board of Directors & Advisors" subtitle="Senior counsel supporting governance, policy, legal, economic, tribal, and institutional decisions." count={`${BOARD_ADVISORS.length} Advisors`} />
+                  <CategoryCard id="global" index={2} onClick={() => goCategory("global")} title="Global Leadership" subtitle="Professionals and representatives connecting Orakzai communities across countries and disciplines." count={`${GLOBAL_LEADERSHIP.length} Leaders`} />
+                  <CategoryCard id="representatives" index={3} onClick={() => goCategory("representatives")} title="Institutional Representatives" subtitle="The qoum councils and regional representatives connecting households to the wider institution." count={`${QOUMS.length} Qoums`} />
+                  <CategoryCard id="executive" index={4} onClick={() => goCategory("executive")} title="Departmental Leadership" subtitle="Department heads leading education, health, welfare, finance, culture, technology, and field operations." count={`${BOARD_MEMBERS.length} Department Leads`} />
+                </div>
+                <section aria-labelledby="governance-heading" className="mx-auto max-w-5xl border-y border-[#D6B44C]/20 py-12 md:py-16">
+                  <div className="grid gap-8 md:grid-cols-[0.72fr_1.28fr] md:gap-16">
+                    <div><p className="mb-3 text-[10px] font-bold uppercase tracking-[0.28em] text-[#D6B44C]">Governance framework</p><h2 id="governance-heading" className="font-serif text-3xl leading-tight text-[#F5F1E7] sm:text-4xl">A clear structure for shared responsibility.</h2></div>
+                    <div className="space-y-4 text-sm leading-relaxed text-[#A6B3A9]"><p><strong className="text-[#F5F1E7]">Executive leadership</strong> sets the vision and carries the public mandate. <strong className="text-[#F5F1E7]">Boards and advisors</strong> provide specialist counsel and institutional oversight.</p><p><strong className="text-[#F5F1E7]">Global leadership</strong> connects professionals and diaspora chapters, while <strong className="text-[#F5F1E7]">representatives</strong> maintain regional and qoum-level connection. <strong className="text-[#F5F1E7]">Departments</strong> translate that shared direction into education, health, welfare, culture, technology, finance, and field service.</p><p className="text-[#D6B44C]">Explore a section to meet the people and read the verified profiles behind each responsibility.</p></div>
+                  </div>
+                </section>
               </motion.div>
             )}
-
             {/* ═══ EXECUTIVE TEAM ═══ */}
             {view.screen === "executive" && (
               <motion.div key="executive" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
