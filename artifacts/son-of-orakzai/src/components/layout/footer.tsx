@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { useState } from "react";
 import { MapPin, Mail, Phone, CheckCircle2, ArrowUpRight, ChevronRight } from "lucide-react";
 
 const GOLD = "#D4AF37";
@@ -90,21 +91,37 @@ const newsLinks = [
 ];
 
 function FooterLinkList({ title, links }: { title: string; links: { href: string; label: string }[] }) {
+  const [open, setOpen] = useState(false);
+  const sectionId = `footer-${title.toLowerCase().replace(/\s+/g, '-')}`;
+
   return (
     <div>
-      <h3
-        className="mb-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] sm:text-sm"
-        style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={sectionId}
+        onClick={() => setOpen((value) => !value)}
+        className="group flex min-h-9 w-full items-center gap-2 text-left md:pointer-events-none"
       >
-        <span className="w-3 h-[1px] inline-block" style={{ background: GOLD }} />
-        {title}
-      </h3>
-      <ul className="space-y-1.5 sm:space-y-2.5">
+        <span className="h-px w-3 shrink-0" style={{ background: GOLD }} />
+        <span
+          className="text-[11px] font-bold uppercase tracking-[0.22em] sm:text-sm"
+          style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}
+        >
+          {title}
+        </span>
+        <ChevronRight
+          className={`ml-auto h-4 w-4 transition-transform duration-300 md:hidden ${open ? 'rotate-90' : ''}`}
+          style={{ color: GOLD }}
+          aria-hidden="true"
+        />
+      </button>
+      <ul id={sectionId} className={`${open ? 'block' : 'hidden'} mt-2 space-y-1.5 sm:space-y-2.5 md:mt-3 md:block`}>
         {links.map(({ href, label }) => (
           <li key={label}>
             <Link href={href}>
               <span className="group flex min-h-7 items-center gap-1.5 text-xs leading-relaxed text-white/50 transition-colors hover:text-white sm:text-sm">
-                <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -ml-1 group-hover:ml-0" style={{ color: GOLD }} />
+                <ChevronRight className="-ml-1 h-3 w-3 opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100" style={{ color: GOLD }} />
                 {label}
               </span>
             </Link>
