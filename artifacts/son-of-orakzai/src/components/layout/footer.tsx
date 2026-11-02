@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { useState } from "react";
-import { MapPin, Mail, Phone, CheckCircle2, ArrowUpRight, ChevronRight } from "lucide-react";
+import { MapPin, Mail, Phone, CheckCircle2, Plus, Minus, ChevronRight, ArrowUpRight } from "lucide-react";
 
 const GOLD = "#D4AF37";
 const logoPath = "/orakzai-org-logo.png";
@@ -54,77 +54,114 @@ const socialLinks = [
   { Icon: YouTubeIcon, href: "https://youtube.com/@orakzaiorg", label: "YouTube" },
 ];
 
-const quickLinks = [
-  { href: "/about", label: "About Us" },
-  { href: "/team", label: "Leadership" },
-  { href: "/services", label: "Our Services" },
-  { href: "/community", label: "Community" },
-  { href: "/impact", label: "Our Impact" },
-  { href: "/join", label: "Become a Member" },
-];
-
-const impactLinks = [
-  { href: "/impact-reports", label: "Impact Reports & Metrics" },
-  { href: "/field-operations", label: "Field Operations & Projects" },
-  { href: "/community-stories", label: "Community & Success Stories" },
-  { href: "/financial-transparency", label: "Financial Transparency" },
-];
-
-const serviceLinks = [
-  { href: "/migrant-welfare", label: "Migrant Welfare & Diaspora Protection" },
-  { href: "/rights-representation", label: "Rights & Representation" },
-  { href: "/education-scholarships", label: "Education & Global Scholarships" },
-  { href: "/social-welfare-relief", label: "Social Welfare & Crisis Relief" },
-  { href: "/economic-innovation-grants", label: "Economic Innovation & Grants" },
-  { href: "/global-diaspora-network", label: "Global Diaspora Network" },
-  { href: "/healthcare-infrastructure", label: "Healthcare Infrastructure" },
-  { href: "/women-empowerment-artisans", label: "Women Empowerment & Artisans" },
-  { href: "/youth-sports-development", label: "Youth & Sports Development" },
-  { href: "/clean-water-sanitation", label: "Clean Water & Sanitation (WASH)" },
-];
-
-const newsLinks = [
-  { href: "/latest-news", label: "Latest News & Articles" },
-  { href: "/press-room", label: "Press Room & Media Kit" },
-  { href: "/events", label: "Global Events & Summits" },
-  { href: "/announcements", label: "Official Announcements" },
+const footerCategories = [
+  {
+    title: "About Orakzai",
+    links: [
+      { href: "/about", label: "About Us" },
+      { href: "/team", label: "Leadership" },
+      { href: "/services", label: "Our Services" },
+      { href: "/community", label: "Community" },
+      { href: "/impact", label: "Our Impact" },
+      { href: "/join", label: "Become a Member" },
+    ],
+  },
+  {
+    title: "Governance & Trust",
+    links: [
+      { href: "/impact-reports", label: "Impact Reports & Metrics" },
+      { href: "/financial-transparency", label: "Financial Transparency" },
+    ],
+  },
+  {
+    title: "Programs & Services",
+    links: [
+      { href: "/migrant-welfare", label: "Migrant Welfare & Diaspora Protection" },
+      { href: "/rights-representation", label: "Rights & Representation" },
+      { href: "/education-scholarships", label: "Education & Global Scholarships" },
+      { href: "/social-welfare-relief", label: "Social Welfare & Crisis Relief" },
+      { href: "/healthcare-infrastructure", label: "Healthcare Infrastructure" },
+      { href: "/clean-water-sanitation", label: "Clean Water & Sanitation (WASH)" },
+    ],
+  },
+  {
+    title: "Community & Diaspora",
+    links: [
+      { href: "/global-diaspora-network", label: "Global Diaspora Network" },
+      { href: "/community-stories", label: "Community & Success Stories" },
+    ],
+  },
+  {
+    title: "Development & Impact",
+    links: [
+      { href: "/field-operations", label: "Field Operations & Projects" },
+      { href: "/women-empowerment-artisans", label: "Women Empowerment & Artisans" },
+      { href: "/youth-sports-development", label: "Youth & Sports Development" },
+    ],
+  },
+  {
+    title: "News & Publications",
+    links: [
+      { href: "/latest-news", label: "Latest News & Articles" },
+      { href: "/press-room", label: "Press Room & Media Kit" },
+      { href: "/events", label: "Global Events & Summits" },
+      { href: "/announcements", label: "Official Announcements" },
+    ],
+  },
+  {
+    title: "Business & Partnerships",
+    links: [
+      { href: "/economic-innovation-grants", label: "Economic Innovation & Grants" },
+    ],
+  },
+  {
+    title: "Help & Support",
+    links: [
+      { href: "tel:+923360854603", label: "+92 336 0854603" },
+      { href: "mailto:info@orakzai.org", label: "info@orakzai.org" },
+    ],
+  },
 ];
 
 function FooterLinkList({ title, links }: { title: string; links: { href: string; label: string }[] }) {
   const [open, setOpen] = useState(false);
-  const sectionId = `footer-${title.toLowerCase().replace(/\s+/g, '-')}`;
+  const sectionId = `footer-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
   return (
-    <div>
+    <div className="border-b border-white/[0.10] last:border-b-0 lg:border-b-0">
       <button
         type="button"
         aria-expanded={open}
         aria-controls={sectionId}
         onClick={() => setOpen((value) => !value)}
-        className="group flex min-h-9 w-full items-center gap-2 text-left md:pointer-events-none"
+        className="group flex min-h-[3.25rem] w-full items-center justify-between gap-4 text-left lg:pointer-events-none lg:min-h-0"
       >
-        <span className="h-px w-3 shrink-0" style={{ background: GOLD }} />
-        <span
-          className="text-[11px] font-bold uppercase tracking-[0.22em] sm:text-sm"
-          style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}
-        >
-          {title}
+        <span className="flex items-center gap-2.5">
+          <span className="h-px w-4 transition-colors group-hover:bg-[#d6b44c]" style={{ background: GOLD }} />
+          <span className="text-[11px] font-semibold uppercase tracking-[0.18em] sm:text-xs" style={{ color: '#D6B44C', fontFamily: "'Playfair Display', serif" }}>
+            {title}
+          </span>
         </span>
-        <ChevronRight
-          className={`ml-auto h-4 w-4 transition-transform duration-300 md:hidden ${open ? 'rotate-90' : ''}`}
-          style={{ color: GOLD }}
-          aria-hidden="true"
-        />
+        <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 text-[#D6B44C] transition-colors group-hover:border-[#D6B44C]/50 lg:hidden" aria-hidden="true">
+          {open ? <Minus className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+        </span>
       </button>
-      <ul id={sectionId} className={`${open ? 'block' : 'hidden'} mt-2 space-y-1.5 sm:space-y-2.5 md:mt-3 md:block`}>
+      <ul id={sectionId} className={`${open ? 'block' : 'hidden'} space-y-1.5 pb-4 pl-6 md:space-y-2 lg:block lg:space-y-2.5 lg:pb-0 lg:pl-6 lg:pt-3`}>
         {links.map(({ href, label }) => (
           <li key={label}>
-            <Link href={href}>
-              <span className="group flex min-h-7 items-center gap-1.5 text-xs leading-relaxed text-white/50 transition-colors hover:text-white sm:text-sm">
+            {href.startsWith('/') ? (
+              <Link href={href}>
+                <span className="group flex min-h-7 items-center gap-1.5 text-xs leading-relaxed text-[#A6B3A9] transition-colors hover:text-[#F5F1E7] sm:text-sm">
+                  <ChevronRight className="-ml-1 h-3 w-3 opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100" style={{ color: GOLD }} />
+                  {label}
+                </span>
+              </Link>
+            ) : (
+              <a href={href} className="group flex min-h-7 items-center gap-1.5 text-xs leading-relaxed text-[#A6B3A9] transition-colors hover:text-[#F5F1E7] sm:text-sm">
                 <ChevronRight className="-ml-1 h-3 w-3 opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100" style={{ color: GOLD }} />
                 {label}
-              </span>
-            </Link>
+              </a>
+            )}
           </li>
         ))}
       </ul>
@@ -187,7 +224,7 @@ export function Footer() {
 
       {/* ── Main footer grid ── */}
       <div className="relative z-10 mx-auto max-w-[1320px] px-5 pb-8 pt-3 sm:px-6 md:px-10 md:pb-11 md:pt-5">
-        <div className="mb-9 grid grid-cols-2 gap-x-5 gap-y-8 sm:gap-x-8 sm:gap-y-10 lg:mb-11 lg:grid-cols-7 lg:gap-8">
+        <div className="mb-8 grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-x-8 lg:mb-10 lg:grid-cols-4 lg:gap-x-10 lg:gap-y-8">
 
           {/* Brand column — 2 cols */}
           <div className="col-span-2 space-y-4 rounded-2xl border border-white/10 bg-white/[0.022] p-5 sm:p-6 lg:col-span-2 lg:space-y-5 lg:border-0 lg:bg-transparent lg:p-0">
@@ -230,79 +267,68 @@ export function Footer() {
               A digital homeland where tradition meets progress — uniting and empowering every member of the Orakzai nation across Pakistan and the world.
             </p>
 
-            {/* Social icons */}
-            <div className="flex gap-2 pt-1 flex-wrap">
-              {socialLinks.map(({ Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full transition-all hover:-translate-y-0.5 hover:shadow-lg group"
-                  style={{
-                    background: 'rgba(212,175,55,0.07)',
-                    border: '1px solid rgba(212,175,55,0.18)',
-                    color: 'rgba(212,175,55,0.65)',
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = GOLD; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(212,175,55,0.45)'; (e.currentTarget as HTMLElement).style.background = 'rgba(212,175,55,0.12)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgba(212,175,55,0.65)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(212,175,55,0.18)'; (e.currentTarget as HTMLElement).style.background = 'rgba(212,175,55,0.07)'; }}
-                >
-                  <Icon />
-                </a>
-              ))}
-            </div>
           </div>
 
-          {/* Quick links */}
-          <div className="col-span-1 lg:col-span-1">
-            <FooterLinkList title="Quick Links" links={quickLinks} />
-          </div>
+          {footerCategories.map((category) => (
+            <FooterLinkList key={category.title} title={category.title} links={category.links} />
+          ))}
+        </div>
 
-          {/* Services */}
-          <div className="col-span-2 sm:col-span-1 lg:col-span-1">
-            <FooterLinkList title="Services" links={serviceLinks} />
+        {/* ── Community / social ── */}
+        <div className="mb-8 flex flex-col gap-4 border-y border-white/[0.10] py-5 sm:flex-row sm:items-center sm:justify-between lg:mb-10">
+          <div>
+            <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.24em]" style={{ color: '#D6B44C' }}>Community</p>
+            <p className="text-xs text-[#A6B3A9]">Follow the Orakzai global community.</p>
           </div>
-
-          {/* Impact */}
-          <div className="col-span-1 lg:col-span-1">
-            <FooterLinkList title="Impact" links={impactLinks} />
-            <div className="mt-8">
-              <FooterLinkList title="News" links={newsLinks} />
-            </div>
+          <div className="flex flex-wrap gap-2">
+            {socialLinks.map(({ Icon, href, label }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.025] text-[#D6B44C] transition-all hover:-translate-y-0.5 hover:border-[#D6B44C]/55 hover:bg-[#D6B44C]/10"
+              >
+                <Icon />
+              </a>
+            ))}
           </div>
+        </div>
 
-          {/* Contact */}
-          <div className="col-span-2 rounded-2xl border border-white/10 bg-white/[0.022] p-5 sm:p-6 lg:col-span-2 lg:border-0 lg:bg-transparent lg:p-0">
+        {/* ── Contact card ── */}
+        <div className="mb-8 rounded-2xl border border-white/10 bg-[#06271B]/55 p-5 sm:p-6 lg:mb-10 lg:flex lg:items-center lg:justify-between lg:gap-10">
+          <div className="mb-4 lg:mb-0">
             {/* Contact block */}
             <h3
-              className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.22em]"
-              style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}
+              className="mb-1 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em]"
+              style={{ color: '#D6B44C', fontFamily: "'Playfair Display', serif" }}
             >
-              <span className="w-3 h-[1px] inline-block" style={{ background: GOLD }} />
+              <span className="h-px w-4" style={{ background: GOLD }} />
               Contact Us
             </h3>
-            <ul className="space-y-2.5">
-              <li className="flex items-start gap-3 text-sm text-white/58">
+            <p className="pl-6 text-xs text-[#A6B3A9]">Reach the Orakzai digital embassy.</p>
+          </div>
+          <ul className="grid gap-3 sm:grid-cols-3 sm:gap-5 lg:flex lg:flex-1 lg:justify-end lg:gap-8">
+              <li className="flex items-start gap-3 text-sm text-[#A6B3A9]">
                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
                 <span>Orakzai District, Khyber Pakhtunkhwa, Pakistan</span>
               </li>
               <li>
-                  <a href="tel:+923360854603" className="flex min-h-8 items-center gap-3 text-sm text-white/58 transition-colors hover:text-white group">
+                <a href="tel:+923360854603" className="flex min-h-8 items-center gap-3 text-sm text-[#A6B3A9] transition-colors hover:text-[#F5F1E7] group">
                   <Phone className="w-4 h-4 flex-shrink-0" style={{ color: GOLD }} />
                   <span>+92 336 0854603</span>
                   <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: GOLD }} />
                 </a>
               </li>
               <li>
-                  <a href="mailto:info@orakzai.org" className="flex min-h-8 items-center gap-3 text-sm text-white/58 transition-colors hover:text-white group">
+                <a href="mailto:info@orakzai.org" className="flex min-h-8 items-center gap-3 text-sm text-[#A6B3A9] transition-colors hover:text-[#F5F1E7] group">
                   <Mail className="w-4 h-4 flex-shrink-0" style={{ color: GOLD }} />
                   <span>info@orakzai.org</span>
                   <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" style={{ color: GOLD }} />
                 </a>
               </li>
-            </ul>
-          </div>
+          </ul>
         </div>
 
         {/* Divider */}
