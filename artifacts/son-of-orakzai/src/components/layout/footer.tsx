@@ -93,17 +93,17 @@ function FooterLinkList({ title, links }: { title: string; links: { href: string
   return (
     <div>
       <h3
-        className="font-bold text-sm mb-5 uppercase tracking-[0.22em] flex items-center gap-2"
+        className="mb-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] sm:text-sm"
         style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}
       >
         <span className="w-3 h-[1px] inline-block" style={{ background: GOLD }} />
         {title}
       </h3>
-      <ul className="space-y-2.5">
+      <ul className="space-y-1.5 sm:space-y-2.5">
         {links.map(({ href, label }) => (
           <li key={label}>
             <Link href={href}>
-              <span className="flex items-center gap-1.5 text-white/50 hover:text-white text-sm transition-colors cursor-pointer group">
+              <span className="group flex min-h-7 items-center gap-1.5 text-xs leading-relaxed text-white/50 transition-colors hover:text-white sm:text-sm">
                 <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -ml-1 group-hover:ml-0" style={{ color: GOLD }} />
                 {label}
               </span>
@@ -129,60 +129,58 @@ export function Footer() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] pointer-events-none" style={{ background: 'radial-gradient(ellipse 60% 40% at 50% 0%, rgba(212,175,55,0.05) 0%, transparent 70%)' }} />
 
       {/* ── CTA top band ── */}
-      <div className="relative z-10 py-10 px-6 md:px-14 max-w-[1400px] mx-auto">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-5 py-8 sm:px-6 md:px-14 md:py-10">
         <div
-          className="flex flex-col md:flex-row items-center justify-between gap-6 py-8 px-8 md:px-12 rounded-2xl"
+          className="flex flex-col items-start justify-between gap-6 rounded-[1.5rem] px-5 py-6 sm:px-7 md:flex-row md:items-center md:px-10 md:py-7"
           style={{
             background: 'rgba(212,175,55,0.05)',
             border: '1px solid rgba(212,175,55,0.18)',
             boxShadow: '0 8px 40px rgba(0,0,0,0.3)',
           }}
         >
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] font-bold mb-1" style={{ color: GOLD }}>Ready to make a difference?</p>
-            <h3 className="text-2xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <div className="max-w-xl">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: GOLD }}>Ready to make a difference?</p>
+            <h3 className="text-2xl font-bold leading-tight text-white md:text-3xl" style={{ fontFamily: "'Playfair Display', serif" }}>
               Become part of the Orakzai family
             </h3>
           </div>
-          <div className="flex gap-3 flex-shrink-0">
-            <Link href="/join">
-              <button
-                className="px-7 py-3 rounded-full font-bold text-sm transition-all hover:-translate-y-0.5"
-                style={{
-                  background: `linear-gradient(135deg, #b8860b, ${GOLD})`,
-                  color: '#011a10',
-                  boxShadow: `0 4px 20px rgba(212,175,55,0.35)`,
-                  fontFamily: "'Playfair Display', serif",
-                }}
-              >
-                Join Now
-              </button>
+          <div className="flex w-full gap-3 sm:w-auto sm:flex-shrink-0">
+            <Link
+              href="/join"
+              className="inline-flex min-h-11 flex-1 items-center justify-center rounded-full px-6 py-3 text-sm font-bold transition-all hover:-translate-y-0.5 sm:flex-none sm:min-w-[118px]"
+              style={{
+                background: `linear-gradient(135deg, #b8860b, ${GOLD})`,
+                color: '#011a10',
+                boxShadow: `0 4px 20px rgba(212,175,55,0.35)`,
+                fontFamily: "'Playfair Display', serif",
+              }}
+            >
+              Join Now
             </Link>
-            <Link href="/donate">
-              <button
-                className="px-7 py-3 rounded-full font-semibold text-sm text-white transition-all hover:-translate-y-0.5"
-                style={{ border: '1px solid rgba(212,175,55,0.35)', background: 'rgba(212,175,55,0.06)' }}
-              >
-                Donate
-              </button>
+            <Link
+              href="/donate"
+              className="inline-flex min-h-11 flex-1 items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 sm:flex-none sm:min-w-[108px]"
+              style={{ border: '1px solid rgba(212,175,55,0.35)', background: 'rgba(212,175,55,0.06)' }}
+            >
+              Donate
             </Link>
           </div>
         </div>
       </div>
 
       {/* ── Main footer grid ── */}
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-14 pb-14 pt-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-10 mb-14">
+      <div className="relative z-10 mx-auto max-w-[1400px] px-5 pb-10 pt-4 sm:px-6 md:px-14 md:pb-14 md:pt-6">
+        <div className="mb-12 grid grid-cols-2 gap-x-5 gap-y-10 sm:gap-x-8 sm:gap-y-12 lg:mb-14 lg:grid-cols-7 lg:gap-10">
 
           {/* Brand column — 2 cols */}
-          <div className="lg:col-span-2 space-y-5">
-            <Link href="/" className="flex items-center gap-3">
+          <div className="col-span-2 space-y-5 rounded-[1.5rem] border border-white/10 bg-white/[0.018] p-5 sm:p-6 lg:col-span-2 lg:border-0 lg:bg-transparent lg:p-0">
+            <Link href="/" className="group flex items-center gap-3">
               <div className="relative">
                 <div className="absolute inset-0 rounded-full" style={{ boxShadow: `0 0 20px rgba(212,175,55,0.2)`, transform: 'scale(1.4)' }} />
                 <img
                   src={logoPath}
                   alt="Orakzai.org Logo"
-                  className="relative w-13 h-13 rounded-full object-cover"
+                  className="relative h-13 w-13 rounded-full object-cover transition-transform duration-300 group-hover:scale-105"
                   style={{ border: `2px solid ${GOLD}`, boxShadow: `0 0 14px rgba(212,175,55,0.3)`, width: 52, height: 52 }}
                 />
               </div>
@@ -240,17 +238,17 @@ export function Footer() {
           </div>
 
           {/* Quick links */}
-          <div className="lg:col-span-1">
+          <div className="col-span-1 lg:col-span-1">
             <FooterLinkList title="Quick Links" links={quickLinks} />
           </div>
 
           {/* Services */}
-          <div className="lg:col-span-1">
+          <div className="col-span-2 sm:col-span-1 lg:col-span-1">
             <FooterLinkList title="Services" links={serviceLinks} />
           </div>
 
           {/* Impact */}
-          <div className="lg:col-span-1">
+          <div className="col-span-1 lg:col-span-1">
             <FooterLinkList title="Impact" links={impactLinks} />
             <div className="mt-8">
               <FooterLinkList title="News" links={newsLinks} />
@@ -258,10 +256,10 @@ export function Footer() {
           </div>
 
           {/* Contact */}
-          <div className="lg:col-span-2">
+          <div className="col-span-2 rounded-[1.5rem] border border-white/10 bg-white/[0.018] p-5 sm:p-6 lg:col-span-2 lg:border-0 lg:bg-transparent lg:p-0">
             {/* Contact block */}
             <h3
-              className="font-bold text-sm mb-4 uppercase tracking-[0.22em] flex items-center gap-2"
+              className="mb-4 flex items-center gap-2 text-sm font-bold uppercase tracking-[0.22em]"
               style={{ color: GOLD, fontFamily: "'Playfair Display', serif" }}
             >
               <span className="w-3 h-[1px] inline-block" style={{ background: GOLD }} />
@@ -291,19 +289,19 @@ export function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="h-[1px] w-full mb-6" style={{ background: `linear-gradient(90deg, transparent, rgba(212,175,55,0.18), transparent)` }} />
+        <div className="mb-6 h-[1px] w-full" style={{ background: `linear-gradient(90deg, transparent, rgba(212,175,55,0.18), transparent)` }} />
 
         {/* Bottom bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="flex flex-col items-start gap-5 md:flex-row md:items-center md:justify-between">
           <p className="text-white/25 text-xs tracking-wider order-2 md:order-1">
             &copy; {new Date().getFullYear()} Orakzai.org — Digital Embassy. All rights reserved.
           </p>
-          <div className="flex items-center gap-6 order-1 md:order-2">
+          <div className="order-1 flex flex-wrap items-center gap-x-5 gap-y-2 md:order-2">
             {['Privacy Policy', 'Terms of Use', 'Transparency Report'].map((item) => (
               <a key={item} href="#" className="text-white/25 text-xs hover:text-white/55 transition-colors tracking-wider">{item}</a>
             ))}
           </div>
-          <div className="text-white/20 text-xs tracking-wider order-3">
+          <div className="order-3 text-xs tracking-wider text-white/20 md:text-right">
             Powered by{' '}
             <span className="font-semibold" style={{ color: `${GOLD}88` }}>Orakzai Group</span>
           </div>
