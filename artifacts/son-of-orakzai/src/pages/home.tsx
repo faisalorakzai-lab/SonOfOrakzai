@@ -60,21 +60,6 @@ function HandshakeIcon({ className, style }: { className?: string; style?: React
     </svg>
   );
 }
-function FieldOperationsIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <svg viewBox="0 0 48 48" className={className} style={style} fill="none" aria-hidden="true">
-      <path d="M8 38h32M12 34V18h24v16M17 18v-6h14v6M18 25h4M26 25h4M18 30h4M26 30h4" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-function TransparencyIcon({ className, style }: { className?: string; style?: React.CSSProperties }) {
-  return (
-    <svg viewBox="0 0 48 48" className={className} style={style} fill="none" aria-hidden="true">
-      <path d="M24 6l15 6v10c0 9-6.4 16.3-15 20-8.6-3.7-15-11-15-20V12l15-6z" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round" />
-      <path d="M17 24l5 5 10-11" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 /* ── Floating ambient orb ── */
 function AmbientOrb({ x, y, size, color, delay }: { x: string; y: string; size: number; color: string; delay: number }) {
@@ -308,7 +293,7 @@ function GlobeEmblem() {
 }
 
 /* ══════════════════════════════════════════════════
-   STRATEGIC PILLARS — Sovereign Luxury 12-Card Grid
+   STRATEGIC PILLARS — Sovereign Luxury 10-Card Grid
    ══════════════════════════════════════════════════ */
 
 const pillars = [
@@ -451,20 +436,6 @@ const pillars = [
         style={{ borderRadius: '50%' }}
       />
     ),
-  },
-  {
-    id: 11,
-    title: 'Field Operations & Projects',
-    desc: 'On-the-ground programmes spanning water infrastructure, emergency relief, education, and healthcare across the communities we serve.',
-    href: '/field-operations',
-    icon: <FieldOperationsIcon className="w-9 h-9" style={{ color: GOLD }} />,
-  },
-  {
-    id: 12,
-    title: 'Financial Transparency & Accountability',
-    desc: 'A public record of fund allocation, audit commitments, and reporting practices designed to keep community support accountable.',
-    href: '/financial-transparency',
-    icon: <TransparencyIcon className="w-9 h-9" style={{ color: GOLD }} />,
   },
 ];
 
@@ -668,14 +639,14 @@ function StrategicPillars() {
               letterSpacing: '0.015em',
             }}
           >
-            Orakzai.org operates through twelve strategic pillars — each one a dedicated institution
+            Orakzai.org operates through ten strategic pillars — each one a dedicated institution
             in itself — spanning migrant welfare protection, rights advocacy, global education, 
             humanitarian relief, economic innovation, diaspora connectivity, frontline healthcare 
-            access, women's empowerment, youth & sports development, clean water access, field operations, and financial transparency.
+            access, women's empowerment, youth & sports development, and clean water access.
           </p>
         </FadeIn>
 
-        {/* ── 12-card grid ── */}
+        {/* ── 10-card grid ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {pillars.map((pillar, i) => (
             <PillarCard key={pillar.id} pillar={pillar} index={i} />
