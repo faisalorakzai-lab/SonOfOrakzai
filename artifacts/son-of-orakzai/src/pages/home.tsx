@@ -860,12 +860,7 @@ function Testimonials() {
       <div className="relative" aria-label="International voices">
         <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-12 md:w-24" style={{ background: 'linear-gradient(90deg, #011a10, transparent)' }} />
         <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-12 md:w-24" style={{ background: 'linear-gradient(270deg, #011a10, transparent)' }} />
-        <motion.div
-          className="flex w-max"
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 45, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
-          style={{ willChange: 'transform' }}
-        >
+        <motion.div className="orakzai-reviews-track flex w-max">
           {[0, 1].map((copy) => (
             <div key={copy} className="flex shrink-0 gap-4 px-5 md:gap-6 md:px-6">
               {testimonials.map((t, i) => (
@@ -1036,12 +1031,7 @@ function Ticker() {
     >
       <div className="absolute left-0 top-0 bottom-0 w-16 z-10" style={{ background: 'linear-gradient(90deg, #012415, transparent)' }} />
       <div className="absolute right-0 top-0 bottom-0 w-16 z-10" style={{ background: 'linear-gradient(270deg, #012415, transparent)' }} />
-      <motion.div
-        className="flex w-max"
-        animate={{ x: ['0%', '-50%'] }}
-        transition={{ duration: 42, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
-        style={{ willChange: 'transform' }}
-      >
+      <motion.div className="orakzai-marquee-track flex w-max">
         {[0, 1].map((copy) => (
           <div key={copy} className="flex shrink-0 gap-10 pr-10 md:gap-16 md:pr-16">
             {tickerItems.map((item, i) => (

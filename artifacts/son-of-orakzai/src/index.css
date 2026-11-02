@@ -324,6 +324,23 @@
   box-shadow: 0 0 24px rgba(212, 175, 55, 0.25);
 }
 
+/* CSS-driven tracks keep the hero ticker and review rail moving even when
+   Framer Motion's reduced-motion mode is enabled by the browser. */
+@keyframes orakzaiMarquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+.orakzai-marquee-track,
+.orakzai-reviews-track {
+  will-change: transform;
+  animation: orakzaiMarquee 42s linear infinite;
+}
+
+.orakzai-reviews-track {
+  animation-duration: 45s;
+}
+
 /* Pinstripe gold frame */
 .pinstripe-gold-frame {
   outline: 1px solid rgba(212, 175, 55, 0.6);
