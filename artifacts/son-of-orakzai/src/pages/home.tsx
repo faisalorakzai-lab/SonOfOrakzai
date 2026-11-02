@@ -841,8 +841,7 @@ function TestimonialCard({ t }: { t: typeof testimonials[0] }) {
 }
 
 function Testimonials() {
-  const doubled = [...testimonials, ...testimonials];
-  return (
+    return (
     <section aria-labelledby="global-voices-title" className="relative overflow-hidden py-20 md:py-28" style={{ background: 'linear-gradient(180deg, #011a10 0%, #00120a 100%)' }}>
       <div className="absolute inset-0 orakzai-pattern opacity-20 pointer-events-none" />
 
@@ -862,13 +861,17 @@ function Testimonials() {
         <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-12 md:w-24" style={{ background: 'linear-gradient(90deg, #011a10, transparent)' }} />
         <div className="pointer-events-none absolute bottom-0 right-0 top-0 z-10 w-12 md:w-24" style={{ background: 'linear-gradient(270deg, #011a10, transparent)' }} />
         <motion.div
-          className="flex gap-4 px-5 md:gap-6 md:px-6"
-          style={{ width: 'max-content' }}
-          animate={{ x: [0, -((380 + 24) * testimonials.length)] }}
+          className="flex w-max"
+          animate={{ x: ['0%', '-50%'] }}
           transition={{ duration: 45, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
+          style={{ willChange: 'transform' }}
         >
-          {doubled.map((t, i) => (
-            <TestimonialCard key={i} t={t} />
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex shrink-0 gap-4 px-5 md:gap-6 md:px-6">
+              {testimonials.map((t, i) => (
+                <TestimonialCard key={`${copy}-${i}`} t={t} />
+              ))}
+            </div>
           ))}
         </motion.div>
       </div>
@@ -1034,18 +1037,23 @@ function Ticker() {
       <div className="absolute left-0 top-0 bottom-0 w-16 z-10" style={{ background: 'linear-gradient(90deg, #012415, transparent)' }} />
       <div className="absolute right-0 top-0 bottom-0 w-16 z-10" style={{ background: 'linear-gradient(270deg, #012415, transparent)' }} />
       <motion.div
-        className="flex gap-16 whitespace-nowrap"
-        animate={{ x: [0, -4200] }}
-        transition={{ duration: 50, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
+        className="flex w-max"
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{ duration: 42, repeat: Infinity, ease: 'linear', repeatType: 'loop' }}
+        style={{ willChange: 'transform' }}
       >
-        {[...tickerItems, ...tickerItems, ...tickerItems].map((item, i) => (
-          <span
-            key={i}
-            className="text-xs font-bold tracking-[0.25em] uppercase flex-shrink-0"
-            style={{ color: GOLD, opacity: 0.8 }}
-          >
-            {item}
-          </span>
+        {[0, 1].map((copy) => (
+          <div key={copy} className="flex shrink-0 gap-10 pr-10 md:gap-16 md:pr-16">
+            {tickerItems.map((item, i) => (
+              <span
+                key={`${copy}-${i}`}
+                className="flex-shrink-0 text-xs font-bold uppercase tracking-[0.25em]"
+                style={{ color: GOLD, opacity: 0.8 }}
+              >
+                {item}
+              </span>
+            ))}
+          </div>
         ))}
       </motion.div>
     </div>
