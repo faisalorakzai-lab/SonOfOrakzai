@@ -1215,75 +1215,65 @@ export default function Home() {
       {/* ═══════════════════════════════
           CTA BANNER
       ═══════════════════════════════ */}
-      <section aria-labelledby="join-movement-title" className="relative overflow-hidden py-14 sm:py-16 md:py-28" style={{ background: 'linear-gradient(180deg, #011a10 0%, #000d08 100%)' }}>
-        <div className="absolute inset-0 orakzai-pattern opacity-40 pointer-events-none" />
-        <div
-          className="absolute inset-0"
-          style={{ background: 'radial-gradient(ellipse 65% 55% at 50% 50%, rgba(6,78,59,0.18) 0%, transparent 72%)' }}
-        />
+      {/* ═══════════════════════════════
+          CTA BANNER — bottom membership section
+      ═══════════════════════════════ */}
+      <section
+        aria-labelledby="join-movement-title"
+        className="relative overflow-hidden py-12 sm:py-16 md:py-24"
+        style={{ background: 'linear-gradient(180deg, #011a10 0%, #00110a 100%)' }}
+      >
+        <div className="pointer-events-none absolute inset-0 opacity-30" style={{ backgroundImage: 'linear-gradient(115deg, transparent 0%, rgba(212,175,55,0.035) 48%, transparent 49%), linear-gradient(65deg, transparent 0%, rgba(212,175,55,0.025) 48%, transparent 49%)', backgroundSize: '180px 180px' }} />
+        <div className="absolute inset-x-0 top-0 h-px" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}70, transparent)` }} />
 
-        {/* Decorative rings */}
-        <div
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[360px] w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[440px] sm:w-[440px] md:h-[600px] md:w-[600px]"
-          style={{ border: '1px solid rgba(212,175,55,0.06)' }}
-        />
-        <div
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[270px] w-[270px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[330px] sm:w-[330px] md:h-[390px] md:w-[390px]"
-          style={{ border: '1px solid rgba(212,175,55,0.04)' }}
-        />
+        <div className="relative z-10 mx-auto max-w-6xl px-5 sm:px-8 lg:px-12">
+          <FadeIn direction="up">
+            <div
+              className="relative overflow-hidden rounded-[1.75rem] border px-6 py-9 sm:px-10 sm:py-11 md:px-14 md:py-14"
+              style={{
+                background: 'linear-gradient(118deg, rgba(7,45,30,0.88), rgba(2,25,16,0.96))',
+                borderColor: 'rgba(212,175,55,0.22)',
+                boxShadow: '0 24px 70px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.035)',
+              }}
+            >
+              {/* Subtle heritage-inspired corner geometry */}
+              <div className="pointer-events-none absolute right-6 top-6 h-16 w-16 border-r border-t opacity-60 sm:right-10 sm:top-10 sm:h-24 sm:w-24" style={{ borderColor: `${GOLD}55` }} />
+              <div className="pointer-events-none absolute bottom-6 left-6 h-10 w-10 border-b border-l opacity-45 sm:bottom-10 sm:left-10" style={{ borderColor: `${GOLD}55` }} />
+              <div className="pointer-events-none absolute right-14 top-14 h-2 w-2 rotate-45 sm:right-20 sm:top-20" style={{ background: GOLD, opacity: 0.65 }} />
 
-        <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}45, transparent)` }} />
+              <div className="grid items-center gap-9 md:grid-cols-[0.9fr_1.1fr] md:gap-14 lg:gap-20">
+                <div className="relative">
+                  <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.32em] sm:text-xs" style={{ color: GOLD }}>Join the Movement</p>
+                  <h2 id="join-movement-title" className="max-w-xl text-[2.7rem] font-semibold leading-[0.98] text-white sm:text-5xl md:text-[4.25rem]" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    <span className="block">Apni Matti,</span>
+                    <span className="mt-1 block" style={{ color: '#e2c96f' }}>Apne Log</span>
+                  </h2>
+                  <p className="mt-4 text-base text-white/40 sm:text-lg" style={{ fontFamily: "'Cormorant Garamond', serif" }}>— Orakzai.org</p>
+                </div>
 
-        <div className="relative z-10 mx-auto max-w-[1400px] px-5 text-center sm:px-6 md:px-14">
-          <FadeIn direction="scale" delay={0}>
-            <div className="mx-auto max-w-3xl">
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.3em] sm:text-xs" style={{ color: GOLD }}>Join the Movement</p>
-              <h2
-                id="join-movement-title" className="mb-1 text-4xl font-black leading-[0.95] text-white sm:text-5xl md:mb-4 md:text-7xl"
-                style={{ fontFamily: "'Playfair Display', serif", textShadow: '0 4px 50px rgba(0,0,0,0.5)' }}
-              >
-                Apni Matti,
-              </h2>
-              <h2
-                className="mb-1 text-4xl font-black leading-[0.95] sm:text-5xl md:mb-2 md:text-7xl"
-                style={{
-                  fontFamily: "'Playfair Display', serif",
-                  background: `linear-gradient(135deg, #b8860b, ${GOLD}, #f5e07a, ${GOLD})`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
-              >
-                Apne Log
-              </h2>
-              <div className="mb-5 text-base text-white/30 sm:text-lg md:mb-8 md:text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>— Orakzai.org</div>
-              <div className="mx-auto mb-5 h-[1px] w-24 md:mb-8 md:w-32" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
-              <p className="mx-auto mb-7 max-w-xl text-base leading-relaxed text-white/55 sm:text-lg md:mb-10" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-                Join thousands of Orakzai members who have pledged to build a stronger, educated, and prosperous community for every generation that follows.
-              </p>
-
-              {/* Glowing CTA button */}
-              <div className="relative inline-block">
-                <div
-                  className="pointer-events-none absolute inset-0 rounded-full"
-                  style={{ boxShadow: `0 0 34px rgba(212,175,55,0.22)`, transform: 'scale(1.08)' }}
-                />
-                <Link
-                  href="/join"
-                  className="relative inline-flex min-h-12 w-full items-center justify-center overflow-hidden rounded-full px-7 py-3 text-base font-black transition-all hover:-translate-y-1 hover:shadow-xl active:scale-95 sm:w-auto sm:px-10 sm:py-4 sm:text-lg"
-                  style={{
-                    background: `linear-gradient(135deg, #b8860b 0%, ${GOLD} 40%, #f5e07a 70%, ${GOLD} 100%)`,
-                    backgroundSize: '200% auto',
-                    color: '#011a10',
-                    boxShadow: `0 12px 50px rgba(212,175,55,0.50), 0 4px 16px rgba(212,175,55,0.35)`,
-                    fontFamily: "'Playfair Display', serif",
-                    letterSpacing: '0.06em',
-                  }}
-                >
-                  Become a Member Today
-                </Link>
+                <div className="relative max-w-xl md:pt-3">
+                  <div className="mb-6 h-px w-20" style={{ background: `linear-gradient(90deg, ${GOLD}, transparent)` }} />
+                  <p className="max-w-lg text-base leading-relaxed text-white/62 sm:text-lg" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                    Join thousands of Orakzai members who have pledged to build a stronger, educated, and prosperous community for every generation that follows.
+                  </p>
+                  <div className="mt-7 flex flex-col items-start gap-3 sm:mt-8 sm:flex-row sm:items-center sm:gap-5">
+                    <Link
+                      href="/join"
+                      className="inline-flex min-h-12 w-full items-center justify-center rounded-full px-8 py-3 text-base font-semibold transition-all hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98] sm:w-auto"
+                      style={{
+                        background: `linear-gradient(135deg, #b8860b, ${GOLD})`,
+                        color: '#011a10',
+                        boxShadow: '0 8px 24px rgba(212,175,55,0.22)',
+                        fontFamily: "'Playfair Display', serif",
+                        letterSpacing: '0.025em',
+                      }}
+                    >
+                      Become a Member Today
+                    </Link>
+                    <span className="text-[9px] uppercase tracking-[0.2em] text-white/35 sm:text-[10px]">Free — Takes less than 2 minutes</span>
+                  </div>
+                </div>
               </div>
-
-              <p className="mt-4 text-center text-[9px] uppercase tracking-[0.2em] text-white/25 md:mt-6 md:text-[10px]">Free — Takes less than 2 minutes</p>
             </div>
           </FadeIn>
         </div>
