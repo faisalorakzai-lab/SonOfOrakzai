@@ -1,162 +1,78 @@
+import { useEffect } from "react";
+import { AlertCircle, ArrowUpRight, BarChart3, CheckCircle2, Download, FileCheck2, Landmark, Scale, ShieldCheck } from "lucide-react";
 import { MainLayout } from "@/components/layout/main-layout";
-import { motion } from "framer-motion";
-import { Scale, ShieldCheck, PieChart, Download, CheckCircle2 } from "lucide-react";
 
-const GOLD = "#D4AF37";
+const COLORS = { forest: "#031B13", emerald: "#06271B", gold: "#D6B44C", ivory: "#F5F1E7", sage: "#A6B3A9" } as const;
+const CANONICAL = "https://orakzai.org/financial-transparency";
+const REPORT_URL = "/Orakzai_Annual_Impact_Report_2025.pdf";
+const TITLE = "Orakzai.org Financial Transparency | Annual Report 2025";
+const DESCRIPTION = "Explore Orakzai.org financial transparency, annual financial reporting, fund allocation, expenditure disclosures, governance and 2025 accountability report.";
 
-const allocationData = [
-  { category: "Field Programmes & Projects", percent: 62, color: GOLD },
-  { category: "Education & Scholarships", percent: 15, color: "#22c55e" },
-  { category: "Healthcare Outreach", percent: 12, color: "#60a5fa" },
-  { category: "Administration & Operations", percent: 7, color: "#a78bfa" },
-  { category: "Communications & Outreach", percent: 4, color: "#f97316" },
-];
-
-const audits = [
-  { year: 2024, auditor: "Chartered Accountants of Pakistan", status: "Verified" },
-  { year: 2023, auditor: "Chartered Accountants of Pakistan", status: "Verified" },
-  { year: 2022, auditor: "Independent Audit Firm — Islamabad", status: "Verified" },
+const disclosures = [
+  { title: "Income & funding sources", status: "Not published", detail: "A verified 2025 income statement is not currently published on this page." },
+  { title: "Programme expenditure", status: "Not published", detail: "Programme-level expenditure figures are unavailable until supported by an approved 2025 statement." },
+  { title: "Administrative costs", status: "Not published", detail: "No 2025 administrative-cost figure is displayed without a verified source." },
+  { title: "Operational expenditure", status: "Not published", detail: "Operational expenditure remains unavailable in the published materials reviewed." },
+  { title: "Financial governance", status: "Framework", detail: "The organization presents accountability as a commitment; specific approval records should be published with the underlying policy." },
+  { title: "Independent audit status", status: "Unavailable", detail: "No independently verified 2025 audit statement is asserted here." },
 ];
 
 const commitments = [
-  "100% of member donations go directly to declared programmes",
-  "Annual independent third-party financial audit",
-  "All expenditures above PKR 50,000 require dual-signatory approval",
-  "Quarterly financial summaries published for all members",
-  "Registered NGO — full compliance with Pakistan regulatory standards",
+  "Publish financial figures only when they are supported by organizational records.",
+  "Distinguish audited, unaudited and unavailable information clearly.",
+  "Keep the annual report link prominent and accessible to members and supporters.",
+  "Review disclosures before publication rather than presenting estimates as facts.",
 ];
 
+function setMeta(key: string, value: string, property = false) {
+  const attribute = property ? "property" : "name";
+  let tag = document.head.querySelector<HTMLMetaElement>(`meta[${attribute}="${key}"]`);
+  if (!tag) { tag = document.createElement("meta"); tag.setAttribute(attribute, key); document.head.appendChild(tag); }
+  tag.content = value;
+}
+
+function useFinancialSeo() {
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title = TITLE;
+    setMeta("description", DESCRIPTION);
+    setMeta("keywords", "Orakzai.org Financial Transparency, Orakzai Annual Financial Report 2025");
+    setMeta("robots", "index, follow");
+    setMeta("og:type", "website", true); setMeta("og:url", CANONICAL, true); setMeta("og:title", TITLE, true); setMeta("og:description", DESCRIPTION, true); setMeta("og:site_name", "Orakzai.org", true);
+    setMeta("twitter:card", "summary", false); setMeta("twitter:url", CANONICAL); setMeta("twitter:title", TITLE); setMeta("twitter:description", DESCRIPTION);
+    let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    const previousCanonical = canonical?.href;
+    if (!canonical) { canonical = document.createElement("link"); canonical.rel = "canonical"; document.head.appendChild(canonical); }
+    canonical.href = CANONICAL;
+    const schema = document.createElement("script"); schema.id = "financial-transparency-jsonld"; schema.type = "application/ld+json";
+    schema.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": [
+      { "@type": "Organization", "@id": "https://orakzai.org/#organization", name: "Orakzai.org", url: "https://orakzai.org" },
+      { "@type": "WebPage", "@id": `${CANONICAL}#webpage`, url: CANONICAL, name: TITLE, description: DESCRIPTION, isPartOf: { "@id": "https://orakzai.org/#website" } },
+      { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: "https://orakzai.org/" }, { "@type": "ListItem", position: 2, name: "Financial Transparency", item: CANONICAL }] },
+    ] });
+    document.getElementById(schema.id)?.remove(); document.head.appendChild(schema);
+    return () => { document.title = previousTitle; document.getElementById(schema.id)?.remove(); if (previousCanonical) canonical!.href = previousCanonical; else canonical?.remove(); };
+  }, []);
+}
+
+function StatusBadge({ children, tone = "muted" }: { children: string; tone?: "muted" | "gold" | "green" }) {
+  const colors = tone === "green" ? { color: "#8bd5a8", background: "rgba(139,213,168,.1)", border: "rgba(139,213,168,.25)" } : tone === "gold" ? { color: COLORS.gold, background: "rgba(214,180,76,.1)", border: "rgba(214,180,76,.28)" } : { color: "#c7cec9", background: "rgba(166,179,169,.08)", border: "rgba(166,179,169,.2)" };
+  return <span className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em]" style={colors}>{children}</span>;
+}
+
 export default function FinancialTransparency() {
-  return (
-    <MainLayout>
-      {/* Hero */}
-      <section
-        className="relative py-20 text-white overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #011a10 0%, #02280f 60%, #011a10 100%)" }}
-      >
-        <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212,175,55,0.08) 0%, transparent 70%)" }} />
-        <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}88, transparent)` }} />
-        <div className="container mx-auto px-6 max-w-4xl text-center relative z-10">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <div
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6"
-              style={{ background: "rgba(212,175,55,0.1)", border: `1px solid rgba(212,175,55,0.25)`, color: GOLD }}
-            >
-              <Scale className="w-3.5 h-3.5" /> Our Impact
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Financial Transparency
-            </h1>
-            <p className="text-lg text-white/60 leading-relaxed">
-              We hold ourselves to the highest standard of accountability. Every rupee is tracked, audited, and reported — because your trust is our most valuable asset.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+  useFinancialSeo();
+  return <MainLayout><main style={{ background: COLORS.forest, color: COLORS.ivory }}>
+    <section className="relative overflow-hidden border-b" style={{ borderColor: "rgba(214,180,76,.25)", background: "radial-gradient(ellipse 65% 80% at 50% 0%, rgba(214,180,76,.12), transparent 65%), linear-gradient(135deg, #031B13, #06271B)" }}>
+      <div className="mx-auto max-w-5xl px-6 py-24 text-center md:py-32"><p className="mb-7 text-xs font-bold uppercase tracking-[.22em]" style={{ color: COLORS.gold }}>Accountability • Trust • Transparency</p><h1 className="text-4xl font-semibold leading-tight md:text-6xl" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Financial Transparency</h1><p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/65">Every contribution deserves accountability. Explore our financial reporting, fund allocation, governance standards and institutional commitments.</p></div>
+    </section>
 
-      {/* Fund Allocation */}
-      <section className="py-14" style={{ background: "#011a10" }}>
-        <div className="container mx-auto px-6 max-w-4xl">
-          <div className="flex items-center gap-3 mb-8">
-            <PieChart className="w-5 h-5" style={{ color: GOLD }} />
-            <h2 className="text-2xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>Fund Allocation 2024</h2>
-          </div>
-          <div className="space-y-4">
-            {allocationData.map((item, i) => (
-              <motion.div
-                key={item.category}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-white/70 text-sm">{item.category}</span>
-                  <span className="text-sm font-bold" style={{ color: item.color }}>{item.percent}%</span>
-                </div>
-                <div className="h-2 rounded-full w-full" style={{ background: "rgba(255,255,255,0.06)" }}>
-                  <motion.div
-                    className="h-2 rounded-full"
-                    style={{ background: item.color, width: `${item.percent}%` }}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${item.percent}%` }}
-                    transition={{ delay: i * 0.1 + 0.3, duration: 0.7, ease: "easeOut" }}
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+    <section className="mx-auto max-w-6xl px-6 py-16 md:py-24" aria-labelledby="allocation-title"><div className="mb-10 flex items-start gap-4"><div className="rounded-full p-3" style={{ background: "rgba(214,180,76,.1)", color: COLORS.gold }}><BarChart3 className="h-6 w-6" /></div><div><p className="text-xs font-bold uppercase tracking-[.2em]" style={{ color: COLORS.gold }}>Verified figures only</p><h2 id="allocation-title" className="mt-2 text-3xl font-semibold md:text-4xl" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Fund Allocation 2025</h2></div></div><div className="rounded-2xl border p-7 md:p-10" style={{ background: "rgba(6,39,27,.62)", borderColor: "rgba(214,180,76,.2)" }}><div className="flex items-start gap-4"><AlertCircle className="mt-1 h-5 w-5 shrink-0" style={{ color: COLORS.gold }} /><div><h3 className="font-semibold">2025 allocation percentages — pending verified publication</h3><p className="mt-2 max-w-3xl text-sm leading-relaxed text-white/60">No percentage bars are shown until verified 2025 financial data is available. This avoids presenting earlier-year or estimated figures as 2025 disclosures.</p></div></div><div className="mt-8 space-y-5">{["Programme delivery", "Education and scholarships", "Healthcare and relief", "Administration", "Operations and outreach"].map((label) => <div key={label}><div className="mb-2 flex justify-between text-sm"><span className="text-white/65">{label}</span><span style={{ color: COLORS.sage }}>Unavailable</span></div><div className="h-2 rounded-full" style={{ background: "rgba(166,179,169,.12)" }} /></div>)}</div></div></section>
 
-      {/* Audit Records */}
-      <section className="py-14" style={{ background: "#000c07" }}>
-        <div className="container mx-auto px-6 max-w-4xl">
-          <div className="grid md:grid-cols-2 gap-10">
+    <section className="border-y" style={{ borderColor: "rgba(214,180,76,.18)", background: COLORS.emerald }} aria-labelledby="report-title"><div className="mx-auto max-w-6xl px-6 py-16 md:py-20"><div className="grid items-center gap-10 md:grid-cols-[1.1fr_.9fr]"><div><p className="text-xs font-bold uppercase tracking-[.2em]" style={{ color: COLORS.gold }}>Annual disclosure</p><h2 id="report-title" className="mt-3 text-3xl font-semibold md:text-4xl" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Annual Financial Transparency Report 2025</h2><p className="mt-5 max-w-2xl leading-relaxed text-white/65">Detailed financial statements, funding sources, expenditure breakdown and programme allocations for January–December 2025.</p><p className="mt-5 text-sm text-white/45">The available verified 2025 PDF is provided as the organization’s annual impact/reporting document. Financial categories not supported by the document remain marked unavailable on this page.</p></div><div className="rounded-2xl border p-7" style={{ background: "rgba(3,27,19,.65)", borderColor: "rgba(214,180,76,.3)" }}><div className="mb-5 flex items-center gap-3"><FileCheck2 className="h-8 w-8" style={{ color: COLORS.gold }} /><div><p className="font-semibold">Orakzai Annual Report 2025</p><StatusBadge tone="gold">PDF available</StatusBadge></div></div><a href={REPORT_URL} target="_blank" rel="noreferrer" download className="inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold" style={{ color: COLORS.forest, background: COLORS.gold }}>Download verified 2025 PDF <Download className="h-4 w-4" /></a><p className="mt-4 text-center text-xs text-white/40">Opens the actual published report · 15 pages</p></div></div></div></section>
 
-            {/* Audits */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <ShieldCheck className="w-5 h-5" style={{ color: GOLD }} />
-                <h2 className="text-xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>Annual Audits</h2>
-              </div>
-              <div className="space-y-3">
-                {audits.map((audit, i) => (
-                  <motion.div
-                    key={audit.year}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="flex items-center justify-between p-4 rounded-xl"
-                    style={{ background: "rgba(212,175,55,0.04)", border: "1px solid rgba(212,175,55,0.13)" }}
-                  >
-                    <div>
-                      <p className="text-white text-sm font-semibold">FY {audit.year}</p>
-                      <p className="text-white/40 text-xs mt-0.5">{audit.auditor}</p>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <span
-                        className="flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-full"
-                        style={{ background: "rgba(34,197,94,0.1)", color: "#22c55e", border: "1px solid rgba(34,197,94,0.2)" }}
-                      >
-                        <CheckCircle2 className="w-2.5 h-2.5" /> {audit.status}
-                      </span>
-                      <button
-                        className="flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-full transition-opacity hover:opacity-80"
-                        style={{ background: `linear-gradient(135deg, #b8860b, ${GOLD})`, color: "#011a10" }}
-                      >
-                        <Download className="w-3 h-3" /> PDF
-                      </button>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+    <section className="mx-auto max-w-6xl px-6 py-16 md:py-24" aria-labelledby="disclosure-title"><div className="mb-10"><p className="text-xs font-bold uppercase tracking-[.2em]" style={{ color: COLORS.gold }}>Evidence status</p><h2 id="disclosure-title" className="mt-3 text-3xl font-semibold md:text-4xl" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Financial disclosure</h2><p className="mt-4 max-w-2xl leading-relaxed text-white/60">Each category is labeled so readers can distinguish published evidence from information that still needs a verified release.</p></div><div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">{disclosures.map((item) => <article key={item.title} className="rounded-2xl border p-6" style={{ background: "rgba(6,39,27,.55)", borderColor: "rgba(214,180,76,.14)" }}><div className="mb-5 flex items-start justify-between gap-3"><Landmark className="h-5 w-5" style={{ color: COLORS.gold }} /><StatusBadge>{item.status}</StatusBadge></div><h3 className="font-semibold">{item.title}</h3><p className="mt-3 text-sm leading-relaxed text-white/55">{item.detail}</p></article>)}</div></section>
 
-            {/* Commitments */}
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <Scale className="w-5 h-5" style={{ color: GOLD }} />
-                <h2 className="text-xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>Our Commitments</h2>
-              </div>
-              <div className="space-y-3">
-                {commitments.map((commitment, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.08 }}
-                    className="flex items-start gap-3 p-4 rounded-xl"
-                    style={{ background: "rgba(212,175,55,0.04)", border: "1px solid rgba(212,175,55,0.10)" }}
-                  >
-                    <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
-                    <p className="text-white/65 text-sm leading-relaxed">{commitment}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </MainLayout>
-  );
+    <section className="border-t" style={{ borderColor: "rgba(214,180,76,.18)", background: "#02150d" }} aria-labelledby="commitments-title"><div className="mx-auto max-w-6xl px-6 py-16 md:py-20"><div className="mb-9 flex items-center gap-4"><ShieldCheck className="h-7 w-7" style={{ color: COLORS.gold }} /><div><p className="text-xs font-bold uppercase tracking-[.2em]" style={{ color: COLORS.gold }}>Institutional standard</p><h2 id="commitments-title" className="mt-2 text-3xl font-semibold" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Our Commitments</h2></div></div><div className="grid gap-4 md:grid-cols-2">{commitments.map((commitment) => <div key={commitment} className="flex items-start gap-3 rounded-xl border p-5" style={{ borderColor: "rgba(214,180,76,.14)", background: "rgba(6,39,27,.55)" }}><CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" style={{ color: COLORS.gold }} /><p className="text-sm leading-relaxed text-white/65">{commitment}</p></div>)}</div><div className="mt-10 flex flex-wrap gap-4 text-sm text-white/45"><span className="inline-flex items-center gap-2"><Scale className="h-4 w-4" style={{ color: COLORS.gold }} /> Evidence-led disclosure</span><a href="/impact-reports" className="inline-flex items-center gap-2 hover:text-white"><ArrowUpRight className="h-4 w-4" style={{ color: COLORS.gold }} /> View impact reporting</a></div></div></section>
+  </main></MainLayout>;
 }
