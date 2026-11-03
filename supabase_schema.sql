@@ -55,3 +55,19 @@ CREATE POLICY "Members can remove their likes" ON community_likes FOR DELETE USI
 
 CREATE POLICY "Public can view comments" ON community_comments FOR SELECT USING (true);
 CREATE POLICY "Members can create comments" ON community_comments FOR INSERT WITH CHECK (true);
+
+-- Private story intake queue; submissions remain pending until manual review.
+CREATE TABLE IF NOT EXISTS story_submissions (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT,
+    story TEXT NOT NULL,
+    consent BOOLEAN NOT NULL DEFAULT FALSE,
+    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    reviewed_at TIMESTAMPTZ
+);
+ALTER TABLE story_submissions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public can submit stories" ON story_submissions FOR INSERT WITH CHECK (consent = TRUE AND status = 'pending');
+CREATE POLICY "Admin dashboard can review stories" ON story_submissions FOR SELECT USING (true);
+CREATE POLICY "Admin dashboard can update stories" ON story_submissions FOR UPDATE USING (true) WITH CHECK (status IN ('pending', 'approved', 'rejected'));

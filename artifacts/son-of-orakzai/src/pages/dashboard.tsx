@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { MainLayout } from "@/components/layout/main-layout";
-import { supabase, type Member } from "@/lib/supabase";
+import { supabase, type Member, type StorySubmission } from "@/lib/supabase";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -11,8 +11,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Users, UserCheck, UserX, Clock, Check, X, Lock, Eye, EyeOff, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
 
-const ADMIN_EMAIL = "sonoforakzai@gmail.com";
-const ADMIN_PASSWORD = "Son Of Orakzai2100";
+const ADMIN_EMAIL = "malak@faisalorakzai.com";
+const ADMIN_PASSWORD = "Faisal@Orakzai001";
 
 function AdminLogin({ onLogin }: { onLogin: () => void }) {
   const [email, setEmail] = useState("");
@@ -95,14 +95,19 @@ function AdminLogin({ onLogin }: { onLogin: () => void }) {
 export default function Dashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => sessionStorage.getItem("soo_admin_auth") === "1");
   const [members, setMembers] = useState<Member[]>([]);
+  const [stories, setStories] = useState<StorySubmission[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
   const { toast } = useToast();
 
   const fetchMembers = useCallback(async () => {
     setIsLoading(true);
-    const { data, error } = await supabase.from("members").select("*").order("created_at", { ascending: false });
+    const [{ data, error }, { data: storyData }] = await Promise.all([
+      supabase.from("members").select("*").order("created_at", { ascending: false }),
+      supabase.from("story_submissions").select("*").order("created_at", { ascending: false }),
+    ]);
     if (!error && data) setMembers(data as Member[]);
+    if (storyData) setStories(storyData as StorySubmission[]);
     setIsLoading(false);
   }, []);
 
@@ -127,6 +132,18 @@ export default function Dashboard() {
       await fetchMembers();
     } else {
       toast({ title: "Error", description: "Status update fail hua.", variant: "destructive" });
+    }
+    setUpdatingId(null);
+  };
+
+  const handleStoryStatus = async (id: string, status: StorySubmission["status"]) => {
+    setUpdatingId(-1);
+    const { error } = await supabase.from("story_submissions").update({ status, reviewed_at: new Date().toISOString() }).eq("id", id);
+    if (!error) {
+      toast({ title: "Story Updated", description: `Story ko ${status} mark kar diya gaya.` });
+      await fetchMembers();
+    } else {
+      toast({ title: "Error", description: "Story status update fail hua.", variant: "destructive" });
     }
     setUpdatingId(null);
   };
@@ -244,6 +261,33 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="p-8 text-center text-muted-foreground">Koi application nahi mili.</div>
+              )}
+            </CardContent>
+          </Card>
+          <Card className="border-none shadow-sm bg-white overflow-hidden mt-8">
+            <CardHeader className="border-b border-border/50 pb-4">
+              <CardTitle className="font-display">Community Story Submissions ({stories.filter(s => s.status === "pending").length} pending)</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              {stories.length === 0 ? (
+                <div className="p-8 text-center text-muted-foreground">Abhi koi story submission nahi mili.</div>
+              ) : (
+                <div className="divide-y divide-border/50">
+                  {stories.map((story) => (
+                    <div key={story.id} className="p-6 space-y-3">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                          <p className="font-semibold">{story.name}</p>
+                          {story.email && <p className="text-xs text-muted-foreground">{story.email}</p>}
+                          <p className="text-xs text-muted-foreground mt-1">{new Date(story.created_at).toLocaleString()}</p>
+                        </div>
+                        <Badge variant="outline" className={story.status === "approved" ? "bg-emerald-500/10 text-emerald-600 border-emerald-200" : story.status === "rejected" ? "bg-destructive/10 text-destructive border-destructive/20" : "bg-amber-500/10 text-amber-600 border-amber-200"}>{story.status}</Badge>
+                      </div>
+                      <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">{story.story}</p>
+                      {story.status === "pending" && <div className="flex gap-2"><Button size="sm" variant="outline" className="text-emerald-600 border-emerald-200" onClick={() => handleStoryStatus(story.id, "approved")} disabled={updatingId === -1}><Check className="mr-1 h-4 w-4" /> Approve</Button><Button size="sm" variant="outline" className="text-destructive border-destructive/20" onClick={() => handleStoryStatus(story.id, "rejected")} disabled={updatingId === -1}><X className="mr-1 h-4 w-4" /> Reject</Button></div>}
+                    </div>
+                  ))}
+                </div>
               )}
             </CardContent>
           </Card>

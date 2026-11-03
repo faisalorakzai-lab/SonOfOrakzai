@@ -59,3 +59,22 @@ CREATE TABLE IF NOT EXISTS blog_posts (
 );
 ALTER TABLE blog_posts ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public can view blog" ON blog_posts FOR SELECT USING (true);
+
+-- Community story submissions remain pending until an administrator reviews them.
+CREATE TABLE IF NOT EXISTS story_submissions (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT,
+  story TEXT NOT NULL,
+  consent BOOLEAN NOT NULL DEFAULT FALSE,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  reviewed_at TIMESTAMPTZ
+);
+ALTER TABLE story_submissions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public can submit stories" ON story_submissions
+  FOR INSERT WITH CHECK (consent = TRUE AND status = 'pending');
+CREATE POLICY "Admin dashboard can review stories" ON story_submissions
+  FOR SELECT USING (true);
+CREATE POLICY "Admin dashboard can update stories" ON story_submissions
+  FOR UPDATE USING (true) WITH CHECK (status IN ('pending', 'approved', 'rejected'));

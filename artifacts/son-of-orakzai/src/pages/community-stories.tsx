@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { MainLayout } from "@/components/layout/main-layout";
+import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, MapPin, Quote, Send, Users } from "lucide-react";
 
@@ -66,6 +67,8 @@ export default function CommunityStories() {
   const [activeCategory, setActiveCategory] = useState("All stories");
   const [openStory, setOpenStory] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const title = "Orakzai.org Community Stories | Real People, Real Impact";
@@ -118,8 +121,23 @@ export default function CommunityStories() {
     [activeCategory],
   );
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setSubmitError("");
+    setIsSubmitting(true);
+    const form = new FormData(event.currentTarget);
+    const { error } = await supabase.from("story_submissions").insert({
+      name: String(form.get("name") ?? "").trim(),
+      email: String(form.get("email") ?? "").trim() || null,
+      story: String(form.get("story") ?? "").trim(),
+      consent: form.get("consent") === "on",
+      status: "pending",
+    });
+    setIsSubmitting(false);
+    if (error) {
+      setSubmitError("Your story could not be sent right now. Please try again shortly.");
+      return;
+    }
     setSubmitted(true);
   };
 
@@ -156,7 +174,7 @@ export default function CommunityStories() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-6xl px-6 pb-24" aria-labelledby="submit-heading"><div className="grid gap-8 rounded-3xl p-8 md:grid-cols-[1fr_1.1fr] md:p-12" style={{ background: "linear-gradient(135deg, #06271B, #031B13)", border: "1px solid rgba(214,180,76,.22)" }}><div><p className="mb-3 text-xs font-bold uppercase tracking-[0.2em]" style={{ color: GOLD }}>Your voice belongs here</p><h2 id="submit-heading" className="mb-5 text-3xl font-semibold md:text-4xl" style={{ fontFamily: "'Playfair Display', serif" }}>Your Story Matters</h2><p className="leading-relaxed text-white/62">Have you experienced the impact of an Orakzai.org programme? Share your story with our team. Every submission is reviewed privately and nothing is published without your permission.</p></div>{submitted ? <div className="flex items-center gap-3 rounded-2xl p-6 text-white/80" style={{ background: "rgba(214,180,76,.1)" }}><CheckCircle2 style={{ color: GOLD }} /> Thank you. Our team will review your story privately.</div> : <form onSubmit={handleSubmit} className="space-y-4"><label className="block text-sm text-white/65">Your name<input required name="name" className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none" /></label><label className="block text-sm text-white/65">Your story<textarea required name="story" rows={4} className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none" /></label><label className="flex items-start gap-3 text-xs leading-relaxed text-white/55"><input required type="checkbox" className="mt-1" /> I understand this submission will be reviewed privately and will not be published automatically.</label><button type="submit" className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold" style={{ color: "#031B13", background: GOLD }}>Send for review <Send className="h-4 w-4" /></button></form>}</div></section>
+        <section className="mx-auto max-w-6xl px-6 pb-24" aria-labelledby="submit-heading"><div className="grid gap-8 rounded-3xl p-8 md:grid-cols-[1fr_1.1fr] md:p-12" style={{ background: "linear-gradient(135deg, #06271B, #031B13)", border: "1px solid rgba(214,180,76,.22)" }}><div><p className="mb-3 text-xs font-bold uppercase tracking-[0.2em]" style={{ color: GOLD }}>Your voice belongs here</p><h2 id="submit-heading" className="mb-5 text-3xl font-semibold md:text-4xl" style={{ fontFamily: "'Playfair Display', serif" }}>Your Story Matters</h2><p className="leading-relaxed text-white/62">Have you experienced the impact of an Orakzai.org programme? Share your story with our team. Every submission is reviewed privately and nothing is published without your permission.</p></div>{submitted ? <div className="flex items-center gap-3 rounded-2xl p-6 text-white/80" style={{ background: "rgba(214,180,76,.1)" }}><CheckCircle2 style={{ color: GOLD }} /> Thank you. Our team will review your story privately.</div> : <form onSubmit={handleSubmit} className="space-y-4"><label className="block text-sm text-white/65">Your name<input required name="name" className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none" /></label><label className="block text-sm text-white/65">Email (optional)<input type="email" name="email" className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none" /></label><label className="block text-sm text-white/65">Your story<textarea required name="story" rows={4} className="mt-2 w-full rounded-xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none" /></label><label className="flex items-start gap-3 text-xs leading-relaxed text-white/55"><input required name="consent" type="checkbox" className="mt-1" /> I understand this submission will be reviewed privately and will not be published automatically.</label>{submitError && <p className="text-sm text-red-300">{submitError}</p>}<button disabled={isSubmitting} type="submit" className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-bold disabled:opacity-60" style={{ color: "#031B13", background: GOLD }}>{isSubmitting ? "Sending…" : "Send for review"} <Send className="h-4 w-4" /></button></form>}</div></section>
 
         {openStory && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-5" role="dialog" aria-modal="true" aria-label="Full story"><div className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-3xl p-8" style={{ background: "#06271B", border: "1px solid rgba(214,180,76,.35)" }}>{(() => { const story = stories.find((item) => item.name === openStory)!; return <><p className="mb-3 text-xs font-bold uppercase tracking-[0.2em]" style={{ color: GOLD }}>{story.category}</p><h2 className="mb-2 text-3xl" style={{ fontFamily: "'Playfair Display', serif" }}>{story.name}</h2><p className="mb-7 text-sm text-white/45">{story.role} · {story.location}</p><p className="mb-5 text-lg italic leading-relaxed text-white/80">“{story.story}”</p><p className="leading-relaxed text-white/65">{story.detail}</p><button type="button" onClick={() => setOpenStory(null)} className="mt-8 rounded-full px-5 py-3 text-sm font-bold" style={{ color: "#031B13", background: GOLD }}>Close story</button></> })()}</div></div>}
       </main>

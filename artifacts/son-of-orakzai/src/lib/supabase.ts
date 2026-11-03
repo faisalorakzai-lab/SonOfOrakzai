@@ -51,3 +51,14 @@ export type ContactMessage = {
   message: string;
   created_at: string;
 };
+
+export type StorySubmission = {
+  id: string;
+  name: string;
+  email: string | null;
+  story: string;
+  consent: boolean;
+  status: "pending" | "approved" | "rejected";
+  created_at: string;
+  reviewed_at: string | null;
+};
