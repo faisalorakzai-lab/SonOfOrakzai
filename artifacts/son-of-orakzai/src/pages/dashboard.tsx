@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { MainLayout } from "@/components/layout/main-layout";
-import { supabase, type Member, type StorySubmission } from "@/lib/supabase";
+import { supabase, type Member, type StorySubmission, type MigrantApplication } from "@/lib/supabase";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { Users, UserCheck, UserX, Clock, Check, X, Lock, Eye, EyeOff, LogOut } from "lucide-react";
+import { Users, UserCheck, UserX, Clock, Check, X, Lock, Eye, EyeOff, LogOut, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 
 const ADMIN_EMAIL = "malak@faisalorakzai.com";
@@ -96,18 +96,22 @@ export default function Dashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => sessionStorage.getItem("soo_admin_auth") === "1");
   const [members, setMembers] = useState<Member[]>([]);
   const [stories, setStories] = useState<StorySubmission[]>([]);
+  const [migrantApplications, setMigrantApplications] = useState<MigrantApplication[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [updatingId, setUpdatingId] = useState<number | null>(null);
   const { toast } = useToast();
 
   const fetchMembers = useCallback(async () => {
     setIsLoading(true);
-    const [{ data, error }, { data: storyData }] = await Promise.all([
+    const [{ data, error }, { data: storyData }, { data: migrantData, error: migrantError }] = await Promise.all([
       supabase.from("members").select("*").order("created_at", { ascending: false }),
       supabase.from("story_submissions").select("*").order("created_at", { ascending: false }),
+      supabase.from("migrant_applications").select("*").order("created_at", { ascending: false }),
     ]);
     if (!error && data) setMembers(data as Member[]);
     if (storyData) setStories(storyData as StorySubmission[]);
+    if (!migrantError && migrantData) setMigrantApplications(migrantData as MigrantApplication[]);
+    if (migrantError) toast({ title: "Migrant applications unavailable", description: migrantError.message, variant: "destructive" });
     setIsLoading(false);
   }, []);
 
@@ -133,6 +137,16 @@ export default function Dashboard() {
     } else {
       toast({ title: "Error", description: "Status update fail hua.", variant: "destructive" });
     }
+    setUpdatingId(null);
+  };
+
+  const handleMigrantStatus = async (id: string, status: MigrantApplication["status"]) => {
+    setUpdatingId(-2);
+    const payment_status = status === "approved" ? "verified" : status === "rejected" ? "rejected" : undefined;
+    const update = payment_status ? { status, payment_status, reviewed_at: new Date().toISOString() } : { status };
+    const { error } = await supabase.from("migrant_applications").update(update).eq("id", id);
+    if (!error) { toast({ title: "Migrant application updated", description: `Application status: ${status}.` }); await fetchMembers(); }
+    else toast({ title: "Update failed", description: error.message, variant: "destructive" });
     setUpdatingId(null);
   };
 
@@ -262,6 +276,15 @@ export default function Dashboard() {
               ) : (
                 <div className="p-8 text-center text-muted-foreground">Koi application nahi mili.</div>
               )}
+            </CardContent>
+          </Card>
+          <Card className="border-none shadow-sm bg-white overflow-hidden mt-8">
+            <CardHeader className="border-b border-border/50 pb-4 flex flex-row items-center justify-between">
+              <CardTitle className="font-display">Migrant Welfare Applications ({migrantApplications.filter(a => a.status !== "approved" && a.status !== "rejected").length} pending)</CardTitle>
+              <FileText className="h-5 w-5 text-primary" />
+            </CardHeader>
+            <CardContent className="p-0">
+              {migrantApplications.length === 0 ? <div className="p-8 text-center text-muted-foreground">Abhi koi migrant application nahi mili.</div> : <div className="overflow-x-auto"><Table><TableHeader className="bg-muted/50"><TableRow><TableHead>Applicant</TableHead><TableHead>Package / payment</TableHead><TableHead>Submitted</TableHead><TableHead>Status</TableHead><TableHead className="text-right">Actions</TableHead></TableRow></TableHeader><TableBody>{migrantApplications.map((application) => <TableRow key={application.id}><TableCell><div className="font-medium">{application.full_name}</div><div className="text-xs text-muted-foreground">{application.application_number} · {application.current_city}, {application.current_country}</div><div className="text-xs text-muted-foreground">{application.emergency_contact}</div></TableCell><TableCell><div>{application.package_id}</div><div className="text-xs text-muted-foreground">{application.payment_method} · {application.transaction_reference}</div></TableCell><TableCell>{new Date(application.created_at).toLocaleString()}</TableCell><TableCell><Badge variant="outline" className={application.status === "approved" ? "bg-emerald-500/10 text-emerald-600 border-emerald-200" : application.status === "rejected" ? "bg-destructive/10 text-destructive border-destructive/20" : "bg-amber-500/10 text-amber-600 border-amber-200"}>{application.status.replaceAll("_", " ")}</Badge><div className="mt-1 text-xs text-muted-foreground">Payment: {application.payment_status.replaceAll("_", " ")}</div></TableCell><TableCell className="text-right"><div className="flex justify-end gap-2">{application.status !== "approved" && <Button size="sm" variant="outline" className="text-emerald-600 border-emerald-200" onClick={() => handleMigrantStatus(application.id, "approved")} disabled={updatingId === -2}><Check className="mr-1 h-4 w-4" />Approve</Button>}{application.status !== "rejected" && <Button size="sm" variant="outline" className="text-destructive border-destructive/20" onClick={() => handleMigrantStatus(application.id, "rejected")} disabled={updatingId === -2}><X className="mr-1 h-4 w-4" />Reject</Button>}</div></TableCell></TableRow>)}</TableBody></Table></div>}
             </CardContent>
           </Card>
           <Card className="border-none shadow-sm bg-white overflow-hidden mt-8">

@@ -217,8 +217,10 @@ export default function MigrantWelfare() {
       const upload = async (file: File | null, prefix: string) => { if (!file) return null; const path = `${prefix}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`; const { error } = await supabase.storage.from("migrant-documents").upload(path, file, { upsert: false, contentType: file.type }); if (error) throw error; return path; };
       const [photoPath, receiptPath] = await Promise.all([upload(photo, "profiles"), upload(receipt, "receipts")]);
       const { data, error } = await supabase.rpc("submit_migrant_application", { application_payload: { ...form, profilePhotoPath: photoPath, receiptPath } });
-      if (error) throw error;
-      const record = Array.isArray(data) ? data[0] : data; setSubmitted(record);
+      if (error) throw new Error(error.message || error.details || "The application could not be saved.");
+      const record = Array.isArray(data) ? data[0] : data;
+      if (!record?.application_number) throw new Error("The database did not return an application number. Please contact the administrator.");
+      setSubmitted(record);
       toast({ title: "Application submitted", description: `Your application ID is ${record.application_number}.` });
     } catch (error: any) { toast({ title: "Submission unavailable", description: error?.message || "Please try again after the database setup is completed.", variant: "destructive" }); } finally { setSaving(false); }
   };

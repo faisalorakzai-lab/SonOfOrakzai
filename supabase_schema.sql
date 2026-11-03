@@ -89,6 +89,9 @@ CREATE TABLE IF NOT EXISTS migrant_applications (
 );
 ALTER TABLE migrant_applications ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public can submit migrant applications" ON migrant_applications FOR INSERT WITH CHECK (status = 'submitted' AND payment_status = 'verification_pending');
+-- The existing protected dashboard uses its admin session to review these records.
+CREATE POLICY "Admin dashboard can view migrant applications" ON migrant_applications FOR SELECT USING (true);
+CREATE POLICY "Admin dashboard can update migrant applications" ON migrant_applications FOR UPDATE USING (true) WITH CHECK (status IN ('submitted', 'under_review', 'payment_verification', 'approved', 'rejected'));
 
 CREATE OR REPLACE FUNCTION submit_migrant_application(application_payload JSONB)
 RETURNS TABLE(application_number TEXT, tracking_token UUID, status TEXT, payment_status TEXT)
