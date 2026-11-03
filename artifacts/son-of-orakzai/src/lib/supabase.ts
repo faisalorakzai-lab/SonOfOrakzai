@@ -62,3 +62,34 @@ export type StorySubmission = {
   created_at: string;
   reviewed_at: string | null;
 };
+
+export type MigrantApplication = {
+  id: string;
+  application_number: string;
+  tracking_token: string;
+  full_name: string;
+  parent_name: string;
+  dob: string;
+  gender: string;
+  nationality: string;
+  identity_number: string | null;
+  current_country: string;
+  current_city: string;
+  origin_district: string;
+  employment_status: string;
+  occupation: string;
+  emergency_contact: string;
+  family_info: string | null;
+  package_id: string;
+  payment_method: string;
+  transaction_reference: string;
+  profile_photo_path: string | null;
+  receipt_path: string | null;
+  status: "submitted" | "under_review" | "payment_verification" | "approved" | "rejected";
+  payment_status: "not_submitted" | "verification_pending" | "verified" | "rejected";
+  internal_notes: string | null;
+  requested_documents: string | null;
+  created_at: string;
+  updated_at: string;
+  reviewed_at: string | null;
+};
