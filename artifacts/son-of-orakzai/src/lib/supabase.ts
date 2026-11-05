@@ -82,14 +82,32 @@ export type MigrantApplication = {
   family_info: string | null;
   package_id: string;
   payment_method: string;
+  crypto_network: string | null;
   transaction_reference: string;
   profile_photo_path: string | null;
   receipt_path: string | null;
   status: "submitted" | "under_review" | "payment_verification" | "approved" | "rejected";
   payment_status: "not_submitted" | "verification_pending" | "verified" | "rejected";
+  membership_valid_until: string | null;
   internal_notes: string | null;
   requested_documents: string | null;
   created_at: string;
   updated_at: string;
+  reviewed_at: string | null;
+};
+
+export type MigrantPayment = {
+  id: string;
+  payment_number: string;
+  application_id: string;
+  billing_period_start: string;
+  billing_period_end: string;
+  payment_method: string;
+  crypto_network: string | null;
+  transaction_reference: string;
+  receipt_path: string | null;
+  payment_status: "verification_pending" | "verified" | "rejected";
+  internal_notes: string | null;
+  created_at: string;
   reviewed_at: string | null;
 };
